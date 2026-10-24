@@ -341,8 +341,3 @@ heru-option:state(disabled)::part(base) {
     animation: none !important; /* menu and error appear instantly */
   }
 }
-/* Select only: shift the error box up 8px so more of it sits tucked beneath
- * the trigger (trigger is z-index 1, error box stays underneath). */
-heru-select::part(error) {
-  transform: translateY(calc(-1 * var(--heru-space-2)));
-}
