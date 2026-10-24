@@ -68,7 +68,7 @@ test('size reflects and defaults to md', async ({ page }) => {
   expect(await page.locator('heru-button').getAttribute('size')).toBe('md');
 });
 
-test('theme: label and description sit outside the 6px focus ring', async ({
+test('theme: label and description sit outside the focus ring', async ({
   page,
 }) => {
   await mount(

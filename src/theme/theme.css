@@ -24,8 +24,7 @@ heru-button::part(base) {
   outline-offset: var(--heru-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--heru-color-bg),
-    0 0 0 0 var(--heru-color-focus-ring),
-    0 0 0 0 var(--heru-focus-glow);
+    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring);
 }
 heru-button:hover::part(base) {
   border-color: var(--heru-color-accent-hover);
@@ -39,14 +38,9 @@ heru-button:state(pressed)::part(base) {
 heru-button::part(base):focus-visible {
   box-shadow:
     0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-focus-ring),
-    0 0 0
-      calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-glow-width)
-      )
-      var(--heru-focus-glow);
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-focus-ring);
 }
 heru-button:state(disabled)::part(base) {
   border-color: var(--heru-color-border);
@@ -58,7 +52,7 @@ heru-button:state(disabled)::part(base) {
 heru-text-field {
   color: var(--heru-color-text);
 }
-/* Gaps ≥ focus ring extent (6px) so the ring never covers label or help text. */
+/* Gaps ≥ focus ring extent (~5.5px) so the ring never covers label or help text. */
 heru-text-field::part(label) {
   margin-block-end: var(--heru-space-2);
 }
@@ -76,8 +70,7 @@ heru-text-field::part(input) {
   outline-offset: var(--heru-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--heru-color-bg),
-    0 0 0 0 var(--heru-color-focus-ring),
-    0 0 0 0 var(--heru-focus-glow);
+    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring);
 }
 heru-text-field::part(input)::placeholder {
   color: var(--heru-color-text-muted);
@@ -88,14 +81,9 @@ heru-text-field:hover::part(input) {
 heru-text-field::part(input):focus {
   box-shadow:
     0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-focus-ring),
-    0 0 0
-      calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-glow-width)
-      )
-      var(--heru-focus-glow);
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-focus-ring);
 }
 heru-text-field::part(description) {
   margin-block-start: var(--heru-space-2);
@@ -111,14 +99,9 @@ heru-text-field:state(invalid)::part(input) {
 heru-text-field:state(invalid)::part(input):focus {
   box-shadow:
     0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-error),
-    0 0 0
-      calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-glow-width)
-      )
-      var(--heru-focus-glow);
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-error);
 }
 heru-text-field:state(disabled)::part(label),
 heru-text-field:state(disabled)::part(description) {

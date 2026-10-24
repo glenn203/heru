@@ -406,251 +406,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/internal/control-styles.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "controlSize",
-          "default": "css` :host { --_heru-control-height: var(--heru-control-height-md, 2.25rem); } :host([size='sm']) { --_heru-control-height: var(--heru-control-height-sm, 2rem); } :host([size='lg']) { --_heru-control-height: var(--heru-control-height-lg, 2.75rem); } `",
-          "description": "Structural sizing shared by controls. Every value reads a --heru- token with\na literal fallback equal to the default-density value, so components size\ncorrectly without tokens.css. Density switching via [data-heru-density]\nworks once tokens.css is loaded (it defines the density-scoped tokens)."
-        },
-        {
-          "kind": "variable",
-          "name": "controlBox",
-          "default": "css` box-sizing: border-box; block-size: var(--_heru-control-height); padding-block: 0; padding-inline: var(--heru-control-padding-inline, 0.75rem); border-width: var(--heru-border-width, 1px); border-style: solid; border-color: transparent; border-radius: var(--heru-radius-5, 5px); `"
-        },
-        {
-          "kind": "function",
-          "name": "textRole",
-          "parameters": [
-            {
-              "name": "role",
-              "type": {
-                "text": "'label' | 'body' | 'caption'"
-              }
-            }
-          ],
-          "description": "Text-role font shorthand. role = label | body | caption"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "controlSize",
-          "declaration": {
-            "name": "controlSize",
-            "module": "src/internal/control-styles.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "controlBox",
-          "declaration": {
-            "name": "controlBox",
-            "module": "src/internal/control-styles.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "textRole",
-          "declaration": {
-            "name": "textRole",
-            "module": "src/internal/control-styles.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/internal/form-associated.ts",
-      "declarations": [
-        {
-          "kind": "mixin",
-          "description": "Private mixin: attaches ElementInternals, tracks `disabled` (own and\ninherited from a fieldset) and mirrors it to `:state(disabled)`.\nNot exported from the package.",
-          "name": "FormAssociated",
-          "members": [
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true"
-            },
-            {
-              "kind": "field",
-              "name": "internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the control. Reflected.",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Name used when the owning form is submitted.",
-              "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#fieldsetDisabled",
-              "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "form",
-              "type": {
-                "text": "HTMLFormElement | null"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "isDisabled",
-              "type": {
-                "text": "boolean"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "formDisabledCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "disabled",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "setState",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "state",
-                  "type": {
-                    "text": "string"
-                  }
-                },
-                {
-                  "name": "on",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ]
-            }
-          ],
-          "attributes": [
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the control. Reflected.",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Name used when the owning form is submitted.",
-              "fieldName": "name"
-            }
-          ],
-          "parameters": [
-            {
-              "name": "Base",
-              "type": {
-                "text": "T"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "FormAssociated",
-          "declaration": {
-            "name": "FormAssociated",
-            "module": "src/internal/form-associated.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/internal/ids.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "uniqueId",
-          "return": {
-            "type": {
-              "text": "string"
-            }
-          },
-          "parameters": [
-            {
-              "name": "prefix",
-              "type": {
-                "text": "string"
-              }
-            }
-          ],
-          "description": "Private: unique id for wiring ARIA inside a single shadow root."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "uniqueId",
-          "declaration": {
-            "name": "uniqueId",
-            "module": "src/internal/ids.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/text-field/text-field.ts",
       "declarations": [
         {
@@ -1256,6 +1011,251 @@
           "declaration": {
             "name": "HeruTextField",
             "module": "src/text-field/text-field.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/control-styles.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "controlSize",
+          "default": "css` :host { --_heru-control-height: var(--heru-control-height-md, 2.25rem); } :host([size='sm']) { --_heru-control-height: var(--heru-control-height-sm, 2rem); } :host([size='lg']) { --_heru-control-height: var(--heru-control-height-lg, 2.75rem); } `",
+          "description": "Structural sizing shared by controls. Every value reads a --heru- token with\na literal fallback equal to the default-density value, so components size\ncorrectly without tokens.css. Density switching via [data-heru-density]\nworks once tokens.css is loaded (it defines the density-scoped tokens)."
+        },
+        {
+          "kind": "variable",
+          "name": "controlBox",
+          "default": "css` box-sizing: border-box; block-size: var(--_heru-control-height); padding-block: 0; padding-inline: var(--heru-control-padding-inline, 0.75rem); border-width: var(--heru-border-width, 1px); border-style: solid; border-color: transparent; border-radius: var(--heru-radius-5, 5px); `"
+        },
+        {
+          "kind": "function",
+          "name": "textRole",
+          "parameters": [
+            {
+              "name": "role",
+              "type": {
+                "text": "'label' | 'body' | 'caption'"
+              }
+            }
+          ],
+          "description": "Text-role font shorthand. role = label | body | caption"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "controlSize",
+          "declaration": {
+            "name": "controlSize",
+            "module": "src/internal/control-styles.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "controlBox",
+          "declaration": {
+            "name": "controlBox",
+            "module": "src/internal/control-styles.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "textRole",
+          "declaration": {
+            "name": "textRole",
+            "module": "src/internal/control-styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/form-associated.ts",
+      "declarations": [
+        {
+          "kind": "mixin",
+          "description": "Private mixin: attaches ElementInternals, tracks `disabled` (own and\ninherited from a fieldset) and mirrors it to `:state(disabled)`.\nNot exported from the package.",
+          "name": "FormAssociated",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "Base",
+              "type": {
+                "text": "T"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "FormAssociated",
+          "declaration": {
+            "name": "FormAssociated",
+            "module": "src/internal/form-associated.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/ids.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "uniqueId",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Private: unique id for wiring ARIA inside a single shadow root."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "uniqueId",
+          "declaration": {
+            "name": "uniqueId",
+            "module": "src/internal/ids.ts"
           }
         }
       ]

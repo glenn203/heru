@@ -123,10 +123,9 @@
   --heru-color-focus-ring: var(--heru-color-slate-600);
   --heru-color-error: var(--heru-color-red-600);
   --heru-color-error-text: var(--heru-color-red-700);
-  --heru-focus-ring-width: 2px;
+  --heru-focus-ring-width: 3px;
   --heru-focus-ring-offset: 2px;
-  --heru-focus-glow-width: 2px;
-  --heru-focus-glow: oklch(0.554 0.035 260 / 0.12);
+  --heru-focus-ring-blur: 0.5px;
   --heru-motion-duration-fast: 160ms;
   --heru-motion-ease-out: cubic-bezier(0.2, 0, 0, 1);
 }

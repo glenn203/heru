@@ -11,7 +11,7 @@ Source: `heru.tokens.json` (W3C DTCG). Build: `pnpm tokens` →
 - **Numbers mean something.** `space-N` = N × 4px. `font-size-N` and `font-line-height-N` = N px. An agent can read the value from the name with no lookup table.
 - **Sizes that aren't numbers are ordered:** `sm` < `md` < `lg` (control heights). Radius uses value-in-name (`radius-5` = 5px).
 - **Text roles** (`text-body-*`, `text-label-*`, `text-heading-1-*`, `text-code-*` …) bundle size, line height, weight and family. Components should use roles; reach for the numeric scales only when no role fits.
-- All line heights, spacing and control heights are multiples of 4px. Exceptions: `border-width` (1px) and the focus ring (2px); radii use their own odd-pixel ramp. Font sizes 14 and 18 sit on 2px steps; their line heights stay on 4px.
+- All line heights, spacing and control heights are multiples of 4px. Exceptions: `border-width` (1px) and the focus ring (2px offset, 3px ring, 0.5px blur); radii use their own odd-pixel ramp. Font sizes 14 and 18 sit on 2px steps; their line heights stay on 4px.
 - Borders are drawn inside control heights (`box-sizing: border-box`).
 
 ## Density
@@ -48,7 +48,7 @@ Odd-pixel ramp, value in the name: `radius-1, -3, -5, -7, -9, -11`, plus `radius
 
 ## Focus and motion
 
-`focus-ring-width` (2px), `focus-ring-offset` (2px), `focus-glow-width` (2px), `focus-glow` (slate at 12%); total ring extent is 6px, so keep neighbors ≥ `space-2` away, `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
+`focus-ring-width` (3px), `focus-ring-offset` (2px), `focus-ring-blur` (0.5px); total extent ≈ 5.5px, so keep neighbors ≥ `space-2` away; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 3px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
 
 ## Theme
 

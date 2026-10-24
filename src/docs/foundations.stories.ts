@@ -204,8 +204,8 @@ export const Focus: StoryObj = {
       <div class="f-grid" style="max-inline-size: 360px">
         <p class="f-muted">
           Press Tab. Ring = ${read('--heru-focus-ring-width')} at
-          ${read('--heru-focus-ring-offset')} offset, plus a soft glow. Instant
-          with reduced motion.
+          ${read('--heru-focus-ring-offset')} offset with a
+          ${read('--heru-focus-ring-blur')} blur. Instant with reduced motion.
         </p>
         <heru-button type="button">Focus me</heru-button>
         <heru-text-field label="Or me"></heru-text-field>

@@ -634,23 +634,17 @@
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 2
+        "value": 3
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
         "value": 2
       },
-      "focus.glow-width": {
-        "cssVar": "--heru-focus-glow-width",
+      "focus.ring-blur": {
+        "cssVar": "--heru-focus-ring-blur",
         "type": "dimension",
-        "value": 2
-      },
-      "focus.glow": {
-        "cssVar": "--heru-focus-glow",
-        "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": 0.5
       },
       "motion.duration-fast": {
         "cssVar": "--heru-motion-duration-fast",
@@ -1300,23 +1294,17 @@
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 2
+        "value": 3
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
         "value": 2
       },
-      "focus.glow-width": {
-        "cssVar": "--heru-focus-glow-width",
+      "focus.ring-blur": {
+        "cssVar": "--heru-focus-ring-blur",
         "type": "dimension",
-        "value": 2
-      },
-      "focus.glow": {
-        "cssVar": "--heru-focus-glow",
-        "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": 0.5
       },
       "motion.duration-fast": {
         "cssVar": "--heru-motion-duration-fast",
@@ -1966,23 +1954,17 @@
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 2
+        "value": 3
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
         "value": 2
       },
-      "focus.glow-width": {
-        "cssVar": "--heru-focus-glow-width",
+      "focus.ring-blur": {
+        "cssVar": "--heru-focus-ring-blur",
         "type": "dimension",
-        "value": 2
-      },
-      "focus.glow": {
-        "cssVar": "--heru-focus-glow",
-        "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": 0.5
       },
       "motion.duration-fast": {
         "cssVar": "--heru-motion-duration-fast",
