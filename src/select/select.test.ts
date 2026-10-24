@@ -304,9 +304,9 @@ for (const tag of ['heru-select', 'heru-text-field']) {
     // Astryx FieldStatus attached values.
     expect(r.letterSpacing).toBe('normal');
     expect(r.weight).toBe('400');
-    expect(r.lineHeight).toBe('20px');
+    expect(r.lineHeight).toBe('16px');
     expect(r.radii).toEqual(['0px', '0px', '8px', '8px']);
-    expect(r.padding).toEqual(['12px', '8px', '8px', '8px']);
+    expect(r.padding).toEqual(['12px', '8px', '6px', '8px']);
     expect(r.overlap).toBe('-6px');
   });
 }
@@ -419,5 +419,47 @@ for (const tag of ['heru-select', 'heru-text-field']) {
     expect(g.descGap).toBeGreaterThan(g.reach);
     expect(g.errGap).toBeGreaterThan(g.reach);
     expect(g.errGap).toBeLessThanOrEqual(6.5);
+  });
+}
+
+for (const tag of ['heru-select', 'heru-text-field']) {
+  test(`${tag}: error text is centered in the visible 28px box and clears the ring`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const inner = tag === 'heru-select' ? OPTIONS : '';
+    await mount(
+      page,
+      `<${tag} label="Fruit" required>${inner}<span slot="error">Enter an email address.</span></${tag}>`,
+    );
+    await withTheme(page);
+    const m = await page.locator(tag).evaluate(async (el) => {
+      await document.fonts.ready;
+      const host = el as HTMLElement & {
+        reportValidity(): boolean;
+        updateComplete: Promise<unknown>;
+      };
+      host.reportValidity();
+      await host.updateComplete;
+      const root = el.shadowRoot!;
+      const ctl = root
+        .querySelector('[part="trigger"], [part="input"]')!
+        .getBoundingClientRect();
+      const box = root.querySelector('[part="error"]')!.getBoundingClientRect();
+      const span = el.querySelector('[slot="error"]')!;
+      const range = document.createRange();
+      range.selectNodeContents(span);
+      const g = range.getBoundingClientRect();
+      return {
+        total: box.height,
+        visible: box.bottom - ctl.bottom,
+        glyphTop: g.top - ctl.bottom,
+        glyphBottom: box.bottom - g.bottom,
+      };
+    });
+    expect(m.total).toBeCloseTo(34, 0);
+    expect(m.visible).toBeCloseTo(28, 0);
+    expect(m.glyphTop).toBeGreaterThanOrEqual(6); // clears the 4px focus reach
+    expect(Math.abs(m.glyphTop - m.glyphBottom)).toBeLessThanOrEqual(1.5);
   });
 }

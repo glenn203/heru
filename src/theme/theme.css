@@ -223,14 +223,16 @@ heru-select::part(error) {
   margin-block-start: calc(-1 * var(--_heru-status-overlap));
   margin-inline: var(--heru-space-2);
   /* Text starts 6px below the control: clears the 4px focus reach. */
-  padding-block: calc(2 * var(--_heru-status-overlap)) var(--heru-space-2);
+  /* 6px visible above and below a 16px line: visible box = 28px. */
+  padding-block: calc(2 * var(--_heru-status-overlap))
+    var(--_heru-status-overlap);
   padding-inline: var(--heru-space-2);
   border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Herú's odd ramp */
   background: var(--heru-color-error-surface);
   color: var(--heru-color-error-status-text);
   font-size: var(--heru-font-size-12);
   font-weight: var(--heru-font-weight-regular);
-  line-height: var(--heru-font-line-height-20);
+  line-height: var(--heru-font-line-height-16);
   letter-spacing: normal;
   text-transform: none;
   box-shadow: none;
