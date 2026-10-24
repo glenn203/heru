@@ -117,3 +117,57 @@ test('focus ring: 3px ring, 2px offset, 3px halo; extent + 2px clearance fits th
     `extent ${extent}px vs gap ${d['space.3'].value}px`,
   );
 });
+
+test('elevation: three shared levels, slate-based, urgent tinted from error red', () => {
+  const t = resolved.modes.default;
+  for (const level of ['default', 'hover', 'urgent']) {
+    const e = t[`elevation.${level}`];
+    assert.ok(e, `elevation.${level} exists`);
+    assert.equal(e.type, 'shadow');
+    assert.equal(e.cssVar, `--heru-elevation-${level}`);
+    assert.match(e.value, /oklch\(/);
+  }
+  assert.match(t['elevation.default'].value, / 260 \//); // slate hue
+  assert.match(t['elevation.hover'].value, / 260 \//);
+  assert.match(t['elevation.urgent'].value, / 27 \//); // error red hue
+  const css = readFileSync(
+    new URL('../src/tokens/tokens.css', import.meta.url),
+    'utf8',
+  );
+  for (const level of ['default', 'hover', 'urgent'])
+    assert.ok(css.includes(`--heru-elevation-${level}:`));
+});
+
+test('components consume elevation tokens, no hard-coded shadows', () => {
+  for (const f of ['../src/select/select.ts', '../src/option/option.ts']) {
+    const src = readFileSync(new URL(f, import.meta.url), 'utf8');
+    assert.ok(!/box-shadow/.test(src), `${f} must not set box-shadow`);
+  }
+  const theme = readFileSync(
+    new URL('../src/theme/theme.css', import.meta.url),
+    'utf8',
+  );
+  const block = theme.slice(theme.indexOf('/* ---------- Select'));
+  for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
+    assert.ok(
+      /var\(--heru-elevation-|inset 0 0 0 1px var\(--heru-color-|^none$/.test(
+        m[1].trim(),
+      ),
+      `unexpected shadow: ${m[1]}`,
+    );
+});
+
+test('color.error-surface keeps error-text at 4.5:1 or better', () => {
+  const t = resolved.modes.default;
+  const lum = (hex) => {
+    const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+    const l = c.map((v) =>
+      v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
+    );
+    return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2];
+  };
+  const a = lum(t['color.error-surface'].hex);
+  const b = lum(t['color.error-text'].hex);
+  const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  assert.ok(ratio >= 4.5, `ratio ${ratio}`);
+});

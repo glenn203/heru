@@ -134,9 +134,134 @@ heru-text-field:state(disabled)::part(input) {
   cursor: not-allowed;
 }
 
+/* ---------- Select ----------
+ * Per the 2026-10-24 call (Astryx-style): focus drawn INSIDE the 1px border
+ * (no outer ring), error message in an attached status box. Shadows come only
+ * from the shared --heru-elevation-* tokens. */
+heru-select {
+  color: var(--heru-color-text);
+}
+heru-select::part(label) {
+  margin-block-end: var(--heru-space-2);
+}
+heru-select::part(trigger) {
+  border-color: var(--heru-color-border-strong);
+  background: var(--heru-color-bg);
+  color: var(--heru-color-text);
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: -2px;
+  transition:
+    border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
+    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+}
+heru-select:hover::part(trigger) {
+  border-color: var(--heru-color-text-muted);
+}
+heru-select::part(trigger):focus-visible,
+heru-select:state(open)::part(trigger) {
+  border-color: var(--heru-color-focus-ring);
+  box-shadow: inset 0 0 0 1px var(--heru-color-focus-ring);
+}
+heru-select:state(placeholder)::part(value),
+heru-select::part(indicator) {
+  color: var(--heru-color-text-muted);
+}
+heru-select::part(listbox) {
+  padding: var(--heru-space-1);
+  border: var(--heru-border-width) solid var(--heru-color-border);
+  border-radius: var(--heru-radius-7);
+  background: var(--heru-color-bg);
+  box-shadow: var(--heru-elevation-default);
+  transform-origin: top;
+}
+heru-select:state(open)::part(listbox) {
+  animation: heru-slide-down var(--heru-motion-duration-medium)
+    var(--heru-motion-ease-out);
+}
+heru-select::part(description) {
+  margin-block-start: var(--heru-space-2);
+  color: var(--heru-color-text-muted);
+}
+heru-select:state(invalid)::part(trigger) {
+  border-color: var(--heru-color-error);
+}
+heru-select:state(invalid)::part(trigger):focus-visible,
+heru-select:state(invalid):state(open)::part(trigger) {
+  box-shadow: inset 0 0 0 1px var(--heru-color-error);
+}
+/* Attached status box: tucks under the trigger's bottom radius. */
+heru-select::part(error) {
+  margin-block-start: calc(-1 * var(--heru-radius-5));
+  padding: calc(var(--heru-space-2) + var(--heru-radius-5)) var(--heru-space-3)
+    var(--heru-space-2);
+  border-radius: 0 0 var(--heru-radius-5) var(--heru-radius-5);
+  background: var(--heru-color-error-surface);
+  color: var(--heru-color-error-text);
+  box-shadow: var(--heru-elevation-urgent);
+}
+/* Error-only: runs when the box is un-hidden (invalid), never on focus. */
+heru-select:state(invalid)::part(error) {
+  animation: heru-error-in var(--heru-motion-duration-medium)
+    var(--heru-motion-ease-out);
+}
+heru-select:state(disabled)::part(label),
+heru-select:state(disabled)::part(description) {
+  color: var(--heru-color-text-muted);
+}
+heru-select:state(disabled)::part(trigger) {
+  border-color: var(--heru-color-border);
+  background: var(--heru-color-surface);
+  color: var(--heru-color-text-muted);
+  cursor: not-allowed;
+}
+
+/* ---------- Option (NAME PENDING — Technical Writer) ---------- */
+heru-option::part(base) {
+  min-block-size: max(24px, calc(var(--_heru-control-height, 2.25rem) - 4px));
+  padding-inline: var(--heru-space-2);
+  border-radius: var(--heru-radius-5);
+  transition:
+    background-color var(--heru-motion-duration-fast)
+      var(--heru-motion-ease-out),
+    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+}
+heru-option:state(active)::part(base),
+heru-option:hover::part(base) {
+  background: var(--heru-color-surface);
+  box-shadow: var(--heru-elevation-hover);
+}
+heru-option:active::part(base) {
+  background: var(--heru-color-slate-200);
+  box-shadow: var(--heru-elevation-hover);
+}
+heru-option:state(disabled)::part(base) {
+  color: var(--heru-color-text-muted);
+  background: none;
+  box-shadow: none;
+}
+
+@keyframes heru-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.96);
+  }
+}
+@keyframes heru-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   heru-button::part(base),
-  heru-text-field::part(input) {
+  heru-text-field::part(input),
+  heru-select::part(trigger),
+  heru-option::part(base) {
     transition: none; /* ring appears instantly */
+  }
+  heru-select::part(listbox),
+  heru-select::part(error) {
+    animation: none !important; /* menu and error appear instantly */
   }
 }

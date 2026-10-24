@@ -76,7 +76,7 @@ function resolveValue(path, mode, seen = new Set()) {
   if (typeof v === 'number' || Array.isArray(v)) return v;
   if (/^\{[^}]+\}$/.test(v))
     return resolveValue(v.slice(1, -1), mode, new Set(seen));
-  if (['color', 'duration', 'cubicBezier'].includes(t.type)) return v;
+  if (['color', 'duration', 'cubicBezier', 'shadow'].includes(t.type)) return v;
   if (!v.includes('{')) return v.endsWith('px') ? parseFloat(v) : Number(v);
   const expr = v.replace(REF, (_, r) =>
     String(resolveValue(r, mode, new Set(seen))),
