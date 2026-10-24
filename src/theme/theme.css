@@ -192,6 +192,7 @@ heru-select:state(invalid):state(open)::part(trigger) {
 /* Attached status box: tucks under the trigger's bottom radius. */
 heru-select::part(error) {
   margin-block-start: calc(-1 * var(--heru-radius-5));
+  margin-inline: var(--heru-space-2); /* inset 8px each side, Astryx-style */
   padding: calc(var(--heru-space-2) + var(--heru-radius-5)) var(--heru-space-3)
     var(--heru-space-2);
   border-radius: 0 0 var(--heru-radius-5) var(--heru-radius-5);

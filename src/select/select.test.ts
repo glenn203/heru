@@ -208,3 +208,33 @@ test('menu slides down with motion allowed and uses elevation tokens', async ({
   expect(r.anims).toContain('heru-slide-down');
   expect(r.shadow).not.toBe('none');
 });
+
+test('attached error box is inset 8px on each side of the control', async ({
+  page,
+}) => {
+  await mount(
+    page,
+    `<heru-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></heru-select>`,
+  );
+  await withTheme(page);
+  const r = await page.locator('heru-select').evaluate(async (el) => {
+    (el as HTMLElement & { reportValidity(): boolean }).reportValidity();
+    await (el as HTMLElement & { updateComplete: Promise<unknown> })
+      .updateComplete;
+    const t = el
+      .shadowRoot!.querySelector('[part="trigger"]')!
+      .getBoundingClientRect();
+    const e = el
+      .shadowRoot!.querySelector('[part="error"]')!
+      .getBoundingClientRect();
+    return {
+      left: e.left - t.left,
+      right: t.right - e.right,
+      tuck: t.bottom - e.top,
+    };
+  });
+  expect(r.left).toBeCloseTo(8, 0);
+  expect(r.right).toBeCloseTo(8, 0);
+  // Attached: starts under the control's bottom edge, no gap.
+  expect(r.tuck).toBeGreaterThan(0);
+});
