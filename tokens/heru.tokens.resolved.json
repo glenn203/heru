@@ -83,25 +83,40 @@
         "type": "dimension",
         "value": 64
       },
+      "radius.1": {
+        "cssVar": "--heru-radius-1",
+        "type": "dimension",
+        "value": 1
+      },
+      "radius.3": {
+        "cssVar": "--heru-radius-3",
+        "type": "dimension",
+        "value": 3
+      },
+      "radius.5": {
+        "cssVar": "--heru-radius-5",
+        "type": "dimension",
+        "value": 5
+      },
+      "radius.7": {
+        "cssVar": "--heru-radius-7",
+        "type": "dimension",
+        "value": 7
+      },
+      "radius.9": {
+        "cssVar": "--heru-radius-9",
+        "type": "dimension",
+        "value": 9
+      },
+      "radius.11": {
+        "cssVar": "--heru-radius-11",
+        "type": "dimension",
+        "value": 11
+      },
       "radius.none": {
         "cssVar": "--heru-radius-none",
         "type": "dimension",
         "value": 0
-      },
-      "radius.sm": {
-        "cssVar": "--heru-radius-sm",
-        "type": "dimension",
-        "value": 4
-      },
-      "radius.md": {
-        "cssVar": "--heru-radius-md",
-        "type": "dimension",
-        "value": 8
-      },
-      "radius.lg": {
-        "cssVar": "--heru-radius-lg",
-        "type": "dimension",
-        "value": 12
       },
       "radius.full": {
         "cssVar": "--heru-radius-full",
@@ -448,113 +463,77 @@
           "monospace"
         ]
       },
-      "color.neutral.0": {
-        "cssVar": "--heru-color-neutral-0",
+      "color.slate.0": {
+        "cssVar": "--heru-color-slate-0",
         "type": "color",
         "value": "oklch(1 0 0)",
         "hex": "#ffffff"
       },
-      "color.neutral.50": {
-        "cssVar": "--heru-color-neutral-50",
+      "color.slate.50": {
+        "cssVar": "--heru-color-slate-50",
         "type": "color",
-        "value": "oklch(0.985 0.002 255)",
-        "hex": "#f9fafb"
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
       },
-      "color.neutral.100": {
-        "cssVar": "--heru-color-neutral-100",
+      "color.slate.100": {
+        "cssVar": "--heru-color-slate-100",
         "type": "color",
-        "value": "oklch(0.967 0.004 255)",
-        "hex": "#f2f4f7"
+        "value": "oklch(0.968 0.007 260)",
+        "hex": "#f2f5f9"
       },
-      "color.neutral.200": {
-        "cssVar": "--heru-color-neutral-200",
+      "color.slate.200": {
+        "cssVar": "--heru-color-slate-200",
         "type": "color",
-        "value": "oklch(0.928 0.007 255)",
-        "hex": "#e4e7ec"
+        "value": "oklch(0.929 0.013 260)",
+        "hex": "#e3e8f0"
       },
-      "color.neutral.300": {
-        "cssVar": "--heru-color-neutral-300",
+      "color.slate.300": {
+        "cssVar": "--heru-color-slate-300",
         "type": "color",
-        "value": "oklch(0.87 0.01 255)",
-        "hex": "#d0d5db"
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
       },
-      "color.neutral.400": {
-        "cssVar": "--heru-color-neutral-400",
+      "color.slate.400": {
+        "cssVar": "--heru-color-slate-400",
         "type": "color",
-        "value": "oklch(0.71 0.016 255)",
-        "hex": "#9ba2ac"
+        "value": "oklch(0.704 0.03 260)",
+        "hex": "#95a0b3"
       },
-      "color.neutral.500": {
-        "cssVar": "--heru-color-neutral-500",
+      "color.slate.500": {
+        "cssVar": "--heru-color-slate-500",
         "type": "color",
-        "value": "oklch(0.554 0.018 255)",
-        "hex": "#6c737d"
+        "value": "oklch(0.554 0.035 260)",
+        "hex": "#677388"
       },
-      "color.neutral.600": {
-        "cssVar": "--heru-color-neutral-600",
+      "color.slate.600": {
+        "cssVar": "--heru-color-slate-600",
         "type": "color",
-        "value": "oklch(0.446 0.018 255)",
-        "hex": "#4e555e"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
-      "color.neutral.700": {
-        "cssVar": "--heru-color-neutral-700",
+      "color.slate.700": {
+        "cssVar": "--heru-color-slate-700",
         "type": "color",
-        "value": "oklch(0.372 0.016 255)",
-        "hex": "#3b4149"
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
       },
-      "color.neutral.800": {
-        "cssVar": "--heru-color-neutral-800",
+      "color.slate.800": {
+        "cssVar": "--heru-color-slate-800",
         "type": "color",
-        "value": "oklch(0.279 0.013 255)",
-        "hex": "#24292f"
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
       },
-      "color.neutral.900": {
-        "cssVar": "--heru-color-neutral-900",
+      "color.slate.900": {
+        "cssVar": "--heru-color-slate-900",
         "type": "color",
-        "value": "oklch(0.208 0.01 255)",
-        "hex": "#15181c"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
-      "color.neutral.950": {
-        "cssVar": "--heru-color-neutral-950",
+      "color.slate.950": {
+        "cssVar": "--heru-color-slate-950",
         "type": "color",
-        "value": "oklch(0.13 0.007 255)",
-        "hex": "#06070a"
-      },
-      "color.blue.50": {
-        "cssVar": "--heru-color-blue-50",
-        "type": "color",
-        "value": "oklch(0.97 0.014 255)",
-        "hex": "#eff6ff"
-      },
-      "color.blue.100": {
-        "cssVar": "--heru-color-blue-100",
-        "type": "color",
-        "value": "oklch(0.932 0.032 255)",
-        "hex": "#dbeafe"
-      },
-      "color.blue.500": {
-        "cssVar": "--heru-color-blue-500",
-        "type": "color",
-        "value": "oklch(0.6 0.15 255)",
-        "hex": "#3a81d7"
-      },
-      "color.blue.600": {
-        "cssVar": "--heru-color-blue-600",
-        "type": "color",
-        "value": "oklch(0.52 0.15 255)",
-        "hex": "#1f68bc"
-      },
-      "color.blue.700": {
-        "cssVar": "--heru-color-blue-700",
-        "type": "color",
-        "value": "oklch(0.46 0.135 255)",
-        "hex": "#1657a1"
-      },
-      "color.blue.800": {
-        "cssVar": "--heru-color-blue-800",
-        "type": "color",
-        "value": "oklch(0.4 0.115 255)",
-        "hex": "#124784"
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
       },
       "color.red.50": {
         "cssVar": "--heru-color-red-50",
@@ -583,50 +562,50 @@
       "color.surface": {
         "cssVar": "--heru-color-surface",
         "type": "color",
-        "value": "oklch(0.985 0.002 255)",
-        "hex": "#f9fafb"
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
       },
       "color.text": {
         "cssVar": "--heru-color-text",
         "type": "color",
-        "value": "oklch(0.208 0.01 255)",
-        "hex": "#15181c"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
       "color.text-muted": {
         "cssVar": "--heru-color-text-muted",
         "type": "color",
-        "value": "oklch(0.446 0.018 255)",
-        "hex": "#4e555e"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
       "color.border": {
         "cssVar": "--heru-color-border",
         "type": "color",
-        "value": "oklch(0.87 0.01 255)",
-        "hex": "#d0d5db"
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
       },
       "color.border-strong": {
         "cssVar": "--heru-color-border-strong",
         "type": "color",
-        "value": "oklch(0.554 0.018 255)",
-        "hex": "#6c737d"
+        "value": "oklch(0.554 0.035 260)",
+        "hex": "#677388"
       },
       "color.accent": {
         "cssVar": "--heru-color-accent",
         "type": "color",
-        "value": "oklch(0.52 0.15 255)",
-        "hex": "#1f68bc"
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
       },
       "color.accent-hover": {
         "cssVar": "--heru-color-accent-hover",
         "type": "color",
-        "value": "oklch(0.46 0.135 255)",
-        "hex": "#1657a1"
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
       },
       "color.accent-active": {
         "cssVar": "--heru-color-accent-active",
         "type": "color",
-        "value": "oklch(0.4 0.115 255)",
-        "hex": "#124784"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
       "color.on-accent": {
         "cssVar": "--heru-color-on-accent",
@@ -637,8 +616,8 @@
       "color.focus-ring": {
         "cssVar": "--heru-color-focus-ring",
         "type": "color",
-        "value": "oklch(0.6 0.15 255)",
-        "hex": "#3a81d7"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
       "color.error": {
         "cssVar": "--heru-color-error",
@@ -651,6 +630,37 @@
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
+      },
+      "focus.ring-width": {
+        "cssVar": "--heru-focus-ring-width",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.ring-offset": {
+        "cssVar": "--heru-focus-ring-offset",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.glow": {
+        "cssVar": "--heru-focus-glow",
+        "type": "color",
+        "value": "oklch(0.554 0.035 260 / 0.12)",
+        "hex": "#6773881f"
+      },
+      "motion.duration-fast": {
+        "cssVar": "--heru-motion-duration-fast",
+        "type": "duration",
+        "value": "160ms"
+      },
+      "motion.ease-out": {
+        "cssVar": "--heru-motion-ease-out",
+        "type": "cubicBezier",
+        "value": [
+          0.2,
+          0,
+          0,
+          1
+        ]
       }
     },
     "default": {
@@ -734,25 +744,40 @@
         "type": "dimension",
         "value": 64
       },
+      "radius.1": {
+        "cssVar": "--heru-radius-1",
+        "type": "dimension",
+        "value": 1
+      },
+      "radius.3": {
+        "cssVar": "--heru-radius-3",
+        "type": "dimension",
+        "value": 3
+      },
+      "radius.5": {
+        "cssVar": "--heru-radius-5",
+        "type": "dimension",
+        "value": 5
+      },
+      "radius.7": {
+        "cssVar": "--heru-radius-7",
+        "type": "dimension",
+        "value": 7
+      },
+      "radius.9": {
+        "cssVar": "--heru-radius-9",
+        "type": "dimension",
+        "value": 9
+      },
+      "radius.11": {
+        "cssVar": "--heru-radius-11",
+        "type": "dimension",
+        "value": 11
+      },
       "radius.none": {
         "cssVar": "--heru-radius-none",
         "type": "dimension",
         "value": 0
-      },
-      "radius.sm": {
-        "cssVar": "--heru-radius-sm",
-        "type": "dimension",
-        "value": 4
-      },
-      "radius.md": {
-        "cssVar": "--heru-radius-md",
-        "type": "dimension",
-        "value": 8
-      },
-      "radius.lg": {
-        "cssVar": "--heru-radius-lg",
-        "type": "dimension",
-        "value": 12
       },
       "radius.full": {
         "cssVar": "--heru-radius-full",
@@ -1099,113 +1124,77 @@
           "monospace"
         ]
       },
-      "color.neutral.0": {
-        "cssVar": "--heru-color-neutral-0",
+      "color.slate.0": {
+        "cssVar": "--heru-color-slate-0",
         "type": "color",
         "value": "oklch(1 0 0)",
         "hex": "#ffffff"
       },
-      "color.neutral.50": {
-        "cssVar": "--heru-color-neutral-50",
+      "color.slate.50": {
+        "cssVar": "--heru-color-slate-50",
         "type": "color",
-        "value": "oklch(0.985 0.002 255)",
-        "hex": "#f9fafb"
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
       },
-      "color.neutral.100": {
-        "cssVar": "--heru-color-neutral-100",
+      "color.slate.100": {
+        "cssVar": "--heru-color-slate-100",
         "type": "color",
-        "value": "oklch(0.967 0.004 255)",
-        "hex": "#f2f4f7"
+        "value": "oklch(0.968 0.007 260)",
+        "hex": "#f2f5f9"
       },
-      "color.neutral.200": {
-        "cssVar": "--heru-color-neutral-200",
+      "color.slate.200": {
+        "cssVar": "--heru-color-slate-200",
         "type": "color",
-        "value": "oklch(0.928 0.007 255)",
-        "hex": "#e4e7ec"
+        "value": "oklch(0.929 0.013 260)",
+        "hex": "#e3e8f0"
       },
-      "color.neutral.300": {
-        "cssVar": "--heru-color-neutral-300",
+      "color.slate.300": {
+        "cssVar": "--heru-color-slate-300",
         "type": "color",
-        "value": "oklch(0.87 0.01 255)",
-        "hex": "#d0d5db"
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
       },
-      "color.neutral.400": {
-        "cssVar": "--heru-color-neutral-400",
+      "color.slate.400": {
+        "cssVar": "--heru-color-slate-400",
         "type": "color",
-        "value": "oklch(0.71 0.016 255)",
-        "hex": "#9ba2ac"
+        "value": "oklch(0.704 0.03 260)",
+        "hex": "#95a0b3"
       },
-      "color.neutral.500": {
-        "cssVar": "--heru-color-neutral-500",
+      "color.slate.500": {
+        "cssVar": "--heru-color-slate-500",
         "type": "color",
-        "value": "oklch(0.554 0.018 255)",
-        "hex": "#6c737d"
+        "value": "oklch(0.554 0.035 260)",
+        "hex": "#677388"
       },
-      "color.neutral.600": {
-        "cssVar": "--heru-color-neutral-600",
+      "color.slate.600": {
+        "cssVar": "--heru-color-slate-600",
         "type": "color",
-        "value": "oklch(0.446 0.018 255)",
-        "hex": "#4e555e"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
-      "color.neutral.700": {
-        "cssVar": "--heru-color-neutral-700",
+      "color.slate.700": {
+        "cssVar": "--heru-color-slate-700",
         "type": "color",
-        "value": "oklch(0.372 0.016 255)",
-        "hex": "#3b4149"
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
       },
-      "color.neutral.800": {
-        "cssVar": "--heru-color-neutral-800",
+      "color.slate.800": {
+        "cssVar": "--heru-color-slate-800",
         "type": "color",
-        "value": "oklch(0.279 0.013 255)",
-        "hex": "#24292f"
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
       },
-      "color.neutral.900": {
-        "cssVar": "--heru-color-neutral-900",
+      "color.slate.900": {
+        "cssVar": "--heru-color-slate-900",
         "type": "color",
-        "value": "oklch(0.208 0.01 255)",
-        "hex": "#15181c"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
-      "color.neutral.950": {
-        "cssVar": "--heru-color-neutral-950",
+      "color.slate.950": {
+        "cssVar": "--heru-color-slate-950",
         "type": "color",
-        "value": "oklch(0.13 0.007 255)",
-        "hex": "#06070a"
-      },
-      "color.blue.50": {
-        "cssVar": "--heru-color-blue-50",
-        "type": "color",
-        "value": "oklch(0.97 0.014 255)",
-        "hex": "#eff6ff"
-      },
-      "color.blue.100": {
-        "cssVar": "--heru-color-blue-100",
-        "type": "color",
-        "value": "oklch(0.932 0.032 255)",
-        "hex": "#dbeafe"
-      },
-      "color.blue.500": {
-        "cssVar": "--heru-color-blue-500",
-        "type": "color",
-        "value": "oklch(0.6 0.15 255)",
-        "hex": "#3a81d7"
-      },
-      "color.blue.600": {
-        "cssVar": "--heru-color-blue-600",
-        "type": "color",
-        "value": "oklch(0.52 0.15 255)",
-        "hex": "#1f68bc"
-      },
-      "color.blue.700": {
-        "cssVar": "--heru-color-blue-700",
-        "type": "color",
-        "value": "oklch(0.46 0.135 255)",
-        "hex": "#1657a1"
-      },
-      "color.blue.800": {
-        "cssVar": "--heru-color-blue-800",
-        "type": "color",
-        "value": "oklch(0.4 0.115 255)",
-        "hex": "#124784"
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
       },
       "color.red.50": {
         "cssVar": "--heru-color-red-50",
@@ -1234,50 +1223,50 @@
       "color.surface": {
         "cssVar": "--heru-color-surface",
         "type": "color",
-        "value": "oklch(0.985 0.002 255)",
-        "hex": "#f9fafb"
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
       },
       "color.text": {
         "cssVar": "--heru-color-text",
         "type": "color",
-        "value": "oklch(0.208 0.01 255)",
-        "hex": "#15181c"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
       "color.text-muted": {
         "cssVar": "--heru-color-text-muted",
         "type": "color",
-        "value": "oklch(0.446 0.018 255)",
-        "hex": "#4e555e"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
       "color.border": {
         "cssVar": "--heru-color-border",
         "type": "color",
-        "value": "oklch(0.87 0.01 255)",
-        "hex": "#d0d5db"
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
       },
       "color.border-strong": {
         "cssVar": "--heru-color-border-strong",
         "type": "color",
-        "value": "oklch(0.554 0.018 255)",
-        "hex": "#6c737d"
+        "value": "oklch(0.554 0.035 260)",
+        "hex": "#677388"
       },
       "color.accent": {
         "cssVar": "--heru-color-accent",
         "type": "color",
-        "value": "oklch(0.52 0.15 255)",
-        "hex": "#1f68bc"
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
       },
       "color.accent-hover": {
         "cssVar": "--heru-color-accent-hover",
         "type": "color",
-        "value": "oklch(0.46 0.135 255)",
-        "hex": "#1657a1"
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
       },
       "color.accent-active": {
         "cssVar": "--heru-color-accent-active",
         "type": "color",
-        "value": "oklch(0.4 0.115 255)",
-        "hex": "#124784"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
       "color.on-accent": {
         "cssVar": "--heru-color-on-accent",
@@ -1288,8 +1277,8 @@
       "color.focus-ring": {
         "cssVar": "--heru-color-focus-ring",
         "type": "color",
-        "value": "oklch(0.6 0.15 255)",
-        "hex": "#3a81d7"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
       "color.error": {
         "cssVar": "--heru-color-error",
@@ -1302,6 +1291,37 @@
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
+      },
+      "focus.ring-width": {
+        "cssVar": "--heru-focus-ring-width",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.ring-offset": {
+        "cssVar": "--heru-focus-ring-offset",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.glow": {
+        "cssVar": "--heru-focus-glow",
+        "type": "color",
+        "value": "oklch(0.554 0.035 260 / 0.12)",
+        "hex": "#6773881f"
+      },
+      "motion.duration-fast": {
+        "cssVar": "--heru-motion-duration-fast",
+        "type": "duration",
+        "value": "160ms"
+      },
+      "motion.ease-out": {
+        "cssVar": "--heru-motion-ease-out",
+        "type": "cubicBezier",
+        "value": [
+          0.2,
+          0,
+          0,
+          1
+        ]
       }
     },
     "comfortable": {
@@ -1385,25 +1405,40 @@
         "type": "dimension",
         "value": 64
       },
+      "radius.1": {
+        "cssVar": "--heru-radius-1",
+        "type": "dimension",
+        "value": 1
+      },
+      "radius.3": {
+        "cssVar": "--heru-radius-3",
+        "type": "dimension",
+        "value": 3
+      },
+      "radius.5": {
+        "cssVar": "--heru-radius-5",
+        "type": "dimension",
+        "value": 5
+      },
+      "radius.7": {
+        "cssVar": "--heru-radius-7",
+        "type": "dimension",
+        "value": 7
+      },
+      "radius.9": {
+        "cssVar": "--heru-radius-9",
+        "type": "dimension",
+        "value": 9
+      },
+      "radius.11": {
+        "cssVar": "--heru-radius-11",
+        "type": "dimension",
+        "value": 11
+      },
       "radius.none": {
         "cssVar": "--heru-radius-none",
         "type": "dimension",
         "value": 0
-      },
-      "radius.sm": {
-        "cssVar": "--heru-radius-sm",
-        "type": "dimension",
-        "value": 4
-      },
-      "radius.md": {
-        "cssVar": "--heru-radius-md",
-        "type": "dimension",
-        "value": 8
-      },
-      "radius.lg": {
-        "cssVar": "--heru-radius-lg",
-        "type": "dimension",
-        "value": 12
       },
       "radius.full": {
         "cssVar": "--heru-radius-full",
@@ -1750,113 +1785,77 @@
           "monospace"
         ]
       },
-      "color.neutral.0": {
-        "cssVar": "--heru-color-neutral-0",
+      "color.slate.0": {
+        "cssVar": "--heru-color-slate-0",
         "type": "color",
         "value": "oklch(1 0 0)",
         "hex": "#ffffff"
       },
-      "color.neutral.50": {
-        "cssVar": "--heru-color-neutral-50",
+      "color.slate.50": {
+        "cssVar": "--heru-color-slate-50",
         "type": "color",
-        "value": "oklch(0.985 0.002 255)",
-        "hex": "#f9fafb"
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
       },
-      "color.neutral.100": {
-        "cssVar": "--heru-color-neutral-100",
+      "color.slate.100": {
+        "cssVar": "--heru-color-slate-100",
         "type": "color",
-        "value": "oklch(0.967 0.004 255)",
-        "hex": "#f2f4f7"
+        "value": "oklch(0.968 0.007 260)",
+        "hex": "#f2f5f9"
       },
-      "color.neutral.200": {
-        "cssVar": "--heru-color-neutral-200",
+      "color.slate.200": {
+        "cssVar": "--heru-color-slate-200",
         "type": "color",
-        "value": "oklch(0.928 0.007 255)",
-        "hex": "#e4e7ec"
+        "value": "oklch(0.929 0.013 260)",
+        "hex": "#e3e8f0"
       },
-      "color.neutral.300": {
-        "cssVar": "--heru-color-neutral-300",
+      "color.slate.300": {
+        "cssVar": "--heru-color-slate-300",
         "type": "color",
-        "value": "oklch(0.87 0.01 255)",
-        "hex": "#d0d5db"
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
       },
-      "color.neutral.400": {
-        "cssVar": "--heru-color-neutral-400",
+      "color.slate.400": {
+        "cssVar": "--heru-color-slate-400",
         "type": "color",
-        "value": "oklch(0.71 0.016 255)",
-        "hex": "#9ba2ac"
+        "value": "oklch(0.704 0.03 260)",
+        "hex": "#95a0b3"
       },
-      "color.neutral.500": {
-        "cssVar": "--heru-color-neutral-500",
+      "color.slate.500": {
+        "cssVar": "--heru-color-slate-500",
         "type": "color",
-        "value": "oklch(0.554 0.018 255)",
-        "hex": "#6c737d"
+        "value": "oklch(0.554 0.035 260)",
+        "hex": "#677388"
       },
-      "color.neutral.600": {
-        "cssVar": "--heru-color-neutral-600",
+      "color.slate.600": {
+        "cssVar": "--heru-color-slate-600",
         "type": "color",
-        "value": "oklch(0.446 0.018 255)",
-        "hex": "#4e555e"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
-      "color.neutral.700": {
-        "cssVar": "--heru-color-neutral-700",
+      "color.slate.700": {
+        "cssVar": "--heru-color-slate-700",
         "type": "color",
-        "value": "oklch(0.372 0.016 255)",
-        "hex": "#3b4149"
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
       },
-      "color.neutral.800": {
-        "cssVar": "--heru-color-neutral-800",
+      "color.slate.800": {
+        "cssVar": "--heru-color-slate-800",
         "type": "color",
-        "value": "oklch(0.279 0.013 255)",
-        "hex": "#24292f"
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
       },
-      "color.neutral.900": {
-        "cssVar": "--heru-color-neutral-900",
+      "color.slate.900": {
+        "cssVar": "--heru-color-slate-900",
         "type": "color",
-        "value": "oklch(0.208 0.01 255)",
-        "hex": "#15181c"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
-      "color.neutral.950": {
-        "cssVar": "--heru-color-neutral-950",
+      "color.slate.950": {
+        "cssVar": "--heru-color-slate-950",
         "type": "color",
-        "value": "oklch(0.13 0.007 255)",
-        "hex": "#06070a"
-      },
-      "color.blue.50": {
-        "cssVar": "--heru-color-blue-50",
-        "type": "color",
-        "value": "oklch(0.97 0.014 255)",
-        "hex": "#eff6ff"
-      },
-      "color.blue.100": {
-        "cssVar": "--heru-color-blue-100",
-        "type": "color",
-        "value": "oklch(0.932 0.032 255)",
-        "hex": "#dbeafe"
-      },
-      "color.blue.500": {
-        "cssVar": "--heru-color-blue-500",
-        "type": "color",
-        "value": "oklch(0.6 0.15 255)",
-        "hex": "#3a81d7"
-      },
-      "color.blue.600": {
-        "cssVar": "--heru-color-blue-600",
-        "type": "color",
-        "value": "oklch(0.52 0.15 255)",
-        "hex": "#1f68bc"
-      },
-      "color.blue.700": {
-        "cssVar": "--heru-color-blue-700",
-        "type": "color",
-        "value": "oklch(0.46 0.135 255)",
-        "hex": "#1657a1"
-      },
-      "color.blue.800": {
-        "cssVar": "--heru-color-blue-800",
-        "type": "color",
-        "value": "oklch(0.4 0.115 255)",
-        "hex": "#124784"
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
       },
       "color.red.50": {
         "cssVar": "--heru-color-red-50",
@@ -1885,50 +1884,50 @@
       "color.surface": {
         "cssVar": "--heru-color-surface",
         "type": "color",
-        "value": "oklch(0.985 0.002 255)",
-        "hex": "#f9fafb"
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
       },
       "color.text": {
         "cssVar": "--heru-color-text",
         "type": "color",
-        "value": "oklch(0.208 0.01 255)",
-        "hex": "#15181c"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
       "color.text-muted": {
         "cssVar": "--heru-color-text-muted",
         "type": "color",
-        "value": "oklch(0.446 0.018 255)",
-        "hex": "#4e555e"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
       "color.border": {
         "cssVar": "--heru-color-border",
         "type": "color",
-        "value": "oklch(0.87 0.01 255)",
-        "hex": "#d0d5db"
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
       },
       "color.border-strong": {
         "cssVar": "--heru-color-border-strong",
         "type": "color",
-        "value": "oklch(0.554 0.018 255)",
-        "hex": "#6c737d"
+        "value": "oklch(0.554 0.035 260)",
+        "hex": "#677388"
       },
       "color.accent": {
         "cssVar": "--heru-color-accent",
         "type": "color",
-        "value": "oklch(0.52 0.15 255)",
-        "hex": "#1f68bc"
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
       },
       "color.accent-hover": {
         "cssVar": "--heru-color-accent-hover",
         "type": "color",
-        "value": "oklch(0.46 0.135 255)",
-        "hex": "#1657a1"
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
       },
       "color.accent-active": {
         "cssVar": "--heru-color-accent-active",
         "type": "color",
-        "value": "oklch(0.4 0.115 255)",
-        "hex": "#124784"
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
       },
       "color.on-accent": {
         "cssVar": "--heru-color-on-accent",
@@ -1939,8 +1938,8 @@
       "color.focus-ring": {
         "cssVar": "--heru-color-focus-ring",
         "type": "color",
-        "value": "oklch(0.6 0.15 255)",
-        "hex": "#3a81d7"
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
       },
       "color.error": {
         "cssVar": "--heru-color-error",
@@ -1953,6 +1952,37 @@
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
+      },
+      "focus.ring-width": {
+        "cssVar": "--heru-focus-ring-width",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.ring-offset": {
+        "cssVar": "--heru-focus-ring-offset",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.glow": {
+        "cssVar": "--heru-focus-glow",
+        "type": "color",
+        "value": "oklch(0.554 0.035 260 / 0.12)",
+        "hex": "#6773881f"
+      },
+      "motion.duration-fast": {
+        "cssVar": "--heru-motion-duration-fast",
+        "type": "duration",
+        "value": "160ms"
+      },
+      "motion.ease-out": {
+        "cssVar": "--heru-motion-ease-out",
+        "type": "cubicBezier",
+        "value": [
+          0.2,
+          0,
+          0,
+          1
+        ]
       }
     }
   }

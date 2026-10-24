@@ -26,7 +26,7 @@ export const controlBox = css`
   border-width: var(--heru-border-width, 1px);
   border-style: solid;
   border-color: transparent;
-  border-radius: var(--heru-radius-md, 0.5rem);
+  border-radius: var(--heru-radius-5, 5px);
 `;
 
 /** Text-role font shorthand. role = label | body | caption */

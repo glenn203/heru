@@ -3,9 +3,12 @@
 
 /** Parse "oklch(L C H)" (L as 0–1). */
 export function parseOklch(str) {
-  const m = /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)$/.exec(str);
+  const m =
+    /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+)\s*)?\)$/.exec(
+      str,
+    );
   if (!m) throw new Error(`Not an oklch() value: ${str}`);
-  return m.slice(1).map(Number);
+  return m.slice(1, 4).map(Number);
 }
 
 /** OKLCH → linear sRGB (unclamped). */
@@ -31,7 +34,16 @@ const encode = (x) =>
 export const inSrgb = (str) =>
   toLinearRgb(parseOklch(str)).every((c) => c >= -1e-4 && c <= 1 + 1e-4);
 
-/** sRGB hex (clipped to gamut). */
+const alphaHex = (str) => {
+  const a = /\/\s*([\d.]+)/.exec(str);
+  return a
+    ? Math.round(Number(a[1]) * 255)
+        .toString(16)
+        .padStart(2, '0')
+    : '';
+};
+
+/** sRGB hex (#rrggbb, or #rrggbbaa with alpha) (clipped to gamut). */
 export function oklchToHex(str) {
   return (
     '#' +
@@ -41,7 +53,8 @@ export function oklchToHex(str) {
           .toString(16)
           .padStart(2, '0'),
       )
-      .join('')
+      .join('') +
+    alphaHex(str)
   );
 }
 

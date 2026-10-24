@@ -15,9 +15,17 @@ heru-button::part(base) {
   white-space: nowrap;
   user-select: none;
   transition:
-    background-color 120ms ease,
-    border-color 120ms ease,
-    box-shadow 120ms ease;
+    background-color var(--heru-motion-duration-fast)
+      var(--heru-motion-ease-out),
+    border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
+    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+  /* Focus ring rests at zero spread so it can grow in. */
+  outline: 2px solid transparent; /* Windows High Contrast fallback */
+  outline-offset: var(--heru-focus-ring-offset);
+  box-shadow:
+    0 0 0 0 var(--heru-color-bg),
+    0 0 0 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-focus-glow);
 }
 heru-button:hover::part(base) {
   border-color: var(--heru-color-accent-hover);
@@ -28,19 +36,19 @@ heru-button:state(pressed)::part(base) {
   border-color: var(--heru-color-accent-active);
   background: var(--heru-color-accent-active);
 }
-heru-button:state(pressed)::part(base) {
-  box-shadow: inset 0 var(--heru-border-width) var(--heru-space-1)
-    oklch(0 0 0 / 0.25);
-}
 heru-button::part(base):focus-visible {
-  outline: 2px solid var(--heru-color-focus-ring);
-  outline-offset: 2px;
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-focus-ring),
+    0 0 0
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) + 4px)
+      var(--heru-focus-glow);
 }
 heru-button:state(disabled)::part(base) {
   border-color: var(--heru-color-border);
   background: var(--heru-color-surface);
   color: var(--heru-color-text-muted);
-  box-shadow: none;
 }
 
 /* ---------- Text field ---------- */
@@ -55,8 +63,17 @@ heru-text-field::part(input) {
   background: var(--heru-color-bg);
   color: var(--heru-color-text);
   transition:
-    border-color 120ms ease,
-    box-shadow 120ms ease;
+    background-color var(--heru-motion-duration-fast)
+      var(--heru-motion-ease-out),
+    border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
+    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+  /* Focus ring rests at zero spread so it can grow in. */
+  outline: 2px solid transparent; /* Windows High Contrast fallback */
+  outline-offset: var(--heru-focus-ring-offset);
+  box-shadow:
+    0 0 0 0 var(--heru-color-bg),
+    0 0 0 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-focus-glow);
 }
 heru-text-field::part(input)::placeholder {
   color: var(--heru-color-text-muted);
@@ -64,9 +81,14 @@ heru-text-field::part(input)::placeholder {
 heru-text-field:hover::part(input) {
   border-color: var(--heru-color-text-muted);
 }
-heru-text-field::part(input):focus-visible {
-  outline: 2px solid var(--heru-color-focus-ring);
-  outline-offset: 2px;
+heru-text-field::part(input):focus {
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-focus-ring),
+    0 0 0
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) + 4px)
+      var(--heru-focus-glow);
 }
 heru-text-field::part(description) {
   margin-block-start: var(--heru-space-1);
@@ -79,8 +101,14 @@ heru-text-field::part(error) {
 heru-text-field:state(invalid)::part(input) {
   border-color: var(--heru-color-error);
 }
-heru-text-field:state(invalid)::part(input):focus-visible {
-  outline-color: var(--heru-color-error);
+heru-text-field:state(invalid)::part(input):focus {
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-error),
+    0 0 0
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) + 4px)
+      var(--heru-focus-glow);
 }
 heru-text-field:state(disabled)::part(label),
 heru-text-field:state(disabled)::part(description) {
@@ -96,6 +124,6 @@ heru-text-field:state(disabled)::part(input) {
 @media (prefers-reduced-motion: reduce) {
   heru-button::part(base),
   heru-text-field::part(input) {
-    transition: none;
+    transition: none; /* ring appears instantly */
   }
 }

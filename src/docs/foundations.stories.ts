@@ -25,7 +25,7 @@ const styles = html`<style>
   }
   .f-sw {
     border: var(--heru-border-width) solid var(--heru-color-border);
-    border-radius: var(--heru-radius-md);
+    border-radius: var(--heru-radius-5);
     overflow: hidden;
     background: var(--heru-color-bg);
   }
@@ -53,7 +53,7 @@ const styles = html`<style>
   .f-bar {
     block-size: var(--heru-space-4);
     background: var(--heru-color-accent);
-    border-radius: var(--heru-radius-sm);
+    border-radius: var(--heru-radius-1);
   }
   .f-box {
     inline-size: 64px;
@@ -79,7 +79,7 @@ const swatch = (name: string) => {
 };
 
 const ramps = {
-  neutral: [
+  slate: [
     '0',
     '50',
     '100',
@@ -93,7 +93,6 @@ const ramps = {
     '900',
     '950',
   ],
-  blue: ['50', '100', '500', '600', '700', '800'],
   red: ['50', '600', '700'],
 };
 const semantic = [
@@ -155,7 +154,7 @@ export const Radius: StoryObj = {
   render: () =>
     html`${styles}
       <div class="f-row" style="flex-wrap: wrap">
-        ${['none', 'sm', 'md', 'lg', 'full'].map(
+        ${['none', '1', '3', '5', '7', '9', '11', 'full'].map(
           (r) =>
             html`<div
               style="display: grid; gap: var(--heru-space-2); justify-items: center"
@@ -194,5 +193,21 @@ export const Typography: StoryObj = {
               >
             </div>`,
         )}
+      </div>`,
+};
+
+/** Tab through: the ring grows in over --heru-motion-duration-fast. */
+export const Focus: StoryObj = {
+  parameters: { a11y: { test: 'error' } },
+  render: () =>
+    html`${styles}
+      <div class="f-grid" style="max-inline-size: 360px">
+        <p class="f-muted">
+          Press Tab. Ring = ${read('--heru-focus-ring-width')} at
+          ${read('--heru-focus-ring-offset')} offset, plus a soft glow. Instant
+          with reduced motion.
+        </p>
+        <heru-button type="button">Focus me</heru-button>
+        <heru-text-field label="Or me"></heru-text-field>
       </div>`,
 };

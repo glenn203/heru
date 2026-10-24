@@ -26,7 +26,7 @@ import {
  * @cssprop [--heru-control-height-md=2.25rem] - Input height when size="md" (default; density-aware).
  * @cssprop [--heru-control-height-lg=2.75rem] - Input height when size="lg" (density-aware).
  * @cssprop [--heru-control-padding-inline=0.75rem] - Input inline padding (density-aware).
- * @cssprop [--heru-radius-md=0.5rem] - Input corner radius.
+ * @cssprop [--heru-radius-5=5px] - Input corner radius.
  * @cssprop [--heru-border-width=1px] - Input border width, drawn inside the height.
  * @cssprop --heru-text-label-font-size - Label role (also -line-height, -font-weight, -font-family).
  * @cssprop --heru-text-body-font-size - Input body role (also -line-height, -font-weight, -font-family).

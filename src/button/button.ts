@@ -24,7 +24,7 @@ import {
  * @cssprop [--heru-control-height-md=2.25rem] - Height when size="md" (default; density-aware).
  * @cssprop [--heru-control-height-lg=2.75rem] - Height when size="lg" (density-aware).
  * @cssprop [--heru-control-padding-inline=0.75rem] - Inline padding (density-aware).
- * @cssprop [--heru-radius-md=0.5rem] - Corner radius.
+ * @cssprop [--heru-radius-5=5px] - Corner radius.
  * @cssprop [--heru-border-width=1px] - Border width, drawn inside the height.
  * @cssprop --heru-text-label-font-size - Label role font size (also -line-height, -font-weight, -font-family).
  * @fires click - Native click; suppressed while disabled.

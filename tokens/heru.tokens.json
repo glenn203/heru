@@ -95,22 +95,31 @@
   },
   "radius": {
     "$type": "dimension",
-    "$description": "Corner radius.",
+    "$description": "Corner radius, odd-pixel ramp. radius-N = N px. Exempt from the 4px grid. Controls use radius-5.",
     "none": {
       "$value": "0"
     },
-    "sm": {
-      "$value": "{unit} * 1"
+    "1": {
+      "$value": "1px"
     },
-    "md": {
-      "$value": "{unit} * 2"
+    "3": {
+      "$value": "3px"
     },
-    "lg": {
-      "$value": "{unit} * 3"
+    "5": {
+      "$value": "5px"
+    },
+    "7": {
+      "$value": "7px"
+    },
+    "9": {
+      "$value": "9px"
+    },
+    "11": {
+      "$value": "11px"
     },
     "full": {
       "$value": "9999px",
-      "$description": "Pill/circle. Intentionally off-grid."
+      "$description": "Pill/circle."
     }
   },
   "border": {
@@ -345,65 +354,44 @@
   },
   "color": {
     "$type": "color",
-    "$description": "Minimal palette in OKLCH: one neutral ramp, one accent, one error. Components and themes should use the semantic names (color-bg, color-text, …), not the ramps.",
-    "neutral": {
-      "$description": "Neutral ramp, slightly cool (hue 255), low chroma. 0 = white.",
+    "$description": "Minimal palette in OKLCH: one dark slate ramp and one error red. Use the semantic names (color-bg, color-text, …), not the ramps.",
+    "slate": {
+      "$description": "Dark slate ramp (hue 260, low chroma). The only non-error ramp. 0 = white, 950 = near-black with a blue tint.",
       "0": {
         "$value": "oklch(1 0 0)"
       },
       "50": {
-        "$value": "oklch(0.985 0.002 255)"
+        "$value": "oklch(0.984 0.003 260)"
       },
       "100": {
-        "$value": "oklch(0.967 0.004 255)"
+        "$value": "oklch(0.968 0.007 260)"
       },
       "200": {
-        "$value": "oklch(0.928 0.007 255)"
+        "$value": "oklch(0.929 0.013 260)"
       },
       "300": {
-        "$value": "oklch(0.87 0.01 255)"
+        "$value": "oklch(0.869 0.02 260)"
       },
       "400": {
-        "$value": "oklch(0.71 0.016 255)"
+        "$value": "oklch(0.704 0.03 260)"
       },
       "500": {
-        "$value": "oklch(0.554 0.018 255)"
+        "$value": "oklch(0.554 0.035 260)"
       },
       "600": {
-        "$value": "oklch(0.446 0.018 255)"
+        "$value": "oklch(0.446 0.035 260)"
       },
       "700": {
-        "$value": "oklch(0.372 0.016 255)"
+        "$value": "oklch(0.372 0.035 260)"
       },
       "800": {
-        "$value": "oklch(0.279 0.013 255)"
+        "$value": "oklch(0.279 0.033 260)"
       },
       "900": {
-        "$value": "oklch(0.208 0.01 255)"
+        "$value": "oklch(0.208 0.03 260)"
       },
       "950": {
-        "$value": "oklch(0.13 0.007 255)"
-      }
-    },
-    "blue": {
-      "$description": "Accent ramp: a calm blue (hue 255). 50/100 subtle fills, 500 focus ring, 600 rest, 700 hover, 800 active.",
-      "50": {
-        "$value": "oklch(0.97 0.014 255)"
-      },
-      "100": {
-        "$value": "oklch(0.932 0.032 255)"
-      },
-      "500": {
-        "$value": "oklch(0.6 0.15 255)"
-      },
-      "600": {
-        "$value": "oklch(0.52 0.15 255)"
-      },
-      "700": {
-        "$value": "oklch(0.46 0.135 255)"
-      },
-      "800": {
-        "$value": "oklch(0.4 0.115 255)"
+        "$value": "oklch(0.129 0.03 260)"
       }
     },
     "red": {
@@ -419,48 +407,48 @@
       }
     },
     "bg": {
-      "$value": "{color.neutral.0}",
+      "$value": "{color.slate.0}",
       "$description": "Page background."
     },
     "surface": {
-      "$value": "{color.neutral.50}",
+      "$value": "{color.slate.50}",
       "$description": "Raised or inset surface (cards, wells)."
     },
     "text": {
-      "$value": "{color.neutral.900}",
+      "$value": "{color.slate.900}",
       "$description": "Primary text."
     },
     "text-muted": {
-      "$value": "{color.neutral.600}",
+      "$value": "{color.slate.600}",
       "$description": "Secondary text: descriptions, placeholders. AA on bg and surface."
     },
     "border": {
-      "$value": "{color.neutral.300}",
+      "$value": "{color.slate.300}",
       "$description": "Default control/divider border (decorative)."
     },
     "border-strong": {
-      "$value": "{color.neutral.500}",
+      "$value": "{color.slate.500}",
       "$description": "Border that must be visible (hover, inputs needing 3:1)."
     },
     "accent": {
-      "$value": "{color.blue.600}",
-      "$description": "Primary action fill."
+      "$value": "{color.slate.950}",
+      "$description": "Primary action fill: near-black slate."
     },
     "accent-hover": {
-      "$value": "{color.blue.700}",
-      "$description": "Primary action fill on hover."
+      "$value": "{color.slate.800}",
+      "$description": "Primary action fill on hover: one step lighter."
     },
     "accent-active": {
-      "$value": "{color.blue.800}",
+      "$value": "{color.slate.900}",
       "$description": "Primary action fill while pressed/active."
     },
     "on-accent": {
-      "$value": "{color.neutral.0}",
+      "$value": "{color.slate.0}",
       "$description": "Text/icons on accent fills."
     },
     "focus-ring": {
-      "$value": "{color.blue.500}",
-      "$description": "Focus indicator. ≥3:1 on bg."
+      "$value": "{color.slate.600}",
+      "$description": "Focus ring. ≥3:1 on bg."
     },
     "error": {
       "$value": "{color.red.600}",
@@ -469,6 +457,33 @@
     "error-text": {
       "$value": "{color.red.700}",
       "$description": "Error message text. AA on bg."
+    }
+  },
+  "focus": {
+    "$description": "Focus indicator. A ring that grows in: offset gap in color-bg, then a ring in color-focus-ring, with a soft glow.",
+    "ring-width": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
+    "ring-offset": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
+    "glow": {
+      "$type": "color",
+      "$value": "oklch(0.554 0.035 260 / 0.12)",
+      "$description": "Soft outer glow (slate-500 at 12%)."
+    }
+  },
+  "motion": {
+    "$description": "Motion. Respect prefers-reduced-motion.",
+    "duration-fast": {
+      "$type": "duration",
+      "$value": "160ms"
+    },
+    "ease-out": {
+      "$type": "cubicBezier",
+      "$value": [0.2, 0, 0, 1]
     }
   }
 }

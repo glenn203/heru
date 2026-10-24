@@ -9,12 +9,18 @@ const resolved = JSON.parse(
     'utf8',
   ),
 );
-const OFF_GRID = new Set(['border.width', 'radius.full']);
+// Off the 4px grid by design: hairlines, the focus ring, and the odd radius ramp.
+const OFF_GRID = new Set([
+  'border.width',
+  'focus.ring-width',
+  'focus.ring-offset',
+]);
 
 for (const [mode, tokens] of Object.entries(resolved.modes)) {
   test(`${mode}: every dimension is a multiple of 4px`, () => {
     for (const [key, t] of Object.entries(tokens)) {
       if (t.type !== 'dimension' || OFF_GRID.has(key)) continue;
+      if (key.startsWith('radius.')) continue;
       if (key.startsWith('font.size') || key.endsWith('font-size')) continue; // font sizes are 2px-steps by design
       assert.equal(t.value % 4, 0, `${key} = ${t.value}px in ${mode}`);
     }
@@ -69,6 +75,28 @@ test('every color is inside the sRGB gamut and has a hex fallback', () => {
   for (const [key, t] of Object.entries(resolved.modes.default)) {
     if (t.type !== 'color') continue;
     assert.ok(inSrgb(t.value), `${key} ${t.value} is out of sRGB`);
-    assert.match(t.hex, /^#[0-9a-f]{6}$/);
+    assert.match(t.hex, /^#[0-9a-f]{6}([0-9a-f]{2})?$/);
   }
+});
+
+test('radius ramp is odd px (plus none and full)', () => {
+  for (const [key, t] of Object.entries(resolved.modes.default)) {
+    if (
+      !key.startsWith('radius.') ||
+      key === 'radius.none' ||
+      key === 'radius.full'
+    )
+      continue;
+    assert.equal(t.value % 2, 1, `${key} = ${t.value}`);
+    assert.equal(key, `radius.${t.value}`, 'radius-N must equal N px');
+  }
+});
+
+test('only slate and red ramps exist', () => {
+  const ramps = new Set(
+    Object.keys(resolved.modes.default)
+      .filter((k) => /^color\.[a-z]+\.\d+$/.test(k))
+      .map((k) => k.split('.')[1]),
+  );
+  assert.deepEqual([...ramps].sort(), ['red', 'slate']);
 });
