@@ -238,6 +238,42 @@ heru-select::part(error) {
   box-shadow: none;
   pointer-events: none; /* Astryx: overlap is visual only */
 }
+/* Tuck cue: concave fillets (radius-5) flare the box's top corners into the
+ * control's flat bottom edge, so it reads as growing out from under the input
+ * despite the 8px side margins. Same fill token, no shadow. */
+heru-text-field::part(error),
+heru-select::part(error) {
+  position: relative;
+}
+heru-text-field::part(error)::before,
+heru-text-field::part(error)::after,
+heru-select::part(error)::before,
+heru-select::part(error)::after {
+  content: '';
+  position: absolute;
+  inset-block-start: var(--_heru-status-overlap);
+  inline-size: var(--heru-radius-5);
+  block-size: var(--heru-radius-5);
+  background: var(--heru-color-error-surface);
+}
+heru-text-field::part(error)::before,
+heru-select::part(error)::before {
+  inset-inline-start: calc(-1 * var(--heru-radius-5));
+  mask: radial-gradient(
+    circle at 0 100%,
+    transparent var(--heru-radius-5),
+    #000 calc(var(--heru-radius-5) + 0.5px)
+  );
+}
+heru-text-field::part(error)::after,
+heru-select::part(error)::after {
+  inset-inline-end: calc(-1 * var(--heru-radius-5));
+  mask: radial-gradient(
+    circle at 100% 100%,
+    transparent var(--heru-radius-5),
+    #000 calc(var(--heru-radius-5) + 0.5px)
+  );
+}
 /* Error-only: runs when the box is un-hidden (invalid), never on focus. */
 heru-text-field:state(invalid)::part(error),
 heru-select:state(invalid)::part(error) {

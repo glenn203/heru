@@ -600,3 +600,83 @@ test('select error box matches the text field error box exactly', async ({
   expect(diff.size).toBe(true);
   expect(diff.over).toBe(0);
 });
+
+for (const tag of ['heru-text-field', 'heru-select']) {
+  test(`${tag}: error box flares out from under the control (concave top fillets)`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const inner = tag === 'heru-select' ? OPTIONS : '';
+    await mount(
+      page,
+      `<div style="padding:20px;inline-size:240px"><${tag} label="Fruit" required>${inner}<span slot="error">Pick one</span></${tag}></div>`,
+    );
+    await withTheme(page);
+    const geo = await page.locator(tag).evaluate(async (el) => {
+      const host = el as HTMLElement & {
+        reportValidity(): boolean;
+        updateComplete: Promise<unknown>;
+      };
+      host.reportValidity();
+      await host.updateComplete;
+      (document.activeElement as HTMLElement | null)?.blur();
+      const root = el.shadowRoot!;
+      const ctl = root
+        .querySelector('[part="trigger"], [part="input"]')!
+        .getBoundingClientRect();
+      const box = root.querySelector('[part="error"]')!;
+      const before = getComputedStyle(box, '::before');
+      const after = getComputedStyle(box, '::after');
+      return {
+        ctlBottom: ctl.bottom,
+        boxLeft: box.getBoundingClientRect().left,
+        boxRight: box.getBoundingClientRect().right,
+        pseudo: [before, after].map((p) => ({
+          content: p.content,
+          bg: p.backgroundColor,
+          size: [p.width, p.height],
+          mask: p.maskImage.startsWith('radial-gradient'),
+        })),
+        fill: getComputedStyle(box).backgroundColor,
+      };
+    });
+    for (const p of geo.pseudo) {
+      expect(p.content).toBe('""');
+      expect(p.bg).toBe(geo.fill);
+      expect(p.size).toEqual(['5px', '5px']);
+      expect(p.mask).toBe(true);
+    }
+    // Pixels: tinted right under the control edge just outside the box side,
+    // white 4px lower (the fillet curves back into the box).
+    await page.mouse.move(0, 0);
+    const shot = await page.screenshot({
+      clip: { x: 0, y: 0, width: 300, height: 200 },
+    });
+    const px = await page.evaluate(
+      async ([b64, pts]) => {
+        const img = new Image();
+        img.src = `data:image/png;base64,${b64}`;
+        await img.decode();
+        const c = document.createElement('canvas');
+        c.width = img.width;
+        c.height = img.height;
+        const ctx = c.getContext('2d')!;
+        ctx.drawImage(img, 0, 0);
+        return (pts as unknown as number[][]).map(([x, y]) => [
+          ...ctx.getImageData(x!, y!, 1, 1).data,
+        ]);
+      },
+      [
+        shot.toString('base64'),
+        [
+          [Math.floor(geo.boxLeft) - 1, Math.ceil(geo.ctlBottom)],
+          [Math.floor(geo.boxLeft) - 1, Math.ceil(geo.ctlBottom) + 4],
+          [Math.ceil(geo.boxRight), Math.ceil(geo.ctlBottom)],
+        ],
+      ] as const,
+    );
+    expect(px[0]![1]).toBeLessThan(250); // tinted (green channel drops)
+    expect(px[1]!.slice(0, 3)).toEqual([255, 255, 255]);
+    expect(px[2]![1]).toBeLessThan(250);
+  });
+}

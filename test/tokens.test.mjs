@@ -146,7 +146,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     'utf8',
   );
   const block = theme.slice(theme.indexOf('/* ---------- Select'));
-  assert.ok(!/inset/.test(block), 'no inside-border focus');
+  assert.ok(!/box-shadow:[^;]*inset/.test(block), 'no inside-border focus');
   assert.ok(
     !/box-shadow:\s*var\(--heru-elevation-urgent/.test(theme),
     'elevation-urgent is reserved, unused',
