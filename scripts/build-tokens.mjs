@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { oklchToHex } from './oklch.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const src = JSON.parse(
@@ -74,6 +75,7 @@ function resolveValue(path, mode, seen = new Set()) {
   if (typeof v === 'number' || Array.isArray(v)) return v;
   if (/^\{[^}]+\}$/.test(v))
     return resolveValue(v.slice(1, -1), mode, new Set(seen));
+  if (t.type === 'color') return v;
   if (!v.includes('{')) return v.endsWith('px') ? parseFloat(v) : Number(v);
   const expr = v.replace(REF, (_, r) =>
     String(resolveValue(r, mode, new Set(seen))),
@@ -104,6 +106,8 @@ const dependsOnDensity = (t, seen = new Set()) => {
   for (const [, r] of t.value.matchAll(REF)) {
     if (seen.has(r)) continue;
     seen.add(r);
+    if (!byPath.has(r))
+      throw new Error(`Unknown reference {${r}} in ${t.path.join('.')}`);
     if (dependsOnDensity(byPath.get(r), seen)) return true;
   }
   return false;
@@ -120,7 +124,7 @@ css += `}\n`;
 // ---------- Emit resolved JSON ----------
 const resolved = {
   $description:
-    'Resolved Herú tokens (px) per density mode. Generated; do not edit.',
+    'Resolved Herú tokens per density mode (dimensions in px; colors as oklch() with an sRGB hex fallback). Generated; do not edit.',
   unit: 'px',
   modes: {},
 };
@@ -133,6 +137,7 @@ for (const mode of MODES) {
       type: t.type ?? 'number',
       value: resolveValue(key, mode),
     };
+    if (t.type === 'color') out[key].hex = oklchToHex(out[key].value);
   }
   resolved.modes[mode] = out;
 }

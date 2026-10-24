@@ -31,7 +31,11 @@
   "sideEffects": [
     "./dist/define.js",
     "./dist/*/define.js",
-    "./dist/tokens/tokens.css"
+    "./dist/tokens/tokens.css",
+    "./dist/theme/theme.css",
+    "./src/define.ts",
+    "./src/*/define.ts",
+    "./src/**/*.css"
   ],
   "exports": {
     ".": {
@@ -59,6 +63,7 @@
       "import": "./dist/text-field/define.js"
     },
     "./tokens.css": "./dist/tokens/tokens.css",
+    "./theme.css": "./dist/theme/theme.css",
     "./tokens.json": "./tokens/heru.tokens.resolved.json",
     "./custom-elements.json": "./custom-elements.json",
     "./package.json": "./package.json",
@@ -66,7 +71,7 @@
   },
   "customElements": "./custom-elements.json",
   "scripts": {
-    "build": "pnpm tokens && rimraf dist && tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/tokens/tokens.css','dist/tokens/tokens.css')\"",
+    "build": "pnpm tokens && rimraf dist && tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/tokens/tokens.css','dist/tokens/tokens.css');require('fs').cpSync('src/theme/theme.css','dist/theme/theme.css')\"",
     "analyze": "cem analyze --config custom-elements-manifest.config.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . && tsc --noEmit",
@@ -90,6 +95,7 @@
     "@playwright/test": "^1.56.0",
     "@storybook/addon-a11y": "^8.6.14",
     "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
     "@storybook/web-components": "^8.6.14",
     "@storybook/web-components-vite": "^8.6.14",
     "eslint": "^9.39.5",

@@ -1,5 +1,5 @@
 {
-  "$description": "Resolved Herú tokens (px) per density mode. Generated; do not edit.",
+  "$description": "Resolved Herú tokens per density mode (dimensions in px; colors as oklch() with an sRGB hex fallback). Generated; do not edit.",
   "unit": "px",
   "modes": {
     "compact": {
@@ -447,6 +447,210 @@
           "SFMono-Regular",
           "monospace"
         ]
+      },
+      "color.neutral.0": {
+        "cssVar": "--heru-color-neutral-0",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.neutral.50": {
+        "cssVar": "--heru-color-neutral-50",
+        "type": "color",
+        "value": "oklch(0.985 0.002 255)",
+        "hex": "#f9fafb"
+      },
+      "color.neutral.100": {
+        "cssVar": "--heru-color-neutral-100",
+        "type": "color",
+        "value": "oklch(0.967 0.004 255)",
+        "hex": "#f2f4f7"
+      },
+      "color.neutral.200": {
+        "cssVar": "--heru-color-neutral-200",
+        "type": "color",
+        "value": "oklch(0.928 0.007 255)",
+        "hex": "#e4e7ec"
+      },
+      "color.neutral.300": {
+        "cssVar": "--heru-color-neutral-300",
+        "type": "color",
+        "value": "oklch(0.87 0.01 255)",
+        "hex": "#d0d5db"
+      },
+      "color.neutral.400": {
+        "cssVar": "--heru-color-neutral-400",
+        "type": "color",
+        "value": "oklch(0.71 0.016 255)",
+        "hex": "#9ba2ac"
+      },
+      "color.neutral.500": {
+        "cssVar": "--heru-color-neutral-500",
+        "type": "color",
+        "value": "oklch(0.554 0.018 255)",
+        "hex": "#6c737d"
+      },
+      "color.neutral.600": {
+        "cssVar": "--heru-color-neutral-600",
+        "type": "color",
+        "value": "oklch(0.446 0.018 255)",
+        "hex": "#4e555e"
+      },
+      "color.neutral.700": {
+        "cssVar": "--heru-color-neutral-700",
+        "type": "color",
+        "value": "oklch(0.372 0.016 255)",
+        "hex": "#3b4149"
+      },
+      "color.neutral.800": {
+        "cssVar": "--heru-color-neutral-800",
+        "type": "color",
+        "value": "oklch(0.279 0.013 255)",
+        "hex": "#24292f"
+      },
+      "color.neutral.900": {
+        "cssVar": "--heru-color-neutral-900",
+        "type": "color",
+        "value": "oklch(0.208 0.01 255)",
+        "hex": "#15181c"
+      },
+      "color.neutral.950": {
+        "cssVar": "--heru-color-neutral-950",
+        "type": "color",
+        "value": "oklch(0.13 0.007 255)",
+        "hex": "#06070a"
+      },
+      "color.blue.50": {
+        "cssVar": "--heru-color-blue-50",
+        "type": "color",
+        "value": "oklch(0.97 0.014 255)",
+        "hex": "#eff6ff"
+      },
+      "color.blue.100": {
+        "cssVar": "--heru-color-blue-100",
+        "type": "color",
+        "value": "oklch(0.932 0.032 255)",
+        "hex": "#dbeafe"
+      },
+      "color.blue.500": {
+        "cssVar": "--heru-color-blue-500",
+        "type": "color",
+        "value": "oklch(0.6 0.15 255)",
+        "hex": "#3a81d7"
+      },
+      "color.blue.600": {
+        "cssVar": "--heru-color-blue-600",
+        "type": "color",
+        "value": "oklch(0.52 0.15 255)",
+        "hex": "#1f68bc"
+      },
+      "color.blue.700": {
+        "cssVar": "--heru-color-blue-700",
+        "type": "color",
+        "value": "oklch(0.46 0.135 255)",
+        "hex": "#1657a1"
+      },
+      "color.blue.800": {
+        "cssVar": "--heru-color-blue-800",
+        "type": "color",
+        "value": "oklch(0.4 0.115 255)",
+        "hex": "#124784"
+      },
+      "color.red.50": {
+        "cssVar": "--heru-color-red-50",
+        "type": "color",
+        "value": "oklch(0.971 0.013 27)",
+        "hex": "#fef2f1"
+      },
+      "color.red.600": {
+        "cssVar": "--heru-color-red-600",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.red.700": {
+        "cssVar": "--heru-color-red-700",
+        "type": "color",
+        "value": "oklch(0.48 0.17 27)",
+        "hex": "#a92321"
+      },
+      "color.bg": {
+        "cssVar": "--heru-color-bg",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.surface": {
+        "cssVar": "--heru-color-surface",
+        "type": "color",
+        "value": "oklch(0.985 0.002 255)",
+        "hex": "#f9fafb"
+      },
+      "color.text": {
+        "cssVar": "--heru-color-text",
+        "type": "color",
+        "value": "oklch(0.208 0.01 255)",
+        "hex": "#15181c"
+      },
+      "color.text-muted": {
+        "cssVar": "--heru-color-text-muted",
+        "type": "color",
+        "value": "oklch(0.446 0.018 255)",
+        "hex": "#4e555e"
+      },
+      "color.border": {
+        "cssVar": "--heru-color-border",
+        "type": "color",
+        "value": "oklch(0.87 0.01 255)",
+        "hex": "#d0d5db"
+      },
+      "color.border-strong": {
+        "cssVar": "--heru-color-border-strong",
+        "type": "color",
+        "value": "oklch(0.554 0.018 255)",
+        "hex": "#6c737d"
+      },
+      "color.accent": {
+        "cssVar": "--heru-color-accent",
+        "type": "color",
+        "value": "oklch(0.52 0.15 255)",
+        "hex": "#1f68bc"
+      },
+      "color.accent-hover": {
+        "cssVar": "--heru-color-accent-hover",
+        "type": "color",
+        "value": "oklch(0.46 0.135 255)",
+        "hex": "#1657a1"
+      },
+      "color.accent-active": {
+        "cssVar": "--heru-color-accent-active",
+        "type": "color",
+        "value": "oklch(0.4 0.115 255)",
+        "hex": "#124784"
+      },
+      "color.on-accent": {
+        "cssVar": "--heru-color-on-accent",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.focus-ring": {
+        "cssVar": "--heru-color-focus-ring",
+        "type": "color",
+        "value": "oklch(0.6 0.15 255)",
+        "hex": "#3a81d7"
+      },
+      "color.error": {
+        "cssVar": "--heru-color-error",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.error-text": {
+        "cssVar": "--heru-color-error-text",
+        "type": "color",
+        "value": "oklch(0.48 0.17 27)",
+        "hex": "#a92321"
       }
     },
     "default": {
@@ -894,6 +1098,210 @@
           "SFMono-Regular",
           "monospace"
         ]
+      },
+      "color.neutral.0": {
+        "cssVar": "--heru-color-neutral-0",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.neutral.50": {
+        "cssVar": "--heru-color-neutral-50",
+        "type": "color",
+        "value": "oklch(0.985 0.002 255)",
+        "hex": "#f9fafb"
+      },
+      "color.neutral.100": {
+        "cssVar": "--heru-color-neutral-100",
+        "type": "color",
+        "value": "oklch(0.967 0.004 255)",
+        "hex": "#f2f4f7"
+      },
+      "color.neutral.200": {
+        "cssVar": "--heru-color-neutral-200",
+        "type": "color",
+        "value": "oklch(0.928 0.007 255)",
+        "hex": "#e4e7ec"
+      },
+      "color.neutral.300": {
+        "cssVar": "--heru-color-neutral-300",
+        "type": "color",
+        "value": "oklch(0.87 0.01 255)",
+        "hex": "#d0d5db"
+      },
+      "color.neutral.400": {
+        "cssVar": "--heru-color-neutral-400",
+        "type": "color",
+        "value": "oklch(0.71 0.016 255)",
+        "hex": "#9ba2ac"
+      },
+      "color.neutral.500": {
+        "cssVar": "--heru-color-neutral-500",
+        "type": "color",
+        "value": "oklch(0.554 0.018 255)",
+        "hex": "#6c737d"
+      },
+      "color.neutral.600": {
+        "cssVar": "--heru-color-neutral-600",
+        "type": "color",
+        "value": "oklch(0.446 0.018 255)",
+        "hex": "#4e555e"
+      },
+      "color.neutral.700": {
+        "cssVar": "--heru-color-neutral-700",
+        "type": "color",
+        "value": "oklch(0.372 0.016 255)",
+        "hex": "#3b4149"
+      },
+      "color.neutral.800": {
+        "cssVar": "--heru-color-neutral-800",
+        "type": "color",
+        "value": "oklch(0.279 0.013 255)",
+        "hex": "#24292f"
+      },
+      "color.neutral.900": {
+        "cssVar": "--heru-color-neutral-900",
+        "type": "color",
+        "value": "oklch(0.208 0.01 255)",
+        "hex": "#15181c"
+      },
+      "color.neutral.950": {
+        "cssVar": "--heru-color-neutral-950",
+        "type": "color",
+        "value": "oklch(0.13 0.007 255)",
+        "hex": "#06070a"
+      },
+      "color.blue.50": {
+        "cssVar": "--heru-color-blue-50",
+        "type": "color",
+        "value": "oklch(0.97 0.014 255)",
+        "hex": "#eff6ff"
+      },
+      "color.blue.100": {
+        "cssVar": "--heru-color-blue-100",
+        "type": "color",
+        "value": "oklch(0.932 0.032 255)",
+        "hex": "#dbeafe"
+      },
+      "color.blue.500": {
+        "cssVar": "--heru-color-blue-500",
+        "type": "color",
+        "value": "oklch(0.6 0.15 255)",
+        "hex": "#3a81d7"
+      },
+      "color.blue.600": {
+        "cssVar": "--heru-color-blue-600",
+        "type": "color",
+        "value": "oklch(0.52 0.15 255)",
+        "hex": "#1f68bc"
+      },
+      "color.blue.700": {
+        "cssVar": "--heru-color-blue-700",
+        "type": "color",
+        "value": "oklch(0.46 0.135 255)",
+        "hex": "#1657a1"
+      },
+      "color.blue.800": {
+        "cssVar": "--heru-color-blue-800",
+        "type": "color",
+        "value": "oklch(0.4 0.115 255)",
+        "hex": "#124784"
+      },
+      "color.red.50": {
+        "cssVar": "--heru-color-red-50",
+        "type": "color",
+        "value": "oklch(0.971 0.013 27)",
+        "hex": "#fef2f1"
+      },
+      "color.red.600": {
+        "cssVar": "--heru-color-red-600",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.red.700": {
+        "cssVar": "--heru-color-red-700",
+        "type": "color",
+        "value": "oklch(0.48 0.17 27)",
+        "hex": "#a92321"
+      },
+      "color.bg": {
+        "cssVar": "--heru-color-bg",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.surface": {
+        "cssVar": "--heru-color-surface",
+        "type": "color",
+        "value": "oklch(0.985 0.002 255)",
+        "hex": "#f9fafb"
+      },
+      "color.text": {
+        "cssVar": "--heru-color-text",
+        "type": "color",
+        "value": "oklch(0.208 0.01 255)",
+        "hex": "#15181c"
+      },
+      "color.text-muted": {
+        "cssVar": "--heru-color-text-muted",
+        "type": "color",
+        "value": "oklch(0.446 0.018 255)",
+        "hex": "#4e555e"
+      },
+      "color.border": {
+        "cssVar": "--heru-color-border",
+        "type": "color",
+        "value": "oklch(0.87 0.01 255)",
+        "hex": "#d0d5db"
+      },
+      "color.border-strong": {
+        "cssVar": "--heru-color-border-strong",
+        "type": "color",
+        "value": "oklch(0.554 0.018 255)",
+        "hex": "#6c737d"
+      },
+      "color.accent": {
+        "cssVar": "--heru-color-accent",
+        "type": "color",
+        "value": "oklch(0.52 0.15 255)",
+        "hex": "#1f68bc"
+      },
+      "color.accent-hover": {
+        "cssVar": "--heru-color-accent-hover",
+        "type": "color",
+        "value": "oklch(0.46 0.135 255)",
+        "hex": "#1657a1"
+      },
+      "color.accent-active": {
+        "cssVar": "--heru-color-accent-active",
+        "type": "color",
+        "value": "oklch(0.4 0.115 255)",
+        "hex": "#124784"
+      },
+      "color.on-accent": {
+        "cssVar": "--heru-color-on-accent",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.focus-ring": {
+        "cssVar": "--heru-color-focus-ring",
+        "type": "color",
+        "value": "oklch(0.6 0.15 255)",
+        "hex": "#3a81d7"
+      },
+      "color.error": {
+        "cssVar": "--heru-color-error",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.error-text": {
+        "cssVar": "--heru-color-error-text",
+        "type": "color",
+        "value": "oklch(0.48 0.17 27)",
+        "hex": "#a92321"
       }
     },
     "comfortable": {
@@ -1341,6 +1749,210 @@
           "SFMono-Regular",
           "monospace"
         ]
+      },
+      "color.neutral.0": {
+        "cssVar": "--heru-color-neutral-0",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.neutral.50": {
+        "cssVar": "--heru-color-neutral-50",
+        "type": "color",
+        "value": "oklch(0.985 0.002 255)",
+        "hex": "#f9fafb"
+      },
+      "color.neutral.100": {
+        "cssVar": "--heru-color-neutral-100",
+        "type": "color",
+        "value": "oklch(0.967 0.004 255)",
+        "hex": "#f2f4f7"
+      },
+      "color.neutral.200": {
+        "cssVar": "--heru-color-neutral-200",
+        "type": "color",
+        "value": "oklch(0.928 0.007 255)",
+        "hex": "#e4e7ec"
+      },
+      "color.neutral.300": {
+        "cssVar": "--heru-color-neutral-300",
+        "type": "color",
+        "value": "oklch(0.87 0.01 255)",
+        "hex": "#d0d5db"
+      },
+      "color.neutral.400": {
+        "cssVar": "--heru-color-neutral-400",
+        "type": "color",
+        "value": "oklch(0.71 0.016 255)",
+        "hex": "#9ba2ac"
+      },
+      "color.neutral.500": {
+        "cssVar": "--heru-color-neutral-500",
+        "type": "color",
+        "value": "oklch(0.554 0.018 255)",
+        "hex": "#6c737d"
+      },
+      "color.neutral.600": {
+        "cssVar": "--heru-color-neutral-600",
+        "type": "color",
+        "value": "oklch(0.446 0.018 255)",
+        "hex": "#4e555e"
+      },
+      "color.neutral.700": {
+        "cssVar": "--heru-color-neutral-700",
+        "type": "color",
+        "value": "oklch(0.372 0.016 255)",
+        "hex": "#3b4149"
+      },
+      "color.neutral.800": {
+        "cssVar": "--heru-color-neutral-800",
+        "type": "color",
+        "value": "oklch(0.279 0.013 255)",
+        "hex": "#24292f"
+      },
+      "color.neutral.900": {
+        "cssVar": "--heru-color-neutral-900",
+        "type": "color",
+        "value": "oklch(0.208 0.01 255)",
+        "hex": "#15181c"
+      },
+      "color.neutral.950": {
+        "cssVar": "--heru-color-neutral-950",
+        "type": "color",
+        "value": "oklch(0.13 0.007 255)",
+        "hex": "#06070a"
+      },
+      "color.blue.50": {
+        "cssVar": "--heru-color-blue-50",
+        "type": "color",
+        "value": "oklch(0.97 0.014 255)",
+        "hex": "#eff6ff"
+      },
+      "color.blue.100": {
+        "cssVar": "--heru-color-blue-100",
+        "type": "color",
+        "value": "oklch(0.932 0.032 255)",
+        "hex": "#dbeafe"
+      },
+      "color.blue.500": {
+        "cssVar": "--heru-color-blue-500",
+        "type": "color",
+        "value": "oklch(0.6 0.15 255)",
+        "hex": "#3a81d7"
+      },
+      "color.blue.600": {
+        "cssVar": "--heru-color-blue-600",
+        "type": "color",
+        "value": "oklch(0.52 0.15 255)",
+        "hex": "#1f68bc"
+      },
+      "color.blue.700": {
+        "cssVar": "--heru-color-blue-700",
+        "type": "color",
+        "value": "oklch(0.46 0.135 255)",
+        "hex": "#1657a1"
+      },
+      "color.blue.800": {
+        "cssVar": "--heru-color-blue-800",
+        "type": "color",
+        "value": "oklch(0.4 0.115 255)",
+        "hex": "#124784"
+      },
+      "color.red.50": {
+        "cssVar": "--heru-color-red-50",
+        "type": "color",
+        "value": "oklch(0.971 0.013 27)",
+        "hex": "#fef2f1"
+      },
+      "color.red.600": {
+        "cssVar": "--heru-color-red-600",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.red.700": {
+        "cssVar": "--heru-color-red-700",
+        "type": "color",
+        "value": "oklch(0.48 0.17 27)",
+        "hex": "#a92321"
+      },
+      "color.bg": {
+        "cssVar": "--heru-color-bg",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.surface": {
+        "cssVar": "--heru-color-surface",
+        "type": "color",
+        "value": "oklch(0.985 0.002 255)",
+        "hex": "#f9fafb"
+      },
+      "color.text": {
+        "cssVar": "--heru-color-text",
+        "type": "color",
+        "value": "oklch(0.208 0.01 255)",
+        "hex": "#15181c"
+      },
+      "color.text-muted": {
+        "cssVar": "--heru-color-text-muted",
+        "type": "color",
+        "value": "oklch(0.446 0.018 255)",
+        "hex": "#4e555e"
+      },
+      "color.border": {
+        "cssVar": "--heru-color-border",
+        "type": "color",
+        "value": "oklch(0.87 0.01 255)",
+        "hex": "#d0d5db"
+      },
+      "color.border-strong": {
+        "cssVar": "--heru-color-border-strong",
+        "type": "color",
+        "value": "oklch(0.554 0.018 255)",
+        "hex": "#6c737d"
+      },
+      "color.accent": {
+        "cssVar": "--heru-color-accent",
+        "type": "color",
+        "value": "oklch(0.52 0.15 255)",
+        "hex": "#1f68bc"
+      },
+      "color.accent-hover": {
+        "cssVar": "--heru-color-accent-hover",
+        "type": "color",
+        "value": "oklch(0.46 0.135 255)",
+        "hex": "#1657a1"
+      },
+      "color.accent-active": {
+        "cssVar": "--heru-color-accent-active",
+        "type": "color",
+        "value": "oklch(0.4 0.115 255)",
+        "hex": "#124784"
+      },
+      "color.on-accent": {
+        "cssVar": "--heru-color-on-accent",
+        "type": "color",
+        "value": "oklch(1 0 0)",
+        "hex": "#ffffff"
+      },
+      "color.focus-ring": {
+        "cssVar": "--heru-color-focus-ring",
+        "type": "color",
+        "value": "oklch(0.6 0.15 255)",
+        "hex": "#3a81d7"
+      },
+      "color.error": {
+        "cssVar": "--heru-color-error",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.error-text": {
+        "cssVar": "--heru-color-error-text",
+        "type": "color",
+        "value": "oklch(0.48 0.17 27)",
+        "hex": "#a92321"
       }
     }
   }

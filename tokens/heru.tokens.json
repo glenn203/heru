@@ -342,5 +342,133 @@
         "$value": "{font.family.mono}"
       }
     }
+  },
+  "color": {
+    "$type": "color",
+    "$description": "Minimal palette in OKLCH: one neutral ramp, one accent, one error. Components and themes should use the semantic names (color-bg, color-text, …), not the ramps.",
+    "neutral": {
+      "$description": "Neutral ramp, slightly cool (hue 255), low chroma. 0 = white.",
+      "0": {
+        "$value": "oklch(1 0 0)"
+      },
+      "50": {
+        "$value": "oklch(0.985 0.002 255)"
+      },
+      "100": {
+        "$value": "oklch(0.967 0.004 255)"
+      },
+      "200": {
+        "$value": "oklch(0.928 0.007 255)"
+      },
+      "300": {
+        "$value": "oklch(0.87 0.01 255)"
+      },
+      "400": {
+        "$value": "oklch(0.71 0.016 255)"
+      },
+      "500": {
+        "$value": "oklch(0.554 0.018 255)"
+      },
+      "600": {
+        "$value": "oklch(0.446 0.018 255)"
+      },
+      "700": {
+        "$value": "oklch(0.372 0.016 255)"
+      },
+      "800": {
+        "$value": "oklch(0.279 0.013 255)"
+      },
+      "900": {
+        "$value": "oklch(0.208 0.01 255)"
+      },
+      "950": {
+        "$value": "oklch(0.13 0.007 255)"
+      }
+    },
+    "blue": {
+      "$description": "Accent ramp: a calm blue (hue 255). 50/100 subtle fills, 500 focus ring, 600 rest, 700 hover, 800 active.",
+      "50": {
+        "$value": "oklch(0.97 0.014 255)"
+      },
+      "100": {
+        "$value": "oklch(0.932 0.032 255)"
+      },
+      "500": {
+        "$value": "oklch(0.6 0.15 255)"
+      },
+      "600": {
+        "$value": "oklch(0.52 0.15 255)"
+      },
+      "700": {
+        "$value": "oklch(0.46 0.135 255)"
+      },
+      "800": {
+        "$value": "oklch(0.4 0.115 255)"
+      }
+    },
+    "red": {
+      "$description": "Error ramp (hue 27). 50 subtle fill, 600 borders/icons, 700 text.",
+      "50": {
+        "$value": "oklch(0.971 0.013 27)"
+      },
+      "600": {
+        "$value": "oklch(0.56 0.19 27)"
+      },
+      "700": {
+        "$value": "oklch(0.48 0.17 27)"
+      }
+    },
+    "bg": {
+      "$value": "{color.neutral.0}",
+      "$description": "Page background."
+    },
+    "surface": {
+      "$value": "{color.neutral.50}",
+      "$description": "Raised or inset surface (cards, wells)."
+    },
+    "text": {
+      "$value": "{color.neutral.900}",
+      "$description": "Primary text."
+    },
+    "text-muted": {
+      "$value": "{color.neutral.600}",
+      "$description": "Secondary text: descriptions, placeholders. AA on bg and surface."
+    },
+    "border": {
+      "$value": "{color.neutral.300}",
+      "$description": "Default control/divider border (decorative)."
+    },
+    "border-strong": {
+      "$value": "{color.neutral.500}",
+      "$description": "Border that must be visible (hover, inputs needing 3:1)."
+    },
+    "accent": {
+      "$value": "{color.blue.600}",
+      "$description": "Primary action fill."
+    },
+    "accent-hover": {
+      "$value": "{color.blue.700}",
+      "$description": "Primary action fill on hover."
+    },
+    "accent-active": {
+      "$value": "{color.blue.800}",
+      "$description": "Primary action fill while pressed/active."
+    },
+    "on-accent": {
+      "$value": "{color.neutral.0}",
+      "$description": "Text/icons on accent fills."
+    },
+    "focus-ring": {
+      "$value": "{color.blue.500}",
+      "$description": "Focus indicator. ≥3:1 on bg."
+    },
+    "error": {
+      "$value": "{color.red.600}",
+      "$description": "Error borders and icons."
+    },
+    "error-text": {
+      "$value": "{color.red.700}",
+      "$description": "Error message text. AA on bg."
+    }
   }
 }

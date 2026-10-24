@@ -41,3 +41,34 @@ test('control.height.sm is 24/32/40 across compact/default/comfortable', () => {
     [24, 32, 40],
   );
 });
+
+// ---------- Color ----------
+const { contrast, inSrgb } = await import('../scripts/oklch.mjs');
+const color = (k) => resolved.modes.default[`color.${k}`].value;
+const pairs = [
+  ['text', 'bg', 4.5],
+  ['text', 'surface', 4.5],
+  ['text-muted', 'bg', 4.5],
+  ['text-muted', 'surface', 4.5],
+  ['on-accent', 'accent', 4.5],
+  ['on-accent', 'accent-hover', 4.5],
+  ['on-accent', 'accent-active', 4.5],
+  ['error-text', 'bg', 4.5],
+  ['border-strong', 'bg', 3],
+  ['focus-ring', 'bg', 3],
+  ['error', 'bg', 3],
+];
+for (const [fg, bg, min] of pairs) {
+  test(`contrast: color-${fg} on color-${bg} >= ${min}:1`, () => {
+    const ratio = contrast(color(fg), color(bg));
+    assert.ok(ratio >= min, `${ratio.toFixed(2)}:1`);
+  });
+}
+
+test('every color is inside the sRGB gamut and has a hex fallback', () => {
+  for (const [key, t] of Object.entries(resolved.modes.default)) {
+    if (t.type !== 'color') continue;
+    assert.ok(inSrgb(t.value), `${key} ${t.value} is out of sRGB`);
+    assert.match(t.hex, /^#[0-9a-f]{6}$/);
+  }
+});

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import '../define.js';
 
-const meta: Meta = { title: 'Foundations/Density and sizes' };
+const meta: Meta = { title: 'Foundations/Density' };
 export default meta;
 
 const modes = ['compact', 'default', 'comfortable'] as const;
@@ -16,10 +16,6 @@ export const DensityModes: StoryObj = {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-      }
-      .grid heru-button::part(base),
-      .grid heru-text-field::part(input) {
-        border-color: currentcolor;
       }
       .col > * {
         margin-block-end: 0.5rem;

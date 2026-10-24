@@ -35,3 +35,13 @@ Density only changes unit counts (leading 4/5/6, block padding 1/2/3, inline pad
 | lg             | 32      | 44      | 56          |
 
 `md` = body leading + block padding × 2, and `lg` adds one more padding unit on each side. `sm` is set directly per mode (6/8/10 units), so it stays on the 4px grid and never drops below 24px (WCAG 2.2 target size). Compact `sm` equals compact `md`.
+
+## Color
+
+Minimal on purpose: one neutral ramp (`color-neutral-0…950`, hue 255, low chroma), one accent (`color-blue-*`), one error (`color-red-*`), all in OKLCH. The resolved JSON adds an sRGB `hex` for Figma.
+
+Use the semantic names, not the ramps: `color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-border-strong`, `-accent`, `-accent-hover`, `-accent-active`, `-on-accent`, `-focus-ring`, `-error`, `-error-text`. Contrast is checked in `test/tokens.test.mjs` (text pairs ≥ 4.5:1, borders/focus ≥ 3:1). No dark mode yet.
+
+## Theme
+
+`heru/theme.css` is an opt-in look built only on `::part()`, `:state()` and these tokens. Fonts (Inter, JetBrains Mono) are referenced by name and not bundled; load them in your app.

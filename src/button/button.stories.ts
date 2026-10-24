@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import './define.js';
 
 interface Args {
@@ -21,7 +20,7 @@ const meta: Meta<Args> = {
     html`<heru-button
       type=${type}
       ?disabled=${disabled}
-      ?pressed=${ifDefined(pressed)}
+      .pressed=${pressed}
       >${label}</heru-button
     >`,
 };
@@ -31,19 +30,17 @@ export const Default: StoryObj<Args> = {};
 
 export const Disabled: StoryObj<Args> = { args: { disabled: true } };
 
-/** Headless: all visuals come from the consumer through parts and states. */
-export const StyledExample: StoryObj<Args> = {
-  render: ({ label }) => html`
-    <style>
-      .demo::part(base) {
-        padding: 0.5rem 1rem;
-        border: 1px solid currentcolor;
-        border-radius: 4px;
-      }
-      .demo:state(disabled)::part(base) {
-        opacity: 0.5;
-      }
-    </style>
-    <heru-button class="demo" type="button">${label}</heru-button>
-  `,
+/** A toggle: `pressed` sets aria-pressed and :state(pressed). */
+export const Toggle: StoryObj<Args> = {
+  args: { label: 'Bold', pressed: false },
+};
+
+/** Sizes follow the density of the nearest [data-heru-density]. */
+export const Sizes: StoryObj<Args> = {
+  render: ({ label }) =>
+    html`<div style="display: flex; gap: 8px; align-items: center">
+      <heru-button type="button" size="sm">${label}</heru-button>
+      <heru-button type="button" size="md">${label}</heru-button>
+      <heru-button type="button" size="lg">${label}</heru-button>
+    </div>`,
 };

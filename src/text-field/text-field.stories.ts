@@ -37,3 +37,20 @@ export default meta;
 export const Default: StoryObj<Args> = {};
 export const Required: StoryObj<Args> = { args: { required: true } };
 export const Disabled: StoryObj<Args> = { args: { disabled: true } };
+
+/** Submit the form empty to see the invalid state. */
+export const Invalid: StoryObj<Args> = {
+  args: { required: true },
+  render: ({ label, description, error }) => html`
+    <form
+      @submit=${(e: Event) => e.preventDefault()}
+      style="display: grid; gap: 12px; max-inline-size: 320px"
+    >
+      <heru-text-field label=${label} name="email" required>
+        <span slot="description">${description}</span>
+        <span slot="error">${error}</span>
+      </heru-text-field>
+      <heru-button>Submit</heru-button>
+    </form>
+  `,
+};

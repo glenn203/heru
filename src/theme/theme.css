@@ -1,0 +1,101 @@
+/*
+ * Herú default theme. Opt-in: import 'heru/tokens.css' and 'heru/theme.css'.
+ * Components stay headless; everything here goes through ::part() and :state().
+ * Fonts: uses Inter / JetBrains Mono via --heru-font-family-* if installed or
+ * loaded by the app. No font files are bundled.
+ */
+
+/* ---------- Button (single primary look) ---------- */
+heru-button::part(base) {
+  justify-content: center;
+  gap: var(--heru-space-2);
+  border-color: var(--heru-color-accent);
+  background: var(--heru-color-accent);
+  color: var(--heru-color-on-accent);
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+heru-button:hover::part(base) {
+  border-color: var(--heru-color-accent-hover);
+  background: var(--heru-color-accent-hover);
+}
+heru-button:active::part(base),
+heru-button:state(pressed)::part(base) {
+  border-color: var(--heru-color-accent-active);
+  background: var(--heru-color-accent-active);
+}
+heru-button:state(pressed)::part(base) {
+  box-shadow: inset 0 var(--heru-border-width) var(--heru-space-1)
+    oklch(0 0 0 / 0.25);
+}
+heru-button::part(base):focus-visible {
+  outline: 2px solid var(--heru-color-focus-ring);
+  outline-offset: 2px;
+}
+heru-button:state(disabled)::part(base) {
+  border-color: var(--heru-color-border);
+  background: var(--heru-color-surface);
+  color: var(--heru-color-text-muted);
+  box-shadow: none;
+}
+
+/* ---------- Text field ---------- */
+heru-text-field {
+  color: var(--heru-color-text);
+}
+heru-text-field::part(label) {
+  margin-block-end: var(--heru-space-1);
+}
+heru-text-field::part(input) {
+  border-color: var(--heru-color-border-strong);
+  background: var(--heru-color-bg);
+  color: var(--heru-color-text);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+heru-text-field::part(input)::placeholder {
+  color: var(--heru-color-text-muted);
+}
+heru-text-field:hover::part(input) {
+  border-color: var(--heru-color-text-muted);
+}
+heru-text-field::part(input):focus-visible {
+  outline: 2px solid var(--heru-color-focus-ring);
+  outline-offset: 2px;
+}
+heru-text-field::part(description) {
+  margin-block-start: var(--heru-space-1);
+  color: var(--heru-color-text-muted);
+}
+heru-text-field::part(error) {
+  margin-block-start: var(--heru-space-1);
+  color: var(--heru-color-error-text);
+}
+heru-text-field:state(invalid)::part(input) {
+  border-color: var(--heru-color-error);
+}
+heru-text-field:state(invalid)::part(input):focus-visible {
+  outline-color: var(--heru-color-error);
+}
+heru-text-field:state(disabled)::part(label),
+heru-text-field:state(disabled)::part(description) {
+  color: var(--heru-color-text-muted);
+}
+heru-text-field:state(disabled)::part(input) {
+  border-color: var(--heru-color-border);
+  background: var(--heru-color-surface);
+  color: var(--heru-color-text-muted);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  heru-button::part(base),
+  heru-text-field::part(input) {
+    transition: none;
+  }
+}
