@@ -17,10 +17,7 @@ const meta: Meta<Args> = {
     type: { control: 'inline-radio', options: ['button', 'submit', 'reset'] },
   },
   render: ({ label, type, disabled, pressed }) =>
-    html`<heru-button
-      type=${type}
-      ?disabled=${disabled}
-      .pressed=${pressed}
+    html`<heru-button type=${type} ?disabled=${disabled} .pressed=${pressed}
       >${label}</heru-button
     >`,
 };
