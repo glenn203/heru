@@ -48,7 +48,7 @@ Odd-pixel ramp, value in the name: `radius-1, -3, -5, -7, -9, -11`, plus `radius
 
 ## Focus and motion
 
-`focus-ring-width` (3px), `focus-ring-offset` (2px), `focus-ring-blur` (0.5px); total extent ≈ 5.5px, so keep neighbors ≥ `space-2` away; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 3px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
+`focus-ring-width` (3px), `focus-ring-offset` (2px), `focus-ring-blur` (0.5px), `focus-halo-width` (3px) and `focus-halo` (slate at 12%); total extent is 8px, so keep neighbors ≥ `space-3` (12px) away for 2px+ clearance; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 3px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
 
 ## Theme
 

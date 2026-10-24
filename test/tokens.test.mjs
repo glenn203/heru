@@ -15,6 +15,7 @@ const OFF_GRID = new Set([
   'focus.ring-width',
   'focus.ring-offset',
   'focus.ring-blur',
+  'focus.halo-width',
 ]);
 
 for (const [mode, tokens] of Object.entries(resolved.modes)) {
@@ -102,13 +103,17 @@ test('only slate and red ramps exist', () => {
   assert.deepEqual([...ramps].sort(), ['red', 'slate']);
 });
 
-test('focus ring: 3px ring, 2px offset, extent fits inside the space-2 field gap', () => {
+test('focus ring: 3px ring, 2px offset, 3px halo; extent + 2px clearance fits the space-3 field gap', () => {
   const d = resolved.modes.default;
   assert.equal(d['focus.ring-width'].value, 3);
   assert.equal(d['focus.ring-offset'].value, 2);
+  assert.equal(d['focus.halo-width'].value, 3);
   const extent =
     d['focus.ring-offset'].value +
     d['focus.ring-width'].value +
-    d['focus.ring-blur'].value;
-  assert.ok(d['space.2'].value >= extent, `extent ${extent}px`);
+    d['focus.halo-width'].value;
+  assert.ok(
+    d['space.3'].value >= extent + 2,
+    `extent ${extent}px vs gap ${d['space.3'].value}px`,
+  );
 });

@@ -646,6 +646,17 @@
         "type": "dimension",
         "value": 0.5
       },
+      "focus.halo-width": {
+        "cssVar": "--heru-focus-halo-width",
+        "type": "dimension",
+        "value": 3
+      },
+      "focus.halo": {
+        "cssVar": "--heru-focus-halo",
+        "type": "color",
+        "value": "oklch(0.554 0.035 260 / 0.12)",
+        "hex": "#6773881f"
+      },
       "motion.duration-fast": {
         "cssVar": "--heru-motion-duration-fast",
         "type": "duration",
@@ -1306,6 +1317,17 @@
         "type": "dimension",
         "value": 0.5
       },
+      "focus.halo-width": {
+        "cssVar": "--heru-focus-halo-width",
+        "type": "dimension",
+        "value": 3
+      },
+      "focus.halo": {
+        "cssVar": "--heru-focus-halo",
+        "type": "color",
+        "value": "oklch(0.554 0.035 260 / 0.12)",
+        "hex": "#6773881f"
+      },
       "motion.duration-fast": {
         "cssVar": "--heru-motion-duration-fast",
         "type": "duration",
@@ -1965,6 +1987,17 @@
         "cssVar": "--heru-focus-ring-blur",
         "type": "dimension",
         "value": 0.5
+      },
+      "focus.halo-width": {
+        "cssVar": "--heru-focus-halo-width",
+        "type": "dimension",
+        "value": 3
+      },
+      "focus.halo": {
+        "cssVar": "--heru-focus-halo",
+        "type": "color",
+        "value": "oklch(0.554 0.035 260 / 0.12)",
+        "hex": "#6773881f"
       },
       "motion.duration-fast": {
         "cssVar": "--heru-motion-duration-fast",
