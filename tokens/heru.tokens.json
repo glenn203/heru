@@ -1,0 +1,346 @@
+{
+  "$description": "Herú design tokens (W3C DTCG). One primitive: unit = 4px. Everything else is unit multiples or density-driven. No color tokens yet.",
+  "unit": {
+    "$type": "dimension",
+    "$value": "4px",
+    "$description": "The only primitive. Emitted as 0.25rem so it scales with user font size."
+  },
+  "density": {
+    "$type": "number",
+    "$description": "Unit-count multipliers that change per density mode. Select a mode with data-heru-density on any element; default also applies on :root.",
+    "$extensions": {
+      "heru.modes": ["compact", "default", "comfortable"]
+    },
+    "leading-units": {
+      "$value": 5,
+      "$description": "Body line height in units.",
+      "$extensions": {
+        "heru.modes": {
+          "compact": 4,
+          "default": 5,
+          "comfortable": 6
+        }
+      }
+    },
+    "pad-units": {
+      "$value": 2,
+      "$description": "Control block padding in units (each side).",
+      "$extensions": {
+        "heru.modes": {
+          "compact": 1,
+          "default": 2,
+          "comfortable": 3
+        }
+      }
+    },
+    "pad-inline-units": {
+      "$value": 3,
+      "$description": "Control inline padding in units (each side).",
+      "$extensions": {
+        "heru.modes": {
+          "compact": 2,
+          "default": 3,
+          "comfortable": 4
+        }
+      }
+    },
+    "control-sm-units": {
+      "$value": 8,
+      "$description": "Small control height in units (6/8/10 → 24/32/40px). Set directly so compact sm stays at the 24px WCAG 2.2 target size.",
+      "$extensions": {
+        "heru.modes": {
+          "compact": 6,
+          "default": 8,
+          "comfortable": 10
+        }
+      }
+    }
+  },
+  "space": {
+    "0": {
+      "$value": "0"
+    },
+    "1": {
+      "$value": "{unit} * 1"
+    },
+    "2": {
+      "$value": "{unit} * 2"
+    },
+    "3": {
+      "$value": "{unit} * 3"
+    },
+    "4": {
+      "$value": "{unit} * 4"
+    },
+    "5": {
+      "$value": "{unit} * 5"
+    },
+    "6": {
+      "$value": "{unit} * 6"
+    },
+    "8": {
+      "$value": "{unit} * 8"
+    },
+    "10": {
+      "$value": "{unit} * 10"
+    },
+    "12": {
+      "$value": "{unit} * 12"
+    },
+    "16": {
+      "$value": "{unit} * 16"
+    },
+    "$type": "dimension",
+    "$description": "Page and layout spacing. space-N = N × unit (N × 4px). Fixed across density modes."
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "Corner radius.",
+    "none": {
+      "$value": "0"
+    },
+    "sm": {
+      "$value": "{unit} * 1"
+    },
+    "md": {
+      "$value": "{unit} * 2"
+    },
+    "lg": {
+      "$value": "{unit} * 3"
+    },
+    "full": {
+      "$value": "9999px",
+      "$description": "Pill/circle. Intentionally off-grid."
+    }
+  },
+  "border": {
+    "$type": "dimension",
+    "$description": "Border widths. Borders are drawn inside control heights (box-sizing: border-box).",
+    "width": {
+      "$value": "1px",
+      "$description": "Intentionally off-grid."
+    }
+  },
+  "leading": {
+    "$type": "dimension",
+    "$description": "Density-driven line height used for control text and to derive control heights.",
+    "body": {
+      "$value": "{unit} * {density.leading-units}"
+    }
+  },
+  "control": {
+    "$type": "dimension",
+    "$description": "Interactive control sizing. md = leading.body + pad × 2; lg uses one more pad unit; sm is a per-mode unit count (6/8/10) so it never drops below 24px.",
+    "height": {
+      "sm": {
+        "$value": "{unit} * {density.control-sm-units}"
+      },
+      "md": {
+        "$value": "{leading.body} + {unit} * {density.pad-units} * 2"
+      },
+      "lg": {
+        "$value": "{leading.body} + {unit} * ({density.pad-units} + 1) * 2"
+      }
+    },
+    "padding-inline": {
+      "$value": "{unit} * {density.pad-inline-units}"
+    },
+    "padding-block": {
+      "$value": "{unit} * {density.pad-units}"
+    }
+  },
+  "font": {
+    "$description": "Typography primitives.",
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+      },
+      "mono": {
+        "$value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    },
+    "size": {
+      "12": {
+        "$value": "{unit} * 3"
+      },
+      "14": {
+        "$value": "{unit} * 3.5"
+      },
+      "16": {
+        "$value": "{unit} * 4"
+      },
+      "18": {
+        "$value": "{unit} * 4.5"
+      },
+      "20": {
+        "$value": "{unit} * 5"
+      },
+      "24": {
+        "$value": "{unit} * 6"
+      },
+      "28": {
+        "$value": "{unit} * 7"
+      },
+      "$type": "dimension",
+      "$description": "Font sizes named by their px value at the default 16px root. font-size-N = N px."
+    },
+    "line-height": {
+      "16": {
+        "$value": "{unit} * 4"
+      },
+      "20": {
+        "$value": "{unit} * 5"
+      },
+      "24": {
+        "$value": "{unit} * 6"
+      },
+      "28": {
+        "$value": "{unit} * 7"
+      },
+      "32": {
+        "$value": "{unit} * 8"
+      },
+      "36": {
+        "$value": "{unit} * 9"
+      },
+      "$type": "dimension",
+      "$description": "Line heights named by px value; every one is a multiple of 4px. line-height-N = N px."
+    }
+  },
+  "text": {
+    "$description": "Semantic text roles. Each role = size + line-height + weight (+ family). Use these in components; use the numeric scales only when no role fits.",
+    "caption": {
+      "font-size": {
+        "$value": "{font.size.12}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.16}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "label": {
+      "font-size": {
+        "$value": "{font.size.14}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.20}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.medium}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "body": {
+      "font-size": {
+        "$value": "{font.size.14}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.20}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "body-lg": {
+      "font-size": {
+        "$value": "{font.size.16}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.24}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "heading-3": {
+      "font-size": {
+        "$value": "{font.size.18}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.28}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "heading-2": {
+      "font-size": {
+        "$value": "{font.size.20}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.28}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "heading-1": {
+      "font-size": {
+        "$value": "{font.size.28}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.36}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.bold}"
+      },
+      "font-family": {
+        "$value": "{font.family.sans}"
+      }
+    },
+    "code": {
+      "font-size": {
+        "$value": "{font.size.14}"
+      },
+      "line-height": {
+        "$value": "{font.line-height.20}"
+      },
+      "font-weight": {
+        "$value": "{font.weight.regular}"
+      },
+      "font-family": {
+        "$value": "{font.family.mono}"
+      }
+    }
+  }
+}

@@ -1,0 +1,1347 @@
+{
+  "$description": "Resolved Herú tokens (px) per density mode. Generated; do not edit.",
+  "unit": "px",
+  "modes": {
+    "compact": {
+      "unit": {
+        "cssVar": "--heru-unit",
+        "type": "dimension",
+        "value": 4
+      },
+      "density.leading-units": {
+        "cssVar": "--heru-density-leading-units",
+        "type": "number",
+        "value": 4
+      },
+      "density.pad-units": {
+        "cssVar": "--heru-density-pad-units",
+        "type": "number",
+        "value": 1
+      },
+      "density.pad-inline-units": {
+        "cssVar": "--heru-density-pad-inline-units",
+        "type": "number",
+        "value": 2
+      },
+      "density.control-sm-units": {
+        "cssVar": "--heru-density-control-sm-units",
+        "type": "number",
+        "value": 6
+      },
+      "space.0": {
+        "cssVar": "--heru-space-0",
+        "type": "dimension",
+        "value": 0
+      },
+      "space.1": {
+        "cssVar": "--heru-space-1",
+        "type": "dimension",
+        "value": 4
+      },
+      "space.2": {
+        "cssVar": "--heru-space-2",
+        "type": "dimension",
+        "value": 8
+      },
+      "space.3": {
+        "cssVar": "--heru-space-3",
+        "type": "dimension",
+        "value": 12
+      },
+      "space.4": {
+        "cssVar": "--heru-space-4",
+        "type": "dimension",
+        "value": 16
+      },
+      "space.5": {
+        "cssVar": "--heru-space-5",
+        "type": "dimension",
+        "value": 20
+      },
+      "space.6": {
+        "cssVar": "--heru-space-6",
+        "type": "dimension",
+        "value": 24
+      },
+      "space.8": {
+        "cssVar": "--heru-space-8",
+        "type": "dimension",
+        "value": 32
+      },
+      "space.10": {
+        "cssVar": "--heru-space-10",
+        "type": "dimension",
+        "value": 40
+      },
+      "space.12": {
+        "cssVar": "--heru-space-12",
+        "type": "dimension",
+        "value": 48
+      },
+      "space.16": {
+        "cssVar": "--heru-space-16",
+        "type": "dimension",
+        "value": 64
+      },
+      "radius.none": {
+        "cssVar": "--heru-radius-none",
+        "type": "dimension",
+        "value": 0
+      },
+      "radius.sm": {
+        "cssVar": "--heru-radius-sm",
+        "type": "dimension",
+        "value": 4
+      },
+      "radius.md": {
+        "cssVar": "--heru-radius-md",
+        "type": "dimension",
+        "value": 8
+      },
+      "radius.lg": {
+        "cssVar": "--heru-radius-lg",
+        "type": "dimension",
+        "value": 12
+      },
+      "radius.full": {
+        "cssVar": "--heru-radius-full",
+        "type": "dimension",
+        "value": 9999
+      },
+      "border.width": {
+        "cssVar": "--heru-border-width",
+        "type": "dimension",
+        "value": 1
+      },
+      "leading.body": {
+        "cssVar": "--heru-leading-body",
+        "type": "dimension",
+        "value": 16
+      },
+      "control.height.sm": {
+        "cssVar": "--heru-control-height-sm",
+        "type": "dimension",
+        "value": 24
+      },
+      "control.height.md": {
+        "cssVar": "--heru-control-height-md",
+        "type": "dimension",
+        "value": 24
+      },
+      "control.height.lg": {
+        "cssVar": "--heru-control-height-lg",
+        "type": "dimension",
+        "value": 32
+      },
+      "control.padding-inline": {
+        "cssVar": "--heru-control-padding-inline",
+        "type": "dimension",
+        "value": 8
+      },
+      "control.padding-block": {
+        "cssVar": "--heru-control-padding-block",
+        "type": "dimension",
+        "value": 4
+      },
+      "font.family.sans": {
+        "cssVar": "--heru-font-family-sans",
+        "type": "fontFamily",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "font.family.mono": {
+        "cssVar": "--heru-font-family-mono",
+        "type": "fontFamily",
+        "value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      },
+      "font.weight.regular": {
+        "cssVar": "--heru-font-weight-regular",
+        "type": "fontWeight",
+        "value": 400
+      },
+      "font.weight.medium": {
+        "cssVar": "--heru-font-weight-medium",
+        "type": "fontWeight",
+        "value": 500
+      },
+      "font.weight.semibold": {
+        "cssVar": "--heru-font-weight-semibold",
+        "type": "fontWeight",
+        "value": 600
+      },
+      "font.weight.bold": {
+        "cssVar": "--heru-font-weight-bold",
+        "type": "fontWeight",
+        "value": 700
+      },
+      "font.size.12": {
+        "cssVar": "--heru-font-size-12",
+        "type": "dimension",
+        "value": 12
+      },
+      "font.size.14": {
+        "cssVar": "--heru-font-size-14",
+        "type": "dimension",
+        "value": 14
+      },
+      "font.size.16": {
+        "cssVar": "--heru-font-size-16",
+        "type": "dimension",
+        "value": 16
+      },
+      "font.size.18": {
+        "cssVar": "--heru-font-size-18",
+        "type": "dimension",
+        "value": 18
+      },
+      "font.size.20": {
+        "cssVar": "--heru-font-size-20",
+        "type": "dimension",
+        "value": 20
+      },
+      "font.size.24": {
+        "cssVar": "--heru-font-size-24",
+        "type": "dimension",
+        "value": 24
+      },
+      "font.size.28": {
+        "cssVar": "--heru-font-size-28",
+        "type": "dimension",
+        "value": 28
+      },
+      "font.line-height.16": {
+        "cssVar": "--heru-font-line-height-16",
+        "type": "dimension",
+        "value": 16
+      },
+      "font.line-height.20": {
+        "cssVar": "--heru-font-line-height-20",
+        "type": "dimension",
+        "value": 20
+      },
+      "font.line-height.24": {
+        "cssVar": "--heru-font-line-height-24",
+        "type": "dimension",
+        "value": 24
+      },
+      "font.line-height.28": {
+        "cssVar": "--heru-font-line-height-28",
+        "type": "dimension",
+        "value": 28
+      },
+      "font.line-height.32": {
+        "cssVar": "--heru-font-line-height-32",
+        "type": "dimension",
+        "value": 32
+      },
+      "font.line-height.36": {
+        "cssVar": "--heru-font-line-height-36",
+        "type": "dimension",
+        "value": 36
+      },
+      "text.caption.font-size": {
+        "cssVar": "--heru-text-caption-font-size",
+        "type": "number",
+        "value": 12
+      },
+      "text.caption.line-height": {
+        "cssVar": "--heru-text-caption-line-height",
+        "type": "number",
+        "value": 16
+      },
+      "text.caption.font-weight": {
+        "cssVar": "--heru-text-caption-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.caption.font-family": {
+        "cssVar": "--heru-text-caption-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.label.font-size": {
+        "cssVar": "--heru-text-label-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.label.line-height": {
+        "cssVar": "--heru-text-label-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.label.font-weight": {
+        "cssVar": "--heru-text-label-font-weight",
+        "type": "number",
+        "value": 500
+      },
+      "text.label.font-family": {
+        "cssVar": "--heru-text-label-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.body.font-size": {
+        "cssVar": "--heru-text-body-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.body.line-height": {
+        "cssVar": "--heru-text-body-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.body.font-weight": {
+        "cssVar": "--heru-text-body-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.body.font-family": {
+        "cssVar": "--heru-text-body-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.body-lg.font-size": {
+        "cssVar": "--heru-text-body-lg-font-size",
+        "type": "number",
+        "value": 16
+      },
+      "text.body-lg.line-height": {
+        "cssVar": "--heru-text-body-lg-line-height",
+        "type": "number",
+        "value": 24
+      },
+      "text.body-lg.font-weight": {
+        "cssVar": "--heru-text-body-lg-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.body-lg.font-family": {
+        "cssVar": "--heru-text-body-lg-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-3.font-size": {
+        "cssVar": "--heru-text-heading-3-font-size",
+        "type": "number",
+        "value": 18
+      },
+      "text.heading-3.line-height": {
+        "cssVar": "--heru-text-heading-3-line-height",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-3.font-weight": {
+        "cssVar": "--heru-text-heading-3-font-weight",
+        "type": "number",
+        "value": 600
+      },
+      "text.heading-3.font-family": {
+        "cssVar": "--heru-text-heading-3-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-2.font-size": {
+        "cssVar": "--heru-text-heading-2-font-size",
+        "type": "number",
+        "value": 20
+      },
+      "text.heading-2.line-height": {
+        "cssVar": "--heru-text-heading-2-line-height",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-2.font-weight": {
+        "cssVar": "--heru-text-heading-2-font-weight",
+        "type": "number",
+        "value": 600
+      },
+      "text.heading-2.font-family": {
+        "cssVar": "--heru-text-heading-2-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-1.font-size": {
+        "cssVar": "--heru-text-heading-1-font-size",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-1.line-height": {
+        "cssVar": "--heru-text-heading-1-line-height",
+        "type": "number",
+        "value": 36
+      },
+      "text.heading-1.font-weight": {
+        "cssVar": "--heru-text-heading-1-font-weight",
+        "type": "number",
+        "value": 700
+      },
+      "text.heading-1.font-family": {
+        "cssVar": "--heru-text-heading-1-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.code.font-size": {
+        "cssVar": "--heru-text-code-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.code.line-height": {
+        "cssVar": "--heru-text-code-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.code.font-weight": {
+        "cssVar": "--heru-text-code-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.code.font-family": {
+        "cssVar": "--heru-text-code-font-family",
+        "type": "number",
+        "value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      }
+    },
+    "default": {
+      "unit": {
+        "cssVar": "--heru-unit",
+        "type": "dimension",
+        "value": 4
+      },
+      "density.leading-units": {
+        "cssVar": "--heru-density-leading-units",
+        "type": "number",
+        "value": 5
+      },
+      "density.pad-units": {
+        "cssVar": "--heru-density-pad-units",
+        "type": "number",
+        "value": 2
+      },
+      "density.pad-inline-units": {
+        "cssVar": "--heru-density-pad-inline-units",
+        "type": "number",
+        "value": 3
+      },
+      "density.control-sm-units": {
+        "cssVar": "--heru-density-control-sm-units",
+        "type": "number",
+        "value": 8
+      },
+      "space.0": {
+        "cssVar": "--heru-space-0",
+        "type": "dimension",
+        "value": 0
+      },
+      "space.1": {
+        "cssVar": "--heru-space-1",
+        "type": "dimension",
+        "value": 4
+      },
+      "space.2": {
+        "cssVar": "--heru-space-2",
+        "type": "dimension",
+        "value": 8
+      },
+      "space.3": {
+        "cssVar": "--heru-space-3",
+        "type": "dimension",
+        "value": 12
+      },
+      "space.4": {
+        "cssVar": "--heru-space-4",
+        "type": "dimension",
+        "value": 16
+      },
+      "space.5": {
+        "cssVar": "--heru-space-5",
+        "type": "dimension",
+        "value": 20
+      },
+      "space.6": {
+        "cssVar": "--heru-space-6",
+        "type": "dimension",
+        "value": 24
+      },
+      "space.8": {
+        "cssVar": "--heru-space-8",
+        "type": "dimension",
+        "value": 32
+      },
+      "space.10": {
+        "cssVar": "--heru-space-10",
+        "type": "dimension",
+        "value": 40
+      },
+      "space.12": {
+        "cssVar": "--heru-space-12",
+        "type": "dimension",
+        "value": 48
+      },
+      "space.16": {
+        "cssVar": "--heru-space-16",
+        "type": "dimension",
+        "value": 64
+      },
+      "radius.none": {
+        "cssVar": "--heru-radius-none",
+        "type": "dimension",
+        "value": 0
+      },
+      "radius.sm": {
+        "cssVar": "--heru-radius-sm",
+        "type": "dimension",
+        "value": 4
+      },
+      "radius.md": {
+        "cssVar": "--heru-radius-md",
+        "type": "dimension",
+        "value": 8
+      },
+      "radius.lg": {
+        "cssVar": "--heru-radius-lg",
+        "type": "dimension",
+        "value": 12
+      },
+      "radius.full": {
+        "cssVar": "--heru-radius-full",
+        "type": "dimension",
+        "value": 9999
+      },
+      "border.width": {
+        "cssVar": "--heru-border-width",
+        "type": "dimension",
+        "value": 1
+      },
+      "leading.body": {
+        "cssVar": "--heru-leading-body",
+        "type": "dimension",
+        "value": 20
+      },
+      "control.height.sm": {
+        "cssVar": "--heru-control-height-sm",
+        "type": "dimension",
+        "value": 32
+      },
+      "control.height.md": {
+        "cssVar": "--heru-control-height-md",
+        "type": "dimension",
+        "value": 36
+      },
+      "control.height.lg": {
+        "cssVar": "--heru-control-height-lg",
+        "type": "dimension",
+        "value": 44
+      },
+      "control.padding-inline": {
+        "cssVar": "--heru-control-padding-inline",
+        "type": "dimension",
+        "value": 12
+      },
+      "control.padding-block": {
+        "cssVar": "--heru-control-padding-block",
+        "type": "dimension",
+        "value": 8
+      },
+      "font.family.sans": {
+        "cssVar": "--heru-font-family-sans",
+        "type": "fontFamily",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "font.family.mono": {
+        "cssVar": "--heru-font-family-mono",
+        "type": "fontFamily",
+        "value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      },
+      "font.weight.regular": {
+        "cssVar": "--heru-font-weight-regular",
+        "type": "fontWeight",
+        "value": 400
+      },
+      "font.weight.medium": {
+        "cssVar": "--heru-font-weight-medium",
+        "type": "fontWeight",
+        "value": 500
+      },
+      "font.weight.semibold": {
+        "cssVar": "--heru-font-weight-semibold",
+        "type": "fontWeight",
+        "value": 600
+      },
+      "font.weight.bold": {
+        "cssVar": "--heru-font-weight-bold",
+        "type": "fontWeight",
+        "value": 700
+      },
+      "font.size.12": {
+        "cssVar": "--heru-font-size-12",
+        "type": "dimension",
+        "value": 12
+      },
+      "font.size.14": {
+        "cssVar": "--heru-font-size-14",
+        "type": "dimension",
+        "value": 14
+      },
+      "font.size.16": {
+        "cssVar": "--heru-font-size-16",
+        "type": "dimension",
+        "value": 16
+      },
+      "font.size.18": {
+        "cssVar": "--heru-font-size-18",
+        "type": "dimension",
+        "value": 18
+      },
+      "font.size.20": {
+        "cssVar": "--heru-font-size-20",
+        "type": "dimension",
+        "value": 20
+      },
+      "font.size.24": {
+        "cssVar": "--heru-font-size-24",
+        "type": "dimension",
+        "value": 24
+      },
+      "font.size.28": {
+        "cssVar": "--heru-font-size-28",
+        "type": "dimension",
+        "value": 28
+      },
+      "font.line-height.16": {
+        "cssVar": "--heru-font-line-height-16",
+        "type": "dimension",
+        "value": 16
+      },
+      "font.line-height.20": {
+        "cssVar": "--heru-font-line-height-20",
+        "type": "dimension",
+        "value": 20
+      },
+      "font.line-height.24": {
+        "cssVar": "--heru-font-line-height-24",
+        "type": "dimension",
+        "value": 24
+      },
+      "font.line-height.28": {
+        "cssVar": "--heru-font-line-height-28",
+        "type": "dimension",
+        "value": 28
+      },
+      "font.line-height.32": {
+        "cssVar": "--heru-font-line-height-32",
+        "type": "dimension",
+        "value": 32
+      },
+      "font.line-height.36": {
+        "cssVar": "--heru-font-line-height-36",
+        "type": "dimension",
+        "value": 36
+      },
+      "text.caption.font-size": {
+        "cssVar": "--heru-text-caption-font-size",
+        "type": "number",
+        "value": 12
+      },
+      "text.caption.line-height": {
+        "cssVar": "--heru-text-caption-line-height",
+        "type": "number",
+        "value": 16
+      },
+      "text.caption.font-weight": {
+        "cssVar": "--heru-text-caption-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.caption.font-family": {
+        "cssVar": "--heru-text-caption-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.label.font-size": {
+        "cssVar": "--heru-text-label-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.label.line-height": {
+        "cssVar": "--heru-text-label-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.label.font-weight": {
+        "cssVar": "--heru-text-label-font-weight",
+        "type": "number",
+        "value": 500
+      },
+      "text.label.font-family": {
+        "cssVar": "--heru-text-label-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.body.font-size": {
+        "cssVar": "--heru-text-body-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.body.line-height": {
+        "cssVar": "--heru-text-body-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.body.font-weight": {
+        "cssVar": "--heru-text-body-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.body.font-family": {
+        "cssVar": "--heru-text-body-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.body-lg.font-size": {
+        "cssVar": "--heru-text-body-lg-font-size",
+        "type": "number",
+        "value": 16
+      },
+      "text.body-lg.line-height": {
+        "cssVar": "--heru-text-body-lg-line-height",
+        "type": "number",
+        "value": 24
+      },
+      "text.body-lg.font-weight": {
+        "cssVar": "--heru-text-body-lg-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.body-lg.font-family": {
+        "cssVar": "--heru-text-body-lg-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-3.font-size": {
+        "cssVar": "--heru-text-heading-3-font-size",
+        "type": "number",
+        "value": 18
+      },
+      "text.heading-3.line-height": {
+        "cssVar": "--heru-text-heading-3-line-height",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-3.font-weight": {
+        "cssVar": "--heru-text-heading-3-font-weight",
+        "type": "number",
+        "value": 600
+      },
+      "text.heading-3.font-family": {
+        "cssVar": "--heru-text-heading-3-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-2.font-size": {
+        "cssVar": "--heru-text-heading-2-font-size",
+        "type": "number",
+        "value": 20
+      },
+      "text.heading-2.line-height": {
+        "cssVar": "--heru-text-heading-2-line-height",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-2.font-weight": {
+        "cssVar": "--heru-text-heading-2-font-weight",
+        "type": "number",
+        "value": 600
+      },
+      "text.heading-2.font-family": {
+        "cssVar": "--heru-text-heading-2-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-1.font-size": {
+        "cssVar": "--heru-text-heading-1-font-size",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-1.line-height": {
+        "cssVar": "--heru-text-heading-1-line-height",
+        "type": "number",
+        "value": 36
+      },
+      "text.heading-1.font-weight": {
+        "cssVar": "--heru-text-heading-1-font-weight",
+        "type": "number",
+        "value": 700
+      },
+      "text.heading-1.font-family": {
+        "cssVar": "--heru-text-heading-1-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.code.font-size": {
+        "cssVar": "--heru-text-code-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.code.line-height": {
+        "cssVar": "--heru-text-code-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.code.font-weight": {
+        "cssVar": "--heru-text-code-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.code.font-family": {
+        "cssVar": "--heru-text-code-font-family",
+        "type": "number",
+        "value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      }
+    },
+    "comfortable": {
+      "unit": {
+        "cssVar": "--heru-unit",
+        "type": "dimension",
+        "value": 4
+      },
+      "density.leading-units": {
+        "cssVar": "--heru-density-leading-units",
+        "type": "number",
+        "value": 6
+      },
+      "density.pad-units": {
+        "cssVar": "--heru-density-pad-units",
+        "type": "number",
+        "value": 3
+      },
+      "density.pad-inline-units": {
+        "cssVar": "--heru-density-pad-inline-units",
+        "type": "number",
+        "value": 4
+      },
+      "density.control-sm-units": {
+        "cssVar": "--heru-density-control-sm-units",
+        "type": "number",
+        "value": 10
+      },
+      "space.0": {
+        "cssVar": "--heru-space-0",
+        "type": "dimension",
+        "value": 0
+      },
+      "space.1": {
+        "cssVar": "--heru-space-1",
+        "type": "dimension",
+        "value": 4
+      },
+      "space.2": {
+        "cssVar": "--heru-space-2",
+        "type": "dimension",
+        "value": 8
+      },
+      "space.3": {
+        "cssVar": "--heru-space-3",
+        "type": "dimension",
+        "value": 12
+      },
+      "space.4": {
+        "cssVar": "--heru-space-4",
+        "type": "dimension",
+        "value": 16
+      },
+      "space.5": {
+        "cssVar": "--heru-space-5",
+        "type": "dimension",
+        "value": 20
+      },
+      "space.6": {
+        "cssVar": "--heru-space-6",
+        "type": "dimension",
+        "value": 24
+      },
+      "space.8": {
+        "cssVar": "--heru-space-8",
+        "type": "dimension",
+        "value": 32
+      },
+      "space.10": {
+        "cssVar": "--heru-space-10",
+        "type": "dimension",
+        "value": 40
+      },
+      "space.12": {
+        "cssVar": "--heru-space-12",
+        "type": "dimension",
+        "value": 48
+      },
+      "space.16": {
+        "cssVar": "--heru-space-16",
+        "type": "dimension",
+        "value": 64
+      },
+      "radius.none": {
+        "cssVar": "--heru-radius-none",
+        "type": "dimension",
+        "value": 0
+      },
+      "radius.sm": {
+        "cssVar": "--heru-radius-sm",
+        "type": "dimension",
+        "value": 4
+      },
+      "radius.md": {
+        "cssVar": "--heru-radius-md",
+        "type": "dimension",
+        "value": 8
+      },
+      "radius.lg": {
+        "cssVar": "--heru-radius-lg",
+        "type": "dimension",
+        "value": 12
+      },
+      "radius.full": {
+        "cssVar": "--heru-radius-full",
+        "type": "dimension",
+        "value": 9999
+      },
+      "border.width": {
+        "cssVar": "--heru-border-width",
+        "type": "dimension",
+        "value": 1
+      },
+      "leading.body": {
+        "cssVar": "--heru-leading-body",
+        "type": "dimension",
+        "value": 24
+      },
+      "control.height.sm": {
+        "cssVar": "--heru-control-height-sm",
+        "type": "dimension",
+        "value": 40
+      },
+      "control.height.md": {
+        "cssVar": "--heru-control-height-md",
+        "type": "dimension",
+        "value": 48
+      },
+      "control.height.lg": {
+        "cssVar": "--heru-control-height-lg",
+        "type": "dimension",
+        "value": 56
+      },
+      "control.padding-inline": {
+        "cssVar": "--heru-control-padding-inline",
+        "type": "dimension",
+        "value": 16
+      },
+      "control.padding-block": {
+        "cssVar": "--heru-control-padding-block",
+        "type": "dimension",
+        "value": 12
+      },
+      "font.family.sans": {
+        "cssVar": "--heru-font-family-sans",
+        "type": "fontFamily",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "font.family.mono": {
+        "cssVar": "--heru-font-family-mono",
+        "type": "fontFamily",
+        "value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      },
+      "font.weight.regular": {
+        "cssVar": "--heru-font-weight-regular",
+        "type": "fontWeight",
+        "value": 400
+      },
+      "font.weight.medium": {
+        "cssVar": "--heru-font-weight-medium",
+        "type": "fontWeight",
+        "value": 500
+      },
+      "font.weight.semibold": {
+        "cssVar": "--heru-font-weight-semibold",
+        "type": "fontWeight",
+        "value": 600
+      },
+      "font.weight.bold": {
+        "cssVar": "--heru-font-weight-bold",
+        "type": "fontWeight",
+        "value": 700
+      },
+      "font.size.12": {
+        "cssVar": "--heru-font-size-12",
+        "type": "dimension",
+        "value": 12
+      },
+      "font.size.14": {
+        "cssVar": "--heru-font-size-14",
+        "type": "dimension",
+        "value": 14
+      },
+      "font.size.16": {
+        "cssVar": "--heru-font-size-16",
+        "type": "dimension",
+        "value": 16
+      },
+      "font.size.18": {
+        "cssVar": "--heru-font-size-18",
+        "type": "dimension",
+        "value": 18
+      },
+      "font.size.20": {
+        "cssVar": "--heru-font-size-20",
+        "type": "dimension",
+        "value": 20
+      },
+      "font.size.24": {
+        "cssVar": "--heru-font-size-24",
+        "type": "dimension",
+        "value": 24
+      },
+      "font.size.28": {
+        "cssVar": "--heru-font-size-28",
+        "type": "dimension",
+        "value": 28
+      },
+      "font.line-height.16": {
+        "cssVar": "--heru-font-line-height-16",
+        "type": "dimension",
+        "value": 16
+      },
+      "font.line-height.20": {
+        "cssVar": "--heru-font-line-height-20",
+        "type": "dimension",
+        "value": 20
+      },
+      "font.line-height.24": {
+        "cssVar": "--heru-font-line-height-24",
+        "type": "dimension",
+        "value": 24
+      },
+      "font.line-height.28": {
+        "cssVar": "--heru-font-line-height-28",
+        "type": "dimension",
+        "value": 28
+      },
+      "font.line-height.32": {
+        "cssVar": "--heru-font-line-height-32",
+        "type": "dimension",
+        "value": 32
+      },
+      "font.line-height.36": {
+        "cssVar": "--heru-font-line-height-36",
+        "type": "dimension",
+        "value": 36
+      },
+      "text.caption.font-size": {
+        "cssVar": "--heru-text-caption-font-size",
+        "type": "number",
+        "value": 12
+      },
+      "text.caption.line-height": {
+        "cssVar": "--heru-text-caption-line-height",
+        "type": "number",
+        "value": 16
+      },
+      "text.caption.font-weight": {
+        "cssVar": "--heru-text-caption-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.caption.font-family": {
+        "cssVar": "--heru-text-caption-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.label.font-size": {
+        "cssVar": "--heru-text-label-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.label.line-height": {
+        "cssVar": "--heru-text-label-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.label.font-weight": {
+        "cssVar": "--heru-text-label-font-weight",
+        "type": "number",
+        "value": 500
+      },
+      "text.label.font-family": {
+        "cssVar": "--heru-text-label-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.body.font-size": {
+        "cssVar": "--heru-text-body-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.body.line-height": {
+        "cssVar": "--heru-text-body-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.body.font-weight": {
+        "cssVar": "--heru-text-body-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.body.font-family": {
+        "cssVar": "--heru-text-body-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.body-lg.font-size": {
+        "cssVar": "--heru-text-body-lg-font-size",
+        "type": "number",
+        "value": 16
+      },
+      "text.body-lg.line-height": {
+        "cssVar": "--heru-text-body-lg-line-height",
+        "type": "number",
+        "value": 24
+      },
+      "text.body-lg.font-weight": {
+        "cssVar": "--heru-text-body-lg-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.body-lg.font-family": {
+        "cssVar": "--heru-text-body-lg-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-3.font-size": {
+        "cssVar": "--heru-text-heading-3-font-size",
+        "type": "number",
+        "value": 18
+      },
+      "text.heading-3.line-height": {
+        "cssVar": "--heru-text-heading-3-line-height",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-3.font-weight": {
+        "cssVar": "--heru-text-heading-3-font-weight",
+        "type": "number",
+        "value": 600
+      },
+      "text.heading-3.font-family": {
+        "cssVar": "--heru-text-heading-3-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-2.font-size": {
+        "cssVar": "--heru-text-heading-2-font-size",
+        "type": "number",
+        "value": 20
+      },
+      "text.heading-2.line-height": {
+        "cssVar": "--heru-text-heading-2-line-height",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-2.font-weight": {
+        "cssVar": "--heru-text-heading-2-font-weight",
+        "type": "number",
+        "value": 600
+      },
+      "text.heading-2.font-family": {
+        "cssVar": "--heru-text-heading-2-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.heading-1.font-size": {
+        "cssVar": "--heru-text-heading-1-font-size",
+        "type": "number",
+        "value": 28
+      },
+      "text.heading-1.line-height": {
+        "cssVar": "--heru-text-heading-1-line-height",
+        "type": "number",
+        "value": 36
+      },
+      "text.heading-1.font-weight": {
+        "cssVar": "--heru-text-heading-1-font-weight",
+        "type": "number",
+        "value": 700
+      },
+      "text.heading-1.font-family": {
+        "cssVar": "--heru-text-heading-1-font-family",
+        "type": "number",
+        "value": [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "text.code.font-size": {
+        "cssVar": "--heru-text-code-font-size",
+        "type": "number",
+        "value": 14
+      },
+      "text.code.line-height": {
+        "cssVar": "--heru-text-code-line-height",
+        "type": "number",
+        "value": 20
+      },
+      "text.code.font-weight": {
+        "cssVar": "--heru-text-code-font-weight",
+        "type": "number",
+        "value": 400
+      },
+      "text.code.font-family": {
+        "cssVar": "--heru-text-code-font-family",
+        "type": "number",
+        "value": [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace"
+        ]
+      }
+    }
+  }
+}

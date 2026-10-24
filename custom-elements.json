@@ -1,0 +1,1264 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/button/button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A headless button. Renders a native `<button>` in shadow DOM and joins the\nsurrounding form through ElementInternals.",
+          "name": "HeruButton",
+          "cssProperties": [
+            {
+              "description": "Height when size=\"sm\" (density-aware).",
+              "name": "--heru-control-height-sm",
+              "default": "2rem"
+            },
+            {
+              "description": "Height when size=\"md\" (default; density-aware).",
+              "name": "--heru-control-height-md",
+              "default": "2.25rem"
+            },
+            {
+              "description": "Height when size=\"lg\" (density-aware).",
+              "name": "--heru-control-height-lg",
+              "default": "2.75rem"
+            },
+            {
+              "description": "Inline padding (density-aware).",
+              "name": "--heru-control-padding-inline",
+              "default": "0.75rem"
+            },
+            {
+              "description": "Corner radius.",
+              "name": "--heru-radius-md",
+              "default": "0.5rem"
+            },
+            {
+              "description": "Border width, drawn inside the height.",
+              "name": "--heru-border-width",
+              "default": "1px"
+            },
+            {
+              "description": "Label role font size (also -line-height, -font-weight, -font-family).",
+              "name": "--heru-text-label-font-size"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The native button.",
+              "name": "base"
+            },
+            {
+              "description": "Wrapper around the default slot.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The label.",
+              "name": ""
+            },
+            {
+              "description": "Content before the label, such as an icon.",
+              "name": "start"
+            },
+            {
+              "description": "Content after the label.",
+              "name": "end"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Control height: sm, md or lg. Follows density.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'submit'",
+              "description": "What the button does in a form.",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Value submitted with the form when this button submits it.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "pressed",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "description": "Makes this a toggle button when set. `undefined` means not a toggle.",
+              "attribute": "pressed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "button",
+              "type": {
+                "text": "HTMLButtonElement"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Native click; suppressed while disabled.",
+              "name": "click"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Control height: sm, md or lg. Follows density.",
+              "fieldName": "size"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'submit'",
+              "description": "What the button does in a form.",
+              "fieldName": "type"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Value submitted with the form when this button submits it.",
+              "fieldName": "value"
+            },
+            {
+              "name": "pressed",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "description": "Makes this a toggle button when set. `undefined` means not a toggle.",
+              "fieldName": "pressed"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "The button is disabled.",
+              "name": "disabled"
+            },
+            {
+              "description": "A toggle button is pressed.",
+              "name": "pressed"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "FormAssociated",
+              "module": "/src/internal/form-associated.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "heru-button",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HeruButton",
+          "declaration": {
+            "name": "HeruButton",
+            "module": "src/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/control-styles.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "controlSize",
+          "default": "css` :host { --_heru-control-height: var(--heru-control-height-md, 2.25rem); } :host([size='sm']) { --_heru-control-height: var(--heru-control-height-sm, 2rem); } :host([size='lg']) { --_heru-control-height: var(--heru-control-height-lg, 2.75rem); } `",
+          "description": "Structural sizing shared by controls. Every value reads a --heru- token with\na literal fallback equal to the default-density value, so components size\ncorrectly without tokens.css. Density switching via [data-heru-density]\nworks once tokens.css is loaded (it defines the density-scoped tokens)."
+        },
+        {
+          "kind": "variable",
+          "name": "controlBox",
+          "default": "css` box-sizing: border-box; block-size: var(--_heru-control-height); padding-block: 0; padding-inline: var(--heru-control-padding-inline, 0.75rem); border-width: var(--heru-border-width, 1px); border-style: solid; border-color: transparent; border-radius: var(--heru-radius-md, 0.5rem); `"
+        },
+        {
+          "kind": "function",
+          "name": "textRole",
+          "parameters": [
+            {
+              "name": "role",
+              "type": {
+                "text": "'label' | 'body' | 'caption'"
+              }
+            }
+          ],
+          "description": "Text-role font shorthand. role = label | body | caption"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "controlSize",
+          "declaration": {
+            "name": "controlSize",
+            "module": "src/internal/control-styles.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "controlBox",
+          "declaration": {
+            "name": "controlBox",
+            "module": "src/internal/control-styles.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "textRole",
+          "declaration": {
+            "name": "textRole",
+            "module": "src/internal/control-styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/form-associated.ts",
+      "declarations": [
+        {
+          "kind": "mixin",
+          "description": "Private mixin: attaches ElementInternals, tracks `disabled` (own and\ninherited from a fieldset) and mirrors it to `:state(disabled)`.\nNot exported from the package.",
+          "name": "FormAssociated",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name"
+            }
+          ],
+          "parameters": [
+            {
+              "name": "Base",
+              "type": {
+                "text": "T"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "FormAssociated",
+          "declaration": {
+            "name": "FormAssociated",
+            "module": "src/internal/form-associated.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/ids.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "uniqueId",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Private: unique id for wiring ARIA inside a single shadow root."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "uniqueId",
+          "declaration": {
+            "name": "uniqueId",
+            "module": "src/internal/ids.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/text-field/text-field.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A headless single-line text field. The label, native input, description\nand error all live in one shadow root, so `for`/`aria-describedby` work.",
+          "name": "HeruTextField",
+          "cssProperties": [
+            {
+              "description": "Input height when size=\"sm\" (density-aware).",
+              "name": "--heru-control-height-sm",
+              "default": "2rem"
+            },
+            {
+              "description": "Input height when size=\"md\" (default; density-aware).",
+              "name": "--heru-control-height-md",
+              "default": "2.25rem"
+            },
+            {
+              "description": "Input height when size=\"lg\" (density-aware).",
+              "name": "--heru-control-height-lg",
+              "default": "2.75rem"
+            },
+            {
+              "description": "Input inline padding (density-aware).",
+              "name": "--heru-control-padding-inline",
+              "default": "0.75rem"
+            },
+            {
+              "description": "Input corner radius.",
+              "name": "--heru-radius-md",
+              "default": "0.5rem"
+            },
+            {
+              "description": "Input border width, drawn inside the height.",
+              "name": "--heru-border-width",
+              "default": "1px"
+            },
+            {
+              "description": "Label role (also -line-height, -font-weight, -font-family).",
+              "name": "--heru-text-label-font-size"
+            },
+            {
+              "description": "Input body role (also -line-height, -font-weight, -font-family).",
+              "name": "--heru-text-body-font-size"
+            },
+            {
+              "description": "Description/error caption role (also -line-height, -font-weight, -font-family).",
+              "name": "--heru-text-caption-font-size"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The label.",
+              "name": "label"
+            },
+            {
+              "description": "The native input.",
+              "name": "input"
+            },
+            {
+              "description": "Wrapper around the description slot.",
+              "name": "description"
+            },
+            {
+              "description": "Wrapper around the error slot.",
+              "name": "error"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Helper text, announced with the input.",
+              "name": "description"
+            },
+            {
+              "description": "Error text, shown and announced when invalid.",
+              "name": "error"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Input height: sm, md or lg. Follows density.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Visible label text. Required for an accessible name.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Current value.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'text' | 'email' | 'password' | 'search' | 'tel' | 'url'"
+              },
+              "default": "'text'",
+              "description": "Native input type.",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "autocomplete"
+            },
+            {
+              "kind": "field",
+              "name": "input",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "touched",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "#defaultValue",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "#id",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formStateRestoreCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string | File | FormData | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onInput",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Re-dispatched from the native input."
+            },
+            {
+              "description": "Native input event (composed).",
+              "name": "input"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Input height: sm, md or lg. Follows density.",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Visible label text. Required for an accessible name.",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Current value.",
+              "fieldName": "value"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "'text' | 'email' | 'password' | 'search' | 'tel' | 'url'"
+              },
+              "default": "'text'",
+              "description": "Native input type.",
+              "fieldName": "type"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "autocomplete"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "The value fails validation (after interaction or submit).",
+              "name": "invalid"
+            },
+            {
+              "description": "The field is disabled.",
+              "name": "disabled"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "FormAssociated",
+              "module": "/src/internal/form-associated.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "heru-text-field",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HeruTextField",
+          "declaration": {
+            "name": "HeruTextField",
+            "module": "src/text-field/text-field.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

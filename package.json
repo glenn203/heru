@@ -1,0 +1,113 @@
+{
+  "name": "heru",
+  "version": "0.0.0",
+  "description": "Herú: headless Lit web components with behavior, accessibility and form participation built in, and no visual opinions",
+  "author": "Chuck Bolton",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glenn203/heru.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glenn203/heru/issues"
+  },
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "headless",
+    "accessibility",
+    "lit",
+    "heru"
+  ],
+  "files": [
+    "dist",
+    "custom-elements.json",
+    "!dist/**/*.test.*",
+    "!dist/**/*.stories.*",
+    "tokens/heru.tokens.json",
+    "tokens/heru.tokens.resolved.json"
+  ],
+  "sideEffects": [
+    "./dist/define.js",
+    "./dist/*/define.js",
+    "./dist/tokens/tokens.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./define": {
+      "types": "./dist/define.d.ts",
+      "import": "./dist/define.js"
+    },
+    "./button": {
+      "types": "./dist/button/button.d.ts",
+      "import": "./dist/button/button.js"
+    },
+    "./button/define": {
+      "types": "./dist/button/define.d.ts",
+      "import": "./dist/button/define.js"
+    },
+    "./text-field": {
+      "types": "./dist/text-field/text-field.d.ts",
+      "import": "./dist/text-field/text-field.js"
+    },
+    "./text-field/define": {
+      "types": "./dist/text-field/define.d.ts",
+      "import": "./dist/text-field/define.js"
+    },
+    "./tokens.css": "./dist/tokens/tokens.css",
+    "./tokens.json": "./tokens/heru.tokens.resolved.json",
+    "./custom-elements.json": "./custom-elements.json",
+    "./package.json": "./package.json",
+    "./internal/*": null
+  },
+  "customElements": "./custom-elements.json",
+  "scripts": {
+    "build": "pnpm tokens && rimraf dist && tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/tokens/tokens.css','dist/tokens/tokens.css')\"",
+    "analyze": "cem analyze --config custom-elements-manifest.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && tsc --noEmit",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test": "node --test test/tokens.test.mjs && playwright test",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build --disable-telemetry -o storybook-static",
+    "changeset": "changeset",
+    "release": "pnpm build && pnpm analyze && changeset publish",
+    "tokens": "node scripts/build-tokens.mjs"
+  },
+  "peerDependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^2.31.1",
+    "@custom-elements-manifest/analyzer": "^0.10.10",
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.56.0",
+    "@storybook/addon-a11y": "^8.6.14",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/web-components": "^8.6.14",
+    "@storybook/web-components-vite": "^8.6.14",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-lit": "^1.15.0",
+    "eslint-plugin-lit-a11y": "^4.1.4",
+    "eslint-plugin-wc": "^2.2.0",
+    "globals": "^15.15.0",
+    "lit": "^3.3.1",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "storybook": "^8.6.14",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.46.0",
+    "vite": "^6.4.1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.34.6"
+}
