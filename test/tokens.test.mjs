@@ -14,6 +14,7 @@ const OFF_GRID = new Set([
   'border.width',
   'focus.ring-width',
   'focus.ring-offset',
+  'focus.glow-width',
 ]);
 
 for (const [mode, tokens] of Object.entries(resolved.modes)) {
@@ -99,4 +100,14 @@ test('only slate and red ramps exist', () => {
       .map((k) => k.split('.')[1]),
   );
   assert.deepEqual([...ramps].sort(), ['red', 'slate']);
+});
+
+test('focus ring total extent (6px) fits inside the space-2 field gap', () => {
+  const d = resolved.modes.default;
+  const extent =
+    d['focus.ring-offset'].value +
+    d['focus.ring-width'].value +
+    d['focus.glow-width'].value;
+  assert.equal(extent, 6);
+  assert.ok(d['space.2'].value >= extent);
 });

@@ -641,6 +641,11 @@
         "type": "dimension",
         "value": 2
       },
+      "focus.glow-width": {
+        "cssVar": "--heru-focus-glow-width",
+        "type": "dimension",
+        "value": 2
+      },
       "focus.glow": {
         "cssVar": "--heru-focus-glow",
         "type": "color",
@@ -1302,6 +1307,11 @@
         "type": "dimension",
         "value": 2
       },
+      "focus.glow-width": {
+        "cssVar": "--heru-focus-glow-width",
+        "type": "dimension",
+        "value": 2
+      },
       "focus.glow": {
         "cssVar": "--heru-focus-glow",
         "type": "color",
@@ -1960,6 +1970,11 @@
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
+        "type": "dimension",
+        "value": 2
+      },
+      "focus.glow-width": {
+        "cssVar": "--heru-focus-glow-width",
         "type": "dimension",
         "value": 2
       },

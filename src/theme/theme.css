@@ -42,7 +42,10 @@ heru-button::part(base):focus-visible {
     0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
       var(--heru-color-focus-ring),
     0 0 0
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) + 4px)
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-glow-width)
+      )
       var(--heru-focus-glow);
 }
 heru-button:state(disabled)::part(base) {
@@ -55,8 +58,9 @@ heru-button:state(disabled)::part(base) {
 heru-text-field {
   color: var(--heru-color-text);
 }
+/* Gaps ≥ focus ring extent (6px) so the ring never covers label or help text. */
 heru-text-field::part(label) {
-  margin-block-end: var(--heru-space-1);
+  margin-block-end: var(--heru-space-2);
 }
 heru-text-field::part(input) {
   border-color: var(--heru-color-border-strong);
@@ -87,11 +91,14 @@ heru-text-field::part(input):focus {
     0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
       var(--heru-color-focus-ring),
     0 0 0
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) + 4px)
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-glow-width)
+      )
       var(--heru-focus-glow);
 }
 heru-text-field::part(description) {
-  margin-block-start: var(--heru-space-1);
+  margin-block-start: var(--heru-space-2);
   color: var(--heru-color-text-muted);
 }
 heru-text-field::part(error) {
@@ -107,7 +114,10 @@ heru-text-field:state(invalid)::part(input):focus {
     0 0 0 calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
       var(--heru-color-error),
     0 0 0
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) + 4px)
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-glow-width)
+      )
       var(--heru-focus-glow);
 }
 heru-text-field:state(disabled)::part(label),

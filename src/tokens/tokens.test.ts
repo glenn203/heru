@@ -67,3 +67,24 @@ test('size reflects and defaults to md', async ({ page }) => {
   await mount(page, `<heru-button>A</heru-button>`);
   expect(await page.locator('heru-button').getAttribute('size')).toBe('md');
 });
+
+test('theme: label and description sit outside the 6px focus ring', async ({
+  page,
+}) => {
+  await mount(
+    page,
+    `<heru-text-field label="Email"><span slot="description">Help</span></heru-text-field>`,
+  );
+  await page.addStyleTag({ url: '/src/tokens/tokens.css' });
+  await page.addStyleTag({ url: '/src/theme/theme.css' });
+  const gaps = await page.evaluate(() => {
+    const root = document.querySelector('heru-text-field')!.shadowRoot!;
+    const box = (p: string) =>
+      root.querySelector(`[part="${p}"]`)!.getBoundingClientRect();
+    return [
+      box('input').top - box('label').bottom,
+      box('description').top - box('input').bottom,
+    ];
+  });
+  for (const gap of gaps) expect(gap).toBeGreaterThanOrEqual(6);
+});

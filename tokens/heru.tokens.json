@@ -460,7 +460,7 @@
     }
   },
   "focus": {
-    "$description": "Focus indicator. A ring that grows in: offset gap in color-bg, then a ring in color-focus-ring, with a soft glow.",
+    "$description": "Focus indicator. A ring that grows in: offset gap in color-bg, then a ring in color-focus-ring, with a soft glow. Keep adjacent content at least the total extent (6px) away; heru-text-field uses space-2.",
     "ring-width": {
       "$type": "dimension",
       "$value": "2px"
@@ -468,6 +468,11 @@
     "ring-offset": {
       "$type": "dimension",
       "$value": "2px"
+    },
+    "glow-width": {
+      "$type": "dimension",
+      "$value": "2px",
+      "$description": "Glow beyond the ring. Total extent = offset + ring-width + glow-width (6px)."
     },
     "glow": {
       "$type": "color",
