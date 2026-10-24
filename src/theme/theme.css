@@ -59,9 +59,9 @@ heru-button:state(disabled)::part(base) {
 heru-text-field {
   color: var(--heru-color-text);
 }
-/* Gaps ≥ focus ring extent (8px) plus 2px clearance so the ring never covers label or help text. */
+/* Focus reach is 4px: label gap 4px, description gap 8px. */
 heru-text-field::part(label) {
-  margin-block-end: var(--heru-space-3);
+  margin-block-end: var(--heru-space-1);
 }
 heru-text-field::part(input) {
   border-color: var(--heru-color-border-strong);
@@ -100,7 +100,7 @@ heru-text-field::part(input):focus {
       var(--heru-focus-halo);
 }
 heru-text-field::part(description) {
-  margin-block-start: var(--heru-space-3);
+  margin-block-start: var(--heru-space-2);
   color: var(--heru-color-text-muted);
 }
 /* Text field error: see the shared attached error box below. */
@@ -138,7 +138,7 @@ heru-select {
   color: var(--heru-color-text);
 }
 heru-select::part(label) {
-  margin-block-end: var(--heru-space-3); /* clears the 8px ring/halo */
+  margin-block-end: var(--heru-space-1);
 }
 heru-select::part(trigger) {
   border-color: var(--heru-color-border-strong);
@@ -188,7 +188,7 @@ heru-select:state(open)::part(listbox) {
     var(--heru-motion-ease-out);
 }
 heru-select::part(description) {
-  margin-block-start: var(--heru-space-3);
+  margin-block-start: var(--heru-space-2);
   color: var(--heru-color-text-muted);
 }
 heru-select:state(invalid)::part(trigger) {
@@ -222,8 +222,8 @@ heru-select::part(error) {
   --_heru-status-overlap: 0.375rem; /* Astryx --spacing-1-5 (6px, off Herú's 4px grid) */
   margin-block-start: calc(-1 * var(--_heru-status-overlap));
   margin-inline: var(--heru-space-2);
-  padding-block: calc(var(--_heru-status-overlap) + var(--heru-space-2))
-    var(--heru-space-2);
+  /* Text starts 6px below the control: clears the 4px focus reach. */
+  padding-block: calc(2 * var(--_heru-status-overlap)) var(--heru-space-2);
   padding-inline: var(--heru-space-2);
   border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Herú's odd ramp */
   background: var(--heru-color-error-surface);

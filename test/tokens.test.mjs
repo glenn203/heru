@@ -103,19 +103,17 @@ test('only slate and red ramps exist', () => {
   assert.deepEqual([...ramps].sort(), ['red', 'slate']);
 });
 
-test('focus ring: 3px ring, 2px offset, 3px halo; extent + 2px clearance fits the space-3 field gap', () => {
+test('focus ring: 1px gap + 2px ring + 1px halo; reach fits the space-1 label gap', () => {
   const d = resolved.modes.default;
-  assert.equal(d['focus.ring-width'].value, 3);
-  assert.equal(d['focus.ring-offset'].value, 2);
-  assert.equal(d['focus.halo-width'].value, 3);
+  assert.equal(d['focus.ring-offset'].value, 1);
+  assert.equal(d['focus.ring-width'].value, 2);
+  assert.equal(d['focus.halo-width'].value, 1);
   const extent =
     d['focus.ring-offset'].value +
     d['focus.ring-width'].value +
     d['focus.halo-width'].value;
-  assert.ok(
-    d['space.3'].value >= extent + 2,
-    `extent ${extent}px vs gap ${d['space.3'].value}px`,
-  );
+  assert.ok(d['space.1'].value >= extent, `extent ${extent}px`);
+  assert.ok(d['space.2'].value > extent);
 });
 
 test('elevation: three shared levels, slate-based, urgent tinted from error red', () => {
@@ -180,4 +178,13 @@ test('attached error box text is >= 4.5:1 on its surface (alpha over white)', ()
   const b = lum(rgb(t['color.error-status-text'].hex));
   const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   assert.ok(ratio >= 4.5, `ratio ${ratio}`);
+});
+
+test('focus ring total reach (offset + ring + halo) is at most 4px', () => {
+  const t = resolved.modes.default;
+  const reach =
+    t['focus.ring-offset'].value +
+    t['focus.ring-width'].value +
+    t['focus.halo-width'].value;
+  assert.ok(reach <= 4, `reach ${reach}px`);
 });

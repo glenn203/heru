@@ -286,6 +286,7 @@ for (const tag of ['heru-select', 'heru-text-field']) {
   test(`${tag}: flat attached error box (no shadow, inset 8px, tucked, replaces helper)`, async ({
     page,
   }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     const inner = tag === 'heru-select' ? OPTIONS : '';
     await mount(
       page,
@@ -305,7 +306,7 @@ for (const tag of ['heru-select', 'heru-text-field']) {
     expect(r.weight).toBe('400');
     expect(r.lineHeight).toBe('20px');
     expect(r.radii).toEqual(['0px', '0px', '8px', '8px']);
-    expect(r.padding).toEqual(['14px', '8px', '8px', '8px']);
+    expect(r.padding).toEqual(['12px', '8px', '8px', '8px']);
     expect(r.overlap).toBe('-6px');
   });
 }
@@ -359,3 +360,64 @@ test('select focus matches text field focus (outer ring), incl. invalid', async 
   expect(sei).toBe(tfi);
   expect(sei).not.toBe(se);
 });
+
+for (const tag of ['heru-select', 'heru-text-field']) {
+  test(`${tag}: 4px label gap, 8px description gap, focus reach clears label/description/error text`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const inner = tag === 'heru-select' ? OPTIONS : '';
+    await mount(
+      page,
+      `<${tag} label="Fruit" required>${inner}<span slot="description">Help</span><span slot="error">Pick one</span></${tag}>`,
+    );
+    await withTheme(page);
+    const g = await page.locator(tag).evaluate(async (el) => {
+      const root = el.shadowRoot!;
+      const q = (s: string) => root.querySelector(s)!.getBoundingClientRect();
+      const ctl = q('[part="trigger"], [part="input"]');
+      const reach =
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            '--heru-focus-ring-offset',
+          ),
+        ) +
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            '--heru-focus-ring-width',
+          ),
+        ) +
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            '--heru-focus-halo-width',
+          ),
+        );
+      const label = q('[part="label"]');
+      const desc = q('[part="description"]');
+      const host = el as HTMLElement & {
+        reportValidity(): boolean;
+        updateComplete: Promise<unknown>;
+      };
+      host.reportValidity();
+      await host.updateComplete;
+      // Top of the error text's line box (box top + padding-top).
+      const errBox = root.querySelector('[part="error"]')!;
+      const errTop =
+        errBox.getBoundingClientRect().top +
+        parseFloat(getComputedStyle(errBox).paddingTop);
+      return {
+        reach,
+        labelGap: ctl.top - label.bottom,
+        descGap: desc.top - ctl.bottom,
+        errGap: errTop - ctl.bottom,
+      };
+    });
+    expect(g.reach).toBeLessThanOrEqual(4);
+    expect(g.labelGap).toBeCloseTo(4, 0);
+    expect(g.descGap).toBeCloseTo(8, 0);
+    expect(g.labelGap).toBeGreaterThanOrEqual(g.reach);
+    expect(g.descGap).toBeGreaterThan(g.reach);
+    expect(g.errGap).toBeGreaterThan(g.reach);
+    expect(g.errGap).toBeLessThanOrEqual(6.5);
+  });
+}

@@ -468,15 +468,15 @@
     }
   },
   "focus": {
-    "$description": "Focus indicator that grows in: ring-offset gap in color-bg, a ring-width ring (ring-blur edge) in color-focus-ring, then a halo-width halo. Total extent = offset + width + halo (8px); field gaps use space-3 (12px) for ≥2px clearance.",
+    "$description": "Focus indicator that grows in: ring-offset gap (1px) in color-bg, a ring-width ring (2px, ring-blur edge) in color-focus-ring, then a halo-width halo (1px). Total reach = 4px, so label (space-1) and description (space-2) gaps stay normal.",
     "ring-width": {
       "$type": "dimension",
-      "$value": "3px",
+      "$value": "2px",
       "$description": "Ring thickness."
     },
     "ring-offset": {
       "$type": "dimension",
-      "$value": "2px"
+      "$value": "1px"
     },
     "ring-blur": {
       "$type": "dimension",
@@ -485,7 +485,7 @@
     },
     "halo-width": {
       "$type": "dimension",
-      "$value": "3px",
+      "$value": "1px",
       "$description": "Soft halo band visible past the ring's outer edge."
     },
     "halo": {

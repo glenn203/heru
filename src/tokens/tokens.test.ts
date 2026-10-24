@@ -86,5 +86,7 @@ test('theme: label and description sit outside the focus ring', async ({
       box('description').top - box('input').bottom,
     ];
   });
-  for (const gap of gaps) expect(gap).toBeGreaterThanOrEqual(10);
+  // Focus reach is 4px (1px gap + 2px ring + 1px halo).
+  expect(gaps).toEqual([4, 8]);
+  for (const gap of gaps) expect(gap).toBeGreaterThanOrEqual(4);
 });

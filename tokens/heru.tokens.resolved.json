@@ -646,12 +646,12 @@
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 3
+        "value": 2
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
-        "value": 2
+        "value": 1
       },
       "focus.ring-blur": {
         "cssVar": "--heru-focus-ring-blur",
@@ -661,7 +661,7 @@
       "focus.halo-width": {
         "cssVar": "--heru-focus-halo-width",
         "type": "dimension",
-        "value": 3
+        "value": 1
       },
       "focus.halo": {
         "cssVar": "--heru-focus-halo",
@@ -1349,12 +1349,12 @@
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 3
+        "value": 2
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
-        "value": 2
+        "value": 1
       },
       "focus.ring-blur": {
         "cssVar": "--heru-focus-ring-blur",
@@ -1364,7 +1364,7 @@
       "focus.halo-width": {
         "cssVar": "--heru-focus-halo-width",
         "type": "dimension",
-        "value": 3
+        "value": 1
       },
       "focus.halo": {
         "cssVar": "--heru-focus-halo",
@@ -2052,12 +2052,12 @@
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 3
+        "value": 2
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
-        "value": 2
+        "value": 1
       },
       "focus.ring-blur": {
         "cssVar": "--heru-focus-ring-blur",
@@ -2067,7 +2067,7 @@
       "focus.halo-width": {
         "cssVar": "--heru-focus-halo-width",
         "type": "dimension",
-        "value": 3
+        "value": 1
       },
       "focus.halo": {
         "cssVar": "--heru-focus-halo",
