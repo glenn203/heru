@@ -208,10 +208,10 @@ heru-select:state(invalid)::part(trigger):focus {
       var(--heru-focus-halo);
 }
 /* ---------- Shared attached error box (text field + select) ----------
- * Flat Astryx FieldStatus "attached" style: muted red fill, 12px red text, no
- * shadow (--heru-elevation-urgent is reserved, unused). Inset 8px each side,
- * tucked under the control's bottom radius with no gap; replaces helper text.
- * Top padding = radius + space-3 so the 8px focus ring/halo clears the text. */
+ * Copied from Astryx FieldStatus "attached" (facebook/astryx @ d8d8fde,
+ * packages/core/src/FieldStatus/FieldStatus.tsx + theme/tokens.stylex.ts).
+ * Herú deviations: 8px side margins and Herú's font family. No shadow;
+ * --heru-elevation-urgent is reserved, unused. Replaces helper text. */
 heru-text-field::part(input),
 heru-select::part(trigger) {
   position: relative;
@@ -219,20 +219,28 @@ heru-select::part(trigger) {
 }
 heru-text-field::part(error),
 heru-select::part(error) {
-  margin-block-start: calc(-1 * var(--heru-radius-5));
+  --_heru-status-overlap: 0.375rem; /* Astryx --spacing-1-5 (6px, off Herú's 4px grid) */
+  margin-block-start: calc(-1 * var(--_heru-status-overlap));
   margin-inline: var(--heru-space-2);
-  padding: calc(var(--heru-space-3) + var(--heru-radius-5)) var(--heru-space-3)
+  padding-block: calc(var(--_heru-status-overlap) + var(--heru-space-2))
     var(--heru-space-2);
-  border-radius: 0 0 var(--heru-radius-5) var(--heru-radius-5);
+  padding-inline: var(--heru-space-2);
+  border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Herú's odd ramp */
   background: var(--heru-color-error-surface);
-  color: var(--heru-color-error-text);
+  color: var(--heru-color-error-status-text);
+  font-size: var(--heru-font-size-12);
+  font-weight: var(--heru-font-weight-regular);
+  line-height: var(--heru-font-line-height-20);
+  letter-spacing: normal;
+  text-transform: none;
   box-shadow: none;
+  pointer-events: none; /* Astryx: overlap is visual only */
 }
 /* Error-only: runs when the box is un-hidden (invalid), never on focus. */
 heru-text-field:state(invalid)::part(error),
 heru-select:state(invalid)::part(error) {
-  animation: heru-error-in var(--heru-motion-duration-medium)
-    var(--heru-motion-ease-out);
+  /* Astryx slideDown: --duration-fast-max 230ms, --ease-standard, backwards. */
+  animation: heru-error-in 230ms cubic-bezier(0.24, 1, 0.4, 1) backwards;
 }
 heru-select:state(disabled)::part(label),
 heru-select:state(disabled)::part(description) {
@@ -279,7 +287,7 @@ heru-option:state(disabled)::part(base) {
 @keyframes heru-error-in {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(calc(-1 * var(--heru-space-2)));
   }
 }
 

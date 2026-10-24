@@ -123,7 +123,8 @@
   --heru-color-focus-ring: var(--heru-color-slate-600);
   --heru-color-error: var(--heru-color-red-600);
   --heru-color-error-text: var(--heru-color-red-700);
-  --heru-color-error-surface: var(--heru-color-red-50);
+  --heru-color-error-surface: oklch(0.586 0.226 21.3 / 0.2);
+  --heru-color-error-status-text: oklch(0.368 0.148 25);
   --heru-focus-ring-width: 3px;
   --heru-focus-ring-offset: 2px;
   --heru-focus-ring-blur: 0.5px;

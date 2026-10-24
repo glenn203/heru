@@ -634,8 +634,14 @@
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
-        "value": "oklch(0.971 0.013 27)",
-        "hex": "#fef2f1"
+        "value": "oklch(0.586 0.226 21.3 / 0.2)",
+        "hex": "#e3193b33"
+      },
+      "color.error-status-text": {
+        "cssVar": "--heru-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.368 0.148 25)",
+        "hex": "#7b0210"
       },
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
@@ -1331,8 +1337,14 @@
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
-        "value": "oklch(0.971 0.013 27)",
-        "hex": "#fef2f1"
+        "value": "oklch(0.586 0.226 21.3 / 0.2)",
+        "hex": "#e3193b33"
+      },
+      "color.error-status-text": {
+        "cssVar": "--heru-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.368 0.148 25)",
+        "hex": "#7b0210"
       },
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
@@ -2028,8 +2040,14 @@
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
-        "value": "oklch(0.971 0.013 27)",
-        "hex": "#fef2f1"
+        "value": "oklch(0.586 0.226 21.3 / 0.2)",
+        "hex": "#e3193b33"
+      },
+      "color.error-status-text": {
+        "cssVar": "--heru-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.368 0.148 25)",
+        "hex": "#7b0210"
       },
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",

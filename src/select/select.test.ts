@@ -263,6 +263,22 @@ const errorBox = (page: Page, tag: string) =>
       right: t.right - e.right,
       tuck: t.bottom - e.top,
       helperHidden: desc.hasAttribute('hidden'),
+      letterSpacing: cs.letterSpacing,
+      weight: cs.fontWeight,
+      lineHeight: cs.lineHeight,
+      radii: [
+        cs.borderTopLeftRadius,
+        cs.borderTopRightRadius,
+        cs.borderBottomRightRadius,
+        cs.borderBottomLeftRadius,
+      ],
+      padding: [
+        cs.paddingTop,
+        cs.paddingRight,
+        cs.paddingBottom,
+        cs.paddingLeft,
+      ],
+      overlap: cs.marginTop,
     };
   });
 
@@ -284,6 +300,13 @@ for (const tag of ['heru-select', 'heru-text-field']) {
     expect(r.right).toBeCloseTo(8, 0);
     expect(r.tuck).toBeGreaterThan(0);
     expect(r.helperHidden).toBe(true);
+    // Astryx FieldStatus attached values.
+    expect(r.letterSpacing).toBe('normal');
+    expect(r.weight).toBe('400');
+    expect(r.lineHeight).toBe('20px');
+    expect(r.radii).toEqual(['0px', '0px', '8px', '8px']);
+    expect(r.padding).toEqual(['14px', '8px', '8px', '8px']);
+    expect(r.overlap).toBe('-6px');
   });
 }
 

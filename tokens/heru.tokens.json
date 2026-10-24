@@ -459,8 +459,12 @@
       "$description": "Error message text. AA on bg."
     },
     "error-surface": {
-      "$value": "{color.red.50}",
-      "$description": "Muted red background for the attached field status (error) box."
+      "$value": "oklch(0.586 0.226 21.3 / 0.2)",
+      "$description": "Attached error box fill. Exact Astryx --color-error-muted (light) #E3193B33 converted to OKLCH."
+    },
+    "error-status-text": {
+      "$value": "oklch(0.368 0.148 25)",
+      "$description": "Attached error box text. Exact Astryx --color-text-red (light) #7B0210 in OKLCH. NAME PENDING — Technical Writer."
     }
   },
   "focus": {

@@ -162,17 +162,22 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     );
 });
 
-test('color.error-surface keeps error-text at 4.5:1 or better', () => {
+test('attached error box text is >= 4.5:1 on its surface (alpha over white)', () => {
   const t = resolved.modes.default;
-  const lum = (hex) => {
-    const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-    const l = c.map((v) =>
-      v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
-    );
+  const rgb = (hex) => {
+    const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const a = hex.length > 7 ? parseInt(hex.slice(7, 9), 16) / 255 : 1;
+    return c.map((v) => v * a + 255 * (1 - a));
+  };
+  const lum = (c) => {
+    const l = c.map((v) => {
+      v /= 255;
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    });
     return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2];
   };
-  const a = lum(t['color.error-surface'].hex);
-  const b = lum(t['color.error-text'].hex);
+  const a = lum(rgb(t['color.error-surface'].hex));
+  const b = lum(rgb(t['color.error-status-text'].hex));
   const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   assert.ok(ratio >= 4.5, `ratio ${ratio}`);
 });
