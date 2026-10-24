@@ -151,17 +151,22 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     !/box-shadow:\s*var\(--heru-elevation-urgent/.test(theme),
     'elevation-urgent is reserved, unused',
   );
+  assert.ok(
+    !/var\(--heru-elevation-hover/.test(theme),
+    'elevation-hover is reserved, unused',
+  );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--heru-elevation-(default|hover)|--heru-focus-ring|^none$/.test(
+      /var\(--heru-elevation-default|--heru-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
     );
 });
 
-test('attached error box text is >= 4.5:1 on its surface (alpha over white)', () => {
+test('error box: lighter fill (10% red over white) keeps status text >= 4.5:1', () => {
   const t = resolved.modes.default;
+  assert.match(t['color.error-surface'].value, /\/ 0\.1\)$/);
   const rgb = (hex) => {
     const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
     const a = hex.length > 7 ? parseInt(hex.slice(7, 9), 16) / 255 : 1;

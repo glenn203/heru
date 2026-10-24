@@ -463,3 +463,31 @@ for (const tag of ['heru-select', 'heru-text-field']) {
     expect(Math.abs(m.glyphTop - m.glyphBottom)).toBeLessThanOrEqual(1.5);
   });
 }
+
+test('option hover and keyboard-active use a flat slate-100 background, no shadow', async ({
+  page,
+}) => {
+  await mount(page, `<heru-select label="Fruit">${OPTIONS}</heru-select>`);
+  await withTheme(page);
+  const read = (v: string) =>
+    page.locator(`heru-option[value="${v}"]`).evaluate((o) => {
+      const b = getComputedStyle(o.shadowRoot!.querySelector('[part="base"]')!);
+      const probe = document.createElement('div');
+      probe.style.background = 'var(--heru-color-slate-100)';
+      document.body.append(probe);
+      const want = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return { shadow: b.boxShadow, bg: b.backgroundColor, want };
+    });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('combobox', { name: 'Fruit' }).click();
+  await page.locator('heru-option[value="banana"]').hover();
+  const hover = await read('banana');
+  expect(hover.shadow).toBe('none');
+  expect(hover.bg).toBe(hover.want);
+  await page.mouse.move(0, 0);
+  await page.getByRole('combobox', { name: 'Fruit' }).press('End');
+  const active = await read('date');
+  expect(active.shadow).toBe('none');
+  expect(active.bg).toBe(active.want);
+});

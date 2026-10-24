@@ -59,13 +59,13 @@ hard-code shadows; the theme applies these tokens through `::part()`.
 Names: NAME PENDING — Technical Writer (semantic `default/hover/urgent` chosen
 over numeric `1/2/3`).
 
-| Token                      | Use                                         | Built from                            |
-| -------------------------- | ------------------------------------------- | ------------------------------------- |
-| `--heru-elevation-default` | Resting raised surface (open menu, popover) | slate-950, hue 260, 6% + 12%          |
-| `--heru-elevation-hover`   | Interactive item on hover/press             | slate-950, hue 260, 8% + 16%, tighter |
-| `--heru-elevation-urgent`  | Error-urgent (attached error box)           | red-600, hue 27, 12% + 24%            |
+| Token                      | Use                                                          | Built from                            |
+| -------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| `--heru-elevation-default` | Resting raised surface (open menu, popover)                  | slate-950, hue 260, 6% + 12%          |
+| `--heru-elevation-hover`   | RESERVED, unused (option hover is a flat slate-100/200 tint) | slate-950, hue 260, 8% + 16%, tighter |
+| `--heru-elevation-urgent`  | Error-urgent (attached error box)                            | red-600, hue 27, 12% + 24%            |
 
-Related: `--heru-color-error-surface` (red-50) is the flat muted red fill for
+Related: `--heru-color-error-surface` (error red at 10% alpha, ≈ #fce8eb on white; text contrast 9.62:1) is the flat fill for
 the attached error box (text field and select, no shadow); `--heru-motion-duration-medium` (200ms) drives the menu
 slide-down and error reveal. Both animations are disabled under
 `prefers-reduced-motion`.

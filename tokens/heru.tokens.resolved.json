@@ -634,8 +634,8 @@
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3 / 0.2)",
-        "hex": "#e3193b33"
+        "value": "oklch(0.586 0.226 21.3 / 0.1)",
+        "hex": "#e3193b1a"
       },
       "color.error-status-text": {
         "cssVar": "--heru-color-error-status-text",
@@ -1337,8 +1337,8 @@
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3 / 0.2)",
-        "hex": "#e3193b33"
+        "value": "oklch(0.586 0.226 21.3 / 0.1)",
+        "hex": "#e3193b1a"
       },
       "color.error-status-text": {
         "cssVar": "--heru-color-error-status-text",
@@ -2040,8 +2040,8 @@
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3 / 0.2)",
-        "hex": "#e3193b33"
+        "value": "oklch(0.586 0.226 21.3 / 0.1)",
+        "hex": "#e3193b1a"
       },
       "color.error-status-text": {
         "cssVar": "--heru-color-error-status-text",

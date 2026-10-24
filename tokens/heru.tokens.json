@@ -459,8 +459,8 @@
       "$description": "Error message text. AA on bg."
     },
     "error-surface": {
-      "$value": "oklch(0.586 0.226 21.3 / 0.2)",
-      "$description": "Attached error box fill. Exact Astryx --color-error-muted (light) #E3193B33 converted to OKLCH."
+      "$value": "oklch(0.586 0.226 21.3 / 0.1)",
+      "$description": "Attached error box fill. Astryx #E3193B at 10% alpha (lightened from Astryx's 20% per Chuck), in OKLCH. ≈ #fce8eb over white."
     },
     "error-status-text": {
       "$value": "oklch(0.368 0.148 25)",

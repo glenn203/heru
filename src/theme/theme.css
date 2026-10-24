@@ -260,19 +260,18 @@ heru-option::part(base) {
   min-block-size: max(24px, calc(var(--_heru-control-height, 2.25rem) - 4px));
   padding-inline: var(--heru-space-2);
   border-radius: var(--heru-radius-5);
-  transition:
-    background-color var(--heru-motion-duration-fast)
-      var(--heru-motion-ease-out),
-    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+  transition: background-color var(--heru-motion-duration-fast)
+    var(--heru-motion-ease-out);
 }
+/* Flat hover: background tint only, no shadow (--heru-elevation-hover is reserved). */
 heru-option:state(active)::part(base),
 heru-option:hover::part(base) {
-  background: var(--heru-color-surface);
-  box-shadow: var(--heru-elevation-hover);
+  background: var(--heru-color-slate-100);
+  box-shadow: none;
 }
 heru-option:active::part(base) {
   background: var(--heru-color-slate-200);
-  box-shadow: var(--heru-elevation-hover);
+  box-shadow: none;
 }
 heru-option:state(disabled)::part(base) {
   color: var(--heru-color-text-muted);
