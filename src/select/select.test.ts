@@ -491,3 +491,112 @@ test('option hover and keyboard-active use a flat slate-100 background, no shado
   expect(active.shadow).toBe('none');
   expect(active.bg).toBe(active.want);
 });
+
+test('select error box matches the text field error box exactly', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await mount(
+    page,
+    `<div style="display:grid;grid-template-columns:240px 240px;gap:40px">
+      <heru-text-field label="Fruit" required><span slot="description">Help</span><span slot="error">Pick one</span></heru-text-field>
+      <heru-select label="Fruit" required>${OPTIONS}<span slot="description">Help</span><span slot="error">Pick one</span></heru-select>
+    </div>`,
+  );
+  await withTheme(page);
+  const measure = (tag: string) =>
+    page.locator(tag).evaluate(async (el) => {
+      await document.fonts.ready;
+      const host = el as HTMLElement & {
+        reportValidity(): boolean;
+        updateComplete: Promise<unknown>;
+      };
+      host.reportValidity();
+      await host.updateComplete;
+      const root = el.shadowRoot!;
+      const ctlEl = root.querySelector('[part="trigger"], [part="input"]')!;
+      const ctl = ctlEl.getBoundingClientRect();
+      const boxEl = root.querySelector('[part="error"]')!;
+      const b = boxEl.getBoundingClientRect();
+      const cs = getComputedStyle(boxEl);
+      const range = document.createRange();
+      range.selectNodeContents(el.querySelector('[slot="error"]')!);
+      const g = range.getBoundingClientRect();
+      const props = [
+        'background-color',
+        'color',
+        'font-size',
+        'font-weight',
+        'line-height',
+        'letter-spacing',
+        'padding-top',
+        'padding-right',
+        'padding-bottom',
+        'padding-left',
+        'margin-top',
+        'border-top-left-radius',
+        'border-top-right-radius',
+        'border-bottom-left-radius',
+        'border-bottom-right-radius',
+        'box-shadow',
+      ];
+      return {
+        rect: {
+          left: b.left - ctl.left,
+          right: ctl.right - b.right,
+          top: b.top - ctl.bottom,
+          height: b.height,
+          visible: b.bottom - ctl.bottom,
+          glyphTop: g.top - ctl.bottom,
+        },
+        ctlZ: getComputedStyle(ctlEl).zIndex,
+        ctlBottomRadius: getComputedStyle(ctlEl).borderBottomLeftRadius,
+        styles: Object.fromEntries(
+          props.map((p) => [p, cs.getPropertyValue(p)]),
+        ),
+      };
+    });
+  const tf = await measure('heru-text-field');
+  const se = await measure('heru-select');
+  expect(se).toEqual(tf);
+  // reportValidity() focuses the control; compare unfocused boxes.
+  await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
+  await page.mouse.move(0, 0);
+  const shot = async (tag: string) =>
+    (await page.locator(tag).locator('[part="error"]').screenshot()).toString(
+      'base64',
+    );
+  // Pixel diff in a canvas; allow 2/255 per channel for corner anti-aliasing.
+  const diff = await page.evaluate(
+    async ([a, b]) => {
+      const load = async (src: string) => {
+        const img = new Image();
+        img.src = `data:image/png;base64,${src}`;
+        await img.decode();
+        const c = document.createElement('canvas');
+        c.width = img.width;
+        c.height = img.height;
+        const ctx = c.getContext('2d')!;
+        ctx.drawImage(img, 0, 0);
+        return {
+          w: img.width,
+          h: img.height,
+          d: ctx.getImageData(0, 0, img.width, img.height).data,
+        };
+      };
+      const [x, y] = [await load(a!), await load(b!)];
+      if (x.w !== y.w || x.h !== y.h) return { size: false, over: -1, max: -1 };
+      let over = 0;
+      let max = 0;
+      for (let i = 0; i < x.d.length; i++) {
+        const v = Math.abs(x.d[i]! - y.d[i]!);
+        max = Math.max(max, v);
+        if (v > 2) over++;
+      }
+      return { size: true, over, max };
+    },
+    [await shot('heru-select'), await shot('heru-text-field')],
+  );
+  expect(diff.size).toBe(true);
+  expect(diff.over).toBe(0);
+});
