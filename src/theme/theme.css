@@ -103,10 +103,7 @@ heru-text-field::part(description) {
   margin-block-start: var(--heru-space-3);
   color: var(--heru-color-text-muted);
 }
-heru-text-field::part(error) {
-  margin-block-start: var(--heru-space-1);
-  color: var(--heru-color-error-text);
-}
+/* Text field error: see the shared attached error box below. */
 heru-text-field:state(invalid)::part(input) {
   border-color: var(--heru-color-error);
 }
@@ -135,32 +132,44 @@ heru-text-field:state(disabled)::part(input) {
 }
 
 /* ---------- Select ----------
- * Per the 2026-10-24 call (Astryx-style): focus drawn INSIDE the 1px border
- * (no outer ring), error message in an attached status box. Shadows come only
- * from the shared --heru-elevation-* tokens. */
+ * Same outer focus ring as text field/button (D9: outer ring everywhere).
+ * Menu and option shadows come only from the shared --heru-elevation-* tokens. */
 heru-select {
   color: var(--heru-color-text);
 }
 heru-select::part(label) {
-  margin-block-end: var(--heru-space-2);
+  margin-block-end: var(--heru-space-3); /* clears the 8px ring/halo */
 }
 heru-select::part(trigger) {
   border-color: var(--heru-color-border-strong);
   background: var(--heru-color-bg);
   color: var(--heru-color-text);
-  outline: 2px solid transparent; /* forced-colors fallback */
-  outline-offset: -2px;
   transition:
     border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
     box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+  /* Focus ring rests at zero spread so it can grow in. */
+  outline: 2px solid transparent; /* Windows High Contrast fallback */
+  outline-offset: var(--heru-focus-ring-offset);
+  box-shadow:
+    0 0 0 0 var(--heru-color-bg),
+    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-focus-halo);
 }
 heru-select:hover::part(trigger) {
   border-color: var(--heru-color-text-muted);
 }
-heru-select::part(trigger):focus-visible,
-heru-select:state(open)::part(trigger) {
-  border-color: var(--heru-color-focus-ring);
-  box-shadow: inset 0 0 0 1px var(--heru-color-focus-ring);
+heru-select::part(trigger):focus {
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-focus-ring),
+    0 0 0
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-halo-width)
+      )
+      var(--heru-focus-halo);
 }
 heru-select:state(placeholder)::part(value),
 heru-select::part(indicator) {
@@ -179,28 +188,48 @@ heru-select:state(open)::part(listbox) {
     var(--heru-motion-ease-out);
 }
 heru-select::part(description) {
-  margin-block-start: var(--heru-space-2);
+  margin-block-start: var(--heru-space-3);
   color: var(--heru-color-text-muted);
 }
 heru-select:state(invalid)::part(trigger) {
   border-color: var(--heru-color-error);
 }
-heru-select:state(invalid)::part(trigger):focus-visible,
-heru-select:state(invalid):state(open)::part(trigger) {
-  box-shadow: inset 0 0 0 1px var(--heru-color-error);
+heru-select:state(invalid)::part(trigger):focus {
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-error),
+    0 0 0
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-halo-width)
+      )
+      var(--heru-focus-halo);
 }
-/* Attached status box: tucks under the trigger's bottom radius. */
+/* ---------- Shared attached error box (text field + select) ----------
+ * Flat Astryx FieldStatus "attached" style: muted red fill, 12px red text, no
+ * shadow (--heru-elevation-urgent is reserved, unused). Inset 8px each side,
+ * tucked under the control's bottom radius with no gap; replaces helper text.
+ * Top padding = radius + space-3 so the 8px focus ring/halo clears the text. */
+heru-text-field::part(input),
+heru-select::part(trigger) {
+  position: relative;
+  z-index: 1;
+}
+heru-text-field::part(error),
 heru-select::part(error) {
   margin-block-start: calc(-1 * var(--heru-radius-5));
-  margin-inline: var(--heru-space-2); /* inset 8px each side, Astryx-style */
-  padding: calc(var(--heru-space-2) + var(--heru-radius-5)) var(--heru-space-3)
+  margin-inline: var(--heru-space-2);
+  padding: calc(var(--heru-space-3) + var(--heru-radius-5)) var(--heru-space-3)
     var(--heru-space-2);
   border-radius: 0 0 var(--heru-radius-5) var(--heru-radius-5);
   background: var(--heru-color-error-surface);
   color: var(--heru-color-error-text);
-  box-shadow: var(--heru-elevation-urgent);
+  box-shadow: none;
 }
 /* Error-only: runs when the box is un-hidden (invalid), never on focus. */
+heru-text-field:state(invalid)::part(error),
 heru-select:state(invalid)::part(error) {
   animation: heru-error-in var(--heru-motion-duration-medium)
     var(--heru-motion-ease-out);
@@ -262,6 +291,7 @@ heru-option:state(disabled)::part(base) {
     transition: none; /* ring appears instantly */
   }
   heru-select::part(listbox),
+  heru-text-field::part(error),
   heru-select::part(error) {
     animation: none !important; /* menu and error appear instantly */
   }

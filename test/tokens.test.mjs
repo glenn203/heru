@@ -148,9 +148,14 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     'utf8',
   );
   const block = theme.slice(theme.indexOf('/* ---------- Select'));
+  assert.ok(!/inset/.test(block), 'no inside-border focus');
+  assert.ok(
+    !/box-shadow:\s*var\(--heru-elevation-urgent/.test(theme),
+    'elevation-urgent is reserved, unused',
+  );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--heru-elevation-|inset 0 0 0 1px var\(--heru-color-|^none$/.test(
+      /var\(--heru-elevation-(default|hover)|--heru-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,

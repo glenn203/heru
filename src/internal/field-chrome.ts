@@ -20,6 +20,7 @@ export const fieldChromeStyles = css`
   [part='error'] {
     ${textRole('caption')}
   }
+  [part='description'][hidden],
   [part='error'][hidden] {
     display: none;
   }

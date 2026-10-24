@@ -91,7 +91,7 @@ export const WithHelper: Story = {
   args: { description: 'We ship fruit on Mondays.' },
 };
 
-/** Submit empty: the error animates in and replaces the helper text. */
+/** Flat attached error box (same as text field) animates in and replaces the helper text. Tab in to see the shared outer focus ring. */
 export const ErrorState: Story = {
   args: { required: true, description: 'We ship fruit on Mondays.' },
   play: async ({ canvasElement }) => {

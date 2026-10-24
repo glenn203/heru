@@ -238,3 +238,101 @@ test('attached error box is inset 8px on each side of the control', async ({
   // Attached: starts under the control's bottom edge, no gap.
   expect(r.tuck).toBeGreaterThan(0);
 });
+
+const errorBox = (page: Page, tag: string) =>
+  page.locator(tag).evaluate(async (el) => {
+    const host = el as HTMLElement & {
+      reportValidity(): boolean;
+      updateComplete: Promise<unknown>;
+    };
+    host.reportValidity();
+    await host.updateComplete;
+    const ctl = el.shadowRoot!.querySelector(
+      '[part="trigger"], [part="input"]',
+    )!;
+    const box = el.shadowRoot!.querySelector('[part="error"]')!;
+    const desc = el.shadowRoot!.querySelector('[part="description"]')!;
+    const t = ctl.getBoundingClientRect();
+    const e = box.getBoundingClientRect();
+    const cs = getComputedStyle(box);
+    return {
+      shadow: cs.boxShadow,
+      bg: cs.backgroundColor,
+      fontSize: cs.fontSize,
+      left: e.left - t.left,
+      right: t.right - e.right,
+      tuck: t.bottom - e.top,
+      helperHidden: desc.hasAttribute('hidden'),
+    };
+  });
+
+for (const tag of ['heru-select', 'heru-text-field']) {
+  test(`${tag}: flat attached error box (no shadow, inset 8px, tucked, replaces helper)`, async ({
+    page,
+  }) => {
+    const inner = tag === 'heru-select' ? OPTIONS : '';
+    await mount(
+      page,
+      `<${tag} label="Fruit" required>${inner}<span slot="description">Help</span><span slot="error">Pick one</span></${tag}>`,
+    );
+    await withTheme(page);
+    const r = await errorBox(page, tag);
+    expect(r.shadow).toBe('none');
+    expect(r.bg).not.toBe('rgba(0, 0, 0, 0)');
+    expect(r.fontSize).toBe('12px');
+    expect(r.left).toBeCloseTo(8, 0);
+    expect(r.right).toBeCloseTo(8, 0);
+    expect(r.tuck).toBeGreaterThan(0);
+    expect(r.helperHidden).toBe(true);
+  });
+}
+
+test('select focus matches text field focus (outer ring), incl. invalid', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await mount(
+    page,
+    `<heru-text-field label="Name" required></heru-text-field><heru-select label="Fruit" required>${OPTIONS}</heru-select>`,
+  );
+  await withTheme(page);
+  const shadow = async (focus: () => Promise<void>, sel: string) => {
+    await focus();
+    return page.evaluate(
+      (s) =>
+        getComputedStyle(
+          document
+            .querySelector(s.split('|')[0]!)!
+            .shadowRoot!.querySelector(s.split('|')[1]!)!,
+        ).boxShadow,
+      sel,
+    );
+  };
+  const tf = await shadow(
+    () => page.getByRole('textbox', { name: 'Name' }).focus(),
+    'heru-text-field|[part="input"]',
+  );
+  const se = await shadow(
+    () => page.getByRole('combobox', { name: 'Fruit' }).focus(),
+    'heru-select|[part="trigger"]',
+  );
+  expect(tf).not.toContain('inset');
+  expect(se).toBe(tf);
+  await page.evaluate(() =>
+    document
+      .querySelectorAll('heru-text-field, heru-select')
+      .forEach((e) =>
+        (e as HTMLElement & { reportValidity(): boolean }).reportValidity(),
+      ),
+  );
+  const tfi = await shadow(
+    () => page.getByRole('textbox', { name: 'Name' }).focus(),
+    'heru-text-field|[part="input"]',
+  );
+  const sei = await shadow(
+    () => page.getByRole('combobox', { name: 'Fruit' }).focus(),
+    'heru-select|[part="trigger"]',
+  );
+  expect(sei).toBe(tfi);
+  expect(sei).not.toBe(se);
+});

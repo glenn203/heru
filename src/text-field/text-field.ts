@@ -151,7 +151,13 @@ export class HeruTextField extends FormAssociated(LitElement) {
       this.internals.setValidity({});
     }
     const invalid = this.#validity.sync();
-    syncFieldA11y(this.renderRoot, this.input, this.#id, invalid);
+    // Error replaces helper text while invalid.
+    syncFieldA11y(this.renderRoot, this.input, this.#id, invalid, {
+      hideDescriptionWhenInvalid: true,
+    });
+    this.renderRoot
+      .querySelector('[part="description"]')
+      ?.toggleAttribute('hidden', invalid);
   }
 
   #onInput(event: Event): void {

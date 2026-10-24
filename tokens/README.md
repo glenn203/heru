@@ -65,8 +65,8 @@ over numeric `1/2/3`).
 | `--heru-elevation-hover`   | Interactive item on hover/press             | slate-950, hue 260, 8% + 16%, tighter |
 | `--heru-elevation-urgent`  | Error-urgent (attached error box)           | red-600, hue 27, 12% + 24%            |
 
-Related: `--heru-color-error-surface` (red-50) is the muted red fill for the
-attached error box; `--heru-motion-duration-medium` (200ms) drives the menu
+Related: `--heru-color-error-surface` (red-50) is the flat muted red fill for
+the attached error box (text field and select, no shadow); `--heru-motion-duration-medium` (200ms) drives the menu
 slide-down and error reveal. Both animations are disabled under
 `prefers-reduced-motion`.
 
