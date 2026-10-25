@@ -7,11 +7,10 @@ const OPTIONS = `
   <heru-option value="cherry" disabled>Cherry</heru-option>
   <heru-option value="date">Date</heru-option>`;
 
-const withTheme = (page: Page) =>
-  Promise.all([
-    page.addStyleTag({ path: 'src/tokens/tokens.css' }),
-    page.addStyleTag({ path: 'src/theme/theme.css' }),
-  ]);
+const withTheme = async (page: Page) => {
+  await page.addStyleTag({ path: 'src/tokens/tokens.css' });
+  await page.addStyleTag({ path: 'src/theme/theme.css' });
+};
 
 const activeText = (page: Page) =>
   page.locator('heru-select').evaluate((el) => {
@@ -797,4 +796,144 @@ test('description is hidden (space kept) while open, shown on close', async ({
   await expect(cb).toHaveAccessibleDescription('We ship on Mondays.');
   await page.keyboard.press('Escape');
   expect((await read()).vis).toBe('visible');
+});
+
+const ERR_SELECT = `<heru-select label="Fruit" required placeholder="Pick">${OPTIONS}<span slot="description">We ship on Mondays.</span><span slot="error">Choose a fruit.</span></heru-select><button id="next">next</button>`;
+async function erroredOpen(page: Page, density = 'default', size = 'md') {
+  await mount(
+    page,
+    `<div data-heru-density="${density}">${ERR_SELECT.replace('<heru-select', `<heru-select size="${size}"`)}</div>`,
+  );
+  await withTheme(page);
+  await page
+    .locator('heru-select')
+    .evaluate((e: HTMLElement & { reportValidity(): boolean }) =>
+      e.reportValidity(),
+    );
+}
+const geom = (page: Page) =>
+  page.locator('heru-select').evaluate((el) => {
+    const r = el.shadowRoot!;
+    const q = (p: string) => r.querySelector(`[part="${p}"]`)!;
+    const t = q('trigger').getBoundingClientRect();
+    const l = q('listbox').getBoundingClientRect();
+    const e = q('error').getBoundingClientRect();
+    return {
+      gap: t.bottom - l.top,
+      left: l.left - t.left,
+      errVis: getComputedStyle(q('error')).visibility,
+      errH: e.height,
+      errTop: e.top,
+      coversErr: l.top <= e.top && l.bottom >= e.bottom,
+      hitInErr:
+        r.elementFromPoint(e.left + e.width / 2, e.top + e.height / 2) ===
+        q('error'),
+    };
+  });
+
+for (const density of ['compact', 'default', 'comfortable'])
+  for (const size of ['sm', 'md', 'lg'])
+    test(`error + open (${density}/${size}): listbox tucks 3px under trigger, covers the hidden error`, async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await erroredOpen(page, density, size);
+      const closed = await geom(page);
+      expect(closed.errVis).toBe('visible');
+      const cb = page.getByRole('combobox', { name: 'Fruit' });
+      await cb.click();
+      const g = await geom(page);
+      expect(g.gap).toBeCloseTo(3, 0);
+      expect(g.left).toBeCloseTo(6, 0);
+      expect(g.coversErr).toBe(true);
+      expect(g.hitInErr).toBe(false);
+      expect(g.errVis).toBe('hidden');
+      expect(g.errH).toBe(closed.errH); // space kept
+      expect(g.errTop).toBe(closed.errTop);
+      await expect(cb).toHaveAccessibleDescription('Choose a fruit.');
+      await page.keyboard.press('Escape');
+      expect((await geom(page)).errVis).toBe('visible');
+    });
+
+test('no error: listbox still tucks 3px under trigger with and without description', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const desc of ['<span slot="description">Help</span>', '']) {
+    await mount(
+      page,
+      `<heru-select label="Fruit">${OPTIONS}${desc}</heru-select>`,
+    );
+    await withTheme(page);
+    await page.getByRole('combobox', { name: 'Fruit' }).click();
+    expect((await geom(page)).gap).toBeCloseTo(3, 0);
+  }
+});
+
+const focusState = (page: Page) =>
+  page.locator('heru-select').evaluate((el) => {
+    const t = el.shadowRoot!.querySelector<HTMLElement>('[part="trigger"]')!;
+    return {
+      onTrigger: el.shadowRoot!.activeElement === t,
+      ring: getComputedStyle(t).boxShadow,
+      open: el.hasAttribute('open'),
+    };
+  });
+
+test('focus returns to the trigger with the ring on Escape, Enter and click selection', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await mount(
+    page,
+    `<heru-select label="Fruit">${OPTIONS}</heru-select><button id="next">next</button>`,
+  );
+  await withTheme(page);
+  const cb = page.getByRole('combobox', { name: 'Fruit' });
+  const restRing = await focusState(page).then((s) => s.ring);
+  // Keyboard: Escape
+  await cb.focus();
+  await page.keyboard.press('ArrowDown');
+  expect((await focusState(page)).open).toBe(true);
+  await page.keyboard.press('Escape');
+  let s = await focusState(page);
+  expect(s).toMatchObject({ onTrigger: true, open: false });
+  expect(s.ring).not.toBe(restRing);
+  // Keyboard: Enter selects
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  s = await focusState(page);
+  expect(s).toMatchObject({ onTrigger: true, open: false });
+  expect(s.ring).not.toBe(restRing);
+  // Mouse: option pointerdown never takes focus; selection leaves it on trigger.
+  await cb.click();
+  await page.locator('heru-option[value="banana"]').click();
+  s = await focusState(page);
+  expect(s).toMatchObject({ onTrigger: true, open: false });
+  expect(s.ring).not.toBe(restRing); // ring shows after click selection too (:focus)
+  await expect(page.locator('heru-select')).toHaveJSProperty('value', 'banana');
+});
+
+test('Tab out closes and moves on; outside click does not steal focus back', async ({
+  page,
+}) => {
+  await mount(
+    page,
+    `<heru-select label="Fruit">${OPTIONS}</heru-select><button id="next">next</button>`,
+  );
+  await withTheme(page);
+  const cb = page.getByRole('combobox', { name: 'Fruit' });
+  await cb.focus();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Tab');
+  await expect(page.locator('#next')).toBeFocused();
+  expect((await focusState(page)).open).toBe(false);
+  await cb.click();
+  await page.mouse.click(5, 400);
+  const s = await focusState(page);
+  expect(s).toMatchObject({ onTrigger: false, open: false });
+  expect(await page.evaluate(() => document.activeElement?.localName)).toBe(
+    'body',
+  );
 });

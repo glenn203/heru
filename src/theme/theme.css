@@ -345,8 +345,9 @@ heru-option:state(disabled)::part(base) {
 
 @media (prefers-reduced-motion: reduce) {
   /* Motion tokens collapse: near-zero durations, springs become linear so
-     nothing moves; only opacity may change. */
-  :root {
+     nothing moves; only opacity may change. Extra specificity so this wins
+     over tokens.css's :root regardless of stylesheet order. */
+  :root:root {
     --heru-duration-fast: 0.01ms;
     --heru-duration-default: 0.01ms;
     --heru-duration-slow: 0.01ms;

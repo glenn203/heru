@@ -58,6 +58,17 @@ export class HeruSelect extends FormAssociated(LitElement) {
       [part='field'] {
         position: relative;
       }
+      /* Containing block for the listbox: wraps trigger + listbox only. No
+         z-index, so trigger (2) / listbox (1) / error (auto) still stack in
+         the same context. */
+      .anchor {
+        position: relative;
+      }
+      /* While open the menu covers this area: hide the error like the
+         description (space kept, aria-describedby still resolves). */
+      :host([open]) [part='error'] {
+        visibility: hidden;
+      }
       [part='trigger'] {
         position: relative;
         z-index: 1;
@@ -382,37 +393,41 @@ export class HeruSelect extends FormAssociated(LitElement) {
     return html`
       ${renderLabel(id, this.label)}
       <div part="field">
-        <div
-          part="trigger"
-          role="combobox"
-          tabindex=${this.isDisabled ? '-1' : '0'}
-          aria-labelledby="${id}-label"
-          aria-haspopup="listbox"
-          aria-expanded=${String(this.open)}
-          aria-controls="${id}-listbox"
-          aria-required=${String(this.required)}
-          aria-disabled=${String(this.isDisabled)}
-          @keydown=${this.#onKeydown}
-          @click=${() => this.#setOpen(!this.open)}
-          @blur=${() => {
-            this.#validity.touch();
-            this.#setOpen(false);
-          }}
-        >
-          <span part="value">${sel ? sel.text : this.placeholder}</span>
-          <span part="indicator" aria-hidden="true">▾</span>
-        </div>
-        <div
-          part="listbox"
-          id="${id}-listbox"
-          role="listbox"
-          aria-labelledby="${id}-label"
-          ?hidden=${!this.open}
-          @pointerdown=${(e: Event) => e.preventDefault()}
-          @pointerup=${(e: Event) => this.#onListPointer(e, true)}
-          @pointerover=${(e: Event) => this.#onListPointer(e, false)}
-        >
-          <slot @slotchange=${() => this.requestUpdate()}></slot>
+        <!-- Anchor: the listbox positions against the trigger only, so the
+             error box (a later sibling in field) can't push it down. -->
+        <div class="anchor">
+          <div
+            part="trigger"
+            role="combobox"
+            tabindex=${this.isDisabled ? '-1' : '0'}
+            aria-labelledby="${id}-label"
+            aria-haspopup="listbox"
+            aria-expanded=${String(this.open)}
+            aria-controls="${id}-listbox"
+            aria-required=${String(this.required)}
+            aria-disabled=${String(this.isDisabled)}
+            @keydown=${this.#onKeydown}
+            @click=${() => this.#setOpen(!this.open)}
+            @blur=${() => {
+              this.#validity.touch();
+              this.#setOpen(false);
+            }}
+          >
+            <span part="value">${sel ? sel.text : this.placeholder}</span>
+            <span part="indicator" aria-hidden="true">▾</span>
+          </div>
+          <div
+            part="listbox"
+            id="${id}-listbox"
+            role="listbox"
+            aria-labelledby="${id}-label"
+            ?hidden=${!this.open}
+            @pointerdown=${(e: Event) => e.preventDefault()}
+            @pointerup=${(e: Event) => this.#onListPointer(e, true)}
+            @pointerover=${(e: Event) => this.#onListPointer(e, false)}
+          >
+            <slot @slotchange=${() => this.requestUpdate()}></slot>
+          </div>
         </div>
         ${renderError(id)}
       </div>
