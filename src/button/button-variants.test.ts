@@ -10,7 +10,10 @@ const BG: Record<(typeof V)[number], [string, string]> = {
   ],
   ghost: ['transparent', 'var(--heru-color-text)'],
   outline: ['transparent', 'var(--heru-color-text)'],
-  destructive: ['var(--heru-color-danger)', 'var(--heru-color-on-danger)'],
+  destructive: [
+    'color-mix(in srgb, var(--heru-color-bg), var(--heru-color-error-surface-base) 8%)',
+    'var(--heru-color-on-error-surface)',
+  ],
 };
 
 async function setup(page: Page) {
@@ -148,4 +151,37 @@ test('ghost has no visible border; outline keeps a border-strong border', async 
   expect(await css(page.locator('#outline'), 'border-top-color')).toBe(
     await probe(page, 'var(--heru-color-border-strong)', 'border-top-color'),
   );
+});
+
+test('destructive rest fill equals the error box (error-surface) over bg', async ({
+  page,
+}) => {
+  await setup(page);
+  const box = await page.evaluate(() => {
+    const c = document.createElement('canvas');
+    c.width = c.height = 1;
+    const x = c.getContext('2d')!;
+    const cs = getComputedStyle(document.documentElement);
+    x.fillStyle = cs.getPropertyValue('--heru-color-bg');
+    x.fillRect(0, 0, 1, 1);
+    const p = document.createElement('div');
+    p.style.color = 'var(--heru-color-error-surface)';
+    document.body.append(p);
+    x.fillStyle = getComputedStyle(p).color;
+    p.remove();
+    x.fillRect(0, 0, 1, 1);
+    return [...x.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+  });
+  const btn = await page.locator('#destructive').evaluate((el) => {
+    const c = document.createElement('canvas');
+    c.width = c.height = 1;
+    const x = c.getContext('2d')!;
+    x.fillStyle = getComputedStyle(
+      el.shadowRoot!.querySelector('[part=base]')!,
+    ).backgroundColor;
+    x.fillRect(0, 0, 1, 1);
+    return [...x.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+  });
+  console.log('error box', box, 'button', btn);
+  btn.forEach((v, i) => expect(Math.abs(v - box[i]!)).toBeLessThanOrEqual(1));
 });

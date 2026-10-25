@@ -443,11 +443,27 @@ test('theme + component styles: no raw palette refs, no colour literals', () => 
 // Every fg/bg pair on every state fill. Text >= 4.5:1, borders/icons >= 3:1.
 // Disabled is exempt per WCAG 1.4.3/1.4.11 but its numbers are reported.
 const MATRIX_STATES = { rest: 0, ...STATES };
-// bgKey may be [roleA, roleB, pct] for an opaque color-mix() base.
+/** sRGB (0..1, gamma) -> oklch() string (Ottosson). */
+const toOklch = (rgb) => {
+  const [r, g, b] = rgb.map((v) =>
+    v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
+  );
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+  return `oklch(${L} ${Math.hypot(A, B)} ${((Math.atan2(B, A) * 180) / Math.PI + 360) % 360})`;
+};
+// bgKey may be [roleA, roleB, pct, space?] for an opaque color-mix() base.
+// 'srgb' = roleB at pct alpha composited over roleA (what a veil renders).
 const baseOf = (bgKey) =>
-  Array.isArray(bgKey)
-    ? mixOklch(tok(bgKey[0]), tok(bgKey[1]), bgKey[2])
-    : tok(bgKey);
+  !Array.isArray(bgKey)
+    ? tok(bgKey)
+    : bgKey[3] === 'srgb'
+      ? toOklch(veil(tok(bgKey[1]), tok(bgKey[0]), bgKey[2]))
+      : mixOklch(tok(bgKey[0]), tok(bgKey[1]), bgKey[2]);
 const fillOf = (bgKey, onKey, p) =>
   bgKey
     ? srgb(mixOklch(baseOf(bgKey), tok(onKey), p))
@@ -472,9 +488,9 @@ const MATRIX = [
   ],
   [
     'destructive',
-    'color.danger',
-    'color.on-danger',
-    [['color.on-danger', 'text']],
+    ['color.bg', 'color.error-surface-base', 0.08, 'srgb'],
+    'color.on-error-surface',
+    [['color.on-error-surface', 'text']],
   ],
   [
     'outline',
@@ -513,18 +529,9 @@ for (const [surface, bgKey, onKey, pairs] of MATRIX)
       const min = kind === 'text' ? 4.5 : 3;
       const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
       MATRIX_RESULTS.push({ surface, state, fg, kind, r });
-      // FLAG (awaiting Chuck): destructive failures are reported, not fixed.
-      const todo =
-        surface === 'destructive' && r < min
-          ? `FLAG ${r.toFixed(2)}:1 < ${min}:1 — decision pending`
-          : false;
-      test(
-        `matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`,
-        { todo },
-        () => {
-          assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
-        },
-      );
+      test(`matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`, () => {
+        assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
+      });
     }
 
 test('matrix report: disabled (exempt) numbers', () => {
@@ -537,6 +544,20 @@ test('matrix report: disabled (exempt) numbers', () => {
     [
       'button disabled: border on bg',
       ratio(srgb(tok('color.border')), srgb(tok('color.bg'))),
+    ],
+    [
+      'destructive rest vs error box over bg: max sRGB channel diff (0-255)',
+      Math.max(
+        ...srgb(
+          baseOf(['color.bg', 'color.error-surface-base', 0.08, 'srgb']),
+        ).map(
+          (v, i) =>
+            Math.abs(
+              v -
+                veil(tok('color.error-surface-base'), tok('color.bg'), 0.08)[i],
+            ) * 255,
+        ),
+      ),
     ],
     [
       'ghost disabled: text-muted on bg',

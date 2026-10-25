@@ -56,6 +56,9 @@ heru-button[variant='secondary']::part(base) {
   heru-button[variant='secondary']::part(base) {
     --_bg: var(--heru-color-surface-hover);
   }
+  heru-button[variant='destructive']::part(base) {
+    --_bg: var(--heru-color-error-surface);
+  }
 }
 /* Ghost: transparent, no visible border, on-colour veil on hover. */
 heru-button[variant='ghost']::part(base) {
@@ -66,13 +69,19 @@ heru-button[variant='ghost']::part(base) {
   --_bg-selected: var(--heru-color-surface-pressed);
   --_border: transparent;
 }
-/* Destructive: solid danger fill. Same focus ring as every variant. */
+/* Destructive: the error box's soft tint, made opaque. An srgb mix of the
+ * error-surface base over color-bg is exactly what the 8% translucent
+ * error-surface composites to, so the button matches the error box. */
 heru-button[variant='destructive']::part(base) {
-  --_bg: var(--heru-color-danger);
-  --_on: var(--heru-color-on-danger);
-  --_bg-hover: var(--heru-color-error-text);
-  --_bg-pressed: var(--heru-color-error-text);
-  --_bg-selected: var(--heru-color-error-text);
+  --_bg: color-mix(
+    in srgb,
+    var(--heru-color-bg),
+    var(--heru-color-error-surface-base) 8%
+  );
+  --_on: var(--heru-color-on-error-surface);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
 }
 /* Outline: transparent fill, a >= 3:1 border that never changes with state,
  * on-colour veil on hover. */

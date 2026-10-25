@@ -679,6 +679,12 @@
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
+      "color.error-surface-base": {
+        "cssVar": "--heru-color-error-surface-base",
+        "type": "color",
+        "value": "oklch(0.586 0.226 21.3)",
+        "hex": "#e3193b"
+      },
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
@@ -696,18 +702,6 @@
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
-      },
-      "color.danger": {
-        "cssVar": "--heru-color-danger",
-        "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
-      },
-      "color.on-danger": {
-        "cssVar": "--heru-color-on-danger",
-        "type": "color",
-        "value": "oklch(1 0 260)",
-        "hex": "#ffffff"
       },
       "state.hover": {
         "cssVar": "--heru-state-hover",
@@ -1498,6 +1492,12 @@
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
+      "color.error-surface-base": {
+        "cssVar": "--heru-color-error-surface-base",
+        "type": "color",
+        "value": "oklch(0.586 0.226 21.3)",
+        "hex": "#e3193b"
+      },
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
@@ -1515,18 +1515,6 @@
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
-      },
-      "color.danger": {
-        "cssVar": "--heru-color-danger",
-        "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
-      },
-      "color.on-danger": {
-        "cssVar": "--heru-color-on-danger",
-        "type": "color",
-        "value": "oklch(1 0 260)",
-        "hex": "#ffffff"
       },
       "state.hover": {
         "cssVar": "--heru-state-hover",
@@ -2317,6 +2305,12 @@
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
+      "color.error-surface-base": {
+        "cssVar": "--heru-color-error-surface-base",
+        "type": "color",
+        "value": "oklch(0.586 0.226 21.3)",
+        "hex": "#e3193b"
+      },
       "color.error-surface": {
         "cssVar": "--heru-color-error-surface",
         "type": "color",
@@ -2334,18 +2328,6 @@
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
-      },
-      "color.danger": {
-        "cssVar": "--heru-color-danger",
-        "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
-      },
-      "color.on-danger": {
-        "cssVar": "--heru-color-on-danger",
-        "type": "color",
-        "value": "oklch(1 0 260)",
-        "hex": "#ffffff"
       },
       "state.hover": {
         "cssVar": "--heru-state-hover",

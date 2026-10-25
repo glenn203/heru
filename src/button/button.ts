@@ -77,7 +77,7 @@ export class HeruButton extends FormAssociated(LitElement) {
    * - `secondary` accent tint with accent text
    * - `ghost` transparent, no border
    * - `outline` transparent with a border
-   * - `destructive` solid danger fill
+   * - `destructive` error-box tint with dark red text
    */
   @property({ reflect: true }) variant?:
     'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive';
