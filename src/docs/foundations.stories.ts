@@ -208,7 +208,7 @@ export const Focus: StoryObj = {
           ${read('--heru-focus-ring-blur')} blur. Instant with reduced motion.
         </p>
         <heru-button type="button">Focus me</heru-button>
-        <heru-text-field label="Or me"></heru-text-field>
+        <heru-text-input label="Or me"></heru-text-input>
       </div>`,
 };
 

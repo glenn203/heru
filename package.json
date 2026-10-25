@@ -62,6 +62,46 @@
       "types": "./dist/text-field/define.d.ts",
       "import": "./dist/text-field/define.js"
     },
+    "./text-input": {
+      "types": "./dist/text-input/text-input.d.ts",
+      "import": "./dist/text-input/text-input.js"
+    },
+    "./text-input/define": {
+      "types": "./dist/text-input/define.d.ts",
+      "import": "./dist/text-input/define.js"
+    },
+    "./password-input": {
+      "types": "./dist/password-input/password-input.d.ts",
+      "import": "./dist/password-input/password-input.js"
+    },
+    "./password-input/define": {
+      "types": "./dist/password-input/define.d.ts",
+      "import": "./dist/password-input/define.js"
+    },
+    "./search-input": {
+      "types": "./dist/search-input/search-input.d.ts",
+      "import": "./dist/search-input/search-input.js"
+    },
+    "./search-input/define": {
+      "types": "./dist/search-input/define.d.ts",
+      "import": "./dist/search-input/define.js"
+    },
+    "./otp-input": {
+      "types": "./dist/otp-input/otp-input.d.ts",
+      "import": "./dist/otp-input/otp-input.js"
+    },
+    "./otp-input/define": {
+      "types": "./dist/otp-input/define.d.ts",
+      "import": "./dist/otp-input/define.js"
+    },
+    "./text-area": {
+      "types": "./dist/text-area/text-area.d.ts",
+      "import": "./dist/text-area/text-area.js"
+    },
+    "./text-area/define": {
+      "types": "./dist/text-area/define.d.ts",
+      "import": "./dist/text-area/define.js"
+    },
     "./select": {
       "types": "./dist/select/select.d.ts",
       "import": "./dist/select/select.js"
