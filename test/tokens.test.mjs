@@ -464,10 +464,10 @@ const baseOf = (bgKey) =>
     : bgKey[3] === 'srgb'
       ? toOklch(veil(tok(bgKey[1]), tok(bgKey[0]), bgKey[2]))
       : mixOklch(tok(bgKey[0]), tok(bgKey[1]), bgKey[2]);
+// State layer = alpha overlay: the on-colour at p alpha composited (srgb)
+// over the opaque resting fill, or over color-bg for transparent surfaces.
 const fillOf = (bgKey, onKey, p) =>
-  bgKey
-    ? srgb(mixOklch(baseOf(bgKey), tok(onKey), p))
-    : veil(tok(onKey), tok('color.bg'), p);
+  veil(tok(onKey), bgKey ? baseOf(bgKey) : tok('color.bg'), p);
 // [surface, bg role (null = transparent on color-bg), on role, [fg role, kind]]
 const MATRIX = [
   ['button', 'color.accent', 'color.on-accent', [['color.on-accent', 'text']]],

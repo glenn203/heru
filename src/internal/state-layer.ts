@@ -5,72 +5,76 @@ import { css, unsafeCSS, type CSSResult } from 'lit';
  * tree rows, list items, tabs, clickable cards, icon buttons.
  *
  * Contract (theme-facing, set from outside via ::part()):
- *   --_bg   resting fill (may be `transparent`)
+ *   --_bg   resting fill (may be `transparent`); never changes with state
  *   --_on   text/icon colour on that fill
  *   --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used
  *           ONLY when color-mix() is unsupported (Safari < 16.2 etc.)
- * Fill = color-mix(in oklch, var(--_bg), var(--_on) <state %>).
- * Mixing with a transparent --_bg yields the on-colour at <state %> alpha
- * (identical to an srgb veil), so one formula covers solid and outline.
- * The resolved fill is exposed as --_prism-state-fill (e.g. for a border that
- * follows the fill).
+ *
+ * Alpha overlay (Astryx-style): background-color stays var(--_bg); each state
+ * paints background-image: linear-gradient(X, X) with
+ *   X = color-mix(in srgb, var(--_on) N%, transparent)
+ * i.e. the element's own text colour at N% alpha composited over its fill.
+ * The resolved overlay colour is exposed as --_prism-state-overlay.
+ * The overlay paints under a transparent border too (background-clip:
+ * border-box), so a border that should follow the fill uses `transparent`.
  *
  * States (in the shadow root, so ::part() themes don't need per-state rules):
- *   hover     :hover inside @media (hover: hover), or host :state(active)
+ *   hover     8%  :hover inside @media (hover: hover), or host :state(active)
  *             (keyboard highlight, e.g. aria-activedescendant)
- *   pressed   :active, or [data-pressed] for components with a keyboard-
- *             pressed state
- *   selected  [aria-selected=true] / [aria-pressed=true] / [aria-current] /
+ *   pressed  12%  :active, or [data-pressed]
+ *   selected 14%  [aria-selected=true] / [aria-pressed=true] / [aria-current] /
  *             [aria-checked=true] on the surface, or host :state(selected).
- *             Uses --prism-state-selected. Selected+hover adds half of
- *             --prism-state-hover (18% by default) so tinted text/borders keep
- *             contrast; selected+pressed uses the pressed fill (12%). Colour is never the only cue: the
- *             component MUST also show a non-colour indicator (check mark,
- *             underline, bold, icon…) — WCAG 1.4.1.
+ *             Selected+hover = selected + hover/2 (18%); selected+pressed uses
+ *             pressed (12%). Colour is never the only cue: the component MUST
+ *             also show a non-colour indicator (WCAG 1.4.1).
  *   disabled  :disabled / [aria-disabled=true] / host :state(disabled):
  *             no hover/pressed/selected change at all.
- * Headless-safe: with no theme, --_bg is unset and the fill is transparent.
+ * Headless-safe: with no theme, --_bg/--_on are unset and nothing paints.
  */
 export function stateLayer(selector: string): CSSResult {
   const s = unsafeCSS(selector);
   const live = unsafeCSS(`${selector}:not(:disabled, [aria-disabled='true'])`);
   return css`
     ${s} {
-      --_prism-mix-hover: color-mix(
-        in oklch,
-        var(--_bg, transparent),
-        var(--_on, transparent) var(--prism-state-hover, 8%)
+      --_prism-ov-hover: color-mix(
+        in srgb,
+        var(--_on, transparent) var(--prism-state-hover, 8%),
+        transparent
       );
-      --_prism-mix-pressed: color-mix(
-        in oklch,
-        var(--_bg, transparent),
-        var(--_on, transparent) var(--prism-state-pressed, 12%)
+      --_prism-ov-pressed: color-mix(
+        in srgb,
+        var(--_on, transparent) var(--prism-state-pressed, 12%),
+        transparent
       );
-      --_prism-mix-selected: color-mix(
-        in oklch,
-        var(--_bg, transparent),
-        var(--_on, transparent) var(--prism-state-selected, 14%)
+      --_prism-ov-selected: color-mix(
+        in srgb,
+        var(--_on, transparent) var(--prism-state-selected, 14%),
+        transparent
       );
-      --_prism-mix-selected-hover: color-mix(
-        in oklch,
-        var(--_bg, transparent),
+      --_prism-ov-selected-hover: color-mix(
+        in srgb,
         var(--_on, transparent)
           calc(
             var(--prism-state-selected, 14%) + var(--prism-state-hover, 8%) / 2
-          )
+          ),
+        transparent
       );
-      --_prism-state-fill: var(--_bg, transparent);
-      background-color: var(--_prism-state-fill);
+      --_prism-state-overlay: transparent;
+      --_prism-fb: var(--_bg, transparent);
+      background-color: var(--_bg, transparent);
+      background-image: linear-gradient(
+        var(--_prism-state-overlay),
+        var(--_prism-state-overlay)
+      );
     }
-    @supports not (color: color-mix(in oklch, red, blue)) {
+    @supports not (color: color-mix(in srgb, red, blue)) {
+      /* No overlay: swap the fill for the theme's fixed per-state fills. */
       ${s} {
-        --_prism-mix-hover: var(--_bg-hover, var(--_bg, transparent));
-        --_prism-mix-pressed: var(--_bg-pressed, var(--_bg, transparent));
-        --_prism-mix-selected: var(--_bg-selected, var(--_bg, transparent));
-        --_prism-mix-selected-hover: var(
-          --_bg-selected,
-          var(--_bg, transparent)
-        );
+        --_prism-ov-hover: transparent;
+        --_prism-ov-pressed: transparent;
+        --_prism-ov-selected: transparent;
+        --_prism-ov-selected-hover: transparent;
+        background-color: var(--_prism-fb);
       }
     }
     ${live}:is(
@@ -80,17 +84,21 @@ export function stateLayer(selector: string): CSSResult {
         [aria-current]:not([aria-current='false'])
       ),
     :host(:state(selected):not(:state(disabled))) ${s} {
-      --_prism-state-fill: var(--_prism-mix-selected);
+      --_prism-state-overlay: var(--_prism-ov-selected);
+      --_prism-fb: var(--_bg-selected, var(--_bg, transparent));
     }
     :host(:state(active):not(:state(disabled))) ${s} {
-      --_prism-state-fill: var(--_prism-mix-hover);
+      --_prism-state-overlay: var(--_prism-ov-hover);
+      --_prism-fb: var(--_bg-hover, var(--_bg, transparent));
     }
     :host(:state(active):state(selected):not(:state(disabled))) ${s} {
-      --_prism-state-fill: var(--_prism-mix-selected-hover);
+      --_prism-state-overlay: var(--_prism-ov-selected-hover);
+      --_prism-fb: var(--_bg-selected, var(--_bg, transparent));
     }
     @media (hover: hover) {
       :host(:not(:state(disabled))) ${live}:hover {
-        --_prism-state-fill: var(--_prism-mix-hover);
+        --_prism-state-overlay: var(--_prism-ov-hover);
+        --_prism-fb: var(--_bg-hover, var(--_bg, transparent));
       }
       :host(:not(:state(disabled)))
         ${live}:hover:is(
@@ -100,11 +108,13 @@ export function stateLayer(selector: string): CSSResult {
           [aria-current]:not([aria-current='false'])
         ),
       :host(:state(selected):not(:state(disabled))) ${live}:hover {
-        --_prism-state-fill: var(--_prism-mix-selected-hover);
+        --_prism-state-overlay: var(--_prism-ov-selected-hover);
+        --_prism-fb: var(--_bg-selected, var(--_bg, transparent));
       }
     }
     :host(:not(:state(disabled))) ${live}:is(:active, [data-pressed]) {
-      --_prism-state-fill: var(--_prism-mix-pressed);
+      --_prism-state-overlay: var(--_prism-ov-pressed);
+      --_prism-fb: var(--_bg-pressed, var(--_bg, transparent));
     }
   `;
 }

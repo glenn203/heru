@@ -498,12 +498,16 @@ test('option hover and keyboard-active use the shared state-layer hover fill, no
     page.locator(`prism-option[value="${v}"]`).evaluate((o) => {
       const b = getComputedStyle(o.shadowRoot!.querySelector('[part="base"]')!);
       const probe = document.createElement('div');
-      probe.style.background =
-        'color-mix(in oklch, var(--prism-color-bg), var(--prism-color-text) var(--prism-state-hover))';
+      probe.style.color =
+        'color-mix(in srgb, var(--prism-color-text) var(--prism-state-hover), transparent)';
       document.body.append(probe);
-      const want = getComputedStyle(probe).backgroundColor;
+      const ov = getComputedStyle(probe).color;
       probe.remove();
-      return { shadow: b.boxShadow, bg: b.backgroundColor, want };
+      return {
+        shadow: b.boxShadow,
+        bg: b.backgroundImage,
+        want: `linear-gradient(${ov}, ${ov})`,
+      };
     });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.getByRole('combobox', { name: 'Fruit' }).click();
