@@ -54,17 +54,39 @@ heru-button:state(disabled)::part(base) {
   color: var(--heru-color-text-muted);
 }
 
-/* ---------- Text field ---------- */
-heru-text-field {
+/* ---------- Text inputs (TextInput, PasswordInput, SearchInput, OtpInput,
+ * TextArea; heru-text-field is the deprecated TextInput alias) ---------- */
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+) {
   color: var(--heru-color-text);
 }
 /* Focus reach is 4px: label gap 4px, description gap 8px. */
-heru-text-field::part(label) {
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+)::part(label) {
   margin-block-end: calc(
     var(--heru-space-1) / 2
   ); /* 2px: half a grid unit, per Chuck's mock */
 }
-heru-text-field::part(input) {
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+)::part(input) {
   border-color: var(--heru-color-border-strong);
   background: var(--heru-color-bg);
   color: var(--heru-color-text);
@@ -80,13 +102,34 @@ heru-text-field::part(input) {
     0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
-heru-text-field::part(input)::placeholder {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(input)::placeholder {
   color: var(--heru-color-text-muted);
 }
-heru-text-field:hover::part(input) {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):hover::part(input) {
   border-color: var(--heru-color-text-muted);
 }
-heru-text-field::part(input):focus {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(input):focus {
   box-shadow:
     0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
     0 0 var(--heru-focus-ring-blur)
@@ -99,15 +142,36 @@ heru-text-field::part(input):focus {
       )
       var(--heru-focus-halo);
 }
-heru-text-field::part(description) {
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+)::part(description) {
   margin-block-start: var(--heru-space-1);
   color: var(--heru-color-text-muted);
 }
 /* Text field error: see the shared attached error box below. */
-heru-text-field:state(invalid)::part(input) {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):state(invalid)::part(input) {
   border-color: var(--heru-color-error);
 }
-heru-text-field:state(invalid)::part(input):focus {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):state(invalid)::part(input):focus {
   box-shadow:
     0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
     0 0 var(--heru-focus-ring-blur)
@@ -120,11 +184,32 @@ heru-text-field:state(invalid)::part(input):focus {
       )
       var(--heru-focus-halo);
 }
-heru-text-field:state(disabled)::part(label),
-heru-text-field:state(disabled)::part(description) {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):state(disabled)::part(label),
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):state(disabled)::part(description) {
   color: var(--heru-color-text-muted);
 }
-heru-text-field:state(disabled)::part(input) {
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):state(disabled)::part(input) {
   border-color: var(--heru-color-border);
   background: var(--heru-color-surface);
   color: var(--heru-color-text-muted);
@@ -215,7 +300,14 @@ heru-select:state(invalid)::part(trigger):focus {
  * packages/core/src/FieldStatus/FieldStatus.tsx + theme/tokens.stylex.ts).
  * Herú deviations: 8px side margins and Herú's font family. No shadow;
  * --heru-elevation-urgent is reserved, unused. Replaces helper text. */
-heru-text-field::part(input),
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+)::part(input),
 heru-select::part(trigger) {
   position: relative;
   z-index: 1;
@@ -224,7 +316,14 @@ heru-select::part(trigger) {
 heru-select::part(trigger) {
   z-index: 2;
 }
-heru-text-field::part(error),
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+)::part(error),
 heru-select::part(error) {
   /* 2px tuck (half unit). Visible: 5px + 16px line + 3px = 24px. The line
    * box starts 5px below the control (clears the 4px focus reach by 1px);
@@ -249,12 +348,33 @@ heru-select::part(error) {
 /* Tuck cue: concave fillets (radius-5) flare the box's top corners into the
  * control's flat bottom edge, so it reads as growing out from under the input
  * despite the 8px side margins. Same fill token, no shadow. */
-heru-text-field::part(error),
+:is(
+  heru-text-input,
+  heru-password-input,
+  heru-search-input,
+  heru-otp-input,
+  heru-text-area,
+  heru-text-field
+)::part(error),
 heru-select::part(error) {
   position: relative;
 }
-heru-text-field::part(error)::before,
-heru-text-field::part(error)::after,
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(error)::before,
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(error)::after,
 heru-select::part(error)::before,
 heru-select::part(error)::after {
   content: '';
@@ -264,7 +384,14 @@ heru-select::part(error)::after {
   block-size: var(--heru-radius-5);
   background: var(--heru-color-error-surface);
 }
-heru-text-field::part(error)::before,
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(error)::before,
 heru-select::part(error)::before {
   inset-inline-start: calc(-1 * var(--heru-radius-5));
   mask: radial-gradient(
@@ -273,7 +400,14 @@ heru-select::part(error)::before {
     #000 calc(var(--heru-radius-5) + 0.5px)
   );
 }
-heru-text-field::part(error)::after,
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(error)::after,
 heru-select::part(error)::after {
   inset-inline-end: calc(-1 * var(--heru-radius-5));
   mask: radial-gradient(
@@ -283,7 +417,14 @@ heru-select::part(error)::after {
   );
 }
 /* Error-only: runs when the box is un-hidden (invalid), never on focus. */
-heru-text-field:state(invalid)::part(error),
+:is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  ):state(invalid)::part(error),
 heru-select:state(invalid)::part(error) {
   /* Standard ease, never a spring (no bounce on the error box). */
   animation: heru-error-in var(--heru-duration-default)
@@ -324,6 +465,87 @@ heru-option:state(disabled)::part(base) {
   box-shadow: none;
 }
 
+/* ---------- Text input adornments (password toggle, search clear) ---------- */
+:is(heru-password-input, heru-search-input)::part(toggle),
+:is(heru-password-input, heru-search-input)::part(clear) {
+  border-radius: var(--heru-radius-3);
+  color: var(--heru-color-text-muted);
+  transition: background-color var(--heru-duration-fast)
+    var(--heru-ease-standard);
+}
+:is(heru-password-input, heru-search-input)::part(toggle):hover,
+:is(heru-password-input, heru-search-input)::part(clear):hover {
+  background: var(--heru-color-slate-100);
+  color: var(--heru-color-text);
+}
+:is(heru-password-input, heru-search-input)::part(toggle):focus-visible,
+:is(heru-password-input, heru-search-input)::part(clear):focus-visible {
+  outline: var(--heru-focus-ring-width) solid var(--heru-color-focus-ring);
+  outline-offset: 0;
+}
+heru-search-input::part(search-icon) {
+  color: var(--heru-color-text-muted);
+}
+heru-text-area::part(counter) {
+  color: var(--heru-color-text-muted);
+}
+heru-text-area:state(at-limit)::part(counter) {
+  color: var(--heru-color-error-text);
+}
+
+/* ---------- OTP boxes: same box, ring and error styling as an input ---------- */
+heru-otp-input::part(cell) {
+  border-color: var(--heru-color-border-strong);
+  background: var(--heru-color-bg);
+  color: var(--heru-color-text);
+  font: 500 var(--heru-text-body-font-size) / 1
+    var(--heru-text-body-font-family);
+  transition:
+    border-color var(--heru-duration-fast) var(--heru-ease-standard),
+    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
+  box-shadow:
+    0 0 0 0 var(--heru-color-bg),
+    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-focus-halo);
+}
+heru-otp-input:hover::part(cell) {
+  border-color: var(--heru-color-text-muted);
+}
+heru-otp-input::part(cell-active) {
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-focus-ring),
+    0 0 0
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-halo-width)
+      )
+      var(--heru-focus-halo);
+}
+heru-otp-input:state(invalid)::part(cell) {
+  border-color: var(--heru-color-error);
+}
+heru-otp-input:state(invalid)::part(cell-active) {
+  box-shadow:
+    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
+    0 0 var(--heru-focus-ring-blur)
+      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
+      var(--heru-color-error),
+    0 0 0
+      calc(
+        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
+          var(--heru-focus-halo-width)
+      )
+      var(--heru-focus-halo);
+}
+heru-otp-input:state(disabled)::part(cell) {
+  border-color: var(--heru-color-border);
+  background: var(--heru-color-surface);
+  color: var(--heru-color-text-muted);
+}
+
 @keyframes heru-slide-down {
   from {
     opacity: 0;
@@ -358,12 +580,29 @@ heru-option:state(disabled)::part(base) {
     animation-name: heru-fade-in; /* opacity only, no translate/scale */
   }
   heru-button::part(base),
-  heru-text-field::part(input),
+  :is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(input),
   heru-select::part(trigger),
-  heru-option::part(base) {
+  heru-option::part(base),
+  heru-otp-input::part(cell),
+  :is(heru-password-input, heru-search-input)::part(toggle),
+  :is(heru-password-input, heru-search-input)::part(clear) {
     transition: none; /* ring appears instantly */
   }
-  heru-text-field::part(error),
+  :is(
+    heru-text-input,
+    heru-password-input,
+    heru-search-input,
+    heru-otp-input,
+    heru-text-area,
+    heru-text-field
+  )::part(error),
   heru-select::part(error) {
     animation: none !important; /* error appears instantly */
   }

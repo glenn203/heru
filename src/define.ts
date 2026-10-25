@@ -1,3 +1,8 @@
 import './button/define.js';
+import './text-input/define.js';
+import './password-input/define.js';
+import './search-input/define.js';
+import './otp-input/define.js';
+import './text-area/define.js';
 import './text-field/define.js';
 import './select/define.js';

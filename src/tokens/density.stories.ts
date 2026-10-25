@@ -31,10 +31,10 @@ export const DensityModes: StoryObj = {
                 html`<heru-button type="button" size=${s}
                     >Button ${s}</heru-button
                   >
-                  <heru-text-field
+                  <heru-text-input
                     size=${s}
                     label="Field ${s}"
-                  ></heru-text-field>`,
+                  ></heru-text-input>`,
             )}
           </div>`,
       )}

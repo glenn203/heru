@@ -1,0 +1,45 @@
+import type { Meta, StoryObj } from '@storybook/web-components';
+import { html } from 'lit';
+import './define.js';
+
+interface Args {
+  label: string;
+  length: number;
+  required: boolean;
+  disabled: boolean;
+}
+
+/**
+ * One-time code: one real input (autocomplete="one-time-code") drawn as boxes.
+ * Paste fills every box; `complete` fires when full. Name pending Technical
+ * Writer.
+ */
+const meta: Meta<Args> = {
+  title: 'Components/OTP input',
+  component: 'heru-otp-input',
+  args: {
+    label: 'Verification code',
+    length: 6,
+    required: true,
+    disabled: false,
+  },
+  render: (a) => html`
+    <heru-otp-input
+      label=${a.label}
+      length=${a.length}
+      name="otp"
+      ?required=${a.required}
+      ?disabled=${a.disabled}
+      @complete=${(e: CustomEvent<{ value: string }>) =>
+        console.log('complete', e.detail.value)}
+    >
+      <span slot="description">Sent to •••• 1234.</span>
+      <span slot="error">Enter the ${a.length}-digit code.</span>
+    </heru-otp-input>
+  `,
+};
+export default meta;
+type S = StoryObj<Args>;
+export const Default: S = {};
+export const FourDigits: S = { args: { length: 4 } };
+export const Disabled: S = { args: { disabled: true } };
