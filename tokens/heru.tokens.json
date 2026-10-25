@@ -358,7 +358,8 @@
     "slate": {
       "$description": "Dark slate ramp (hue 260, low chroma). The only non-error ramp. 0 = white, 950 = near-black with a blue tint.",
       "0": {
-        "$value": "oklch(1 0 0)"
+        "$value": "oklch(1 0 260)",
+        "$description": " Hue 260 (not 0) so color-mix() in oklch never swings through red; chroma 0 = pure white."
       },
       "50": {
         "$value": "oklch(0.984 0.003 260)"
@@ -399,11 +400,19 @@
       "50": {
         "$value": "oklch(0.971 0.013 27)"
       },
+      "500": {
+        "$value": "oklch(0.586 0.226 21.3)",
+        "$description": "Base of the error surface tint (exact former error-surface hue/chroma)."
+      },
       "600": {
         "$value": "oklch(0.56 0.19 27)"
       },
       "700": {
         "$value": "oklch(0.48 0.17 27)"
+      },
+      "800": {
+        "$value": "oklch(0.368 0.148 25)",
+        "$description": "Status text on the error surface (exact former error-status-text)."
       }
     },
     "bg": {
@@ -430,25 +439,49 @@
       "$value": "{color.slate.500}",
       "$description": "Border that must be visible (hover, inputs needing 3:1)."
     },
+    "border-popup": {
+      "$value": "{color.slate.400}",
+      "$description": "Popup/listbox outline: a step darker than border (2.64:1 on bg; decorative, the elevation carries the edge)."
+    },
     "accent": {
       "$value": "{color.slate.950}",
       "$description": "Primary action fill: near-black slate."
     },
     "accent-hover": {
       "$value": "{color.slate.800}",
-      "$description": "Primary action fill on hover: one step lighter."
+      "$description": "DEPRECATED for direct use: fallback for browsers without color-mix(); states now come from the shared state layer."
     },
     "accent-active": {
       "$value": "{color.slate.900}",
-      "$description": "Primary action fill while pressed/active."
+      "$description": "DEPRECATED for direct use: fallback for browsers without color-mix() (pressed)."
     },
     "on-accent": {
       "$value": "{color.slate.0}",
       "$description": "Text/icons on accent fills."
     },
+    "surface-hover": {
+      "$value": "{color.slate.100}",
+      "$description": "Fallback only (no color-mix): hovered item on bg. Prefer the state layer."
+    },
+    "surface-pressed": {
+      "$value": "{color.slate.200}",
+      "$description": "Fallback only (no color-mix): pressed item on bg. Prefer the state layer."
+    },
     "focus-ring": {
       "$value": "{color.slate.600}",
       "$description": "Focus ring. ≥3:1 on bg."
+    },
+    "focus-halo": {
+      "$value": "color-mix(in oklch, {color.slate.500} 12%, transparent)",
+      "$description": "Focus halo band: slate-500 at 12%."
+    },
+    "shadow": {
+      "$value": "{color.slate.950}",
+      "$description": "Base colour of elevation shadows."
+    },
+    "shadow-urgent": {
+      "$value": "{color.red.600}",
+      "$description": "Base colour of the urgent (error) elevation."
     },
     "error": {
       "$value": "{color.red.600}",
@@ -459,12 +492,30 @@
       "$description": "Error message text. AA on bg."
     },
     "error-surface": {
-      "$value": "oklch(0.586 0.226 21.3 / 0.08)",
-      "$description": "Attached error box fill: Astryx error red #E3193B at 8% alpha (Chuck's Figma v2), in OKLCH. ≈ #fdedef over white."
+      "$value": "color-mix(in oklch, {color.red.500} 8%, transparent)",
+      "$description": "Error box fill: red-500 at 8% (== oklch(0.586 0.226 21.3 / 0.08))."
+    },
+    "on-error-surface": {
+      "$value": "{color.red.800}",
+      "$description": "Text/icons on color-error-surface (>= 4.5:1)."
     },
     "error-status-text": {
-      "$value": "oklch(0.368 0.148 25)",
-      "$description": "Attached error box text. Exact Astryx --color-text-red (light) #7B0210 in OKLCH. NAME PENDING — Technical Writer."
+      "$value": "{color.on-error-surface}",
+      "$description": "DEPRECATED alias of color-on-error-surface."
+    }
+  },
+  "state": {
+    "$description": "Shared state layer (NAME PENDING — Technical Writer). Percent of a surface's on-colour mixed into its fill: color-mix(in oklch, var(--_bg), var(--_on) <state>). Implemented once in src/internal/state-layer.ts. Selected+hover = selected + hover.",
+    "$type": "percentage",
+    "hover": {
+      "$value": "8%"
+    },
+    "pressed": {
+      "$value": "12%"
+    },
+    "selected": {
+      "$value": "14%",
+      "$description": "Selected/current/checked. Always paired with a non-colour indicator."
     }
   },
   "focus": {
@@ -490,8 +541,8 @@
     },
     "halo": {
       "$type": "color",
-      "$value": "oklch(0.554 0.035 260 / 0.12)",
-      "$description": "Halo color: slate-500 at 12%."
+      "$value": "{color.focus-halo}",
+      "$description": "Alias of color-focus-halo (kept for existing references)."
     }
   },
   "duration": {
@@ -546,17 +597,17 @@
   },
   "elevation": {
     "$type": "shadow",
-    "$description": "Shared elevation foundation (NAME PENDING — Technical Writer). Three semantic levels usable by any raised surface: popovers, menus, dialogs, field status. Built from slate-950 (hue 260) in OKLCH; urgent is tinted from error red (hue 27). Literal CSS box-shadow values.",
+    "$description": "Shared elevation foundation (NAME PENDING — Technical Writer). Three semantic levels usable by any raised surface: popovers, menus, dialogs, field status. Built from color-shadow (slate-950) and color-shadow-urgent (red-600) via color-mix(); the build emits literal fallbacks for browsers without color-mix().",
     "default": {
-      "$value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)",
+      "$value": "0 1px 2px color-mix(in oklch, {color.shadow} 6%, transparent), 0 4px 12px -2px color-mix(in oklch, {color.shadow} 12%, transparent)",
       "$description": "Resting raised surface: open menu, popover."
     },
     "hover": {
-      "$value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)",
+      "$value": "0 1px 2px color-mix(in oklch, {color.shadow} 8%, transparent), 0 2px 6px -1px color-mix(in oklch, {color.shadow} 16%, transparent)",
       "$description": "Interactive item on hover/press (lifts within a raised surface)."
     },
     "urgent": {
-      "$value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)",
+      "$value": "0 1px 2px color-mix(in oklch, {color.shadow-urgent} 12%, transparent), 0 4px 12px -2px color-mix(in oklch, {color.shadow-urgent} 24%, transparent)",
       "$description": "Error-urgent: attached error/status box. Tinted from red-600."
     }
   }

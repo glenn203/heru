@@ -1,4 +1,5 @@
 import { LitElement, css, html } from 'lit';
+import { stateLayer } from '../internal/state-layer.js';
 import { property } from 'lit/decorators.js';
 import { uniqueId } from '../internal/ids.js';
 
@@ -15,27 +16,30 @@ import { uniqueId } from '../internal/ids.js';
  * @cssstate disabled - Not selectable; skipped by arrow keys.
  */
 export class HeruOption extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-      cursor: default;
-    }
-    :host([hidden]) {
-      display: none;
-    }
-    [part='base'] {
-      display: flex;
-      align-items: center;
-      gap: var(--heru-space-2, 0.5rem);
-    }
-    [part='check'] {
-      inline-size: 1em;
-      visibility: hidden;
-    }
-    :host(:state(selected)) [part='check'] {
-      visibility: visible;
-    }
-  `;
+  static override styles = [
+    css`
+      :host {
+        display: block;
+        cursor: default;
+      }
+      :host([hidden]) {
+        display: none;
+      }
+      [part='base'] {
+        display: flex;
+        align-items: center;
+        gap: var(--heru-space-2, 0.5rem);
+      }
+      [part='check'] {
+        inline-size: 1em;
+        visibility: hidden;
+      }
+      :host(:state(selected)) [part='check'] {
+        visibility: visible;
+      }
+    `,
+    stateLayer("[part='base']"),
+  ];
 
   /** Submitted value. Falls back to the text content. */
   @property() value = '';

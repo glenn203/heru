@@ -41,3 +41,14 @@ export const Sizes: StoryObj<Args> = {
       <heru-button type="button" size="lg">${label}</heru-button>
     </div>`,
 };
+
+/** Outline variant (name provisional, pending Technical Writer). */
+export const Outline: StoryObj = {
+  render: () =>
+    html`<div style="display: flex; gap: 12px">
+      <heru-button variant="outline" type="button">Cancel</heru-button>
+      <heru-button variant="outline" type="button" disabled
+        >Disabled</heru-button
+      >
+    </div>`,
+};

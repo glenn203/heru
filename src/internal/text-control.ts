@@ -8,6 +8,7 @@ import {
 } from 'lit';
 import { property } from 'lit/decorators.js';
 import { FormAssociated } from './form-associated.js';
+import { stateLayer } from './state-layer.js';
 import { uniqueId } from './ids.js';
 import { controlBox, controlSize, textRole } from './control-styles.js';
 import {
@@ -62,7 +63,6 @@ export abstract class TextControl extends FormAssociated(LitElement) {
         block-size: 24px;
         padding: 0;
         border: 0;
-        background: none;
         color: inherit;
         cursor: pointer;
         z-index: 2;
@@ -70,12 +70,16 @@ export abstract class TextControl extends FormAssociated(LitElement) {
       .adornment[hidden] {
         display: none;
       }
+      .adornment:disabled {
+        cursor: default;
+      }
       :host([data-adorned]) [part='input'] {
         padding-inline-end: calc(
           var(--heru-control-padding-inline, 0.75rem) + 24px
         );
       }
     `,
+    stateLayer('.adornment'),
   ];
 
   /** Control height: sm, md or lg. Follows density. */

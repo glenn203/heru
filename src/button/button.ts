@@ -7,6 +7,7 @@ import {
   controlSize,
   textRole,
 } from '../internal/control-styles.js';
+import { stateLayer } from '../internal/state-layer.js';
 
 /**
  * A headless button. Renders a native `<button>` in shadow DOM and joins the
@@ -63,10 +64,18 @@ export class HeruButton extends FormAssociated(LitElement) {
         outline: revert;
       }
     `,
+    stateLayer("[part='base']"),
   ];
 
   /** Control height: sm, md or lg. Follows density. */
   @property({ reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
+
+  /**
+   * Visual variant. Unset is the solid default; `outline` is a transparent
+   * button with a border. Headless: only the opt-in theme styles it.
+   * VARIANT NAME PROVISIONAL — Technical Writer.
+   */
+  @property({ reflect: true }) variant?: 'outline';
 
   /** What the button does in a form. */
   @property({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'submit';

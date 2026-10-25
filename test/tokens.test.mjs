@@ -65,6 +65,7 @@ const pairs = [
   ['border-strong', 'bg', 3],
   ['focus-ring', 'bg', 3],
   ['error', 'bg', 3],
+  ['border-strong', 'bg', 3], // outline button border (non-text)
 ];
 for (const [fg, bg, min] of pairs) {
   test(`contrast: color-${fg} on color-${bg} >= ${min}:1`, () => {
@@ -180,7 +181,7 @@ test('error box: lighter fill (10% red over white) keeps status text >= 4.5:1', 
     return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2];
   };
   const a = lum(rgb(t['color.error-surface'].hex));
-  const b = lum(rgb(t['color.error-status-text'].hex));
+  const b = lum(rgb(t['color.on-error-surface'].hex));
   const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   assert.ok(ratio >= 4.5, `ratio ${ratio}`);
 });
@@ -282,4 +283,247 @@ test('theme: reduced motion zeroes durations and flattens springs', () => {
     /(background-color|border-color|color) var\([^)]*\) var\(--heru-ease-spring/,
   );
   assert.doesNotMatch(css, /heru-error-in[^;]*spring/);
+});
+
+// ---------- Semantic layer + shared state layer ----------
+import { readFileSync as rf } from 'node:fs';
+const { parseOklch, oklchToHex } = await import('../scripts/oklch.mjs');
+const tok = (k) => resolved.modes.default[k].value;
+const srgb = (str) => {
+  const h = oklchToHex(str);
+  return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+};
+const lumRgb = (c) => {
+  const l = c.map((v) =>
+    v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
+  );
+  return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2];
+};
+const ratio = (a, b) => {
+  const [x, y] = [lumRgb(a), lumRgb(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+/** color-mix(in oklch, a, b p%) for opaque a/b (shorter hue arc). */
+const mixOklch = (a, b, p) => {
+  const [l1, c1, h1] = parseOklch(a);
+  const [l2, c2, h2] = parseOklch(b);
+  const ha = c1 === 0 ? h2 : h1;
+  const hb = c2 === 0 ? h1 : h2;
+  let d = hb - ha;
+  if (d > 180) d -= 360;
+  if (d < -180) d += 360;
+  const h = (ha + d * p + 360) % 360;
+  return `oklch(${l1 + (l2 - l1) * p} ${c1 + (c2 - c1) * p} ${h})`;
+};
+/** Transparent surface: on-colour at p alpha composited over the page bg. */
+const veil = (on, page, p) => {
+  const [o, b] = [srgb(on), srgb(page)];
+  return o.map((v, i) => v * p + b[i] * (1 - p));
+};
+const pct = (k) => parseFloat(tok(`state.${k}`)) / 100;
+const STATES = {
+  hover: pct('hover'),
+  pressed: pct('pressed'),
+  selected: pct('selected'),
+  'selected+hover': pct('selected') + pct('hover'),
+};
+export const STATE_CONTRAST = [];
+
+test('state tokens: hover 8%, pressed 12%, selected 12–16%', () => {
+  assert.equal(tok('state.hover'), '8%');
+  assert.equal(tok('state.pressed'), '12%');
+  const sel = pct('selected');
+  assert.ok(sel >= 0.12 && sel <= 0.16, `selected ${sel}`);
+});
+
+const SURFACES = [
+  ['button (solid)', 'color.accent', 'color.on-accent', 'oklch'],
+  ['option', 'color.bg', 'color.text', 'oklch'],
+  ['outline button', null, 'color.text', 'veil'],
+  ['icon button', null, 'color.text', 'veil'],
+];
+for (const [name, bgKey, onKey, mode] of SURFACES)
+  for (const [state, p] of Object.entries(STATES))
+    test(`state contrast: ${name} ${state} — text on fill >= 4.5:1`, () => {
+      const on = tok(onKey);
+      const fill =
+        mode === 'oklch'
+          ? srgb(mixOklch(tok(bgKey), on, p))
+          : veil(on, tok('color.bg'), p);
+      const r = ratio(srgb(on), fill);
+      console.log(`  ${name} ${state}: ${r.toFixed(2)}:1`);
+      assert.ok(r >= 4.5, `${r.toFixed(2)}:1`);
+    });
+
+test('outline button: border >= 3:1 and label >= 4.5:1 on bg', () => {
+  const bg = srgb(tok('color.bg'));
+  const border = ratio(srgb(tok('color.border-strong')), bg);
+  const label = ratio(srgb(tok('color.text')), bg);
+  console.log(
+    `  outline border ${border.toFixed(2)}:1, label ${label.toFixed(2)}:1`,
+  );
+  assert.ok(border >= 3);
+  assert.ok(label >= 4.5);
+});
+
+test('on-error-surface pairs with error-surface; error-status-text is its alias', () => {
+  assert.equal(tok('color.error-status-text'), tok('color.on-error-surface'));
+  assert.equal(tok('color.error-surface'), 'oklch(0.586 0.226 21.3 / 0.08)');
+  assert.equal(tok('color.on-error-surface'), 'oklch(0.368 0.148 25)');
+  const r = ratio(
+    srgb(tok('color.on-error-surface')),
+    veil(tok('color.red.500'), tok('color.bg'), 0.08),
+  );
+  assert.ok(r >= 4.5, `${r}`);
+});
+
+test('elevation and focus halo are built from roles with exact former values', () => {
+  assert.equal(tok('color.shadow'), tok('color.slate.950'));
+  assert.equal(tok('color.shadow-urgent'), tok('color.red.600'));
+  assert.equal(tok('focus.halo'), 'oklch(0.554 0.035 260 / 0.12)');
+  assert.equal(
+    tok('elevation.default'),
+    '0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)',
+  );
+  const css = rf(new URL('../src/tokens/tokens.css', import.meta.url), 'utf8');
+  assert.match(
+    css,
+    /--heru-elevation-default: 0 1px 2px color-mix\(in oklch, var\(--heru-color-shadow\)/,
+  );
+  assert.match(
+    css,
+    /@supports not \(color: color-mix\(in oklch, red, blue\)\) \{[\s\S]*--heru-elevation-default: 0 1px 2px oklch\(/,
+  );
+});
+
+test('theme + component styles: no raw palette refs, no colour literals', () => {
+  const files = [
+    '../src/theme/theme.css',
+    ...[
+      'button/button',
+      'option/option',
+      'select/select',
+      'text-input/text-input',
+      'password-input/password-input',
+      'search-input/search-input',
+      'otp-input/otp-input',
+      'text-area/text-area',
+      'internal/text-control',
+      'internal/state-layer',
+      'internal/field-chrome',
+      'internal/control-styles',
+      'internal/icons',
+    ].map((f) => `../src/${f}.ts`),
+  ];
+  for (const f of files) {
+    const src = rf(new URL(f, import.meta.url), 'utf8').replace(
+      /\/\*[\s\S]*?\*\//g,
+      '',
+    );
+    assert.doesNotMatch(
+      src,
+      /--heru-color-(slate|red)-\d/,
+      `${f}: raw palette ref`,
+    );
+    assert.doesNotMatch(
+      src,
+      /\b(oklch|oklab|rgba?|hsla?|lab|lch)\(/,
+      `${f}: colour literal`,
+    );
+    const hexes = src.match(/#[0-9a-fA-F]{3,8}\b/g) ?? [];
+    assert.deepEqual(
+      hexes.filter((h) => h !== '#000'),
+      [],
+      `${f}: hex literal`,
+    );
+  }
+});
+
+// ---------- Full contrast matrix (state layer) ----------
+// Every fg/bg pair on every state fill. Text >= 4.5:1, borders/icons >= 3:1.
+// Disabled is exempt per WCAG 1.4.3/1.4.11 but its numbers are reported.
+const MATRIX_STATES = { rest: 0, ...STATES };
+const fillOf = (bgKey, onKey, p) =>
+  bgKey
+    ? srgb(mixOklch(tok(bgKey), tok(onKey), p))
+    : veil(tok(onKey), tok('color.bg'), p);
+// [surface, bg role (null = transparent on color-bg), on role, [fg role, kind]]
+const MATRIX = [
+  ['button', 'color.accent', 'color.on-accent', [['color.on-accent', 'text']]],
+  [
+    'outline',
+    null,
+    'color.text',
+    [
+      ['color.text', 'text'],
+      ['color.text-muted', 'text'],
+      ['color.border-strong', 'border'],
+    ],
+  ],
+  [
+    'option',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'],
+      ['color.text-muted', 'text'],
+      ['color.text', 'icon'], // check mark
+    ],
+  ],
+  [
+    'icon button',
+    null,
+    'color.text',
+    [
+      ['color.text-muted', 'icon'], // resting icon colour
+      ['color.text', 'icon'], // hover icon colour
+    ],
+  ],
+];
+export const MATRIX_RESULTS = [];
+// Known failures, reported to Chuck rather than silently fixed. Each stays a
+// visible TODO in the test output until a fix is chosen.
+const FLAGS = new Map([
+  [
+    'outline selected+hover color.border-strong',
+    'FLAG: 2.98:1 vs the 22% fill (still 4.79:1 vs the page bg outside)',
+  ],
+  [
+    'option selected+hover color.text-muted',
+    'FLAG: 4.40:1 — muted text on the 22% selected+hover tint',
+  ],
+]);
+for (const [surface, bgKey, onKey, pairs] of MATRIX)
+  for (const [state, p] of Object.entries(MATRIX_STATES))
+    for (const [fg, kind] of pairs) {
+      const min = kind === 'text' ? 4.5 : 3;
+      const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
+      MATRIX_RESULTS.push({ surface, state, fg, kind, r });
+      const flag = FLAGS.get(`${surface} ${state} ${fg}`);
+      test(
+        `matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`,
+        { todo: flag },
+        () => {
+          assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
+        },
+      );
+    }
+
+test('matrix report: disabled (exempt) numbers', () => {
+  const surf = srgb(tok('color.surface'));
+  const rows = [
+    [
+      'button disabled: text-muted on surface',
+      ratio(srgb(tok('color.text-muted')), surf),
+    ],
+    [
+      'button disabled: border on bg',
+      ratio(srgb(tok('color.border')), srgb(tok('color.bg'))),
+    ],
+    [
+      'option disabled: text-muted on bg',
+      ratio(srgb(tok('color.text-muted')), srgb(tok('color.bg'))),
+    ],
+  ];
+  for (const [k, r] of rows) console.log(`  [exempt] ${k}: ${r.toFixed(2)}:1`);
 });

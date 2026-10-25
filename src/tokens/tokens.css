@@ -95,7 +95,7 @@
   --heru-text-code-line-height: var(--heru-font-line-height-20);
   --heru-text-code-font-weight: var(--heru-font-weight-regular);
   --heru-text-code-font-family: var(--heru-font-family-mono);
-  --heru-color-slate-0: oklch(1 0 0);
+  --heru-color-slate-0: oklch(1 0 260);
   --heru-color-slate-50: oklch(0.984 0.003 260);
   --heru-color-slate-100: oklch(0.968 0.007 260);
   --heru-color-slate-200: oklch(0.929 0.013 260);
@@ -108,37 +108,60 @@
   --heru-color-slate-900: oklch(0.208 0.03 260);
   --heru-color-slate-950: oklch(0.129 0.03 260);
   --heru-color-red-50: oklch(0.971 0.013 27);
+  --heru-color-red-500: oklch(0.586 0.226 21.3);
   --heru-color-red-600: oklch(0.56 0.19 27);
   --heru-color-red-700: oklch(0.48 0.17 27);
+  --heru-color-red-800: oklch(0.368 0.148 25);
   --heru-color-bg: var(--heru-color-slate-0);
   --heru-color-surface: var(--heru-color-slate-50);
   --heru-color-text: var(--heru-color-slate-900);
   --heru-color-text-muted: var(--heru-color-slate-600);
   --heru-color-border: var(--heru-color-slate-300);
   --heru-color-border-strong: var(--heru-color-slate-500);
+  --heru-color-border-popup: var(--heru-color-slate-400);
   --heru-color-accent: var(--heru-color-slate-950);
   --heru-color-accent-hover: var(--heru-color-slate-800);
   --heru-color-accent-active: var(--heru-color-slate-900);
   --heru-color-on-accent: var(--heru-color-slate-0);
+  --heru-color-surface-hover: var(--heru-color-slate-100);
+  --heru-color-surface-pressed: var(--heru-color-slate-200);
   --heru-color-focus-ring: var(--heru-color-slate-600);
+  --heru-color-focus-halo: color-mix(in oklch, var(--heru-color-slate-500) 12%, transparent);
+  --heru-color-shadow: var(--heru-color-slate-950);
+  --heru-color-shadow-urgent: var(--heru-color-red-600);
   --heru-color-error: var(--heru-color-red-600);
   --heru-color-error-text: var(--heru-color-red-700);
-  --heru-color-error-surface: oklch(0.586 0.226 21.3 / 0.08);
-  --heru-color-error-status-text: oklch(0.368 0.148 25);
+  --heru-color-error-surface: color-mix(in oklch, var(--heru-color-red-500) 8%, transparent);
+  --heru-color-on-error-surface: var(--heru-color-red-800);
+  --heru-color-error-status-text: var(--heru-color-on-error-surface);
+  --heru-state-hover: 8%;
+  --heru-state-pressed: 12%;
+  --heru-state-selected: 14%;
   --heru-focus-ring-width: 2px;
   --heru-focus-ring-offset: 1px;
   --heru-focus-ring-blur: 0.5px;
   --heru-focus-halo-width: 1px;
-  --heru-focus-halo: oklch(0.554 0.035 260 / 0.12);
+  --heru-focus-halo: var(--heru-color-focus-halo);
   --heru-duration-fast: 120ms;
   --heru-duration-default: 200ms;
   --heru-duration-slow: 320ms;
   --heru-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --heru-ease-spring: linear(0, 0.023, 0.079, 0.1535, 0.2364, 0.3211, 0.4034, 0.4806, 0.5513, 0.615, 0.6714, 0.721, 0.7641, 0.8012, 0.8331, 0.8603, 0.8834, 0.9028, 0.9193, 0.933, 0.9446, 0.9542, 0.9622, 0.9688, 0.9744, 0.9789, 0.9827, 0.9858, 0.9884, 0.9905, 0.9922, 0.9936, 0.9948, 0.9958, 0.9965, 0.9972, 0.9977, 0.9981, 0.9985, 0.9988, 1);
   --heru-ease-spring-bouncy: linear(0, 0.0283, 0.0999, 0.1976, 0.3084, 0.4222, 0.5322, 0.6336, 0.7235, 0.8008, 0.8652, 0.9171, 0.9575, 0.9879, 1.0097, 1.0243, 1.0332, 1.0375, 1.0386, 1.0372, 1.0343, 1.0305, 1.0262, 1.0218, 1.0176, 1.0137, 1.0103, 1.0074, 1.0049, 1.003, 1.0015, 1.0003, 0.9995, 0.999, 0.9987, 0.9985, 0.9985, 0.9986, 0.9987, 0.9988, 1);
-  --heru-elevation-default: 0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12);
-  --heru-elevation-hover: 0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16);
-  --heru-elevation-urgent: 0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24);
+  --heru-elevation-default: 0 1px 2px color-mix(in oklch, var(--heru-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--heru-color-shadow) 12%, transparent);
+  --heru-elevation-hover: 0 1px 2px color-mix(in oklch, var(--heru-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--heru-color-shadow) 16%, transparent);
+  --heru-elevation-urgent: 0 1px 2px color-mix(in oklch, var(--heru-color-shadow-urgent) 12%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--heru-color-shadow-urgent) 24%, transparent);
+}
+
+/* Fallback for engines without color-mix(): resolved literals. */
+@supports not (color: color-mix(in oklch, red, blue)) {
+  :root {
+    --heru-color-focus-halo: oklch(0.554 0.035 260 / 0.12);
+    --heru-color-error-surface: oklch(0.586 0.226 21.3 / 0.08);
+    --heru-elevation-default: 0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12);
+    --heru-elevation-hover: 0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16);
+    --heru-elevation-urgent: 0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24);
+  }
 }
 
 /* Fallback for engines without linear(): the token's cubic-bezier $value. */
