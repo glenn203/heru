@@ -15,10 +15,9 @@ heru-button::part(base) {
   white-space: nowrap;
   user-select: none;
   transition:
-    background-color var(--heru-motion-duration-fast)
-      var(--heru-motion-ease-out),
-    border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
-    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+    background-color var(--heru-duration-fast) var(--heru-ease-standard),
+    border-color var(--heru-duration-fast) var(--heru-ease-standard),
+    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* Windows High Contrast fallback */
   outline-offset: var(--heru-focus-ring-offset);
@@ -70,10 +69,9 @@ heru-text-field::part(input) {
   background: var(--heru-color-bg);
   color: var(--heru-color-text);
   transition:
-    background-color var(--heru-motion-duration-fast)
-      var(--heru-motion-ease-out),
-    border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
-    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+    background-color var(--heru-duration-fast) var(--heru-ease-standard),
+    border-color var(--heru-duration-fast) var(--heru-ease-standard),
+    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* Windows High Contrast fallback */
   outline-offset: var(--heru-focus-ring-offset);
@@ -147,8 +145,8 @@ heru-select::part(trigger) {
   background: var(--heru-color-bg);
   color: var(--heru-color-text);
   transition:
-    border-color var(--heru-motion-duration-fast) var(--heru-motion-ease-out),
-    box-shadow var(--heru-motion-duration-fast) var(--heru-motion-ease-out);
+    border-color var(--heru-duration-fast) var(--heru-ease-standard),
+    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* Windows High Contrast fallback */
   outline-offset: var(--heru-focus-ring-offset);
@@ -188,8 +186,9 @@ heru-select::part(listbox) {
   transform-origin: top;
 }
 heru-select:state(open)::part(listbox) {
-  animation: heru-slide-down var(--heru-motion-duration-medium)
-    var(--heru-motion-ease-out);
+  /* Transform-only spring; opacity rides the same curve (overshoot clamps at 1). */
+  animation: heru-slide-down var(--heru-duration-slow)
+    var(--heru-ease-spring-bouncy);
 }
 heru-select::part(description) {
   margin-block-start: var(--heru-space-1);
@@ -286,8 +285,9 @@ heru-select::part(error)::after {
 /* Error-only: runs when the box is un-hidden (invalid), never on focus. */
 heru-text-field:state(invalid)::part(error),
 heru-select:state(invalid)::part(error) {
-  /* Astryx slideDown: --duration-fast-max 230ms, --ease-standard, backwards. */
-  animation: heru-error-in 230ms cubic-bezier(0.24, 1, 0.4, 1) backwards;
+  /* Standard ease, never a spring (no bounce on the error box). */
+  animation: heru-error-in var(--heru-duration-default)
+    var(--heru-ease-standard) backwards;
 }
 heru-select:state(disabled)::part(label),
 heru-select:state(disabled)::part(description) {
@@ -305,8 +305,8 @@ heru-option::part(base) {
   min-block-size: max(24px, calc(var(--_heru-control-height, 2.25rem) - 4px));
   padding-inline: var(--heru-space-2);
   border-radius: var(--heru-radius-5);
-  transition: background-color var(--heru-motion-duration-fast)
-    var(--heru-motion-ease-out);
+  transition: background-color var(--heru-duration-fast)
+    var(--heru-ease-standard);
 }
 /* Flat hover: background tint only, no shadow (--heru-elevation-hover is reserved). */
 heru-option:state(active)::part(base),
@@ -337,16 +337,33 @@ heru-option:state(disabled)::part(base) {
   }
 }
 
+@keyframes heru-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* Motion tokens collapse: near-zero durations, springs become linear so
+     nothing moves; only opacity may change. */
+  :root {
+    --heru-duration-fast: 0.01ms;
+    --heru-duration-default: 0.01ms;
+    --heru-duration-slow: 0.01ms;
+    --heru-ease-spring: linear;
+    --heru-ease-spring-bouncy: linear;
+  }
+  heru-select:state(open)::part(listbox) {
+    animation-name: heru-fade-in; /* opacity only, no translate/scale */
+  }
   heru-button::part(base),
   heru-text-field::part(input),
   heru-select::part(trigger),
   heru-option::part(base) {
     transition: none; /* ring appears instantly */
   }
-  heru-select::part(listbox),
   heru-text-field::part(error),
   heru-select::part(error) {
-    animation: none !important; /* menu and error appear instantly */
+    animation: none !important; /* error appears instantly */
   }
 }

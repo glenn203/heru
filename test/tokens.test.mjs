@@ -193,3 +193,93 @@ test('focus ring total reach (offset + ring + halo) is at most 4px', () => {
     t['focus.halo-width'].value;
   assert.ok(reach <= 4, `reach ${reach}px`);
 });
+
+// ---------- Motion (token names provisional — Technical Writer) ----------
+const parseLinear = (css) => {
+  const m = /^linear\(([^()]*)\)$/.exec(css);
+  assert.ok(m, `not a linear(): ${css.slice(0, 40)}`);
+  return m[1].split(',').map((s) => {
+    const n = Number(s.trim());
+    assert.ok(Number.isFinite(n), `bad stop "${s}"`);
+    return n;
+  });
+};
+test('durations are 120 / 200 / 320ms', () => {
+  const d = resolved.modes.default;
+  assert.deepEqual(
+    ['fast', 'default', 'slow'].map((k) => d[`duration.${k}`].value),
+    ['120ms', '200ms', '320ms'],
+  );
+});
+test('ease.standard is a cubic-bezier', () => {
+  assert.deepEqual(
+    resolved.modes.default['ease.standard'].value,
+    [0.2, 0, 0, 1],
+  );
+});
+for (const name of ['spring', 'spring-bouncy']) {
+  test(`ease.${name}: valid linear(), starts at 0, ends at 1, has a cubic-bezier fallback`, () => {
+    const t = resolved.modes.default[`ease.${name}`];
+    const stops = parseLinear(t.value);
+    assert.ok(stops.length >= 10);
+    assert.equal(stops[0], 0);
+    assert.equal(stops.at(-1), 1);
+    assert.match(t.fallback, /^cubic-bezier\([^)]+\)$/);
+  });
+}
+test('ease.spring is critically damped: monotonic, never overshoots', () => {
+  const t = resolved.modes.default['ease.spring'];
+  const s = parseLinear(t.value);
+  for (let i = 1; i < s.length; i++)
+    assert.ok(s[i] >= s[i - 1], `dip at stop ${i}`);
+  assert.ok(Math.max(...s) <= 1);
+  assert.ok(t.spring.dampingRatio >= 1);
+});
+test('ease.spring-bouncy overshoots 3–5% and settles back', () => {
+  const t = resolved.modes.default['ease.spring-bouncy'];
+  const peak = Math.max(...parseLinear(t.value));
+  assert.ok(peak >= 1.03 && peak <= 1.05, `peak ${peak}`);
+  assert.ok(t.spring.overshoot >= 0.03 && t.spring.overshoot <= 0.05);
+});
+test('spring settle times match their duration tokens (±10%)', () => {
+  const d = resolved.modes.default;
+  for (const [k, dur] of [
+    ['spring', 'default'],
+    ['spring-bouncy', 'slow'],
+  ]) {
+    const want = parseFloat(d[`duration.${dur}`].value);
+    const got = d[`ease.${k}`].spring.settleMs;
+    assert.ok(
+      Math.abs(got - want) / want <= 0.1,
+      `${k}: ${got}ms vs ${want}ms`,
+    );
+  }
+});
+test('tokens.css: springs ship linear() with an @supports cubic-bezier fallback', () => {
+  const css = readFileSync(
+    new URL('../src/tokens/tokens.css', import.meta.url),
+    'utf8',
+  );
+  assert.match(css, /--heru-ease-spring: linear\(/);
+  assert.match(
+    css,
+    /@supports not \(animation-timing-function: linear\(0, 1\)\)[\s\S]*--heru-ease-spring: cubic-bezier/,
+  );
+});
+test('theme: reduced motion zeroes durations and flattens springs', () => {
+  const css = readFileSync(
+    new URL('../src/theme/theme.css', import.meta.url),
+    'utf8',
+  );
+  const rm = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce)'));
+  for (const k of ['fast', 'default', 'slow'])
+    assert.match(rm, new RegExp(`--heru-duration-${k}: 0\\.01ms`));
+  assert.match(rm, /--heru-ease-spring: linear;/);
+  assert.match(rm, /--heru-ease-spring-bouncy: linear;/);
+  // No spring on colour, border or the error box.
+  assert.doesNotMatch(
+    css,
+    /(background-color|border-color|color) var\([^)]*\) var\(--heru-ease-spring/,
+  );
+  assert.doesNotMatch(css, /heru-error-in[^;]*spring/);
+});
