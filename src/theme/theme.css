@@ -5,13 +5,27 @@
  * loaded by the app. No font files are bundled.
  */
 
-/* ---------- Button (single primary look) ---------- */
+/* ---------- Shared state layer ----------
+ * Implemented once in src/internal/state-layer.ts (inside each component's
+ * shadow root). The theme only names each surface's colours:
+ *   --_bg / --_on                 resting fill and its text/icon colour
+ *   --_bg-hover/-pressed/-selected  fixed fills used only without color-mix()
+ * Hover/pressed/selected/disabled behaviour comes from the utility, so new
+ * surfaces (tabs, tree rows, cards…) only set these variables.
+ */
+
+/* ---------- Button ---------- */
 heru-button::part(base) {
+  --_bg: var(--heru-color-accent);
+  --_on: var(--heru-color-on-accent);
+  --_bg-hover: var(--heru-color-accent-hover);
+  --_bg-pressed: var(--heru-color-accent-active);
+  --_bg-selected: var(--heru-color-accent-active);
   justify-content: center;
   gap: var(--heru-space-2);
-  border-color: var(--heru-color-accent);
-  background: var(--heru-color-accent);
-  color: var(--heru-color-on-accent);
+  /* Solid: the border follows the fill. */
+  border-color: var(--_border, var(--_heru-state-fill));
+  color: var(--_on);
   white-space: nowrap;
   user-select: none;
   transition:
@@ -26,14 +40,15 @@ heru-button::part(base) {
     0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
-heru-button:hover::part(base) {
-  border-color: var(--heru-color-accent-hover);
-  background: var(--heru-color-accent-hover);
-}
-heru-button:active::part(base),
-heru-button:state(pressed)::part(base) {
-  border-color: var(--heru-color-accent-active);
-  background: var(--heru-color-accent-active);
+/* Outline (VARIANT NAME PROVISIONAL — Technical Writer). Transparent fill, a
+ * >= 3:1 border that never changes with state, on-colour veil on hover. */
+heru-button[variant='outline']::part(base) {
+  --_bg: transparent;
+  --_on: var(--heru-color-text);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
+  --_border: var(--heru-color-border-strong);
 }
 heru-button::part(base):focus-visible {
   box-shadow:
@@ -48,10 +63,11 @@ heru-button::part(base):focus-visible {
       )
       var(--heru-focus-halo);
 }
+/* Disabled: the state layer applies no hover/pressed/selected change. */
 heru-button:state(disabled)::part(base) {
-  border-color: var(--heru-color-border);
-  background: var(--heru-color-surface);
-  color: var(--heru-color-text-muted);
+  --_bg: var(--heru-color-surface);
+  --_on: var(--heru-color-text-muted);
+  --_border: var(--heru-color-border);
 }
 
 /* ---------- Text inputs (TextInput, PasswordInput, SearchInput, OtpInput,
@@ -263,8 +279,8 @@ heru-select::part(indicator) {
 heru-select::part(listbox) {
   /* 4px block, 2px inline (half unit). */
   padding: var(--heru-space-1) calc(var(--heru-space-1) / 2);
-  /* "A tad darker" than color-border (slate-300): next slate step. */
-  border: var(--heru-border-width) solid var(--heru-color-slate-400);
+  /* "A tad darker" than color-border: color-border-popup (next ramp step). */
+  border: var(--heru-border-width) solid var(--heru-color-border-popup);
   border-radius: 0 0 var(--heru-radius-7) var(--heru-radius-7);
   background: var(--heru-color-bg);
   box-shadow: var(--heru-elevation-default);
@@ -335,7 +351,7 @@ heru-select::part(error) {
   padding-inline: var(--heru-space-2);
   border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Herú's odd ramp */
   background: var(--heru-color-error-surface);
-  color: var(--heru-color-error-status-text);
+  color: var(--heru-color-on-error-surface);
   font-size: var(--heru-font-size-12);
   font-weight: var(--heru-font-weight-regular);
   line-height: var(--heru-font-line-height-16);
@@ -436,40 +452,44 @@ heru-select:state(disabled)::part(trigger) {
 
 /* ---------- Option (NAME PENDING — Technical Writer) ---------- */
 heru-option::part(base) {
+  --_bg: var(--heru-color-bg);
+  --_on: var(--heru-color-text);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
   min-block-size: max(24px, calc(var(--_heru-control-height, 2.25rem) - 4px));
   padding-inline: var(--heru-space-2);
   border-radius: var(--heru-radius-5);
   transition: background-color var(--heru-duration-fast)
     var(--heru-ease-standard);
 }
-/* Flat hover: background tint only, no shadow (--heru-elevation-hover is reserved). */
-heru-option:state(active)::part(base),
-heru-option:hover::part(base) {
-  background: var(--heru-color-slate-100);
-  box-shadow: none;
-}
-heru-option:active::part(base) {
-  background: var(--heru-color-slate-200);
-  box-shadow: none;
-}
+/* Hover/active, pressed and selected fills come from the shared state layer
+ * (flat: no shadow; --heru-elevation-hover stays reserved). Selected also
+ * shows the check mark (non-colour indicator). */
 heru-option:state(disabled)::part(base) {
   color: var(--heru-color-text-muted);
-  background: none;
-  box-shadow: none;
 }
 
-/* ---------- Text input adornments (password toggle, search clear) ---------- */
+/* ---------- Text input adornments (password toggle, search clear) ----------
+ * Transparent icon buttons on the shared state layer (on-colour veil). */
 :is(heru-password-input, heru-search-input)::part(toggle),
 :is(heru-password-input, heru-search-input)::part(clear) {
+  --_bg: transparent;
+  --_on: var(--heru-color-text);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
   border-radius: var(--heru-radius-3);
   color: var(--heru-color-text-muted);
-  transition: background-color var(--heru-duration-fast)
-    var(--heru-ease-standard);
+  transition:
+    background-color var(--heru-duration-fast) var(--heru-ease-standard),
+    color var(--heru-duration-fast) var(--heru-ease-standard);
 }
-:is(heru-password-input, heru-search-input)::part(toggle):hover,
-:is(heru-password-input, heru-search-input)::part(clear):hover {
-  background: var(--heru-color-slate-100);
-  color: var(--heru-color-text);
+@media (hover: hover) {
+  :is(heru-password-input, heru-search-input)::part(toggle):hover,
+  :is(heru-password-input, heru-search-input)::part(clear):hover {
+    color: var(--_on);
+  }
 }
 :is(heru-password-input, heru-search-input)::part(toggle):focus-visible,
 :is(heru-password-input, heru-search-input)::part(clear):focus-visible {
@@ -495,7 +515,7 @@ heru-otp-input::part(error) {
     var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
       var(--heru-focus-halo-width) + 1px
   );
-  color: var(--heru-color-error-status-text);
+  color: var(--heru-color-on-error-surface);
   font-size: var(--heru-font-size-12);
   font-weight: var(--heru-font-weight-regular);
   line-height: var(--heru-font-line-height-16);

@@ -489,7 +489,7 @@ for (const tag of ['heru-select', 'heru-text-field']) {
   });
 }
 
-test('option hover and keyboard-active use a flat slate-100 background, no shadow', async ({
+test('option hover and keyboard-active use the shared state-layer hover fill, no shadow', async ({
   page,
 }) => {
   await mount(page, `<heru-select label="Fruit">${OPTIONS}</heru-select>`);
@@ -498,7 +498,8 @@ test('option hover and keyboard-active use a flat slate-100 background, no shado
     page.locator(`heru-option[value="${v}"]`).evaluate((o) => {
       const b = getComputedStyle(o.shadowRoot!.querySelector('[part="base"]')!);
       const probe = document.createElement('div');
-      probe.style.background = 'var(--heru-color-slate-100)';
+      probe.style.background =
+        'color-mix(in oklch, var(--heru-color-bg), var(--heru-color-text) var(--heru-state-hover))';
       document.body.append(probe);
       const want = getComputedStyle(probe).backgroundColor;
       probe.remove();
@@ -763,7 +764,7 @@ test('open listbox tucks 3px under the trigger (trigger on top), inset 6px', asy
   expect(g.padding).toEqual(['4px', '2px', '4px', '2px']);
   expect(g.border).toBe(g.slate400);
   expect(g.shadow).not.toBe('none');
-  expect(g.trigBg).toBe('oklch(1 0 0)'); // opaque white (color-bg)
+  expect(g.trigBg).toBe('oklch(1 0 260)'); // opaque white (color-bg)
   expect(g.popover).toBe(false); // in-page, not top layer
 });
 

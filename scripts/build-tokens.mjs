@@ -80,6 +80,9 @@ function toCss(t) {
   if (typeof value === 'number') return String(value);
   if (!value.includes('{')) return value;
   assertRefs(value, path.join('.'));
+  // Colours/shadows built with color-mix(): refs become var(), no calc().
+  if (['color', 'shadow'].includes(t.type) && !/^\{[^}]+\}$/.test(value))
+    return value.replace(REF, (_, r) => `var(${cssName(r)})`);
   // A bare alias stays a plain var(); expressions become calc()/max().
   if (/^\{[^}]+\}$/.test(value)) return `var(${cssName(value.slice(1, -1))})`;
   const body = value.replace(REF, (_, r) => `var(${cssName(r)})`);
@@ -98,7 +101,14 @@ function resolveValue(path, mode, seen = new Set()) {
   if (typeof v === 'number' || Array.isArray(v)) return v;
   if (/^\{[^}]+\}$/.test(v))
     return resolveValue(v.slice(1, -1), mode, new Set(seen));
-  if (['color', 'duration', 'cubicBezier', 'shadow'].includes(t.type)) return v;
+  if (['color', 'shadow'].includes(t.type) && v.includes('{'))
+    return resolveMix(v, mode, seen);
+  if (
+    ['color', 'duration', 'cubicBezier', 'shadow', 'percentage'].includes(
+      t.type,
+    )
+  )
+    return v;
   if (!v.includes('{')) return v.endsWith('px') ? parseFloat(v) : Number(v);
   const expr = v.replace(REF, (_, r) =>
     String(resolveValue(r, mode, new Set(seen))),
@@ -106,6 +116,23 @@ function resolveValue(path, mode, seen = new Set()) {
   if (!/^[\d\s.+\-*/(),max]+$/.test(expr))
     throw new Error(`Unsafe expression for ${path}: ${expr}`);
   return Function('max', `return (${expr});`)(Math.max);
+}
+
+// color-mix(in oklch, {ref} N%, transparent) → the ref's oklch() at alpha N.
+// (Mixing an opaque colour with transparent in oklch keeps L/C/H exactly.)
+function resolveMix(v, mode, seen) {
+  const out = v.replace(
+    /color-mix\(in oklch, \{([^}]+)\} ([\d.]+)%, transparent\)/g,
+    (_, ref, pct) => {
+      const base = resolveValue(ref, mode, new Set(seen));
+      const m = /^oklch\(([^/)]+)\)$/.exec(base);
+      if (!m) throw new Error(`color-mix base must be opaque oklch(): ${ref}`);
+      return `oklch(${m[1].trim()} / ${Number(pct) / 100})`;
+    },
+  );
+  if (out.includes('{') || out.includes('color-mix'))
+    throw new Error(`Unsupported colour expression: ${v}`);
+  return out;
 }
 
 // ---------- Emit CSS ----------
@@ -141,6 +168,16 @@ const scoped = rest.filter((t) => dependsOnDensity(t));
 css += `\n:root {\n`;
 for (const t of fixed) css += `  ${cssName(t.path.join('.'))}: ${toCss(t)};\n`;
 css += `}\n`;
+// Literal fallbacks for engines without color-mix() (Safari < 16.2 etc.).
+const mixed = fixed.filter(
+  (t) => typeof t.value === 'string' && t.value.includes('color-mix('),
+);
+if (mixed.length) {
+  css += `\n/* Fallback for engines without color-mix(): resolved literals. */\n@supports not (color: color-mix(in oklch, red, blue)) {\n  :root {\n`;
+  for (const t of mixed)
+    css += `    ${cssName(t.path.join('.'))}: ${resolveValue(t.path.join('.'), 'default')};\n`;
+  css += `  }\n}\n`;
+}
 if (springs.size) {
   css += `\n/* Fallback for engines without linear(): the token's cubic-bezier $value. */\n@supports not (animation-timing-function: linear(0, 1)) {\n  :root {\n`;
   for (const k of springs.keys())

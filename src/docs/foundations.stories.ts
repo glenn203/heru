@@ -93,7 +93,7 @@ const ramps = {
     '900',
     '950',
   ],
-  red: ['50', '600', '700'],
+  red: ['50', '500', '600', '700', '800'],
 };
 const semantic = [
   'bg',
@@ -102,13 +102,22 @@ const semantic = [
   'text-muted',
   'border',
   'border-strong',
+  'border-popup',
   'accent',
-  'accent-hover',
-  'accent-active',
   'on-accent',
   'focus-ring',
+  'focus-halo',
   'error',
   'error-text',
+  'error-surface',
+  'on-error-surface',
+  'shadow',
+  'shadow-urgent',
+  // Fallback-only (no color-mix()); components use the shared state layer.
+  'accent-hover',
+  'accent-active',
+  'surface-hover',
+  'surface-pressed',
 ];
 
 export const Color: StoryObj = {

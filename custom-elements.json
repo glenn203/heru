@@ -93,6 +93,16 @@
             },
             {
               "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'outline' | undefined"
+              },
+              "description": "Visual variant. Unset is the solid default; `outline` is a transparent\nbutton with a border. Headless: only the opt-in theme styles it.\nVARIANT NAME PROVISIONAL — Technical Writer.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "type",
               "type": {
                 "text": "'button' | 'submit' | 'reset'"
@@ -317,6 +327,14 @@
               "fieldName": "size"
             },
             {
+              "name": "variant",
+              "type": {
+                "text": "'outline' | undefined"
+              },
+              "description": "Visual variant. Unset is the solid default; `outline` is a transparent\nbutton with a border. Headless: only the opt-in theme styles it.\nVARIANT NAME PROVISIONAL — Technical Writer.",
+              "fieldName": "variant"
+            },
+            {
               "name": "type",
               "type": {
                 "text": "'button' | 'submit' | 'reset'"
@@ -400,6 +418,165 @@
           "declaration": {
             "name": "HeruButton",
             "module": "src/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/option/option.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One choice inside `heru-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
+          "name": "HeruOption",
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            },
+            {
+              "description": "Selected indicator.",
+              "name": "check"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The option label.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Submitted value. Falls back to the text content.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Initial selection (like native).",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Display label override; defaults to the text content.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "resolvedValue",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Submitted value. Falls back to the text content.",
+              "fieldName": "value"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Initial selection (like native).",
+              "fieldName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Display label override; defaults to the text content.",
+              "fieldName": "label"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "This option is the select's value.",
+              "name": "selected"
+            },
+            {
+              "description": "Keyboard/pointer highlighted.",
+              "name": "active"
+            },
+            {
+              "description": "Not selectable; skipped by arrow keys.",
+              "name": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "heru-option",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HeruOption",
+          "declaration": {
+            "name": "HeruOption",
+            "module": "src/option/option.ts"
           }
         }
       ]
@@ -927,6 +1104,40 @@
           "declaration": {
             "name": "uniqueId",
             "module": "src/internal/ids.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/state-layer.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "stateLayer",
+          "return": {
+            "type": {
+              "text": "CSSResult"
+            }
+          },
+          "parameters": [
+            {
+              "name": "selector",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Private shared state layer for ANY interactive surface: buttons, options,\ntree rows, list items, tabs, clickable cards, icon buttons.\n\nContract (theme-facing, set from outside via ::part()):\n  --_bg   resting fill (may be `transparent`)\n  --_on   text/icon colour on that fill\n  --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used\n          ONLY when color-mix() is unsupported (Safari < 16.2 etc.)\nFill = color-mix(in oklch, var(--_bg), var(--_on) <state %>).\nMixing with a transparent --_bg yields the on-colour at <state %> alpha\n(identical to an srgb veil), so one formula covers solid and outline.\nThe resolved fill is exposed as --_heru-state-fill (e.g. for a border that\nfollows the fill).\n\nStates (in the shadow root, so ::part() themes don't need per-state rules):\n  hover     :hover inside"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "stateLayer",
+          "declaration": {
+            "name": "stateLayer",
+            "module": "src/internal/state-layer.ts"
           }
         }
       ]
@@ -1535,165 +1746,6 @@
           "declaration": {
             "name": "TextControl",
             "module": "src/internal/text-control.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/option/option.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "One choice inside `heru-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
-          "name": "HeruOption",
-          "cssParts": [
-            {
-              "description": "The row.",
-              "name": "base"
-            },
-            {
-              "description": "Selected indicator.",
-              "name": "check"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The option label.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Submitted value. Falls back to the text content.",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Initial selection (like native).",
-              "attribute": "selected",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Display label override; defaults to the text content.",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "resolvedValue",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "text",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Submitted value. Falls back to the text content.",
-              "fieldName": "value"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Initial selection (like native).",
-              "fieldName": "selected"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Display label override; defaults to the text content.",
-              "fieldName": "label"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "This option is the select's value.",
-              "name": "selected"
-            },
-            {
-              "description": "Keyboard/pointer highlighted.",
-              "name": "active"
-            },
-            {
-              "description": "Not selectable; skipped by arrow keys.",
-              "name": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "heru-option",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HeruOption",
-          "declaration": {
-            "name": "HeruOption",
-            "module": "src/option/option.ts"
           }
         }
       ]
