@@ -40,8 +40,51 @@ heru-button::part(base) {
     0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
-/* Outline (VARIANT NAME PROVISIONAL — Technical Writer). Transparent fill, a
- * >= 3:1 border that never changes with state, on-colour veil on hover. */
+/* Variants (NAMES PROVISIONAL — Technical Writer). Each only names its
+ * colours; hover/pressed/selected/disabled come from the shared state layer.
+ * Reference: Astryx Button (facebook/astryx@b7ea471,
+ * packages/core/src/Button/Button.tsx). */
+/* Secondary: opaque 8% accent tint over the page bg, accent text. */
+heru-button[variant='secondary']::part(base) {
+  --_bg: color-mix(in oklch, var(--heru-color-bg), var(--heru-color-accent) 8%);
+  --_on: var(--heru-color-accent);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
+}
+@supports not (color: color-mix(in oklch, red, blue)) {
+  heru-button[variant='secondary']::part(base) {
+    --_bg: var(--heru-color-surface-hover);
+  }
+  heru-button[variant='destructive']::part(base) {
+    --_bg: var(--heru-color-error-surface);
+  }
+}
+/* Ghost: transparent, no visible border, on-colour veil on hover. */
+heru-button[variant='ghost']::part(base) {
+  --_bg: transparent;
+  --_on: var(--heru-color-text);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
+  --_border: transparent;
+}
+/* Destructive: the error box's soft tint, made opaque. An srgb mix of the
+ * error-surface base over color-bg is exactly what the 8% translucent
+ * error-surface composites to, so the button matches the error box. */
+heru-button[variant='destructive']::part(base) {
+  --_bg: color-mix(
+    in srgb,
+    var(--heru-color-bg),
+    var(--heru-color-error-surface-base) 8%
+  );
+  --_on: var(--heru-color-on-error-surface);
+  --_bg-hover: var(--heru-color-surface-hover);
+  --_bg-pressed: var(--heru-color-surface-pressed);
+  --_bg-selected: var(--heru-color-surface-pressed);
+}
+/* Outline: transparent fill, a >= 3:1 border that never changes with state,
+ * on-colour veil on hover. */
 heru-button[variant='outline']::part(base) {
   --_bg: transparent;
   --_on: var(--heru-color-text);
@@ -63,11 +106,16 @@ heru-button::part(base):focus-visible {
       )
       var(--heru-focus-halo);
 }
-/* Disabled: the state layer applies no hover/pressed/selected change. */
+/* Disabled: shared inert look, no state-layer change. Ghost stays
+ * transparent and borderless. */
 heru-button:state(disabled)::part(base) {
   --_bg: var(--heru-color-surface);
   --_on: var(--heru-color-text-muted);
   --_border: var(--heru-color-border);
+}
+heru-button[variant='ghost']:state(disabled)::part(base) {
+  --_bg: transparent;
+  --_border: transparent;
 }
 
 /* ---------- Text inputs (TextInput, PasswordInput, SearchInput, OtpInput,

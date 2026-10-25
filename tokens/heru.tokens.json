@@ -491,8 +491,12 @@
       "$value": "{color.red.700}",
       "$description": "Error message text. AA on bg."
     },
+    "error-surface-base": {
+      "$value": "{color.red.500}",
+      "$description": "Opaque red behind color-error-surface. Lets opaque surfaces (destructive button) mix the exact error-box tint over color-bg. NAME PENDING — Technical Writer."
+    },
     "error-surface": {
-      "$value": "color-mix(in oklch, {color.red.500} 8%, transparent)",
+      "$value": "color-mix(in oklch, {color.error-surface-base} 8%, transparent)",
       "$description": "Error box fill: red-500 at 8% (== oklch(0.586 0.226 21.3 / 0.08))."
     },
     "on-error-surface": {

@@ -52,3 +52,33 @@ export const Outline: StoryObj = {
       >
     </div>`,
 };
+
+const VARIANTS = [
+  'primary',
+  'secondary',
+  'ghost',
+  'outline',
+  'destructive',
+] as const;
+const variantStory = (v: (typeof VARIANTS)[number]): StoryObj => ({
+  render: () =>
+    html`<div style="display: flex; gap: 12px">
+      <heru-button variant=${v} type="button">${v}</heru-button>
+      <heru-button variant=${v} type="button" pressed>Selected</heru-button>
+      <heru-button variant=${v} type="button" disabled>Disabled</heru-button>
+    </div>`,
+});
+/** Variant names provisional, pending Technical Writer. */
+export const Primary = variantStory('primary');
+export const Secondary = variantStory('secondary');
+export const Ghost = variantStory('ghost');
+export const Destructive = variantStory('destructive');
+/** Every variant side by side. */
+export const AllVariants: StoryObj = {
+  render: () =>
+    html`<div style="display: grid; gap: 12px; justify-items: start">
+      ${VARIANTS.map(
+        (v) => html`<heru-button variant=${v} type="button">${v}</heru-button>`,
+      )}
+    </div>`,
+};

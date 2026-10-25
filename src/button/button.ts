@@ -71,11 +71,16 @@ export class HeruButton extends FormAssociated(LitElement) {
   @property({ reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
 
   /**
-   * Visual variant. Unset is the solid default; `outline` is a transparent
-   * button with a border. Headless: only the opt-in theme styles it.
-   * VARIANT NAME PROVISIONAL — Technical Writer.
+   * Visual emphasis. Unset = `primary`. Headless: only the opt-in theme
+   * paints variants. VARIANT NAMES PROVISIONAL — Technical Writer.
+   * - `primary` solid accent (default)
+   * - `secondary` accent tint with accent text
+   * - `ghost` transparent, no border
+   * - `outline` transparent with a border
+   * - `destructive` error-box tint with dark red text
    */
-  @property({ reflect: true }) variant?: 'outline';
+  @property({ reflect: true }) variant?:
+    'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive';
 
   /** What the button does in a form. */
   @property({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'submit';
