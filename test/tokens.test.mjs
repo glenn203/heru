@@ -166,7 +166,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
 
 test('error box: lighter fill (10% red over white) keeps status text >= 4.5:1', () => {
   const t = resolved.modes.default;
-  assert.match(t['color.error-surface'].value, /\/ 0\.1\)$/);
+  assert.match(t['color.error-surface'].value, /\/ 0\.08\)$/);
   const rgb = (hex) => {
     const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
     const a = hex.length > 7 ? parseInt(hex.slice(7, 9), 16) / 255 : 1;

@@ -78,9 +78,11 @@ export class HeruSelect extends FormAssociated(LitElement) {
       }
       [part='listbox'] {
         position: absolute;
-        z-index: 2;
-        inset-inline: 0;
-        inset-block-start: calc(100% + var(--heru-space-1, 0.25rem));
+        /* Sits UNDER the trigger (trigger z-index 2): starts 3px beneath it,
+         * inset 6px each side. In-page, not top layer, so it can tuck. */
+        z-index: 1;
+        inset-inline: calc(var(--heru-space-1, 0.25rem) * 1.5);
+        inset-block-start: calc(100% - 3px);
         box-sizing: border-box;
         max-block-size: 18rem;
         overflow: auto;

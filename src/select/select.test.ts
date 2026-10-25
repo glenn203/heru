@@ -306,8 +306,8 @@ for (const tag of ['heru-select', 'heru-text-field']) {
     expect(r.weight).toBe('400');
     expect(r.lineHeight).toBe('16px');
     expect(r.radii).toEqual(['0px', '0px', '8px', '8px']);
-    expect(r.padding).toEqual(['12px', '8px', '6px', '8px']);
-    expect(r.overlap).toBe('-6px');
+    expect(r.padding).toEqual(['7px', '8px', '3px', '8px']);
+    expect(r.overlap).toBe('-2px');
   });
 }
 
@@ -362,7 +362,7 @@ test('select focus matches text field focus (outer ring), incl. invalid', async 
 });
 
 for (const tag of ['heru-select', 'heru-text-field']) {
-  test(`${tag}: 4px label gap, 8px description gap, focus reach clears label/description/error text`, async ({
+  test(`${tag}: 2px label gap, 4px description gap, focus reach clears error text`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -413,17 +413,18 @@ for (const tag of ['heru-select', 'heru-text-field']) {
       };
     });
     expect(g.reach).toBeLessThanOrEqual(4);
-    expect(g.labelGap).toBeCloseTo(4, 0);
-    expect(g.descGap).toBeCloseTo(8, 0);
-    expect(g.labelGap).toBeGreaterThanOrEqual(g.reach);
-    expect(g.descGap).toBeGreaterThan(g.reach);
+    expect(g.labelGap).toBeCloseTo(2, 0);
+    expect(g.descGap).toBeCloseTo(4, 0);
+    // Chuck's v2 mock: 2px label gap, so the 4px ring overlaps 2px into the
+    // label's line box (accepted; glyphs sit lower in the 20px line).
+    expect(g.descGap).toBeGreaterThanOrEqual(g.reach);
     expect(g.errGap).toBeGreaterThan(g.reach);
     expect(g.errGap).toBeLessThanOrEqual(6.5);
   });
 }
 
 for (const tag of ['heru-select', 'heru-text-field']) {
-  test(`${tag}: error text is centered in the visible 28px box and clears the ring`, async ({
+  test(`${tag}: error text is centered in the visible 24px box and clears the ring`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -457,9 +458,9 @@ for (const tag of ['heru-select', 'heru-text-field']) {
         glyphBottom: box.bottom - g.bottom,
       };
     });
-    expect(m.total).toBeCloseTo(34, 0);
-    expect(m.visible).toBeCloseTo(28, 0);
-    expect(m.glyphTop).toBeGreaterThanOrEqual(6); // clears the 4px focus reach
+    expect(m.total).toBeCloseTo(26, 0);
+    expect(m.visible).toBeCloseTo(24, 0);
+    expect(m.glyphTop).toBeGreaterThanOrEqual(5); // clears the 4px focus reach by 1px
     expect(Math.abs(m.glyphTop - m.glyphBottom)).toBeLessThanOrEqual(1.5);
   });
 }
@@ -549,7 +550,6 @@ test('select error box matches the text field error box exactly', async ({
           visible: b.bottom - ctl.bottom,
           glyphTop: g.top - ctl.bottom,
         },
-        ctlZ: getComputedStyle(ctlEl).zIndex,
         ctlBottomRadius: getComputedStyle(ctlEl).borderBottomLeftRadius,
         styles: Object.fromEntries(
           props.map((p) => [p, cs.getPropertyValue(p)]),
@@ -680,3 +680,65 @@ for (const tag of ['heru-text-field', 'heru-select']) {
     expect(px[2]![1]).toBeLessThan(250);
   });
 }
+
+test('open listbox tucks 3px under the trigger (trigger on top), inset 6px', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await mount(
+    page,
+    `<div style="inline-size:280px"><heru-select label="Fruit">${OPTIONS}<span slot="description">Help</span></heru-select></div>`,
+  );
+  await withTheme(page);
+  await page.getByRole('combobox', { name: 'Fruit' }).click();
+  const g = await page.locator('heru-select').evaluate((el) => {
+    const r = el.shadowRoot!;
+    const trig = r.querySelector('[part="trigger"]')!;
+    const lb = r.querySelector('[part="listbox"]')!;
+    const t = trig.getBoundingClientRect();
+    const l = lb.getBoundingClientRect();
+    const cs = getComputedStyle(lb);
+    const probe = document.createElement('div');
+    probe.style.color = 'var(--heru-color-slate-400)';
+    document.body.append(probe);
+    const slate400 = getComputedStyle(probe).color;
+    probe.remove();
+    const hit = r.elementFromPoint(t.left + t.width / 2, t.bottom - 1.5);
+    return {
+      overlap: t.bottom - l.top,
+      left: l.left - t.left,
+      right: t.right - l.right,
+      trigZ: Number(getComputedStyle(trig).zIndex),
+      lbZ: Number(cs.zIndex),
+      radii: [
+        cs.borderTopLeftRadius,
+        cs.borderTopRightRadius,
+        cs.borderBottomRightRadius,
+        cs.borderBottomLeftRadius,
+      ],
+      padding: [
+        cs.paddingTop,
+        cs.paddingRight,
+        cs.paddingBottom,
+        cs.paddingLeft,
+      ],
+      border: cs.borderTopColor,
+      slate400,
+      shadow: cs.boxShadow,
+      trigBg: getComputedStyle(trig).backgroundColor,
+      topHit: hit === trig,
+      popover: lb.hasAttribute('popover'),
+    };
+  });
+  expect(g.overlap).toBeCloseTo(3, 0);
+  expect(g.left).toBeCloseTo(6, 0);
+  expect(g.right).toBeCloseTo(6, 0);
+  expect(g.trigZ).toBeGreaterThan(g.lbZ);
+  expect(g.topHit).toBe(true);
+  expect(g.radii).toEqual(['0px', '0px', '7px', '7px']);
+  expect(g.padding).toEqual(['4px', '2px', '4px', '2px']);
+  expect(g.border).toBe(g.slate400);
+  expect(g.shadow).not.toBe('none');
+  expect(g.trigBg).toBe('oklch(1 0 0)'); // opaque white (color-bg)
+  expect(g.popover).toBe(false); // in-page, not top layer
+});

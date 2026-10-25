@@ -61,7 +61,9 @@ heru-text-field {
 }
 /* Focus reach is 4px: label gap 4px, description gap 8px. */
 heru-text-field::part(label) {
-  margin-block-end: var(--heru-space-1);
+  margin-block-end: calc(
+    var(--heru-space-1) / 2
+  ); /* 2px: half a grid unit, per Chuck's mock */
 }
 heru-text-field::part(input) {
   border-color: var(--heru-color-border-strong);
@@ -100,7 +102,7 @@ heru-text-field::part(input):focus {
       var(--heru-focus-halo);
 }
 heru-text-field::part(description) {
-  margin-block-start: var(--heru-space-2);
+  margin-block-start: var(--heru-space-1);
   color: var(--heru-color-text-muted);
 }
 /* Text field error: see the shared attached error box below. */
@@ -138,7 +140,7 @@ heru-select {
   color: var(--heru-color-text);
 }
 heru-select::part(label) {
-  margin-block-end: var(--heru-space-1);
+  margin-block-end: calc(var(--heru-space-1) / 2); /* 2px, half unit */
 }
 heru-select::part(trigger) {
   border-color: var(--heru-color-border-strong);
@@ -176,9 +178,11 @@ heru-select::part(indicator) {
   color: var(--heru-color-text-muted);
 }
 heru-select::part(listbox) {
-  padding: var(--heru-space-1);
-  border: var(--heru-border-width) solid var(--heru-color-border);
-  border-radius: var(--heru-radius-7);
+  /* 4px block, 2px inline (half unit). */
+  padding: var(--heru-space-1) calc(var(--heru-space-1) / 2);
+  /* "A tad darker" than color-border (slate-300): next slate step. */
+  border: var(--heru-border-width) solid var(--heru-color-slate-400);
+  border-radius: 0 0 var(--heru-radius-7) var(--heru-radius-7);
   background: var(--heru-color-bg);
   box-shadow: var(--heru-elevation-default);
   transform-origin: top;
@@ -188,7 +192,7 @@ heru-select:state(open)::part(listbox) {
     var(--heru-motion-ease-out);
 }
 heru-select::part(description) {
-  margin-block-start: var(--heru-space-2);
+  margin-block-start: var(--heru-space-1);
   color: var(--heru-color-text-muted);
 }
 heru-select:state(invalid)::part(trigger) {
@@ -217,15 +221,20 @@ heru-select::part(trigger) {
   position: relative;
   z-index: 1;
 }
+/* Select trigger sits above its listbox (z 1) and error box. */
+heru-select::part(trigger) {
+  z-index: 2;
+}
 heru-text-field::part(error),
 heru-select::part(error) {
-  --_heru-status-overlap: 0.375rem; /* Astryx --spacing-1-5 (6px, off Herú's 4px grid) */
+  /* 2px tuck (half unit). Visible: 5px + 16px line + 3px = 24px. The line
+   * box starts 5px below the control (clears the 4px focus reach by 1px);
+   * cap tops sit ~8px down and the baseline 7px from the bottom, so the
+   * text reads optically centered. */
+  --_heru-status-overlap: calc(var(--heru-space-1) / 2);
   margin-block-start: calc(-1 * var(--_heru-status-overlap));
   margin-inline: var(--heru-space-2);
-  /* Text starts 6px below the control: clears the 4px focus reach. */
-  /* 6px visible above and below a 16px line: visible box = 28px. */
-  padding-block: calc(2 * var(--_heru-status-overlap))
-    var(--_heru-status-overlap);
+  padding-block: calc(var(--_heru-status-overlap) + 5px) 3px;
   padding-inline: var(--heru-space-2);
   border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Herú's odd ramp */
   background: var(--heru-color-error-surface);
