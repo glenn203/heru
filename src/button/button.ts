@@ -13,7 +13,7 @@ import { stateLayer } from '../internal/state-layer.js';
  * A headless button. Renders a native `<button>` in shadow DOM and joins the
  * surrounding form through ElementInternals.
  *
- * @tag heru-button
+ * @tag prism-button
  * @slot - The label.
  * @slot start - Content before the label, such as an icon.
  * @slot end - Content after the label.
@@ -21,16 +21,16 @@ import { stateLayer } from '../internal/state-layer.js';
  * @csspart label - Wrapper around the default slot.
  * @cssstate disabled - The button is disabled.
  * @cssstate pressed - A toggle button is pressed.
- * @cssprop [--heru-control-height-sm=2rem] - Height when size="sm" (density-aware).
- * @cssprop [--heru-control-height-md=2.25rem] - Height when size="md" (default; density-aware).
- * @cssprop [--heru-control-height-lg=2.75rem] - Height when size="lg" (density-aware).
- * @cssprop [--heru-control-padding-inline=0.75rem] - Inline padding (density-aware).
- * @cssprop [--heru-radius-5=5px] - Corner radius.
- * @cssprop [--heru-border-width=1px] - Border width, drawn inside the height.
- * @cssprop --heru-text-label-font-size - Label role font size (also -line-height, -font-weight, -font-family).
+ * @cssprop [--prism-control-height-sm=2rem] - Height when size="sm" (density-aware).
+ * @cssprop [--prism-control-height-md=2.25rem] - Height when size="md" (default; density-aware).
+ * @cssprop [--prism-control-height-lg=2.75rem] - Height when size="lg" (density-aware).
+ * @cssprop [--prism-control-padding-inline=0.75rem] - Inline padding (density-aware).
+ * @cssprop [--prism-radius-5=5px] - Corner radius.
+ * @cssprop [--prism-border-width=1px] - Border width, drawn inside the height.
+ * @cssprop --prism-text-label-font-size - Label role font size (also -line-height, -font-weight, -font-family).
  * @fires click - Native click; suppressed while disabled.
  */
-export class HeruButton extends FormAssociated(LitElement) {
+export class PrismButton extends FormAssociated(LitElement) {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -51,14 +51,14 @@ export class HeruButton extends FormAssociated(LitElement) {
         box-sizing: border-box;
         display: inline-flex;
         align-items: center;
-        gap: var(--heru-button-gap, 0);
+        gap: var(--prism-button-gap, 0);
         inline-size: 100%;
-        cursor: var(--heru-button-cursor, pointer);
+        cursor: var(--prism-button-cursor, pointer);
         ${controlBox}
         ${textRole('label')}
       }
       [part='base']:disabled {
-        cursor: var(--heru-button-cursor-disabled, default);
+        cursor: var(--prism-button-cursor-disabled, default);
       }
       [part='base']:focus-visible {
         outline: revert;

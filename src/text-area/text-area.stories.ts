@@ -19,7 +19,7 @@ interface Args {
  */
 const meta: Meta<Args> = {
   title: 'Components/Text area',
-  component: 'heru-text-area',
+  component: 'prism-text-area',
   args: {
     label: 'Bio',
     rows: 3,
@@ -30,7 +30,7 @@ const meta: Meta<Args> = {
     disabled: false,
   },
   render: (a) => html`
-    <heru-text-area
+    <prism-text-area
       label=${a.label}
       rows=${a.rows}
       maxlength=${a.maxlength}
@@ -43,7 +43,7 @@ const meta: Meta<Args> = {
     >
       <span slot="description">Shown on your profile.</span>
       <span slot="error">Tell us a little about yourself.</span>
-    </heru-text-area>
+    </prism-text-area>
   `,
 };
 export default meta;

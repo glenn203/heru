@@ -1,7 +1,7 @@
 /*
- * Herú default theme. Opt-in: import 'heru/tokens.css' and 'heru/theme.css'.
+ * Prism default theme. Opt-in: import 'prism/tokens.css' and 'prism/theme.css'.
  * Components stay headless; everything here goes through ::part() and :state().
- * Fonts: uses Inter / JetBrains Mono via --heru-font-family-* if installed or
+ * Fonts: uses Inter / JetBrains Mono via --prism-font-family-* if installed or
  * loaded by the app. No font files are bundled.
  */
 
@@ -15,394 +15,394 @@
  */
 
 /* ---------- Button ---------- */
-heru-button::part(base) {
-  --_bg: var(--heru-color-accent);
-  --_on: var(--heru-color-on-accent);
-  --_bg-hover: var(--heru-color-accent-hover);
-  --_bg-pressed: var(--heru-color-accent-active);
-  --_bg-selected: var(--heru-color-accent-active);
+prism-button::part(base) {
+  --_bg: var(--prism-color-accent);
+  --_on: var(--prism-color-on-accent);
+  --_bg-hover: var(--prism-color-accent-hover);
+  --_bg-pressed: var(--prism-color-accent-active);
+  --_bg-selected: var(--prism-color-accent-active);
   justify-content: center;
-  gap: var(--heru-space-2);
+  gap: var(--prism-space-2);
   /* Solid: the border follows the fill. */
-  border-color: var(--_border, var(--_heru-state-fill));
+  border-color: var(--_border, var(--_prism-state-fill));
   color: var(--_on);
   white-space: nowrap;
   user-select: none;
   transition:
-    background-color var(--heru-duration-fast) var(--heru-ease-standard),
-    border-color var(--heru-duration-fast) var(--heru-ease-standard),
-    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
+    background-color var(--prism-duration-fast) var(--prism-ease-standard),
+    border-color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* Windows High Contrast fallback */
-  outline-offset: var(--heru-focus-ring-offset);
+  outline-offset: var(--prism-focus-ring-offset);
   box-shadow:
-    0 0 0 0 var(--heru-color-bg),
-    0 0 0 0 var(--heru-color-focus-ring),
-    0 0 0 0 var(--heru-focus-halo);
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
 }
 /* Variants (NAMES PROVISIONAL — Technical Writer). Each only names its
  * colours; hover/pressed/selected/disabled come from the shared state layer.
  * Reference: Astryx Button (facebook/astryx@b7ea471,
  * packages/core/src/Button/Button.tsx). */
 /* Secondary: opaque 8% accent tint over the page bg, accent text. */
-heru-button[variant='secondary']::part(base) {
-  --_bg: color-mix(in oklch, var(--heru-color-bg), var(--heru-color-accent) 8%);
-  --_on: var(--heru-color-accent);
-  --_bg-hover: var(--heru-color-surface-hover);
-  --_bg-pressed: var(--heru-color-surface-pressed);
-  --_bg-selected: var(--heru-color-surface-pressed);
+prism-button[variant='secondary']::part(base) {
+  --_bg: color-mix(in oklch, var(--prism-color-bg), var(--prism-color-accent) 8%);
+  --_on: var(--prism-color-accent);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
 }
 @supports not (color: color-mix(in oklch, red, blue)) {
-  heru-button[variant='secondary']::part(base) {
-    --_bg: var(--heru-color-surface-hover);
+  prism-button[variant='secondary']::part(base) {
+    --_bg: var(--prism-color-surface-hover);
   }
-  heru-button[variant='destructive']::part(base) {
-    --_bg: var(--heru-color-error-surface);
+  prism-button[variant='destructive']::part(base) {
+    --_bg: var(--prism-color-error-surface);
   }
 }
 /* Ghost: transparent, no visible border, on-colour veil on hover. */
-heru-button[variant='ghost']::part(base) {
+prism-button[variant='ghost']::part(base) {
   --_bg: transparent;
-  --_on: var(--heru-color-text);
-  --_bg-hover: var(--heru-color-surface-hover);
-  --_bg-pressed: var(--heru-color-surface-pressed);
-  --_bg-selected: var(--heru-color-surface-pressed);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
   --_border: transparent;
 }
 /* Destructive: the error box's soft tint, made opaque. An srgb mix of the
  * error-surface base over color-bg is exactly what the 8% translucent
  * error-surface composites to, so the button matches the error box. */
-heru-button[variant='destructive']::part(base) {
+prism-button[variant='destructive']::part(base) {
   --_bg: color-mix(
     in srgb,
-    var(--heru-color-bg),
-    var(--heru-color-error-surface-base) 8%
+    var(--prism-color-bg),
+    var(--prism-color-error-surface-base) 8%
   );
-  --_on: var(--heru-color-on-error-surface);
-  --_bg-hover: var(--heru-color-surface-hover);
-  --_bg-pressed: var(--heru-color-surface-pressed);
-  --_bg-selected: var(--heru-color-surface-pressed);
+  --_on: var(--prism-color-on-error-surface);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
 }
 /* Outline: transparent fill, a >= 3:1 border that never changes with state,
  * on-colour veil on hover. */
-heru-button[variant='outline']::part(base) {
+prism-button[variant='outline']::part(base) {
   --_bg: transparent;
-  --_on: var(--heru-color-text);
-  --_bg-hover: var(--heru-color-surface-hover);
-  --_bg-pressed: var(--heru-color-surface-pressed);
-  --_bg-selected: var(--heru-color-surface-pressed);
-  --_border: var(--heru-color-border-strong);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  --_border: var(--prism-color-border-strong);
 }
-heru-button::part(base):focus-visible {
+prism-button::part(base):focus-visible {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-focus-ring),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
 /* Disabled: shared inert look, no state-layer change. Ghost stays
  * transparent and borderless. */
-heru-button:state(disabled)::part(base) {
-  --_bg: var(--heru-color-surface);
-  --_on: var(--heru-color-text-muted);
-  --_border: var(--heru-color-border);
+prism-button:state(disabled)::part(base) {
+  --_bg: var(--prism-color-surface);
+  --_on: var(--prism-color-text-muted);
+  --_border: var(--prism-color-border);
 }
-heru-button[variant='ghost']:state(disabled)::part(base) {
+prism-button[variant='ghost']:state(disabled)::part(base) {
   --_bg: transparent;
   --_border: transparent;
 }
 
 /* ---------- Text inputs (TextInput, PasswordInput, SearchInput, OtpInput,
- * TextArea; heru-text-field is the deprecated TextInput alias) ---------- */
+ * TextArea; prism-text-field is the deprecated TextInput alias) ---------- */
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-otp-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-otp-input,
+  prism-text-area,
+  prism-text-field
 ) {
-  color: var(--heru-color-text);
+  color: var(--prism-color-text);
 }
 /* Focus reach is 4px: label gap 4px, description gap 8px. */
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-otp-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-otp-input,
+  prism-text-area,
+  prism-text-field
 )::part(label) {
   margin-block-end: calc(
-    var(--heru-space-1) / 2
+    var(--prism-space-1) / 2
   ); /* 2px: half a grid unit, per Chuck's mock */
 }
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-otp-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-otp-input,
+  prism-text-area,
+  prism-text-field
 )::part(input) {
-  border-color: var(--heru-color-border-strong);
-  background: var(--heru-color-bg);
-  color: var(--heru-color-text);
+  border-color: var(--prism-color-border-strong);
+  background: var(--prism-color-bg);
+  color: var(--prism-color-text);
   transition:
-    background-color var(--heru-duration-fast) var(--heru-ease-standard),
-    border-color var(--heru-duration-fast) var(--heru-ease-standard),
-    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
+    background-color var(--prism-duration-fast) var(--prism-ease-standard),
+    border-color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* Windows High Contrast fallback */
-  outline-offset: var(--heru-focus-ring-offset);
+  outline-offset: var(--prism-focus-ring-offset);
   box-shadow:
-    0 0 0 0 var(--heru-color-bg),
-    0 0 0 0 var(--heru-color-focus-ring),
-    0 0 0 0 var(--heru-focus-halo);
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   )::part(input)::placeholder {
-  color: var(--heru-color-text-muted);
+  color: var(--prism-color-text-muted);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   ):hover::part(input) {
-  border-color: var(--heru-color-text-muted);
+  border-color: var(--prism-color-text-muted);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   )::part(input):focus {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-focus-ring),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-otp-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-otp-input,
+  prism-text-area,
+  prism-text-field
 )::part(description) {
-  margin-block-start: var(--heru-space-1);
-  color: var(--heru-color-text-muted);
+  margin-block-start: var(--prism-space-1);
+  color: var(--prism-color-text-muted);
 }
 /* Text field error: see the shared attached error box below. */
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   ):state(invalid)::part(input) {
-  border-color: var(--heru-color-error);
+  border-color: var(--prism-color-error);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   ):state(invalid)::part(input):focus {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-error),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-error),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   ):state(disabled)::part(label),
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   ):state(disabled)::part(description) {
-  color: var(--heru-color-text-muted);
+  color: var(--prism-color-text-muted);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   ):state(disabled)::part(input) {
-  border-color: var(--heru-color-border);
-  background: var(--heru-color-surface);
-  color: var(--heru-color-text-muted);
+  border-color: var(--prism-color-border);
+  background: var(--prism-color-surface);
+  color: var(--prism-color-text-muted);
   cursor: not-allowed;
 }
 
 /* ---------- Select ----------
  * Same outer focus ring as text field/button (D9: outer ring everywhere).
- * Menu and option shadows come only from the shared --heru-elevation-* tokens. */
-heru-select {
-  color: var(--heru-color-text);
+ * Menu and option shadows come only from the shared --prism-elevation-* tokens. */
+prism-select {
+  color: var(--prism-color-text);
 }
-heru-select::part(label) {
-  margin-block-end: calc(var(--heru-space-1) / 2); /* 2px, half unit */
+prism-select::part(label) {
+  margin-block-end: calc(var(--prism-space-1) / 2); /* 2px, half unit */
 }
-heru-select::part(trigger) {
-  border-color: var(--heru-color-border-strong);
-  background: var(--heru-color-bg);
-  color: var(--heru-color-text);
+prism-select::part(trigger) {
+  border-color: var(--prism-color-border-strong);
+  background: var(--prism-color-bg);
+  color: var(--prism-color-text);
   transition:
-    border-color var(--heru-duration-fast) var(--heru-ease-standard),
-    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
+    border-color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* Windows High Contrast fallback */
-  outline-offset: var(--heru-focus-ring-offset);
+  outline-offset: var(--prism-focus-ring-offset);
   box-shadow:
-    0 0 0 0 var(--heru-color-bg),
-    0 0 0 0 var(--heru-color-focus-ring),
-    0 0 0 0 var(--heru-focus-halo);
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
 }
-heru-select:hover::part(trigger) {
-  border-color: var(--heru-color-text-muted);
+prism-select:hover::part(trigger) {
+  border-color: var(--prism-color-text-muted);
 }
-heru-select::part(trigger):focus {
+prism-select::part(trigger):focus {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-focus-ring),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
-heru-select:state(placeholder)::part(value),
-heru-select::part(indicator) {
-  color: var(--heru-color-text-muted);
+prism-select:state(placeholder)::part(value),
+prism-select::part(indicator) {
+  color: var(--prism-color-text-muted);
 }
-heru-select::part(listbox) {
+prism-select::part(listbox) {
   /* 4px block, 2px inline (half unit). */
-  padding: var(--heru-space-1) calc(var(--heru-space-1) / 2);
+  padding: var(--prism-space-1) calc(var(--prism-space-1) / 2);
   /* "A tad darker" than color-border: color-border-popup (next ramp step). */
-  border: var(--heru-border-width) solid var(--heru-color-border-popup);
-  border-radius: 0 0 var(--heru-radius-7) var(--heru-radius-7);
-  background: var(--heru-color-bg);
-  box-shadow: var(--heru-elevation-default);
+  border: var(--prism-border-width) solid var(--prism-color-border-popup);
+  border-radius: 0 0 var(--prism-radius-7) var(--prism-radius-7);
+  background: var(--prism-color-bg);
+  box-shadow: var(--prism-elevation-default);
   transform-origin: top;
 }
-heru-select:state(open)::part(listbox) {
+prism-select:state(open)::part(listbox) {
   /* Transform-only spring; opacity rides the same curve (overshoot clamps at 1). */
-  animation: heru-slide-down var(--heru-duration-slow)
-    var(--heru-ease-spring-bouncy);
+  animation: prism-slide-down var(--prism-duration-slow)
+    var(--prism-ease-spring-bouncy);
 }
-heru-select::part(description) {
-  margin-block-start: var(--heru-space-1);
-  color: var(--heru-color-text-muted);
+prism-select::part(description) {
+  margin-block-start: var(--prism-space-1);
+  color: var(--prism-color-text-muted);
 }
-heru-select:state(invalid)::part(trigger) {
-  border-color: var(--heru-color-error);
+prism-select:state(invalid)::part(trigger) {
+  border-color: var(--prism-color-error);
 }
-heru-select:state(invalid)::part(trigger):focus {
+prism-select:state(invalid)::part(trigger):focus {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-error),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-error),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
 /* ---------- Shared attached error box (text field + select) ----------
  * Copied from Astryx FieldStatus "attached" (facebook/astryx @ d8d8fde,
  * packages/core/src/FieldStatus/FieldStatus.tsx + theme/tokens.stylex.ts).
- * Herú deviations: 8px side margins and Herú's font family. No shadow;
- * --heru-elevation-urgent is reserved, unused. Replaces helper text. */
+ * Prism deviations: 8px side margins and Prism's font family. No shadow;
+ * --prism-elevation-urgent is reserved, unused. Replaces helper text. */
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-otp-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-otp-input,
+  prism-text-area,
+  prism-text-field
 )::part(input),
-heru-select::part(trigger) {
+prism-select::part(trigger) {
   position: relative;
   z-index: 1;
 }
 /* Select trigger sits above its listbox (z 1) and error box. */
-heru-select::part(trigger) {
+prism-select::part(trigger) {
   z-index: 2;
 }
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-text-area,
+  prism-text-field
 )::part(error),
-heru-select::part(error) {
+prism-select::part(error) {
   /* 2px tuck (half unit). Visible: 5px + 16px line + 3px = 24px. The line
    * box starts 5px below the control (clears the 4px focus reach by 1px);
    * cap tops sit ~8px down and the baseline 7px from the bottom, so the
    * text reads optically centered. */
-  --_heru-status-overlap: calc(var(--heru-space-1) / 2);
-  margin-block-start: calc(-1 * var(--_heru-status-overlap));
-  margin-inline: var(--heru-space-2);
-  padding-block: calc(var(--_heru-status-overlap) + 5px) 3px;
-  padding-inline: var(--heru-space-2);
-  border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Herú's odd ramp */
-  background: var(--heru-color-error-surface);
-  color: var(--heru-color-on-error-surface);
-  font-size: var(--heru-font-size-12);
-  font-weight: var(--heru-font-weight-regular);
-  line-height: var(--heru-font-line-height-16);
+  --_prism-status-overlap: calc(var(--prism-space-1) / 2);
+  margin-block-start: calc(-1 * var(--_prism-status-overlap));
+  margin-inline: var(--prism-space-2);
+  padding-block: calc(var(--_prism-status-overlap) + 5px) 3px;
+  padding-inline: var(--prism-space-2);
+  border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Prism's odd ramp */
+  background: var(--prism-color-error-surface);
+  color: var(--prism-color-on-error-surface);
+  font-size: var(--prism-font-size-12);
+  font-weight: var(--prism-font-weight-regular);
+  line-height: var(--prism-font-line-height-16);
   letter-spacing: normal;
   text-transform: none;
   box-shadow: none;
@@ -412,236 +412,236 @@ heru-select::part(error) {
  * control's flat bottom edge, so it reads as growing out from under the input
  * despite the 8px side margins. Same fill token, no shadow. */
 :is(
-  heru-text-input,
-  heru-password-input,
-  heru-search-input,
-  heru-text-area,
-  heru-text-field
+  prism-text-input,
+  prism-password-input,
+  prism-search-input,
+  prism-text-area,
+  prism-text-field
 )::part(error),
-heru-select::part(error) {
+prism-select::part(error) {
   position: relative;
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
   )::part(error)::before,
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
   )::part(error)::after,
-heru-select::part(error)::before,
-heru-select::part(error)::after {
+prism-select::part(error)::before,
+prism-select::part(error)::after {
   content: '';
   position: absolute;
-  inset-block-start: var(--_heru-status-overlap);
-  inline-size: var(--heru-radius-5);
-  block-size: var(--heru-radius-5);
-  background: var(--heru-color-error-surface);
+  inset-block-start: var(--_prism-status-overlap);
+  inline-size: var(--prism-radius-5);
+  block-size: var(--prism-radius-5);
+  background: var(--prism-color-error-surface);
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
   )::part(error)::before,
-heru-select::part(error)::before {
-  inset-inline-start: calc(-1 * var(--heru-radius-5));
+prism-select::part(error)::before {
+  inset-inline-start: calc(-1 * var(--prism-radius-5));
   mask: radial-gradient(
     circle at 0 100%,
-    transparent var(--heru-radius-5),
-    #000 calc(var(--heru-radius-5) + 0.5px)
+    transparent var(--prism-radius-5),
+    #000 calc(var(--prism-radius-5) + 0.5px)
   );
 }
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
   )::part(error)::after,
-heru-select::part(error)::after {
-  inset-inline-end: calc(-1 * var(--heru-radius-5));
+prism-select::part(error)::after {
+  inset-inline-end: calc(-1 * var(--prism-radius-5));
   mask: radial-gradient(
     circle at 100% 100%,
-    transparent var(--heru-radius-5),
-    #000 calc(var(--heru-radius-5) + 0.5px)
+    transparent var(--prism-radius-5),
+    #000 calc(var(--prism-radius-5) + 0.5px)
   );
 }
 /* Error-only: runs when the box is un-hidden (invalid), never on focus. */
 :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
   ):state(invalid)::part(error),
-heru-select:state(invalid)::part(error) {
+prism-select:state(invalid)::part(error) {
   /* Standard ease, never a spring (no bounce on the error box). */
-  animation: heru-error-in var(--heru-duration-default)
-    var(--heru-ease-standard) backwards;
+  animation: prism-error-in var(--prism-duration-default)
+    var(--prism-ease-standard) backwards;
 }
-heru-select:state(disabled)::part(label),
-heru-select:state(disabled)::part(description) {
-  color: var(--heru-color-text-muted);
+prism-select:state(disabled)::part(label),
+prism-select:state(disabled)::part(description) {
+  color: var(--prism-color-text-muted);
 }
-heru-select:state(disabled)::part(trigger) {
-  border-color: var(--heru-color-border);
-  background: var(--heru-color-surface);
-  color: var(--heru-color-text-muted);
+prism-select:state(disabled)::part(trigger) {
+  border-color: var(--prism-color-border);
+  background: var(--prism-color-surface);
+  color: var(--prism-color-text-muted);
   cursor: not-allowed;
 }
 
 /* ---------- Option (NAME PENDING — Technical Writer) ---------- */
-heru-option::part(base) {
-  --_bg: var(--heru-color-bg);
-  --_on: var(--heru-color-text);
-  --_bg-hover: var(--heru-color-surface-hover);
-  --_bg-pressed: var(--heru-color-surface-pressed);
-  --_bg-selected: var(--heru-color-surface-pressed);
-  min-block-size: max(24px, calc(var(--_heru-control-height, 2.25rem) - 4px));
-  padding-inline: var(--heru-space-2);
-  border-radius: var(--heru-radius-5);
-  transition: background-color var(--heru-duration-fast)
-    var(--heru-ease-standard);
+prism-option::part(base) {
+  --_bg: var(--prism-color-bg);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  min-block-size: max(24px, calc(var(--_prism-control-height, 2.25rem) - 4px));
+  padding-inline: var(--prism-space-2);
+  border-radius: var(--prism-radius-5);
+  transition: background-color var(--prism-duration-fast)
+    var(--prism-ease-standard);
 }
 /* Hover/active, pressed and selected fills come from the shared state layer
- * (flat: no shadow; --heru-elevation-hover stays reserved). Selected also
+ * (flat: no shadow; --prism-elevation-hover stays reserved). Selected also
  * shows the check mark (non-colour indicator). */
-heru-option:state(disabled)::part(base) {
-  color: var(--heru-color-text-muted);
+prism-option:state(disabled)::part(base) {
+  color: var(--prism-color-text-muted);
 }
 
 /* ---------- Text input adornments (password toggle, search clear) ----------
  * Transparent icon buttons on the shared state layer (on-colour veil). */
-:is(heru-password-input, heru-search-input)::part(toggle),
-:is(heru-password-input, heru-search-input)::part(clear) {
+:is(prism-password-input, prism-search-input)::part(toggle),
+:is(prism-password-input, prism-search-input)::part(clear) {
   --_bg: transparent;
-  --_on: var(--heru-color-text);
-  --_bg-hover: var(--heru-color-surface-hover);
-  --_bg-pressed: var(--heru-color-surface-pressed);
-  --_bg-selected: var(--heru-color-surface-pressed);
-  border-radius: var(--heru-radius-3);
-  color: var(--heru-color-text-muted);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-3);
+  color: var(--prism-color-text-muted);
   transition:
-    background-color var(--heru-duration-fast) var(--heru-ease-standard),
-    color var(--heru-duration-fast) var(--heru-ease-standard);
+    background-color var(--prism-duration-fast) var(--prism-ease-standard),
+    color var(--prism-duration-fast) var(--prism-ease-standard);
 }
 @media (hover: hover) {
-  :is(heru-password-input, heru-search-input)::part(toggle):hover,
-  :is(heru-password-input, heru-search-input)::part(clear):hover {
+  :is(prism-password-input, prism-search-input)::part(toggle):hover,
+  :is(prism-password-input, prism-search-input)::part(clear):hover {
     color: var(--_on);
   }
 }
-:is(heru-password-input, heru-search-input)::part(toggle):focus-visible,
-:is(heru-password-input, heru-search-input)::part(clear):focus-visible {
-  outline: var(--heru-focus-ring-width) solid var(--heru-color-focus-ring);
+:is(prism-password-input, prism-search-input)::part(toggle):focus-visible,
+:is(prism-password-input, prism-search-input)::part(clear):focus-visible {
+  outline: var(--prism-focus-ring-width) solid var(--prism-color-focus-ring);
   outline-offset: 0;
 }
-heru-search-input::part(search-icon) {
-  color: var(--heru-color-text-muted);
+prism-search-input::part(search-icon) {
+  color: var(--prism-color-text-muted);
 }
-heru-text-area::part(counter) {
-  color: var(--heru-color-text-muted);
+prism-text-area::part(counter) {
+  color: var(--prism-color-text-muted);
 }
-heru-text-area:state(at-limit)::part(counter) {
-  color: var(--heru-color-error-text);
+prism-text-area:state(at-limit)::part(counter) {
+  color: var(--prism-color-error-text);
 }
 
 /* ---------- OTP error: red text only (Chuck, pt92u) ----------
  * No fill, inset, tuck, flares or box. Sits where the description sits, but
  * 5px below the boxes: the active box's focus ring reaches 4px, and a 4px gap
  * would leave 0px clearance; 5px clears it by 1px. */
-heru-otp-input::part(error) {
+prism-otp-input::part(error) {
   margin-block-start: calc(
-    var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-      var(--heru-focus-halo-width) + 1px
+    var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+      var(--prism-focus-halo-width) + 1px
   );
-  color: var(--heru-color-on-error-surface);
-  font-size: var(--heru-font-size-12);
-  font-weight: var(--heru-font-weight-regular);
-  line-height: var(--heru-font-line-height-16);
+  color: var(--prism-color-on-error-surface);
+  font-size: var(--prism-font-size-12);
+  font-weight: var(--prism-font-weight-regular);
+  line-height: var(--prism-font-line-height-16);
   letter-spacing: normal;
   text-transform: none;
 }
-heru-otp-input:state(invalid)::part(error) {
-  animation: heru-fade-in var(--heru-duration-default) var(--heru-ease-standard)
+prism-otp-input:state(invalid)::part(error) {
+  animation: prism-fade-in var(--prism-duration-default) var(--prism-ease-standard)
     backwards;
 }
 
 /* ---------- OTP boxes: same box, ring and error styling as an input ---------- */
-heru-otp-input::part(cell) {
-  border-color: var(--heru-color-border-strong);
-  background: var(--heru-color-bg);
-  color: var(--heru-color-text);
-  font: 500 var(--heru-text-body-font-size) / 1
-    var(--heru-text-body-font-family);
+prism-otp-input::part(cell) {
+  border-color: var(--prism-color-border-strong);
+  background: var(--prism-color-bg);
+  color: var(--prism-color-text);
+  font: 500 var(--prism-text-body-font-size) / 1
+    var(--prism-text-body-font-family);
   transition:
-    border-color var(--heru-duration-fast) var(--heru-ease-standard),
-    box-shadow var(--heru-duration-default) var(--heru-ease-spring);
+    border-color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   box-shadow:
-    0 0 0 0 var(--heru-color-bg),
-    0 0 0 0 var(--heru-color-focus-ring),
-    0 0 0 0 var(--heru-focus-halo);
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
 }
-heru-otp-input:hover::part(cell) {
-  border-color: var(--heru-color-text-muted);
+prism-otp-input:hover::part(cell) {
+  border-color: var(--prism-color-text-muted);
 }
-heru-otp-input::part(cell-active) {
+prism-otp-input::part(cell-active) {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-focus-ring),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
-heru-otp-input:state(invalid)::part(cell) {
-  border-color: var(--heru-color-error);
+prism-otp-input:state(invalid)::part(cell) {
+  border-color: var(--prism-color-error);
 }
-heru-otp-input:state(invalid)::part(cell-active) {
+prism-otp-input:state(invalid)::part(cell-active) {
   box-shadow:
-    0 0 0 var(--heru-focus-ring-offset) var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur)
-      calc(var(--heru-focus-ring-offset) + var(--heru-focus-ring-width))
-      var(--heru-color-error),
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-error),
     0 0 0
       calc(
-        var(--heru-focus-ring-offset) + var(--heru-focus-ring-width) +
-          var(--heru-focus-halo-width)
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
       )
-      var(--heru-focus-halo);
+      var(--prism-focus-halo);
 }
-heru-otp-input:state(disabled)::part(cell) {
-  border-color: var(--heru-color-border);
-  background: var(--heru-color-surface);
-  color: var(--heru-color-text-muted);
+prism-otp-input:state(disabled)::part(cell) {
+  border-color: var(--prism-color-border);
+  background: var(--prism-color-surface);
+  color: var(--prism-color-text-muted);
 }
 
-@keyframes heru-slide-down {
+@keyframes prism-slide-down {
   from {
     opacity: 0;
     transform: translateY(-4px) scaleY(0.96);
   }
 }
-@keyframes heru-error-in {
+@keyframes prism-error-in {
   from {
     opacity: 0;
-    transform: translateY(calc(-1 * var(--heru-space-2)));
+    transform: translateY(calc(-1 * var(--prism-space-2)));
   }
 }
 
-@keyframes heru-fade-in {
+@keyframes prism-fade-in {
   from {
     opacity: 0;
   }
@@ -652,40 +652,40 @@ heru-otp-input:state(disabled)::part(cell) {
      nothing moves; only opacity may change. Extra specificity so this wins
      over tokens.css's :root regardless of stylesheet order. */
   :root:root {
-    --heru-duration-fast: 0.01ms;
-    --heru-duration-default: 0.01ms;
-    --heru-duration-slow: 0.01ms;
-    --heru-ease-spring: linear;
-    --heru-ease-spring-bouncy: linear;
+    --prism-duration-fast: 0.01ms;
+    --prism-duration-default: 0.01ms;
+    --prism-duration-slow: 0.01ms;
+    --prism-ease-spring: linear;
+    --prism-ease-spring-bouncy: linear;
   }
-  heru-select:state(open)::part(listbox) {
-    animation-name: heru-fade-in; /* opacity only, no translate/scale */
+  prism-select:state(open)::part(listbox) {
+    animation-name: prism-fade-in; /* opacity only, no translate/scale */
   }
-  heru-button::part(base),
+  prism-button::part(base),
   :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-otp-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-otp-input,
+    prism-text-area,
+    prism-text-field
   )::part(input),
-  heru-select::part(trigger),
-  heru-option::part(base),
-  heru-otp-input::part(cell),
-  :is(heru-password-input, heru-search-input)::part(toggle),
-  :is(heru-password-input, heru-search-input)::part(clear) {
+  prism-select::part(trigger),
+  prism-option::part(base),
+  prism-otp-input::part(cell),
+  :is(prism-password-input, prism-search-input)::part(toggle),
+  :is(prism-password-input, prism-search-input)::part(clear) {
     transition: none; /* ring appears instantly */
   }
   :is(
-    heru-text-input,
-    heru-password-input,
-    heru-search-input,
-    heru-text-area,
-    heru-text-field
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
   )::part(error),
-  heru-select::part(error),
-  heru-otp-input::part(error) {
+  prism-select::part(error),
+  prism-otp-input::part(error) {
     animation: none !important; /* error appears instantly */
   }
 }

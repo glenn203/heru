@@ -14,64 +14,64 @@ const read = (name: string) =>
 const styles = html`<style>
   .f-grid {
     display: grid;
-    gap: var(--heru-space-4);
-    font-family: var(--heru-font-family-sans);
-    color: var(--heru-color-text);
+    gap: var(--prism-space-4);
+    font-family: var(--prism-font-family-sans);
+    color: var(--prism-color-text);
   }
   .f-ramp {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
-    gap: var(--heru-space-3);
+    gap: var(--prism-space-3);
   }
   .f-sw {
-    border: var(--heru-border-width) solid var(--heru-color-border);
-    border-radius: var(--heru-radius-5);
+    border: var(--prism-border-width) solid var(--prism-color-border);
+    border-radius: var(--prism-radius-5);
     overflow: hidden;
-    background: var(--heru-color-bg);
+    background: var(--prism-color-bg);
   }
   .f-chip {
     block-size: 64px;
   }
   .f-meta {
-    padding: var(--heru-space-2);
-    font: var(--heru-text-caption-font-weight)
-      var(--heru-text-caption-font-size) / var(--heru-text-caption-line-height)
-      var(--heru-font-family-mono);
+    padding: var(--prism-space-2);
+    font: var(--prism-text-caption-font-weight)
+      var(--prism-text-caption-font-size) / var(--prism-text-caption-line-height)
+      var(--prism-font-family-mono);
   }
   .f-meta b {
     display: block;
-    font-family: var(--heru-font-family-sans);
+    font-family: var(--prism-font-family-sans);
     font-weight: 600;
   }
   .f-row {
     display: flex;
     align-items: center;
-    gap: var(--heru-space-4);
-    font-family: var(--heru-font-family-mono);
-    font-size: var(--heru-font-size-12);
+    gap: var(--prism-space-4);
+    font-family: var(--prism-font-family-mono);
+    font-size: var(--prism-font-size-12);
   }
   .f-bar {
-    block-size: var(--heru-space-4);
-    background: var(--heru-color-accent);
-    border-radius: var(--heru-radius-1);
+    block-size: var(--prism-space-4);
+    background: var(--prism-color-accent);
+    border-radius: var(--prism-radius-1);
   }
   .f-box {
     inline-size: 64px;
     block-size: 64px;
-    background: var(--heru-color-surface);
-    border: var(--heru-border-width) solid var(--heru-color-border-strong);
+    background: var(--prism-color-surface);
+    border: var(--prism-border-width) solid var(--prism-color-border-strong);
   }
   h3.f-h {
-    margin: var(--heru-space-6) 0 var(--heru-space-2);
-    font-size: var(--heru-font-size-16);
+    margin: var(--prism-space-6) 0 var(--prism-space-2);
+    font-size: var(--prism-font-size-16);
   }
   .f-muted {
-    color: var(--heru-color-text-muted);
+    color: var(--prism-color-text-muted);
   }
 </style>`;
 
 const swatch = (name: string) => {
-  const v = `--heru-color-${name}`;
+  const v = `--prism-color-${name}`;
   return html`<div class="f-sw">
     <div class="f-chip" style="background: var(${v})"></div>
     <div class="f-meta"><b>${name}</b>${read(v)}</div>
@@ -148,11 +148,11 @@ export const Spacing: StoryObj = {
         ${[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16].map(
           (n) =>
             html`<div class="f-row">
-              <span style="inline-size: 120px">--heru-space-${n}</span
+              <span style="inline-size: 120px">--prism-space-${n}</span
               ><span style="inline-size: 48px">${n * 4}px</span>
               <div
                 class="f-bar"
-                style="inline-size: var(--heru-space-${n})"
+                style="inline-size: var(--prism-space-${n})"
               ></div>
             </div>`,
         )}
@@ -166,11 +166,11 @@ export const Radius: StoryObj = {
         ${['none', '1', '3', '5', '7', '9', '11', 'full'].map(
           (r) =>
             html`<div
-              style="display: grid; gap: var(--heru-space-2); justify-items: center"
+              style="display: grid; gap: var(--prism-space-2); justify-items: center"
             >
               <div
                 class="f-box"
-                style="border-radius: var(--heru-radius-${r})"
+                style="border-radius: var(--prism-radius-${r})"
               ></div>
               <span>radius-${r}</span>
             </div>`,
@@ -195,9 +195,9 @@ export const Typography: StoryObj = {
         ${roles.map(
           (r) =>
             html`<div class="f-row" style="align-items: baseline">
-              <span style="inline-size: 160px">--heru-text-${r}-*</span>
+              <span style="inline-size: 160px">--prism-text-${r}-*</span>
               <span
-                style="font-family: var(--heru-text-${r}-font-family); font-size: var(--heru-text-${r}-font-size); line-height: var(--heru-text-${r}-line-height); font-weight: var(--heru-text-${r}-font-weight); color: var(--heru-color-text)"
+                style="font-family: var(--prism-text-${r}-font-family); font-size: var(--prism-text-${r}-font-size); line-height: var(--prism-text-${r}-line-height); font-weight: var(--prism-text-${r}-font-weight); color: var(--prism-color-text)"
                 >The quick brown fox jumps over the lazy dog</span
               >
             </div>`,
@@ -205,19 +205,19 @@ export const Typography: StoryObj = {
       </div>`,
 };
 
-/** Tab through: the ring grows in over --heru-duration-default on --heru-ease-spring. */
+/** Tab through: the ring grows in over --prism-duration-default on --prism-ease-spring. */
 export const Focus: StoryObj = {
   parameters: { a11y: { test: 'error' } },
   render: () =>
     html`${styles}
       <div class="f-grid" style="max-inline-size: 360px">
         <p class="f-muted">
-          Press Tab. Ring = ${read('--heru-focus-ring-width')} at
-          ${read('--heru-focus-ring-offset')} offset with a
-          ${read('--heru-focus-ring-blur')} blur. Instant with reduced motion.
+          Press Tab. Ring = ${read('--prism-focus-ring-width')} at
+          ${read('--prism-focus-ring-offset')} offset with a
+          ${read('--prism-focus-ring-blur')} blur. Instant with reduced motion.
         </p>
-        <heru-button type="button">Focus me</heru-button>
-        <heru-text-input label="Or me"></heru-text-input>
+        <prism-button type="button">Focus me</prism-button>
+        <prism-text-input label="Or me"></prism-text-input>
       </div>`,
 };
 
@@ -236,10 +236,10 @@ export const Elevation: StoryObj = {
           ([level, use]) =>
             html`<div class="f-row">
               <div
-                style="inline-size: 120px; block-size: 64px; border-radius: var(--heru-radius-7); background: var(--heru-color-bg); box-shadow: var(--heru-elevation-${level})"
+                style="inline-size: 120px; block-size: 64px; border-radius: var(--prism-radius-7); background: var(--prism-color-bg); box-shadow: var(--prism-elevation-${level})"
               ></div>
               <span
-                >--heru-elevation-${level}<br /><span class="f-muted"
+                >--prism-elevation-${level}<br /><span class="f-muted"
                   >${use}</span
                 ></span
               >

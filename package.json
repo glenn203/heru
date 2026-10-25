@@ -1,16 +1,16 @@
 {
-  "name": "heru",
+  "name": "@glenn203/prism",
   "version": "0.0.0",
-  "description": "Herú: headless Lit web components with behavior, accessibility and form participation built in, and no visual opinions",
+  "description": "Prism: headless Lit web components with behavior, accessibility and form participation built in, and no visual opinions",
   "author": "Chuck Bolton",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glenn203/heru.git"
+    "url": "https://github.com/glenn203/prism.git"
   },
   "bugs": {
-    "url": "https://github.com/glenn203/heru/issues"
+    "url": "https://github.com/glenn203/prism/issues"
   },
   "keywords": [
     "web-components",
@@ -18,15 +18,15 @@
     "headless",
     "accessibility",
     "lit",
-    "heru"
+    "prism"
   ],
   "files": [
     "dist",
     "custom-elements.json",
     "!dist/**/*.test.*",
     "!dist/**/*.stories.*",
-    "tokens/heru.tokens.json",
-    "tokens/heru.tokens.resolved.json"
+    "tokens/prism.tokens.json",
+    "tokens/prism.tokens.resolved.json"
   ],
   "sideEffects": [
     "./dist/define.js",
@@ -120,7 +120,7 @@
     },
     "./tokens.css": "./dist/tokens/tokens.css",
     "./theme.css": "./dist/theme/theme.css",
-    "./tokens.json": "./tokens/heru.tokens.resolved.json",
+    "./tokens.json": "./tokens/prism.tokens.resolved.json",
     "./custom-elements.json": "./custom-elements.json",
     "./package.json": "./package.json",
     "./internal/*": null

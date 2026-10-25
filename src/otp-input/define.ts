@@ -1,10 +1,10 @@
-import { HeruOtpInput } from './otp-input.js';
+import { PrismOtpInput } from './otp-input.js';
 
-if (!customElements.get('heru-otp-input'))
-  customElements.define('heru-otp-input', HeruOtpInput);
+if (!customElements.get('prism-otp-input'))
+  customElements.define('prism-otp-input', PrismOtpInput);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-otp-input': HeruOtpInput;
+    'prism-otp-input': PrismOtpInput;
   }
 }

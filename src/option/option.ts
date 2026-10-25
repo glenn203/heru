@@ -4,10 +4,10 @@ import { property } from 'lit/decorators.js';
 import { uniqueId } from '../internal/ids.js';
 
 /**
- * One choice inside `heru-select`. Light-DOM child, so the select's trigger
+ * One choice inside `prism-select`. Light-DOM child, so the select's trigger
  * can point `aria-activedescendant` at it. NAME PENDING — Technical Writer.
  *
- * @tag heru-option
+ * @tag prism-option
  * @slot - The option label.
  * @csspart base - The row.
  * @csspart check - Selected indicator.
@@ -15,7 +15,7 @@ import { uniqueId } from '../internal/ids.js';
  * @cssstate active - Keyboard/pointer highlighted.
  * @cssstate disabled - Not selectable; skipped by arrow keys.
  */
-export class HeruOption extends LitElement {
+export class PrismOption extends LitElement {
   static override styles = [
     css`
       :host {
@@ -28,7 +28,7 @@ export class HeruOption extends LitElement {
       [part='base'] {
         display: flex;
         align-items: center;
-        gap: var(--heru-space-2, 0.5rem);
+        gap: var(--prism-space-2, 0.5rem);
       }
       [part='check'] {
         inline-size: 1em;
@@ -53,7 +53,7 @@ export class HeruOption extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    if (!this.id) this.id = uniqueId('heru-option');
+    if (!this.id) this.id = uniqueId('prism-option');
     // Host attributes (not only ElementInternals) so every AT and test tool sees them.
     this.setAttribute('role', 'option');
   }

@@ -9,41 +9,41 @@
         {
           "kind": "class",
           "description": "A headless button. Renders a native `<button>` in shadow DOM and joins the\nsurrounding form through ElementInternals.",
-          "name": "HeruButton",
+          "name": "PrismButton",
           "cssProperties": [
             {
               "description": "Height when size=\"sm\" (density-aware).",
-              "name": "--heru-control-height-sm",
+              "name": "--prism-control-height-sm",
               "default": "2rem"
             },
             {
               "description": "Height when size=\"md\" (default; density-aware).",
-              "name": "--heru-control-height-md",
+              "name": "--prism-control-height-md",
               "default": "2.25rem"
             },
             {
               "description": "Height when size=\"lg\" (density-aware).",
-              "name": "--heru-control-height-lg",
+              "name": "--prism-control-height-lg",
               "default": "2.75rem"
             },
             {
               "description": "Inline padding (density-aware).",
-              "name": "--heru-control-padding-inline",
+              "name": "--prism-control-padding-inline",
               "default": "0.75rem"
             },
             {
               "description": "Corner radius.",
-              "name": "--heru-radius-5",
+              "name": "--prism-radius-5",
               "default": "5px"
             },
             {
               "description": "Border width, drawn inside the height.",
-              "name": "--heru-border-width",
+              "name": "--prism-border-width",
               "default": "1px"
             },
             {
               "description": "Label role font size (also -line-height, -font-weight, -font-family).",
-              "name": "--heru-text-label-font-size"
+              "name": "--prism-text-label-font-size"
             }
           ],
           "cssParts": [
@@ -407,16 +407,16 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "heru-button",
+          "tagName": "prism-button",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruButton",
+          "name": "PrismButton",
           "declaration": {
-            "name": "HeruButton",
+            "name": "PrismButton",
             "module": "src/button/button.ts"
           }
         }
@@ -428,8 +428,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One choice inside `heru-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
-          "name": "HeruOption",
+          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
+          "name": "PrismOption",
           "cssParts": [
             {
               "description": "The row.",
@@ -566,16 +566,16 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "heru-option",
+          "tagName": "prism-option",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruOption",
+          "name": "PrismOption",
           "declaration": {
-            "name": "HeruOption",
+            "name": "PrismOption",
             "module": "src/option/option.ts"
           }
         }
@@ -588,13 +588,13 @@
         {
           "kind": "variable",
           "name": "controlSize",
-          "default": "css` :host { --_heru-control-height: var(--heru-control-height-md, 2.25rem); } :host([size='sm']) { --_heru-control-height: var(--heru-control-height-sm, 2rem); } :host([size='lg']) { --_heru-control-height: var(--heru-control-height-lg, 2.75rem); } `",
-          "description": "Structural sizing shared by controls. Every value reads a --heru- token with\na literal fallback equal to the default-density value, so components size\ncorrectly without tokens.css. Density switching via [data-heru-density]\nworks once tokens.css is loaded (it defines the density-scoped tokens)."
+          "default": "css` :host { --_prism-control-height: var(--prism-control-height-md, 2.25rem); } :host([size='sm']) { --_prism-control-height: var(--prism-control-height-sm, 2rem); } :host([size='lg']) { --_prism-control-height: var(--prism-control-height-lg, 2.75rem); } `",
+          "description": "Structural sizing shared by controls. Every value reads a --prism- token with\na literal fallback equal to the default-density value, so components size\ncorrectly without tokens.css. Density switching via [data-prism-density]\nworks once tokens.css is loaded (it defines the density-scoped tokens)."
         },
         {
           "kind": "variable",
           "name": "controlBox",
-          "default": "css` box-sizing: border-box; block-size: var(--_heru-control-height); padding-block: 0; padding-inline: var(--heru-control-padding-inline, 0.75rem); border-width: var(--heru-border-width, 1px); border-style: solid; border-color: transparent; border-radius: var(--heru-radius-5, 5px); `"
+          "default": "css` box-sizing: border-box; block-size: var(--_prism-control-height); padding-block: 0; padding-inline: var(--prism-control-padding-inline, 0.75rem); border-width: var(--prism-border-width, 1px); border-style: solid; border-color: transparent; border-radius: var(--prism-radius-5, 5px); `"
         },
         {
           "kind": "function",
@@ -645,7 +645,7 @@
           "kind": "variable",
           "name": "fieldChromeStyles",
           "default": "css` :host { display: block; } :host([hidden]) { display: none; } [part='label'] { display: block; ${textRole('label')} } [part='description'], [part='error'] { ${textRole('caption')} } [part='description'][hidden], [part='error'][hidden] { display: none; } `",
-          "description": "Private shared field chrome: label, description and error, with stable ids\n`${id}-label|-description|-error`. Used by every Herú field. Not exported."
+          "description": "Private shared field chrome: label, description and error, with stable ids\n`${id}-label|-description|-error`. Used by every Prism field. Not exported."
         },
         {
           "kind": "function",
@@ -1128,7 +1128,7 @@
               }
             }
           ],
-          "description": "Private shared state layer for ANY interactive surface: buttons, options,\ntree rows, list items, tabs, clickable cards, icon buttons.\n\nContract (theme-facing, set from outside via ::part()):\n  --_bg   resting fill (may be `transparent`)\n  --_on   text/icon colour on that fill\n  --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used\n          ONLY when color-mix() is unsupported (Safari < 16.2 etc.)\nFill = color-mix(in oklch, var(--_bg), var(--_on) <state %>).\nMixing with a transparent --_bg yields the on-colour at <state %> alpha\n(identical to an srgb veil), so one formula covers solid and outline.\nThe resolved fill is exposed as --_heru-state-fill (e.g. for a border that\nfollows the fill).\n\nStates (in the shadow root, so ::part() themes don't need per-state rules):\n  hover     :hover inside"
+          "description": "Private shared state layer for ANY interactive surface: buttons, options,\ntree rows, list items, tabs, clickable cards, icon buttons.\n\nContract (theme-facing, set from outside via ::part()):\n  --_bg   resting fill (may be `transparent`)\n  --_on   text/icon colour on that fill\n  --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used\n          ONLY when color-mix() is unsupported (Safari < 16.2 etc.)\nFill = color-mix(in oklch, var(--_bg), var(--_on) <state %>).\nMixing with a transparent --_bg yields the on-colour at <state %> alpha\n(identical to an srgb veil), so one formula covers solid and outline.\nThe resolved fill is exposed as --_prism-state-fill (e.g. for a border that\nfollows the fill).\n\nStates (in the shadow root, so ::part() themes don't need per-state rules):\n  hover     :hover inside"
         }
       ],
       "exports": [
@@ -1757,7 +1757,7 @@
         {
           "kind": "class",
           "description": "A one-time code input.\n\nOne real `<input>` (autocomplete=\"one-time-code\", inputmode=\"numeric\")\ndrawn as `length` visual boxes. A single input keeps one accessible name,\none tab stop and one value for screen readers, and is what iOS/Android\nSMS-code autofill and password managers target; N separate inputs break\nautofill, paste and screen-reader reading. The boxes are aria-hidden\ndecoration; the input sits invisibly on top of them.",
-          "name": "HeruOtpInput",
+          "name": "PrismOtpInput",
           "cssParts": [
             {
               "description": "The label.",
@@ -2664,16 +2664,16 @@
             "name": "TextControl",
             "module": "/src/internal/text-control.js"
           },
-          "tagName": "heru-otp-input",
+          "tagName": "prism-otp-input",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruOtpInput",
+          "name": "PrismOtpInput",
           "declaration": {
-            "name": "HeruOtpInput",
+            "name": "PrismOtpInput",
             "module": "src/otp-input/otp-input.ts"
           }
         }
@@ -2686,7 +2686,7 @@
         {
           "kind": "class",
           "description": "A password input with a show/hide toggle.\n\nThe toggle is a real button with a constant accessible name and\n`aria-pressed`, so screen readers hear \"Show password, toggle button,\npressed/not pressed\". Toggling keeps focus, caret and selection in the\ninput. The value is never reflected to an attribute; spellcheck and\nautocapitalize are off so a revealed value isn't sent to spelling\nservices; the field re-hides on form reset and submit.",
-          "name": "HeruPasswordInput",
+          "name": "PrismPasswordInput",
           "cssParts": [
             {
               "description": "The label.",
@@ -3550,16 +3550,16 @@
             "name": "TextControl",
             "module": "/src/internal/text-control.js"
           },
-          "tagName": "heru-password-input",
+          "tagName": "prism-password-input",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruPasswordInput",
+          "name": "PrismPasswordInput",
           "declaration": {
-            "name": "HeruPasswordInput",
+            "name": "PrismPasswordInput",
             "module": "src/password-input/password-input.ts"
           }
         }
@@ -3572,7 +3572,7 @@
         {
           "kind": "class",
           "description": "A search input (`type=search`, so its role is searchbox) with a clear\nbutton. The clear button appears when there is a value; Escape also\nclears. Clearing returns focus to the input. Enter fires `search`\n(cancelable) and then submits the owning form, if any.",
-          "name": "HeruSearchInput",
+          "name": "PrismSearchInput",
           "cssParts": [
             {
               "description": "The label.",
@@ -4432,16 +4432,16 @@
             "name": "TextControl",
             "module": "/src/internal/text-control.js"
           },
-          "tagName": "heru-search-input",
+          "tagName": "prism-search-input",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruSearchInput",
+          "name": "PrismSearchInput",
           "declaration": {
-            "name": "HeruSearchInput",
+            "name": "PrismSearchInput",
             "module": "src/search-input/search-input.ts"
           }
         }
@@ -4453,8 +4453,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A headless single-value select (APG select-only combobox). Focus stays on\nthe trigger; the active option is exposed with aria-activedescendant via\nelement reflection to the light-DOM `heru-option` children.",
-          "name": "HeruSelect",
+          "description": "A headless single-value select (APG select-only combobox). Focus stays on\nthe trigger; the active option is exposed with aria-activedescendant via\nelement reflection to the light-DOM `prism-option` children.",
+          "name": "PrismSelect",
           "cssParts": [
             {
               "description": "The label.",
@@ -4491,7 +4491,7 @@
           ],
           "slots": [
             {
-              "description": "`heru-option` elements.",
+              "description": "`prism-option` elements.",
               "name": ""
             },
             {
@@ -4631,7 +4631,7 @@
               "kind": "field",
               "name": "options",
               "type": {
-                "text": "HeruOption[]"
+                "text": "PrismOption[]"
               },
               "readonly": true
             },
@@ -4639,7 +4639,7 @@
               "kind": "field",
               "name": "selectedOption",
               "type": {
-                "text": "HeruOption | null"
+                "text": "PrismOption | null"
               },
               "readonly": true
             },
@@ -5154,16 +5154,16 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "heru-select",
+          "tagName": "prism-select",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruSelect",
+          "name": "PrismSelect",
           "declaration": {
-            "name": "HeruSelect",
+            "name": "PrismSelect",
             "module": "src/select/select.ts"
           }
         }
@@ -5176,7 +5176,7 @@
         {
           "kind": "class",
           "description": "A multi-line text input. `autosize` grows it with its content (from\n`rows`). With `maxlength` and `counter`, shows \"n / max\"; the visible\ncounter is aria-hidden and a polite live region announces only when the\nremaining count gets low (≤ 10% or ≤ 20) and at the limit, debounced, so\ntyping isn't drowned in announcements.",
-          "name": "HeruTextArea",
+          "name": "PrismTextArea",
           "cssParts": [
             {
               "description": "The label.",
@@ -6097,16 +6097,16 @@
             "name": "TextControl",
             "module": "/src/internal/text-control.js"
           },
-          "tagName": "heru-text-area",
+          "tagName": "prism-text-area",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruTextArea",
+          "name": "PrismTextArea",
           "declaration": {
-            "name": "HeruTextArea",
+            "name": "PrismTextArea",
             "module": "src/text-area/text-area.ts"
           }
         }
@@ -6118,21 +6118,21 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Deprecated alias of `<heru-text-input>` (same class behaviour, old tag).\nKept so existing markup keeps working; remove before 1.0.",
-          "name": "HeruTextField",
+          "description": "Deprecated alias of `<prism-text-input>` (same class behaviour, old tag).\nKept so existing markup keeps working; remove before 1.0.",
+          "name": "PrismTextField",
           "superclass": {
-            "name": "HeruTextInput",
+            "name": "PrismTextInput",
             "module": "/src/text-input/text-input.js"
           },
-          "deprecated": "Use `<heru-text-input>` / `HeruTextInput`.",
-          "tagName": "heru-text-field",
+          "deprecated": "Use `<prism-text-input>` / `PrismTextInput`.",
+          "tagName": "prism-text-field",
           "customElement": true,
           "slots": [
             {
               "description": "Helper text, announced with the input.",
               "name": "description",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6140,7 +6140,7 @@
               "description": "Error text, shown in the attached status box when invalid.",
               "name": "error",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             }
@@ -6150,7 +6150,7 @@
               "description": "The label.",
               "name": "label",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6158,7 +6158,7 @@
               "description": "Wrapper around the native input.",
               "name": "control",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6166,7 +6166,7 @@
               "description": "The native input.",
               "name": "input",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6174,7 +6174,7 @@
               "description": "Wrapper around the description slot.",
               "name": "description",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6182,7 +6182,7 @@
               "description": "Attached error status box.",
               "name": "error",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             }
@@ -6197,7 +6197,7 @@
               "description": "Native input type. Use the dedicated components for password/search/OTP.",
               "fieldName": "type",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6210,7 +6210,7 @@
               "description": "Virtual keyboard hint, passed through.",
               "fieldName": "inputmode",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6223,7 +6223,7 @@
               "description": "Regular expression the value must match (native semantics).",
               "fieldName": "pattern",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6375,7 +6375,7 @@
               "description": "Native input type. Use the dedicated components for password/search/OTP.",
               "attribute": "type",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6389,7 +6389,7 @@
               "description": "Virtual keyboard hint, passed through.",
               "attribute": "inputmode",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -6403,7 +6403,7 @@
               "description": "Regular expression the value must match (native semantics).",
               "attribute": "pattern",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -7025,7 +7025,7 @@
               "description": "Native input event (composed).",
               "name": "input",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -7033,7 +7033,7 @@
               "description": "Committed value change.",
               "name": "change",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             }
@@ -7043,7 +7043,7 @@
               "description": "Fails validation (after interaction or submit).",
               "name": "invalid",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             },
@@ -7051,7 +7051,7 @@
               "description": "Disabled (own or via fieldset).",
               "name": "disabled",
               "inheritedFrom": {
-                "name": "HeruTextInput",
+                "name": "PrismTextInput",
                 "module": "src/text-input/text-input.ts"
               }
             }
@@ -7061,9 +7061,9 @@
       "exports": [
         {
           "kind": "js",
-          "name": "HeruTextField",
+          "name": "PrismTextField",
           "declaration": {
-            "name": "HeruTextField",
+            "name": "PrismTextField",
             "module": "src/text-field/text-field.ts"
           }
         }
@@ -7076,7 +7076,7 @@
         {
           "kind": "class",
           "description": "A single-line text input. Covers text, email, url and tel via `type`.\nPasswords, search and one-time codes have their own components.",
-          "name": "HeruTextInput",
+          "name": "PrismTextInput",
           "cssParts": [
             {
               "description": "The label.",
@@ -7942,16 +7942,16 @@
             "name": "TextControl",
             "module": "/src/internal/text-control.js"
           },
-          "tagName": "heru-text-input",
+          "tagName": "prism-text-input",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HeruTextInput",
+          "name": "PrismTextInput",
           "declaration": {
-            "name": "HeruTextInput",
+            "name": "PrismTextInput",
             "module": "src/text-input/text-input.ts"
           }
         }

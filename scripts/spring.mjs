@@ -1,4 +1,4 @@
-// Spring → CSS linear() generator for Herú motion tokens.
+// Spring → CSS linear() generator for Prism motion tokens.
 import process from 'node:process';
 // simulate({ mass, stiffness, damping }) integrates m·x'' = -k(x-1) - c·x'
 // from rest at 0 to target 1, finds the settle time (|x-1| and |v|/ω below

@@ -1,10 +1,10 @@
-import { HeruTextArea } from './text-area.js';
+import { PrismTextArea } from './text-area.js';
 
-if (!customElements.get('heru-text-area'))
-  customElements.define('heru-text-area', HeruTextArea);
+if (!customElements.get('prism-text-area'))
+  customElements.define('prism-text-area', PrismTextArea);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-text-area': HeruTextArea;
+    'prism-text-area': PrismTextArea;
   }
 }

@@ -1,10 +1,10 @@
-import { HeruTextInput } from '../text-input/text-input.js';
+import { PrismTextInput } from '../text-input/text-input.js';
 
 /**
- * Deprecated alias of `<heru-text-input>` (same class behaviour, old tag).
+ * Deprecated alias of `<prism-text-input>` (same class behaviour, old tag).
  * Kept so existing markup keeps working; remove before 1.0.
  *
- * @deprecated Use `<heru-text-input>` / `HeruTextInput`.
- * @tag heru-text-field
+ * @deprecated Use `<prism-text-input>` / `PrismTextInput`.
+ * @tag prism-text-field
  */
-export class HeruTextField extends HeruTextInput {}
+export class PrismTextField extends PrismTextInput {}

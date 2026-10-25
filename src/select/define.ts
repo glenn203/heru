@@ -1,11 +1,11 @@
 import '../option/define.js';
-import { HeruSelect } from './select.js';
+import { PrismSelect } from './select.js';
 
-if (!customElements.get('heru-select'))
-  customElements.define('heru-select', HeruSelect);
+if (!customElements.get('prism-select'))
+  customElements.define('prism-select', PrismSelect);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-select': HeruSelect;
+    'prism-select': PrismSelect;
   }
 }

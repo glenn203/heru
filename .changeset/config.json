@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "glenn203/heru" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "glenn203/prism" }],
   "commit": false,
   "fixed": [],
   "linked": [],

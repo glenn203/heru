@@ -5,7 +5,7 @@ const heights = (page: Page) =>
   page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>('[data-probe]')].map((el) => {
       const target = el.shadowRoot!.querySelector<HTMLElement>(
-        el.localName === 'heru-button' ? '[part="base"]' : '[part="input"]',
+        el.localName === 'prism-button' ? '[part="base"]' : '[part="input"]',
       )!;
       return target.getBoundingClientRect().height;
     }),
@@ -15,7 +15,7 @@ const grid = (size: string) =>
   ['compact', 'default', 'comfortable']
     .map(
       (d) =>
-        `<div data-heru-density="${d}"><heru-button data-probe size="${size}">B</heru-button><heru-text-field data-probe size="${size}" label="F"></heru-text-field></div>`,
+        `<div data-prism-density="${d}"><prism-button data-probe size="${size}">B</prism-button><prism-text-field data-probe size="${size}" label="F"></prism-text-field></div>`,
     )
     .join('');
 
@@ -48,7 +48,7 @@ test('lg height is 32/44/56 in compact/default/comfortable', async ({
 test('nested density overrides the ancestor', async ({ page }) => {
   await withTokens(
     page,
-    `<div data-heru-density="comfortable"><heru-button data-probe>A</heru-button><section data-heru-density="compact"><heru-button data-probe>B</heru-button></section></div>`,
+    `<div data-prism-density="comfortable"><prism-button data-probe>A</prism-button><section data-prism-density="compact"><prism-button data-probe>B</prism-button></section></div>`,
   );
   expect(await heights(page)).toEqual([48, 24]);
 });
@@ -58,14 +58,14 @@ test('works without tokens.css (default-density fallbacks)', async ({
 }) => {
   await mount(
     page,
-    `<heru-button data-probe size="sm">A</heru-button><heru-button data-probe>B</heru-button><heru-text-field data-probe size="lg" label="F"></heru-text-field>`,
+    `<prism-button data-probe size="sm">A</prism-button><prism-button data-probe>B</prism-button><prism-text-field data-probe size="lg" label="F"></prism-text-field>`,
   );
   expect(await heights(page)).toEqual([32, 36, 44]);
 });
 
 test('size reflects and defaults to md', async ({ page }) => {
-  await mount(page, `<heru-button>A</heru-button>`);
-  expect(await page.locator('heru-button').getAttribute('size')).toBe('md');
+  await mount(page, `<prism-button>A</prism-button>`);
+  expect(await page.locator('prism-button').getAttribute('size')).toBe('md');
 });
 
 test('theme: label and description sit outside the focus ring', async ({
@@ -73,12 +73,12 @@ test('theme: label and description sit outside the focus ring', async ({
 }) => {
   await mount(
     page,
-    `<heru-text-field label="Email"><span slot="description">Help</span></heru-text-field>`,
+    `<prism-text-field label="Email"><span slot="description">Help</span></prism-text-field>`,
   );
   await page.addStyleTag({ url: '/src/tokens/tokens.css' });
   await page.addStyleTag({ url: '/src/theme/theme.css' });
   const gaps = await page.evaluate(() => {
-    const root = document.querySelector('heru-text-field')!.shadowRoot!;
+    const root = document.querySelector('prism-text-field')!.shadowRoot!;
     const box = (p: string) =>
       root.querySelector(`[part="${p}"]`)!.getBoundingClientRect();
     return [

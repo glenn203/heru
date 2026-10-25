@@ -7,7 +7,7 @@ import { TextControl } from '../internal/text-control.js';
  * A single-line text input. Covers text, email, url and tel via `type`.
  * Passwords, search and one-time codes have their own components.
  *
- * @tag heru-text-input
+ * @tag prism-text-input
  * @slot description - Helper text, announced with the input.
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
@@ -20,7 +20,7 @@ import { TextControl } from '../internal/text-control.js';
  * @fires input - Native input event (composed).
  * @fires change - Committed value change.
  */
-export class HeruTextInput extends TextControl {
+export class PrismTextInput extends TextControl {
   /** Native input type. Use the dedicated components for password/search/OTP. */
   @property() type: 'text' | 'email' | 'url' | 'tel' = 'text';
   /** Virtual keyboard hint, passed through. */

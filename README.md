@@ -1,8 +1,8 @@
-# Herú
+# Prism
 
-Headless web components for the Herū design system, built with [Lit](https://lit.dev).
+Headless web components for the Prism design system, built with [Lit](https://lit.dev).
 
-Herú gives you behavior and nothing about how it looks. Each component handles
+Prism gives you behavior and nothing about how it looks. Each component handles
 keyboard and focus, ARIA, and form participation, and is built on the native
 element it stands for. You bring the design.
 
@@ -22,7 +22,7 @@ element it stands for. You bring the design.
 ## Install
 
 ```bash
-pnpm add heru lit
+pnpm add prism lit
 ```
 
 `lit` is a peer dependency.
@@ -33,32 +33,32 @@ Register the components you use. Class files have no side effects; the
 `define` entry points register the tags.
 
 ```js
-import 'heru/button/define';
-import 'heru/text-field/define';
-// or everything at once: import 'heru/define';
+import 'prism/button/define';
+import 'prism/text-field/define';
+// or everything at once: import 'prism/define';
 ```
 
 ```html
 <form>
-  <heru-text-field label="Email" name="email" type="email" required>
+  <prism-text-field label="Email" name="email" type="email" required>
     <span slot="description">We only use this for receipts.</span>
     <span slot="error">Enter an email address.</span>
-  </heru-text-field>
-  <heru-button type="submit">Save</heru-button>
+  </prism-text-field>
+  <prism-button type="submit">Save</prism-button>
 </form>
 ```
 
 ```css
-heru-button::part(base) {
+prism-button::part(base) {
   padding: 0.5rem 1rem;
   border: 1px solid currentcolor;
 }
 
-heru-button:state(disabled)::part(base) {
+prism-button:state(disabled)::part(base) {
   opacity: 0.5;
 }
 
-heru-text-field:state(invalid)::part(input) {
+prism-text-field:state(invalid)::part(input) {
   border-color: red;
 }
 ```
@@ -66,16 +66,16 @@ heru-text-field:state(invalid)::part(input) {
 To register under your own tag, import the class and define it yourself:
 
 ```js
-import { HeruButton } from 'heru/button';
-customElements.define('acme-button', class extends HeruButton {});
+import { PrismButton } from 'prism/button';
+customElements.define('acme-button', class extends PrismButton {});
 ```
 
 ## Components
 
 | Tag               | Parts                                    | States                | Slots                   |
 | ----------------- | ---------------------------------------- | --------------------- | ----------------------- |
-| `heru-button`     | `base`, `label`                          | `disabled`, `pressed` | default, `start`, `end` |
-| `heru-text-field` | `label`, `input`, `description`, `error` | `invalid`, `disabled` | `description`, `error`  |
+| `prism-button`     | `base`, `label`                          | `disabled`, `pressed` | default, `start`, `end` |
+| `prism-text-field` | `label`, `input`, `description`, `error` | `invalid`, `disabled` | `description`, `error`  |
 
 The full API is in `custom-elements.json`.
 

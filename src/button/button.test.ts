@@ -4,7 +4,7 @@ import { captureSubmit, mount, submitted } from '../../test/fixture.js';
 test('submits its form with name and value', async ({ page }) => {
   await mount(
     page,
-    `<form><input name="q" value="hi"><heru-button name="action" value="save">Save</heru-button></form>`,
+    `<form><input name="q" value="hi"><prism-button name="action" value="save">Save</prism-button></form>`,
   );
   await captureSubmit(page);
   await page.getByRole('button', { name: 'Save' }).click();
@@ -14,7 +14,7 @@ test('submits its form with name and value', async ({ page }) => {
 test('does not submit a form when the form is invalid', async ({ page }) => {
   await mount(
     page,
-    `<form><heru-text-field label="Name" name="n" required></heru-text-field><heru-button>Go</heru-button></form>`,
+    `<form><prism-text-field label="Name" name="n" required></prism-text-field><prism-button>Go</prism-button></form>`,
   );
   await captureSubmit(page);
   await page.getByRole('button', { name: 'Go' }).click();
@@ -26,7 +26,7 @@ test('type="reset" resets the form and type="button" does nothing', async ({
 }) => {
   await mount(
     page,
-    `<form><heru-text-field label="Name" name="n" value="a"></heru-text-field><heru-button type="button">Noop</heru-button><heru-button type="reset">Reset</heru-button></form>`,
+    `<form><prism-text-field label="Name" name="n" value="a"></prism-text-field><prism-button type="button">Noop</prism-button><prism-button type="reset">Reset</prism-button></form>`,
   );
   await captureSubmit(page);
   await page.getByLabel('Name').fill('changed');
@@ -39,15 +39,15 @@ test('type="reset" resets the form and type="button" does nothing', async ({
 test('disabled: not focusable, no submit, :state(disabled)', async ({
   page,
 }) => {
-  await mount(page, `<form><heru-button disabled>Save</heru-button></form>`);
+  await mount(page, `<form><prism-button disabled>Save</prism-button></form>`);
   await captureSubmit(page);
   const button = page.getByRole('button', { name: 'Save' });
   await expect(button).toBeDisabled();
-  await page.locator('heru-button').click({ force: true });
+  await page.locator('prism-button').click({ force: true });
   expect(await submitted(page)).toBeUndefined();
   expect(
     await page
-      .locator('heru-button')
+      .locator('prism-button')
       .evaluate((el) => el.matches(':state(disabled)')),
   ).toBe(true);
   await page.keyboard.press('Tab');
@@ -57,7 +57,7 @@ test('disabled: not focusable, no submit, :state(disabled)', async ({
 test('disabled by an ancestor fieldset', async ({ page }) => {
   await mount(
     page,
-    `<form><fieldset disabled><heru-button>Save</heru-button></fieldset></form>`,
+    `<form><fieldset disabled><prism-button>Save</prism-button></fieldset></form>`,
   );
   await expect(page.getByRole('button', { name: 'Save' })).toBeDisabled();
 });
@@ -65,7 +65,7 @@ test('disabled by an ancestor fieldset', async ({ page }) => {
 test('keyboard: Enter and Space activate', async ({ page }) => {
   await mount(
     page,
-    `<form><heru-button name="a" value="1">Save</heru-button></form>`,
+    `<form><prism-button name="a" value="1">Save</prism-button></form>`,
   );
   await captureSubmit(page);
   await page.keyboard.press('Tab');
@@ -82,14 +82,14 @@ test('keyboard: Enter and Space activate', async ({ page }) => {
 test('toggle: pressed flips aria-pressed and :state(pressed)', async ({
   page,
 }) => {
-  await mount(page, `<heru-button type="button" pressed>Bold</heru-button>`);
+  await mount(page, `<prism-button type="button" pressed>Bold</prism-button>`);
   const button = page.getByRole('button', { name: 'Bold' });
   await expect(button).toHaveAttribute('aria-pressed', 'true');
   await button.click();
   await expect(button).toHaveAttribute('aria-pressed', 'false');
   expect(
     await page
-      .locator('heru-button')
+      .locator('prism-button')
       .evaluate((el) => el.matches(':state(pressed)')),
   ).toBe(false);
 });

@@ -6,7 +6,7 @@ import { stateLayer } from '../src/internal/state-layer.js';
  * list item or clickable card) proving the state layer needs no
  * component-specific code. The consumer sets --_bg/--_on via ::part(base).
  */
-class HeruTestRow extends LitElement {
+class PrismTestRow extends LitElement {
   static override properties = {
     selected: { type: Boolean },
     disabled: { type: Boolean },
@@ -39,5 +39,5 @@ class HeruTestRow extends LitElement {
     </div>`;
   }
 }
-if (!customElements.get('heru-test-row'))
-  customElements.define('heru-test-row', HeruTestRow);
+if (!customElements.get('prism-test-row'))
+  customElements.define('prism-test-row', PrismTestRow);

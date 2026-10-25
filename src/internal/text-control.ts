@@ -55,7 +55,7 @@ export abstract class TextControl extends FormAssociated(LitElement) {
       .adornment {
         position: absolute;
         inset-block: 0;
-        inset-inline-end: calc(var(--heru-space-1, 0.25rem) * 1.5);
+        inset-inline-end: calc(var(--prism-space-1, 0.25rem) * 1.5);
         display: grid;
         place-items: center;
         margin-block: auto;
@@ -75,7 +75,7 @@ export abstract class TextControl extends FormAssociated(LitElement) {
       }
       :host([data-adorned]) [part='input'] {
         padding-inline-end: calc(
-          var(--heru-control-padding-inline, 0.75rem) + 24px
+          var(--prism-control-padding-inline, 0.75rem) + 24px
         );
       }
     `,
@@ -97,7 +97,7 @@ export abstract class TextControl extends FormAssociated(LitElement) {
   @property({ type: Number }) maxlength?: number;
 
   protected readonly validityCtl = new FieldValidityController(this);
-  protected readonly fieldId = uniqueId('heru-field');
+  protected readonly fieldId = uniqueId('prism-field');
   #defaultValue = '';
 
   /** Render the native control. It must carry id `${fieldId}-input`. */

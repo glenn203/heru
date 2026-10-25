@@ -4,7 +4,7 @@ import { property } from 'lit/decorators.js';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Constructor<T = object> = new (...args: any[]) => T;
 
-/** Public surface every form-associated Herú element shares. */
+/** Public surface every form-associated Prism element shares. */
 export interface FormAssociatedElement {
   readonly internals: ElementInternals;
   disabled: boolean;

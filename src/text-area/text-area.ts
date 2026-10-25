@@ -11,7 +11,7 @@ import { textRole } from '../internal/control-styles.js';
  * remaining count gets low (≤ 10% or ≤ 20) and at the limit, debounced, so
  * typing isn't drowned in announcements.
  *
- * @tag heru-text-area
+ * @tag prism-text-area
  * @slot description - Helper text.
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
@@ -26,16 +26,16 @@ import { textRole } from '../internal/control-styles.js';
  * @fires input - Native input event (composed).
  * @fires change - Committed value change.
  */
-export class HeruTextArea extends TextControl {
+export class PrismTextArea extends TextControl {
   static override styles: CSSResultGroup = [
     TextControl.styles,
     css`
       [part='input'] {
         block-size: auto;
-        min-block-size: var(--_heru-control-height);
+        min-block-size: var(--_prism-control-height);
         padding-block: calc(
-          (var(--_heru-control-height) - 1.25rem) /
-            2 - var(--heru-border-width, 1px)
+          (var(--_prism-control-height) - 1.25rem) /
+            2 - var(--prism-border-width, 1px)
         );
         resize: vertical;
       }
@@ -43,7 +43,7 @@ export class HeruTextArea extends TextControl {
          the counter below it instead of overlapping it. */
       :host(:state(invalid)) [part='counter'] {
         float: none;
-        margin-block-start: var(--heru-space-1, 0.25rem);
+        margin-block-start: var(--prism-space-1, 0.25rem);
       }
       :host([autosize]) [part='input'] {
         resize: none;
@@ -53,9 +53,9 @@ export class HeruTextArea extends TextControl {
       [part='counter'] {
         float: inline-end;
         margin-block-start: calc(
-          -1 * var(--heru-text-caption-line-height, 1rem)
+          -1 * var(--prism-text-caption-line-height, 1rem)
         );
-        padding-inline-start: var(--heru-space-2, 0.5rem);
+        padding-inline-start: var(--prism-space-2, 0.5rem);
         ${textRole('caption')}
         text-align: end;
         font-variant-numeric: tabular-nums;

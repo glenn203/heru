@@ -14,7 +14,7 @@ import { iconEye, iconEyeOff } from '../internal/icons.js';
  * autocapitalize are off so a revealed value isn't sent to spelling
  * services; the field re-hides on form reset and submit.
  *
- * @tag heru-password-input
+ * @tag prism-password-input
  * @slot description - Helper text (e.g. password rules).
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
@@ -30,7 +30,7 @@ import { iconEye, iconEyeOff } from '../internal/icons.js';
  * @fires input - Native input event (composed).
  * @fires change - Committed value change.
  */
-export class HeruPasswordInput extends TextControl {
+export class PrismPasswordInput extends TextControl {
   static override styles: CSSResultGroup = [
     TextControl.styles,
     css`

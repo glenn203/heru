@@ -2,10 +2,10 @@ import { expect, test, type Page } from '@playwright/test';
 import { captureSubmit, mount, submitted } from '../../test/fixture.js';
 
 const OPTIONS = `
-  <heru-option value="apple">Apple</heru-option>
-  <heru-option value="banana">Banana</heru-option>
-  <heru-option value="cherry" disabled>Cherry</heru-option>
-  <heru-option value="date">Date</heru-option>`;
+  <prism-option value="apple">Apple</prism-option>
+  <prism-option value="banana">Banana</prism-option>
+  <prism-option value="cherry" disabled>Cherry</prism-option>
+  <prism-option value="date">Date</prism-option>`;
 
 const withTheme = async (page: Page) => {
   await page.addStyleTag({ path: 'src/tokens/tokens.css' });
@@ -13,7 +13,7 @@ const withTheme = async (page: Page) => {
 };
 
 const activeText = (page: Page) =>
-  page.locator('heru-select').evaluate((el) => {
+  page.locator('prism-select').evaluate((el) => {
     const t = el.shadowRoot!.querySelector(
       '[part="trigger"]',
     ) as HTMLElement & {
@@ -25,7 +25,7 @@ const activeText = (page: Page) =>
 test('combobox is labelled, keyboard opens, navigates (skips disabled) and selects', async ({
   page,
 }) => {
-  await mount(page, `<heru-select label="Fruit">${OPTIONS}</heru-select>`);
+  await mount(page, `<prism-select label="Fruit">${OPTIONS}</prism-select>`);
   const box = page.getByRole('combobox', { name: 'Fruit' });
   await box.focus();
   await expect(box).toHaveAttribute('aria-expanded', 'false');
@@ -43,14 +43,14 @@ test('combobox is labelled, keyboard opens, navigates (skips disabled) and selec
   await expect(box).toBeFocused();
   expect(
     await page
-      .locator('heru-select')
+      .locator('prism-select')
       .evaluate((e: HTMLElement & { value: string }) => e.value),
   ).toBe('date');
   await box.press('ArrowDown');
   await box.press('Escape');
   expect(
     await page
-      .locator('heru-select')
+      .locator('prism-select')
       .evaluate((e: HTMLElement & { value: string }) => e.value),
   ).toBe('date');
   await box.press('b'); // typeahead opens on Banana
@@ -60,9 +60,9 @@ test('combobox is labelled, keyboard opens, navigates (skips disabled) and selec
 test('pointer: click opens, click option selects and fires change', async ({
   page,
 }) => {
-  await mount(page, `<heru-select label="Fruit">${OPTIONS}</heru-select>`);
+  await mount(page, `<prism-select label="Fruit">${OPTIONS}</prism-select>`);
   await page.evaluate(() => {
-    document.querySelector('heru-select')!.addEventListener('change', () => {
+    document.querySelector('prism-select')!.addEventListener('change', () => {
       (window as unknown as { changed: number }).changed = 1;
     });
   });
@@ -81,7 +81,7 @@ test('form: submits value, required blocks submit, reset restores', async ({
 }) => {
   await mount(
     page,
-    `<form><heru-select label="Fruit" name="fruit" required>${OPTIONS}<span slot="error">Pick one</span></heru-select><button>Go</button><button type="reset">Reset</button></form>`,
+    `<form><prism-select label="Fruit" name="fruit" required>${OPTIONS}<span slot="error">Pick one</span></prism-select><button>Go</button><button type="reset">Reset</button></form>`,
   );
   await captureSubmit(page);
   await page.getByRole('button', { name: 'Go' }).click();
@@ -96,7 +96,7 @@ test('form: submits value, required blocks submit, reset restores', async ({
   await page.getByRole('button', { name: 'Reset' }).click();
   expect(
     await page
-      .locator('heru-select')
+      .locator('prism-select')
       .evaluate((e: HTMLElement & { value: string }) => e.value),
   ).toBe('');
   await expect(box).toHaveAttribute('aria-invalid', 'false');
@@ -105,7 +105,7 @@ test('form: submits value, required blocks submit, reset restores', async ({
 test('disabled: excluded from submit and does not open', async ({ page }) => {
   await mount(
     page,
-    `<form><heru-select label="Fruit" name="fruit" value="apple" disabled>${OPTIONS}</heru-select><button>Go</button></form>`,
+    `<form><prism-select label="Fruit" name="fruit" value="apple" disabled>${OPTIONS}</prism-select><button>Go</button></form>`,
   );
   await captureSubmit(page);
   await page.getByRole('button', { name: 'Go' }).click();
@@ -120,13 +120,13 @@ test('disabled: excluded from submit and does not open', async ({ page }) => {
 test('error replaces helper text', async ({ page }) => {
   await mount(
     page,
-    `<heru-select label="Fruit" required>${OPTIONS}<span slot="description">Ships Mondays</span><span slot="error">Pick one</span></heru-select>`,
+    `<prism-select label="Fruit" required>${OPTIONS}<span slot="description">Ships Mondays</span><span slot="error">Pick one</span></prism-select>`,
   );
   const box = page.getByRole('combobox', { name: 'Fruit' });
   await expect(box).toHaveAccessibleDescription('Ships Mondays');
   await expect(page.getByText('Ships Mondays')).toBeVisible();
   await page
-    .locator('heru-select')
+    .locator('prism-select')
     .evaluate((e: HTMLElement & { reportValidity(): boolean }) =>
       e.reportValidity(),
     );
@@ -137,7 +137,7 @@ test('error replaces helper text', async ({ page }) => {
 
 const errorAnimations = (page: Page) =>
   page
-    .locator('heru-select')
+    .locator('prism-select')
     .evaluate(
       (el) =>
         el.shadowRoot!.querySelector('[part="error"]')!.getAnimations().length,
@@ -148,13 +148,13 @@ test('error animation runs on invalid only, never on focus', async ({
 }) => {
   await mount(
     page,
-    `<heru-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></heru-select>`,
+    `<prism-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></prism-select>`,
   );
   await withTheme(page);
   await page.getByRole('combobox', { name: 'Fruit' }).focus();
   expect(await errorAnimations(page)).toBe(0);
   await page
-    .locator('heru-select')
+    .locator('prism-select')
     .evaluate((e: HTMLElement & { reportValidity(): boolean }) =>
       e.reportValidity(),
     );
@@ -171,17 +171,17 @@ test('reduced motion: error has no animation; menu is an opacity-only ~0ms fade'
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<heru-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></heru-select>`,
+    `<prism-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></prism-select>`,
   );
   await withTheme(page);
   await page
-    .locator('heru-select')
+    .locator('prism-select')
     .evaluate((e: HTMLElement & { reportValidity(): boolean }) =>
       e.reportValidity(),
     );
   expect(await errorAnimations(page)).toBe(0);
   await page.getByRole('combobox', { name: 'Fruit' }).click();
-  const anims = await page.locator('heru-select').evaluate((el) =>
+  const anims = await page.locator('prism-select').evaluate((el) =>
     el
       .shadowRoot!.querySelector('[part="listbox"]')!
       .getAnimations()
@@ -219,17 +219,17 @@ test('reduced motion: error has no animation; menu is an opacity-only ~0ms fade'
 test('menu slides down with motion allowed and uses elevation tokens', async ({
   page,
 }) => {
-  await mount(page, `<heru-select label="Fruit">${OPTIONS}</heru-select>`);
+  await mount(page, `<prism-select label="Fruit">${OPTIONS}</prism-select>`);
   await withTheme(page);
   await page.getByRole('combobox', { name: 'Fruit' }).click();
-  const r = await page.locator('heru-select').evaluate((el) => {
+  const r = await page.locator('prism-select').evaluate((el) => {
     const lb = el.shadowRoot!.querySelector('[part="listbox"]')!;
     return {
       anims: lb.getAnimations().map((a) => (a as CSSAnimation).animationName),
       shadow: getComputedStyle(lb).boxShadow,
     };
   });
-  expect(r.anims).toContain('heru-slide-down');
+  expect(r.anims).toContain('prism-slide-down');
   expect(r.shadow).not.toBe('none');
 });
 
@@ -238,10 +238,10 @@ test('attached error box is inset 8px on each side of the control', async ({
 }) => {
   await mount(
     page,
-    `<heru-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></heru-select>`,
+    `<prism-select label="Fruit" required>${OPTIONS}<span slot="error">Pick one</span></prism-select>`,
   );
   await withTheme(page);
-  const r = await page.locator('heru-select').evaluate(async (el) => {
+  const r = await page.locator('prism-select').evaluate(async (el) => {
     (el as HTMLElement & { reportValidity(): boolean }).reportValidity();
     await (el as HTMLElement & { updateComplete: Promise<unknown> })
       .updateComplete;
@@ -306,12 +306,12 @@ const errorBox = (page: Page, tag: string) =>
     };
   });
 
-for (const tag of ['heru-select', 'heru-text-field']) {
+for (const tag of ['prism-select', 'prism-text-field']) {
   test(`${tag}: flat attached error box (no shadow, inset 8px, tucked, replaces helper)`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    const inner = tag === 'heru-select' ? OPTIONS : '';
+    const inner = tag === 'prism-select' ? OPTIONS : '';
     await mount(
       page,
       `<${tag} label="Fruit" required>${inner}<span slot="description">Help</span><span slot="error">Pick one</span></${tag}>`,
@@ -341,7 +341,7 @@ test('select focus matches text field focus (outer ring), incl. invalid', async 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<heru-text-field label="Name" required></heru-text-field><heru-select label="Fruit" required>${OPTIONS}</heru-select>`,
+    `<prism-text-field label="Name" required></prism-text-field><prism-select label="Fruit" required>${OPTIONS}</prism-select>`,
   );
   await withTheme(page);
   const shadow = async (focus: () => Promise<void>, sel: string) => {
@@ -358,39 +358,39 @@ test('select focus matches text field focus (outer ring), incl. invalid', async 
   };
   const tf = await shadow(
     () => page.getByRole('textbox', { name: 'Name' }).focus(),
-    'heru-text-field|[part="input"]',
+    'prism-text-field|[part="input"]',
   );
   const se = await shadow(
     () => page.getByRole('combobox', { name: 'Fruit' }).focus(),
-    'heru-select|[part="trigger"]',
+    'prism-select|[part="trigger"]',
   );
   expect(tf).not.toContain('inset');
   expect(se).toBe(tf);
   await page.evaluate(() =>
     document
-      .querySelectorAll('heru-text-field, heru-select')
+      .querySelectorAll('prism-text-field, prism-select')
       .forEach((e) =>
         (e as HTMLElement & { reportValidity(): boolean }).reportValidity(),
       ),
   );
   const tfi = await shadow(
     () => page.getByRole('textbox', { name: 'Name' }).focus(),
-    'heru-text-field|[part="input"]',
+    'prism-text-field|[part="input"]',
   );
   const sei = await shadow(
     () => page.getByRole('combobox', { name: 'Fruit' }).focus(),
-    'heru-select|[part="trigger"]',
+    'prism-select|[part="trigger"]',
   );
   expect(sei).toBe(tfi);
   expect(sei).not.toBe(se);
 });
 
-for (const tag of ['heru-select', 'heru-text-field']) {
+for (const tag of ['prism-select', 'prism-text-field']) {
   test(`${tag}: 2px label gap, 4px description gap, focus reach clears error text`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    const inner = tag === 'heru-select' ? OPTIONS : '';
+    const inner = tag === 'prism-select' ? OPTIONS : '';
     await mount(
       page,
       `<${tag} label="Fruit" required>${inner}<span slot="description">Help</span><span slot="error">Pick one</span></${tag}>`,
@@ -403,17 +403,17 @@ for (const tag of ['heru-select', 'heru-text-field']) {
       const reach =
         parseFloat(
           getComputedStyle(document.documentElement).getPropertyValue(
-            '--heru-focus-ring-offset',
+            '--prism-focus-ring-offset',
           ),
         ) +
         parseFloat(
           getComputedStyle(document.documentElement).getPropertyValue(
-            '--heru-focus-ring-width',
+            '--prism-focus-ring-width',
           ),
         ) +
         parseFloat(
           getComputedStyle(document.documentElement).getPropertyValue(
-            '--heru-focus-halo-width',
+            '--prism-focus-halo-width',
           ),
         );
       const label = q('[part="label"]');
@@ -447,12 +447,12 @@ for (const tag of ['heru-select', 'heru-text-field']) {
   });
 }
 
-for (const tag of ['heru-select', 'heru-text-field']) {
+for (const tag of ['prism-select', 'prism-text-field']) {
   test(`${tag}: error text is centered in the visible 24px box and clears the ring`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    const inner = tag === 'heru-select' ? OPTIONS : '';
+    const inner = tag === 'prism-select' ? OPTIONS : '';
     await mount(
       page,
       `<${tag} label="Fruit" required>${inner}<span slot="error">Enter an email address.</span></${tag}>`,
@@ -492,14 +492,14 @@ for (const tag of ['heru-select', 'heru-text-field']) {
 test('option hover and keyboard-active use the shared state-layer hover fill, no shadow', async ({
   page,
 }) => {
-  await mount(page, `<heru-select label="Fruit">${OPTIONS}</heru-select>`);
+  await mount(page, `<prism-select label="Fruit">${OPTIONS}</prism-select>`);
   await withTheme(page);
   const read = (v: string) =>
-    page.locator(`heru-option[value="${v}"]`).evaluate((o) => {
+    page.locator(`prism-option[value="${v}"]`).evaluate((o) => {
       const b = getComputedStyle(o.shadowRoot!.querySelector('[part="base"]')!);
       const probe = document.createElement('div');
       probe.style.background =
-        'color-mix(in oklch, var(--heru-color-bg), var(--heru-color-text) var(--heru-state-hover))';
+        'color-mix(in oklch, var(--prism-color-bg), var(--prism-color-text) var(--prism-state-hover))';
       document.body.append(probe);
       const want = getComputedStyle(probe).backgroundColor;
       probe.remove();
@@ -507,7 +507,7 @@ test('option hover and keyboard-active use the shared state-layer hover fill, no
     });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.getByRole('combobox', { name: 'Fruit' }).click();
-  await page.locator('heru-option[value="banana"]').hover();
+  await page.locator('prism-option[value="banana"]').hover();
   const hover = await read('banana');
   expect(hover.shadow).toBe('none');
   expect(hover.bg).toBe(hover.want);
@@ -525,8 +525,8 @@ test('select error box matches the text field error box exactly', async ({
   await mount(
     page,
     `<div style="display:grid;grid-template-columns:240px 240px;gap:40px">
-      <heru-text-field label="Fruit" required><span slot="description">Help</span><span slot="error">Pick one</span></heru-text-field>
-      <heru-select label="Fruit" required>${OPTIONS}<span slot="description">Help</span><span slot="error">Pick one</span></heru-select>
+      <prism-text-field label="Fruit" required><span slot="description">Help</span><span slot="error">Pick one</span></prism-text-field>
+      <prism-select label="Fruit" required>${OPTIONS}<span slot="description">Help</span><span slot="error">Pick one</span></prism-select>
     </div>`,
   );
   await withTheme(page);
@@ -581,8 +581,8 @@ test('select error box matches the text field error box exactly', async ({
         ),
       };
     });
-  const tf = await measure('heru-text-field');
-  const se = await measure('heru-select');
+  const tf = await measure('prism-text-field');
+  const se = await measure('prism-select');
   expect(se).toEqual(tf);
   // reportValidity() focuses the control; compare unfocused boxes.
   await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
@@ -620,18 +620,18 @@ test('select error box matches the text field error box exactly', async ({
       }
       return { size: true, over, max };
     },
-    [await shot('heru-select'), await shot('heru-text-field')],
+    [await shot('prism-select'), await shot('prism-text-field')],
   );
   expect(diff.size).toBe(true);
   expect(diff.over).toBe(0);
 });
 
-for (const tag of ['heru-text-field', 'heru-select']) {
+for (const tag of ['prism-text-field', 'prism-select']) {
   test(`${tag}: error box flares out from under the control (concave top fillets)`, async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    const inner = tag === 'heru-select' ? OPTIONS : '';
+    const inner = tag === 'prism-select' ? OPTIONS : '';
     await mount(
       page,
       `<div style="padding:20px;inline-size:240px"><${tag} label="Fruit" required>${inner}<span slot="error">Pick one</span></${tag}></div>`,
@@ -712,11 +712,11 @@ test('open listbox tucks 3px under the trigger (trigger on top), inset 6px', asy
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<div style="inline-size:280px"><heru-select label="Fruit">${OPTIONS}<span slot="description">Help</span></heru-select></div>`,
+    `<div style="inline-size:280px"><prism-select label="Fruit">${OPTIONS}<span slot="description">Help</span></prism-select></div>`,
   );
   await withTheme(page);
   await page.getByRole('combobox', { name: 'Fruit' }).click();
-  const g = await page.locator('heru-select').evaluate((el) => {
+  const g = await page.locator('prism-select').evaluate((el) => {
     const r = el.shadowRoot!;
     const trig = r.querySelector('[part="trigger"]')!;
     const lb = r.querySelector('[part="listbox"]')!;
@@ -724,7 +724,7 @@ test('open listbox tucks 3px under the trigger (trigger on top), inset 6px', asy
     const l = lb.getBoundingClientRect();
     const cs = getComputedStyle(lb);
     const probe = document.createElement('div');
-    probe.style.color = 'var(--heru-color-slate-400)';
+    probe.style.color = 'var(--prism-color-slate-400)';
     document.body.append(probe);
     const slate400 = getComputedStyle(probe).color;
     probe.remove();
@@ -773,11 +773,11 @@ test('description is hidden (space kept) while open, shown on close', async ({
 }) => {
   await mount(
     page,
-    `<heru-select label="Fruit">${OPTIONS}<span slot="description">We ship on Mondays.</span></heru-select><p id="after">x</p>`,
+    `<prism-select label="Fruit">${OPTIONS}<span slot="description">We ship on Mondays.</span></prism-select><p id="after">x</p>`,
   );
   await withTheme(page);
   const read = () =>
-    page.locator('heru-select').evaluate((el) => {
+    page.locator('prism-select').evaluate((el) => {
       const d = el.shadowRoot!.querySelector('[part="description"]')!;
       return {
         vis: getComputedStyle(d).visibility,
@@ -799,21 +799,21 @@ test('description is hidden (space kept) while open, shown on close', async ({
   expect((await read()).vis).toBe('visible');
 });
 
-const ERR_SELECT = `<heru-select label="Fruit" required placeholder="Pick">${OPTIONS}<span slot="description">We ship on Mondays.</span><span slot="error">Choose a fruit.</span></heru-select><button id="next">next</button>`;
+const ERR_SELECT = `<prism-select label="Fruit" required placeholder="Pick">${OPTIONS}<span slot="description">We ship on Mondays.</span><span slot="error">Choose a fruit.</span></prism-select><button id="next">next</button>`;
 async function erroredOpen(page: Page, density = 'default', size = 'md') {
   await mount(
     page,
-    `<div data-heru-density="${density}">${ERR_SELECT.replace('<heru-select', `<heru-select size="${size}"`)}</div>`,
+    `<div data-prism-density="${density}">${ERR_SELECT.replace('<prism-select', `<prism-select size="${size}"`)}</div>`,
   );
   await withTheme(page);
   await page
-    .locator('heru-select')
+    .locator('prism-select')
     .evaluate((e: HTMLElement & { reportValidity(): boolean }) =>
       e.reportValidity(),
     );
 }
 const geom = (page: Page) =>
-  page.locator('heru-select').evaluate((el) => {
+  page.locator('prism-select').evaluate((el) => {
     const r = el.shadowRoot!;
     const q = (p: string) => r.querySelector(`[part="${p}"]`)!;
     const t = q('trigger').getBoundingClientRect();
@@ -863,7 +863,7 @@ test('no error: listbox still tucks 3px under trigger with and without descripti
   for (const desc of ['<span slot="description">Help</span>', '']) {
     await mount(
       page,
-      `<heru-select label="Fruit">${OPTIONS}${desc}</heru-select>`,
+      `<prism-select label="Fruit">${OPTIONS}${desc}</prism-select>`,
     );
     await withTheme(page);
     await page.getByRole('combobox', { name: 'Fruit' }).click();
@@ -872,7 +872,7 @@ test('no error: listbox still tucks 3px under trigger with and without descripti
 });
 
 const focusState = (page: Page) =>
-  page.locator('heru-select').evaluate((el) => {
+  page.locator('prism-select').evaluate((el) => {
     const t = el.shadowRoot!.querySelector<HTMLElement>('[part="trigger"]')!;
     return {
       onTrigger: el.shadowRoot!.activeElement === t,
@@ -887,7 +887,7 @@ test('focus returns to the trigger with the ring on Escape, Enter and click sele
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<heru-select label="Fruit">${OPTIONS}</heru-select><button id="next">next</button>`,
+    `<prism-select label="Fruit">${OPTIONS}</prism-select><button id="next">next</button>`,
   );
   await withTheme(page);
   const cb = page.getByRole('combobox', { name: 'Fruit' });
@@ -909,11 +909,11 @@ test('focus returns to the trigger with the ring on Escape, Enter and click sele
   expect(s.ring).not.toBe(restRing);
   // Mouse: option pointerdown never takes focus; selection leaves it on trigger.
   await cb.click();
-  await page.locator('heru-option[value="banana"]').click();
+  await page.locator('prism-option[value="banana"]').click();
   s = await focusState(page);
   expect(s).toMatchObject({ onTrigger: true, open: false });
   expect(s.ring).not.toBe(restRing); // ring shows after click selection too (:focus)
-  await expect(page.locator('heru-select')).toHaveJSProperty('value', 'banana');
+  await expect(page.locator('prism-select')).toHaveJSProperty('value', 'banana');
 });
 
 test('Tab out closes and moves on; outside click does not steal focus back', async ({
@@ -921,7 +921,7 @@ test('Tab out closes and moves on; outside click does not steal focus back', asy
 }) => {
   await mount(
     page,
-    `<heru-select label="Fruit">${OPTIONS}</heru-select><button id="next">next</button>`,
+    `<prism-select label="Fruit">${OPTIONS}</prism-select><button id="next">next</button>`,
   );
   await withTheme(page);
   const cb = page.getByRole('combobox', { name: 'Fruit' });

@@ -4,4 +4,4 @@ pnpm-lock.yaml
 custom-elements.json
 LICENSE
 src/tokens/tokens.css
-tokens/heru.tokens.resolved.json
+tokens/prism.tokens.resolved.json

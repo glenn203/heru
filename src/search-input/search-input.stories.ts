@@ -14,10 +14,10 @@ interface Args {
  */
 const meta: Meta<Args> = {
   title: 'Components/Search input',
-  component: 'heru-search-input',
+  component: 'prism-search-input',
   args: { label: 'Search', placeholder: 'Search docs', disabled: false },
   render: (a) => html`
-    <heru-search-input
+    <prism-search-input
       label=${a.label}
       placeholder=${a.placeholder}
       name="q"
@@ -25,7 +25,7 @@ const meta: Meta<Args> = {
       style="max-inline-size: 320px"
       @search=${(e: CustomEvent<{ value: string }>) =>
         console.log('search', e.detail.value)}
-    ></heru-search-input>
+    ></prism-search-input>
   `,
 };
 export default meta;
@@ -33,10 +33,10 @@ type S = StoryObj<Args>;
 export const Default: S = {};
 export const WithValue: S = {
   render: (a) =>
-    html`<heru-search-input
+    html`<prism-search-input
       label=${a.label}
       value="lit components"
       style="max-inline-size: 320px"
-    ></heru-search-input>`,
+    ></prism-search-input>`,
 };
 export const Disabled: S = { args: { disabled: true } };
