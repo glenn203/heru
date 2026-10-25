@@ -134,6 +134,8 @@
   --heru-color-error-surface: color-mix(in oklch, var(--heru-color-red-500) 8%, transparent);
   --heru-color-on-error-surface: var(--heru-color-red-800);
   --heru-color-error-status-text: var(--heru-color-on-error-surface);
+  --heru-color-danger: var(--heru-color-red-600);
+  --heru-color-on-danger: var(--heru-color-slate-0);
   --heru-state-hover: 8%;
   --heru-state-pressed: 12%;
   --heru-state-selected: 14%;

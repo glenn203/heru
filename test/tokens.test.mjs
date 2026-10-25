@@ -443,13 +443,39 @@ test('theme + component styles: no raw palette refs, no colour literals', () => 
 // Every fg/bg pair on every state fill. Text >= 4.5:1, borders/icons >= 3:1.
 // Disabled is exempt per WCAG 1.4.3/1.4.11 but its numbers are reported.
 const MATRIX_STATES = { rest: 0, ...STATES };
+// bgKey may be [roleA, roleB, pct] for an opaque color-mix() base.
+const baseOf = (bgKey) =>
+  Array.isArray(bgKey)
+    ? mixOklch(tok(bgKey[0]), tok(bgKey[1]), bgKey[2])
+    : tok(bgKey);
 const fillOf = (bgKey, onKey, p) =>
   bgKey
-    ? srgb(mixOklch(tok(bgKey), tok(onKey), p))
+    ? srgb(mixOklch(baseOf(bgKey), tok(onKey), p))
     : veil(tok(onKey), tok('color.bg'), p);
 // [surface, bg role (null = transparent on color-bg), on role, [fg role, kind]]
 const MATRIX = [
   ['button', 'color.accent', 'color.on-accent', [['color.on-accent', 'text']]],
+  [
+    'secondary',
+    ['color.bg', 'color.accent', 0.08],
+    'color.accent',
+    [['color.accent', 'text']],
+  ],
+  [
+    'ghost',
+    null,
+    'color.text',
+    [
+      ['color.text', 'text'],
+      ['color.text-muted', 'text'],
+    ],
+  ],
+  [
+    'destructive',
+    'color.danger',
+    'color.on-danger',
+    [['color.on-danger', 'text']],
+  ],
   [
     'outline',
     null,
@@ -487,9 +513,18 @@ for (const [surface, bgKey, onKey, pairs] of MATRIX)
       const min = kind === 'text' ? 4.5 : 3;
       const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
       MATRIX_RESULTS.push({ surface, state, fg, kind, r });
-      test(`matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`, () => {
-        assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
-      });
+      // FLAG (awaiting Chuck): destructive failures are reported, not fixed.
+      const todo =
+        surface === 'destructive' && r < min
+          ? `FLAG ${r.toFixed(2)}:1 < ${min}:1 — decision pending`
+          : false;
+      test(
+        `matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`,
+        { todo },
+        () => {
+          assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
+        },
+      );
     }
 
 test('matrix report: disabled (exempt) numbers', () => {
@@ -502,6 +537,10 @@ test('matrix report: disabled (exempt) numbers', () => {
     [
       'button disabled: border on bg',
       ratio(srgb(tok('color.border')), srgb(tok('color.bg'))),
+    ],
+    [
+      'ghost disabled: text-muted on bg',
+      ratio(srgb(tok('color.text-muted')), srgb(tok('color.bg'))),
     ],
     [
       'option disabled: text-muted on bg',

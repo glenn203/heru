@@ -697,6 +697,18 @@
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
+      "color.danger": {
+        "cssVar": "--heru-color-danger",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.on-danger": {
+        "cssVar": "--heru-color-on-danger",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
       "state.hover": {
         "cssVar": "--heru-state-hover",
         "type": "percentage",
@@ -1504,6 +1516,18 @@
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
+      "color.danger": {
+        "cssVar": "--heru-color-danger",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.on-danger": {
+        "cssVar": "--heru-color-on-danger",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
       "state.hover": {
         "cssVar": "--heru-state-hover",
         "type": "percentage",
@@ -2310,6 +2334,18 @@
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
+      },
+      "color.danger": {
+        "cssVar": "--heru-color-danger",
+        "type": "color",
+        "value": "oklch(0.56 0.19 27)",
+        "hex": "#cc3430"
+      },
+      "color.on-danger": {
+        "cssVar": "--heru-color-on-danger",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
       },
       "state.hover": {
         "cssVar": "--heru-state-hover",

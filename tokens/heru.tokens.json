@@ -502,6 +502,14 @@
     "error-status-text": {
       "$value": "{color.on-error-surface}",
       "$description": "DEPRECATED alias of color-on-error-surface."
+    },
+    "danger": {
+      "$value": "{color.red.600}",
+      "$description": "Destructive action fill (same red as color-error). NAME PENDING — Technical Writer."
+    },
+    "on-danger": {
+      "$value": "{color.slate.0}",
+      "$description": "Text/icons on color-danger."
     }
   },
   "state": {
