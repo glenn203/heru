@@ -7,6 +7,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { oklchToHex } from './oklch.mjs';
+import { springToLinear } from './spring.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const src = JSON.parse(
@@ -26,6 +27,7 @@ function flatten(node, path = [], inheritedType) {
       value: node.$value,
       type,
       modes: node.$extensions?.['heru.modes'],
+      spring: node.$extensions?.['heru.spring'],
     });
     return out;
   }
@@ -38,6 +40,25 @@ function flatten(node, path = [], inheritedType) {
 
 const tokens = flatten(src);
 const byPath = new Map(tokens.map((t) => [t.path.join('.'), t]));
+// ---------- Springs → linear() ----------
+const durMs = (ref) => {
+  const t = byPath.get(ref.slice(1, -1));
+  if (!t) throw new Error(`Unknown spring duration ${ref}`);
+  return parseFloat(t.value);
+};
+const springs = new Map();
+for (const t of tokens) {
+  if (!t.spring) continue;
+  const { mass, stiffness, damping, duration } = t.spring;
+  const ms = durMs(duration);
+  const s = springToLinear({ mass, stiffness, damping }, ms);
+  if (Math.abs(s.settleMs - ms) / ms > 0.1)
+    throw new Error(
+      `${t.path.join('.')}: spring settles at ${s.settleMs.toFixed(1)}ms, token ${duration} is ${ms}ms`,
+    );
+  springs.set(t.path.join('.'), { ...s, durationMs: ms });
+}
+
 const cssName = (p) => PREFIX + p.replaceAll('.', '-');
 const REF = /\{([^}]+)\}/g;
 
@@ -52,6 +73,7 @@ function assertRefs(expr, where) {
 function toCss(t) {
   const { value, path } = t;
   if (path.join('.') === 'unit') return `${parseFloat(value) / 16}rem`;
+  if (springs.has(path.join('.'))) return springs.get(path.join('.')).css;
   if (t.type === 'cubicBezier') return `cubic-bezier(${value.join(', ')})`;
   if (Array.isArray(value))
     return value.map((f) => (/\s/.test(f) ? `"${f}"` : f)).join(', ');
@@ -118,7 +140,14 @@ const fixed = rest.filter((t) => !dependsOnDensity(t));
 const scoped = rest.filter((t) => dependsOnDensity(t));
 css += `\n:root {\n`;
 for (const t of fixed) css += `  ${cssName(t.path.join('.'))}: ${toCss(t)};\n`;
-css += `}\n\n:root,\n[data-heru-density] {\n`;
+css += `}\n`;
+if (springs.size) {
+  css += `\n/* Fallback for engines without linear(): the token's cubic-bezier $value. */\n@supports not (animation-timing-function: linear(0, 1)) {\n  :root {\n`;
+  for (const k of springs.keys())
+    css += `    ${cssName(k)}: cubic-bezier(${byPath.get(k).value.join(', ')});\n`;
+  css += `  }\n}\n`;
+}
+css += `\n:root,\n[data-heru-density] {\n`;
 for (const t of scoped) css += `  ${cssName(t.path.join('.'))}: ${toCss(t)};\n`;
 css += `}\n`;
 
@@ -138,6 +167,18 @@ for (const mode of MODES) {
       type: t.type ?? 'number',
       value: resolveValue(key, mode),
     };
+    const sp = springs.get(key);
+    if (sp)
+      Object.assign(out[key], {
+        value: sp.css,
+        fallback: `cubic-bezier(${t.value.join(', ')})`,
+        spring: {
+          ...t.spring,
+          dampingRatio: +sp.zeta.toFixed(3),
+          overshoot: +sp.overshoot.toFixed(4),
+          settleMs: +sp.settleMs.toFixed(1),
+        },
+      });
     if (t.type === 'color') out[key].hex = oklchToHex(out[key].value);
   }
   resolved.modes[mode] = out;

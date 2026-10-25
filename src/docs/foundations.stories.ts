@@ -196,7 +196,7 @@ export const Typography: StoryObj = {
       </div>`,
 };
 
-/** Tab through: the ring grows in over --heru-motion-duration-fast. */
+/** Tab through: the ring grows in over --heru-duration-default on --heru-ease-spring. */
 export const Focus: StoryObj = {
   parameters: { a11y: { test: 'error' } },
   render: () =>

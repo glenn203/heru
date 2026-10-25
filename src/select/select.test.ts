@@ -166,7 +166,7 @@ test('error animation runs on invalid only, never on focus', async ({
   expect(await errorAnimations(page)).toBe(0);
 });
 
-test('reduced motion: menu and error appear without animation', async ({
+test('reduced motion: error has no animation; menu is an opacity-only ~0ms fade', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -182,14 +182,39 @@ test('reduced motion: menu and error appear without animation', async ({
     );
   expect(await errorAnimations(page)).toBe(0);
   await page.getByRole('combobox', { name: 'Fruit' }).click();
-  const n = await page
-    .locator('heru-select')
-    .evaluate(
-      (el) =>
-        el.shadowRoot!.querySelector('[part="listbox"]')!.getAnimations()
-          .length,
-    );
-  expect(n).toBe(0);
+  const anims = await page.locator('heru-select').evaluate((el) =>
+    el
+      .shadowRoot!.querySelector('[part="listbox"]')!
+      .getAnimations()
+      .map((a) => {
+        const fx = a.effect as KeyframeEffect;
+        return {
+          props: [
+            ...new Set(
+              fx
+                .getKeyframes()
+                .flatMap((k) =>
+                  Object.keys(k).filter(
+                    (p) =>
+                      ![
+                        'offset',
+                        'easing',
+                        'composite',
+                        'computedOffset',
+                      ].includes(p),
+                  ),
+                ),
+            ),
+          ],
+          ms: Number(fx.getTiming().duration),
+        };
+      }),
+  );
+  // Motion tokens collapse to 0.01ms; nothing moves, only opacity.
+  for (const a of anims) {
+    expect(a.props).toEqual(['opacity']);
+    expect(a.ms).toBeLessThan(1);
+  }
 });
 
 test('menu slides down with motion allowed and uses elevation tokens', async ({
