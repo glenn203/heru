@@ -60,9 +60,9 @@ test('menu slides down on the bouncy spring over 320ms', async ({ page }) => {
   expect(await part(page, 'prism-select', 'listbox', 'animation-name')).toBe(
     'prism-slide-down',
   );
-  expect(await part(page, 'prism-select', 'listbox', 'animation-duration')).toBe(
-    '0.32s',
-  );
+  expect(
+    await part(page, 'prism-select', 'listbox', 'animation-duration'),
+  ).toBe('0.32s');
   expect(
     await part(page, 'prism-select', 'listbox', 'animation-timing-function'),
   ).toMatch(/^linear\(/);

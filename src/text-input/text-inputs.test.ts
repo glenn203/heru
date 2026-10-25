@@ -186,7 +186,10 @@ test('required / readonly / disabled behave natively', async ({ page }) => {
     document.querySelector('form')!.checkValidity(),
   );
   expect(ok).toBe(false);
-  await expect(native(page, 'prism-text-input')).toHaveAttribute('required', '');
+  await expect(native(page, 'prism-text-input')).toHaveAttribute(
+    'required',
+    '',
+  );
   await expect(native(page, 'prism-text-area')).toHaveAttribute('readonly', '');
   await expect(native(page, 'prism-search-input')).toBeDisabled();
   await expect(page.getByRole('button', { name: 'Clear search' })).toBeHidden();

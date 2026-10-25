@@ -78,7 +78,8 @@ export const AllVariants: StoryObj = {
   render: () =>
     html`<div style="display: grid; gap: 12px; justify-items: start">
       ${VARIANTS.map(
-        (v) => html`<prism-button variant=${v} type="button">${v}</prism-button>`,
+        (v) =>
+          html`<prism-button variant=${v} type="button">${v}</prism-button>`,
       )}
     </div>`,
 };
