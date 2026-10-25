@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { mount } from '../../test/fixture.js';
+import { expected, near, painted, PCT } from '../../test/paint.js';
 
 const V = ['primary', 'secondary', 'ghost', 'outline', 'destructive'] as const;
 const BG: Record<(typeof V)[number], [string, string]> = {
@@ -75,25 +76,19 @@ for (const v of V) {
       const b = page.locator(`#${v}`);
       const [bg, on] = BG[v];
       await b.hover();
+      const wanthover = await expected(page, bg, on, PCT.hover);
       await expect
-        .poll(() => css(b, 'background-color'))
-        .toBe(
-          await probe(
-            page,
-            `color-mix(in oklch, ${bg}, ${on} var(--prism-state-hover))`,
-          ),
-        );
+        .poll(async () => near(await painted(b, 'base'), wanthover))
+        .toBe(true);
+      expect(await css(b, 'background-color')).toBe(await probe(page, bg));
       const box = (await b.boundingBox())!;
       await page.mouse.move(box.x + 5, box.y + 5);
       await page.mouse.down();
+      const wantpressed = await expected(page, bg, on, PCT.pressed);
       await expect
-        .poll(() => css(b, 'background-color'))
-        .toBe(
-          await probe(
-            page,
-            `color-mix(in oklch, ${bg}, ${on} var(--prism-state-pressed))`,
-          ),
-        );
+        .poll(async () => near(await painted(b, 'base'), wantpressed))
+        .toBe(true);
+      expect(await css(b, 'background-color')).toBe(await probe(page, bg));
       await page.mouse.up();
     });
 

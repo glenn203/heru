@@ -10,6 +10,7 @@
  * shadow root). The theme only names each surface's colours:
  *   --_bg / --_on                 resting fill and its text/icon colour
  *   --_bg-hover/-pressed/-selected  fixed fills used only without color-mix()
+ * States paint an alpha overlay of --_on (8/12/14/18%) over --_bg.
  * Hover/pressed/selected/disabled behaviour comes from the utility, so new
  * surfaces (tabs, tree rows, cards…) only set these variables.
  */
@@ -24,7 +25,7 @@ prism-button::part(base) {
   justify-content: center;
   gap: var(--prism-space-2);
   /* Solid: the border follows the fill. */
-  border-color: var(--_border, var(--_prism-state-fill));
+  border-color: var(--_border, transparent); /* overlay paints beneath */
   color: var(--_on);
   white-space: nowrap;
   user-select: none;
