@@ -37,8 +37,11 @@ export class HeruOtpInput extends TextControl {
       :host {
         display: inline-block;
       }
+      /* Block (not inline-block) so no line-box descender gap sits under
+         the boxes: description/error offsets are measured from the boxes. */
       [part='control'] {
-        display: inline-block;
+        display: block;
+        inline-size: fit-content;
       }
       [part~='cells'] {
         display: flex;

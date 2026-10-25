@@ -42,7 +42,7 @@ const ALL = `
   <heru-text-input label="Email" type="email" name="email" autocomplete="email" required><span slot="description">Receipts only.</span><span slot="error">Enter an email.</span></heru-text-input>
   <heru-password-input label="Password" name="pw" required></heru-password-input>
   <heru-search-input label="Search" name="q"></heru-search-input>
-  <heru-otp-input label="Code" name="otp"></heru-otp-input>
+  <heru-otp-input label="Code" name="otp" required><span slot="error">Enter the code.</span></heru-otp-input>
   <heru-text-area label="Bio" name="bio" maxlength="40" counter></heru-text-area>`;
 
 test('axe: no WCAG A/AA violations, valid and invalid', async ({ page }) => {
@@ -147,7 +147,7 @@ test('form submit + reset across the family', async ({ page }) => {
       <heru-text-input label="Name" name="name" value="Ada"></heru-text-input>
       <heru-password-input label="Password" name="pw"></heru-password-input>
       <heru-search-input label="Search" name="q"></heru-search-input>
-      <heru-otp-input label="Code" name="otp"></heru-otp-input>
+      <heru-otp-input label="Code" name="otp" required><span slot="error">Enter the code.</span></heru-otp-input>
       <heru-text-area label="Bio" name="bio"></heru-text-area>
       <heru-text-input label="Off" name="off" value="x" disabled></heru-text-input>
       <button>Go</button></form>`,
@@ -482,4 +482,86 @@ test('densities × sizes: every control (and OTP box) matches the control-height
     }),
   );
   for (const r of rows) for (const h of r.got) expect(h).toBe(r.want);
+});
+
+test('OtpInput error is red text only, 5px below the boxes, clears the focus ring', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await mount(
+    page,
+    `<heru-otp-input label="Code" required><span slot="description">Sent to you.</span><span slot="error">Enter the 6-digit code.</span></heru-otp-input>
+     <heru-text-input label="Other" required><span slot="error">E</span></heru-text-input>`,
+  );
+  await withTheme(page);
+  await page.evaluate(() =>
+    document
+      .querySelectorAll<HTMLElement & { checkValidity(): boolean }>(
+        '[required]',
+      )
+      .forEach((e) => e.checkValidity()),
+  );
+  const box = page.getByRole('textbox', { name: 'Code' });
+  await box.focus();
+  const g = await page.locator('heru-otp-input').evaluate((el) => {
+    const r = el.shadowRoot!;
+    const err = r.querySelector<HTMLElement>('[part="error"]')!;
+    const cs = getComputedStyle(err);
+    const before = getComputedStyle(err, '::before').content;
+    const cells = r.querySelector('[part~="cells"]')!.getBoundingClientRect();
+    const active = r.querySelector('[part~="cell-active"]')!;
+    const ring = getComputedStyle(active).boxShadow;
+    return {
+      bg: cs.backgroundColor,
+      padding: cs.padding,
+      marginTop: cs.marginTop,
+      marginInline: [cs.marginLeft, cs.marginRight],
+      radius: cs.borderBottomLeftRadius,
+      before,
+      color: cs.color,
+      font: [cs.fontSize, cs.lineHeight, cs.fontWeight],
+      gap: err.getBoundingClientRect().top - cells.bottom,
+      ring,
+      descHidden: r
+        .querySelector('[part="description"]')!
+        .hasAttribute('hidden'),
+    };
+  });
+  expect(g.bg).toBe('rgba(0, 0, 0, 0)');
+  expect(g.padding).toBe('0px');
+  expect(g.marginTop).toBe('5px');
+  expect(g.marginInline).toEqual(['0px', '0px']);
+  expect(g.radius).toBe('0px');
+  expect(g.before).toBe('none');
+  expect(g.color).toBe('oklch(0.368 0.148 25)');
+  expect(g.font).toEqual(['12px', '16px', '400']);
+  expect(g.gap).toBe(5); // ring reaches 4px → clears by 1px
+  expect(g.ring).toMatch(/4px/);
+  expect(g.descHidden).toBe(true);
+  await expect(box).toHaveAccessibleDescription('Enter the 6-digit code.');
+  // Other inputs keep the attached box.
+  const other = await page
+    .locator('heru-text-input')
+    .evaluate(
+      (el) =>
+        getComputedStyle(el.shadowRoot!.querySelector('[part="error"]')!)
+          .backgroundColor,
+    );
+  expect(other).not.toBe('rgba(0, 0, 0, 0)');
+});
+
+test('OtpInput description sits 4px below the boxes', async ({ page }) => {
+  await mount(
+    page,
+    `<heru-otp-input label="Code"><span slot="description">Sent.</span></heru-otp-input>`,
+  );
+  await withTheme(page);
+  const gap = await page.locator('heru-otp-input').evaluate((el) => {
+    const r = el.shadowRoot!;
+    return (
+      r.querySelector('[part="description"]')!.getBoundingClientRect().top -
+      r.querySelector('[part~="cells"]')!.getBoundingClientRect().bottom
+    );
+  });
+  expect(gap).toBe(4);
 });
