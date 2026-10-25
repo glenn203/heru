@@ -180,7 +180,7 @@ test('generic consumer (test row): selected and selected+hover, non-colour cue p
   expect(await partStyle(sel, 'base', 'background-color')).toBe(
     await probe(
       page,
-      `color-mix(in oklch, ${bg}, ${on} calc(var(--heru-state-selected) + var(--heru-state-hover)))`,
+      `color-mix(in oklch, ${bg}, ${on} calc(var(--heru-state-selected) + var(--heru-state-hover) / 2))`,
     ),
   );
   await expect(sel).toContainText('✓'); // selected is never colour-only

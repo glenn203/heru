@@ -505,7 +505,7 @@
     }
   },
   "state": {
-    "$description": "Shared state layer (NAME PENDING — Technical Writer). Percent of a surface's on-colour mixed into its fill: color-mix(in oklch, var(--_bg), var(--_on) <state>). Implemented once in src/internal/state-layer.ts. Selected+hover = selected + hover.",
+    "$description": "Shared state layer (NAME PENDING — Technical Writer). Percent of a surface's on-colour mixed into its fill: color-mix(in oklch, var(--_bg), var(--_on) <state>). Implemented once in src/internal/state-layer.ts. Selected+hover = selected + hover / 2 (18%); selected+pressed = pressed.",
     "$type": "percentage",
     "hover": {
       "$value": "8%"

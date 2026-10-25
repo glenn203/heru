@@ -325,7 +325,7 @@ const STATES = {
   hover: pct('hover'),
   pressed: pct('pressed'),
   selected: pct('selected'),
-  'selected+hover': pct('selected') + pct('hover'),
+  'selected+hover': pct('selected') + pct('hover') / 2,
 };
 export const STATE_CONTRAST = [];
 
@@ -481,32 +481,15 @@ const MATRIX = [
   ],
 ];
 export const MATRIX_RESULTS = [];
-// Known failures, reported to Chuck rather than silently fixed. Each stays a
-// visible TODO in the test output until a fix is chosen.
-const FLAGS = new Map([
-  [
-    'outline selected+hover color.border-strong',
-    'FLAG: 2.98:1 vs the 22% fill (still 4.79:1 vs the page bg outside)',
-  ],
-  [
-    'option selected+hover color.text-muted',
-    'FLAG: 4.40:1 — muted text on the 22% selected+hover tint',
-  ],
-]);
 for (const [surface, bgKey, onKey, pairs] of MATRIX)
   for (const [state, p] of Object.entries(MATRIX_STATES))
     for (const [fg, kind] of pairs) {
       const min = kind === 'text' ? 4.5 : 3;
       const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
       MATRIX_RESULTS.push({ surface, state, fg, kind, r });
-      const flag = FLAGS.get(`${surface} ${state} ${fg}`);
-      test(
-        `matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`,
-        { todo: flag },
-        () => {
-          assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
-        },
-      );
+      test(`matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`, () => {
+        assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
+      });
     }
 
 test('matrix report: disabled (exempt) numbers', () => {

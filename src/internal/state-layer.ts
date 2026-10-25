@@ -22,7 +22,9 @@ import { css, unsafeCSS, type CSSResult } from 'lit';
  *             pressed state
  *   selected  [aria-selected=true] / [aria-pressed=true] / [aria-current] /
  *             [aria-checked=true] on the surface, or host :state(selected).
- *             Uses --heru-state-selected. Colour is never the only cue: the
+ *             Uses --heru-state-selected. Selected+hover adds half of
+ *             --heru-state-hover (18% by default) so tinted text/borders keep
+ *             contrast; selected+pressed uses the pressed fill (12%). Colour is never the only cue: the
  *             component MUST also show a non-colour indicator (check mark,
  *             underline, bold, icon…) — WCAG 1.4.1.
  *   disabled  :disabled / [aria-disabled=true] / host :state(disabled):
@@ -53,7 +55,9 @@ export function stateLayer(selector: string): CSSResult {
         in oklch,
         var(--_bg, transparent),
         var(--_on, transparent)
-          calc(var(--heru-state-selected, 14%) + var(--heru-state-hover, 8%))
+          calc(
+            var(--heru-state-selected, 14%) + var(--heru-state-hover, 8%) / 2
+          )
       );
       --_heru-state-fill: var(--_bg, transparent);
       background-color: var(--_heru-state-fill);
