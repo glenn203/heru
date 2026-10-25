@@ -631,15 +631,27 @@
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
+      "color.error-surface": {
+        "cssVar": "--heru-color-error-surface",
+        "type": "color",
+        "value": "oklch(0.586 0.226 21.3 / 0.08)",
+        "hex": "#e3193b14"
+      },
+      "color.error-status-text": {
+        "cssVar": "--heru-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.368 0.148 25)",
+        "hex": "#7b0210"
+      },
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 3
+        "value": 2
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
-        "value": 2
+        "value": 1
       },
       "focus.ring-blur": {
         "cssVar": "--heru-focus-ring-blur",
@@ -649,7 +661,7 @@
       "focus.halo-width": {
         "cssVar": "--heru-focus-halo-width",
         "type": "dimension",
-        "value": 3
+        "value": 1
       },
       "focus.halo": {
         "cssVar": "--heru-focus-halo",
@@ -671,6 +683,26 @@
           0,
           1
         ]
+      },
+      "motion.duration-medium": {
+        "cssVar": "--heru-motion-duration-medium",
+        "type": "duration",
+        "value": "200ms"
+      },
+      "elevation.default": {
+        "cssVar": "--heru-elevation-default",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)"
+      },
+      "elevation.hover": {
+        "cssVar": "--heru-elevation-hover",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)"
+      },
+      "elevation.urgent": {
+        "cssVar": "--heru-elevation-urgent",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
       }
     },
     "default": {
@@ -1302,15 +1334,27 @@
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
+      "color.error-surface": {
+        "cssVar": "--heru-color-error-surface",
+        "type": "color",
+        "value": "oklch(0.586 0.226 21.3 / 0.08)",
+        "hex": "#e3193b14"
+      },
+      "color.error-status-text": {
+        "cssVar": "--heru-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.368 0.148 25)",
+        "hex": "#7b0210"
+      },
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 3
+        "value": 2
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
-        "value": 2
+        "value": 1
       },
       "focus.ring-blur": {
         "cssVar": "--heru-focus-ring-blur",
@@ -1320,7 +1364,7 @@
       "focus.halo-width": {
         "cssVar": "--heru-focus-halo-width",
         "type": "dimension",
-        "value": 3
+        "value": 1
       },
       "focus.halo": {
         "cssVar": "--heru-focus-halo",
@@ -1342,6 +1386,26 @@
           0,
           1
         ]
+      },
+      "motion.duration-medium": {
+        "cssVar": "--heru-motion-duration-medium",
+        "type": "duration",
+        "value": "200ms"
+      },
+      "elevation.default": {
+        "cssVar": "--heru-elevation-default",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)"
+      },
+      "elevation.hover": {
+        "cssVar": "--heru-elevation-hover",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)"
+      },
+      "elevation.urgent": {
+        "cssVar": "--heru-elevation-urgent",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
       }
     },
     "comfortable": {
@@ -1973,15 +2037,27 @@
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
+      "color.error-surface": {
+        "cssVar": "--heru-color-error-surface",
+        "type": "color",
+        "value": "oklch(0.586 0.226 21.3 / 0.08)",
+        "hex": "#e3193b14"
+      },
+      "color.error-status-text": {
+        "cssVar": "--heru-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.368 0.148 25)",
+        "hex": "#7b0210"
+      },
       "focus.ring-width": {
         "cssVar": "--heru-focus-ring-width",
         "type": "dimension",
-        "value": 3
+        "value": 2
       },
       "focus.ring-offset": {
         "cssVar": "--heru-focus-ring-offset",
         "type": "dimension",
-        "value": 2
+        "value": 1
       },
       "focus.ring-blur": {
         "cssVar": "--heru-focus-ring-blur",
@@ -1991,7 +2067,7 @@
       "focus.halo-width": {
         "cssVar": "--heru-focus-halo-width",
         "type": "dimension",
-        "value": 3
+        "value": 1
       },
       "focus.halo": {
         "cssVar": "--heru-focus-halo",
@@ -2013,6 +2089,26 @@
           0,
           1
         ]
+      },
+      "motion.duration-medium": {
+        "cssVar": "--heru-motion-duration-medium",
+        "type": "duration",
+        "value": "200ms"
+      },
+      "elevation.default": {
+        "cssVar": "--heru-elevation-default",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)"
+      },
+      "elevation.hover": {
+        "cssVar": "--heru-elevation-hover",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)"
+      },
+      "elevation.urgent": {
+        "cssVar": "--heru-elevation-urgent",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
       }
     }
   }

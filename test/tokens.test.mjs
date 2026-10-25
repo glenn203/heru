@@ -103,17 +103,93 @@ test('only slate and red ramps exist', () => {
   assert.deepEqual([...ramps].sort(), ['red', 'slate']);
 });
 
-test('focus ring: 3px ring, 2px offset, 3px halo; extent + 2px clearance fits the space-3 field gap', () => {
+test('focus ring: 1px gap + 2px ring + 1px halo; reach fits the space-1 label gap', () => {
   const d = resolved.modes.default;
-  assert.equal(d['focus.ring-width'].value, 3);
-  assert.equal(d['focus.ring-offset'].value, 2);
-  assert.equal(d['focus.halo-width'].value, 3);
+  assert.equal(d['focus.ring-offset'].value, 1);
+  assert.equal(d['focus.ring-width'].value, 2);
+  assert.equal(d['focus.halo-width'].value, 1);
   const extent =
     d['focus.ring-offset'].value +
     d['focus.ring-width'].value +
     d['focus.halo-width'].value;
-  assert.ok(
-    d['space.3'].value >= extent + 2,
-    `extent ${extent}px vs gap ${d['space.3'].value}px`,
+  assert.ok(d['space.1'].value >= extent, `extent ${extent}px`);
+  assert.ok(d['space.2'].value > extent);
+});
+
+test('elevation: three shared levels, slate-based, urgent tinted from error red', () => {
+  const t = resolved.modes.default;
+  for (const level of ['default', 'hover', 'urgent']) {
+    const e = t[`elevation.${level}`];
+    assert.ok(e, `elevation.${level} exists`);
+    assert.equal(e.type, 'shadow');
+    assert.equal(e.cssVar, `--heru-elevation-${level}`);
+    assert.match(e.value, /oklch\(/);
+  }
+  assert.match(t['elevation.default'].value, / 260 \//); // slate hue
+  assert.match(t['elevation.hover'].value, / 260 \//);
+  assert.match(t['elevation.urgent'].value, / 27 \//); // error red hue
+  const css = readFileSync(
+    new URL('../src/tokens/tokens.css', import.meta.url),
+    'utf8',
   );
+  for (const level of ['default', 'hover', 'urgent'])
+    assert.ok(css.includes(`--heru-elevation-${level}:`));
+});
+
+test('components consume elevation tokens, no hard-coded shadows', () => {
+  for (const f of ['../src/select/select.ts', '../src/option/option.ts']) {
+    const src = readFileSync(new URL(f, import.meta.url), 'utf8');
+    assert.ok(!/box-shadow/.test(src), `${f} must not set box-shadow`);
+  }
+  const theme = readFileSync(
+    new URL('../src/theme/theme.css', import.meta.url),
+    'utf8',
+  );
+  const block = theme.slice(theme.indexOf('/* ---------- Select'));
+  assert.ok(!/box-shadow:[^;]*inset/.test(block), 'no inside-border focus');
+  assert.ok(
+    !/box-shadow:\s*var\(--heru-elevation-urgent/.test(theme),
+    'elevation-urgent is reserved, unused',
+  );
+  assert.ok(
+    !/var\(--heru-elevation-hover/.test(theme),
+    'elevation-hover is reserved, unused',
+  );
+  for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
+    assert.ok(
+      /var\(--heru-elevation-default|--heru-focus-ring|^none$/.test(
+        m[1].trim(),
+      ),
+      `unexpected shadow: ${m[1]}`,
+    );
+});
+
+test('error box: lighter fill (10% red over white) keeps status text >= 4.5:1', () => {
+  const t = resolved.modes.default;
+  assert.match(t['color.error-surface'].value, /\/ 0\.08\)$/);
+  const rgb = (hex) => {
+    const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const a = hex.length > 7 ? parseInt(hex.slice(7, 9), 16) / 255 : 1;
+    return c.map((v) => v * a + 255 * (1 - a));
+  };
+  const lum = (c) => {
+    const l = c.map((v) => {
+      v /= 255;
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2];
+  };
+  const a = lum(rgb(t['color.error-surface'].hex));
+  const b = lum(rgb(t['color.error-status-text'].hex));
+  const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  assert.ok(ratio >= 4.5, `ratio ${ratio}`);
+});
+
+test('focus ring total reach (offset + ring + halo) is at most 4px', () => {
+  const t = resolved.modes.default;
+  const reach =
+    t['focus.ring-offset'].value +
+    t['focus.ring-width'].value +
+    t['focus.halo-width'].value;
+  assert.ok(reach <= 4, `reach ${reach}px`);
 });

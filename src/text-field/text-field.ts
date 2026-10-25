@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 import { FormAssociated } from '../internal/form-associated.js';
 import { uniqueId } from '../internal/ids.js';
@@ -8,6 +8,14 @@ import {
   controlSize,
   textRole,
 } from '../internal/control-styles.js';
+import {
+  fieldChromeStyles,
+  renderDescription,
+  renderError,
+  renderLabel,
+  syncFieldA11y,
+} from '../internal/field-chrome.js';
+import { FieldValidityController } from '../internal/field-validity.js';
 
 /**
  * A headless single-line text field. The label, native input, description
@@ -42,14 +50,8 @@ export class HeruTextField extends FormAssociated(LitElement) {
 
   static override styles = [
     controlSize,
+    fieldChromeStyles,
     css`
-      :host {
-        display: block;
-      }
-      [part='label'] {
-        display: block;
-        ${textRole('label')}
-      }
       [part='input'] {
         display: block;
         inline-size: 100%;
@@ -58,16 +60,6 @@ export class HeruTextField extends FormAssociated(LitElement) {
         color: inherit;
         ${controlBox}
         ${textRole('body')}
-      }
-      [part='description'],
-      [part='error'] {
-        ${textRole('caption')}
-      }
-      :host([hidden]) {
-        display: none;
-      }
-      [part='error'][hidden] {
-        display: none;
       }
     `,
   ];
@@ -95,7 +87,7 @@ export class HeruTextField extends FormAssociated(LitElement) {
 
   @query('input') private readonly input!: HTMLInputElement;
 
-  @state() private touched = false;
+  readonly #validity = new FieldValidityController(this);
 
   #defaultValue = '';
   readonly #id = uniqueId('heru-text-field');
@@ -115,7 +107,7 @@ export class HeruTextField extends FormAssociated(LitElement) {
     return this.internals.checkValidity();
   }
   reportValidity(): boolean {
-    this.touched = true;
+    this.#validity.touch();
     return this.internals.reportValidity();
   }
 
@@ -125,7 +117,7 @@ export class HeruTextField extends FormAssociated(LitElement) {
 
   formResetCallback(): void {
     this.value = this.#defaultValue;
-    this.touched = false;
+    this.#validity.reset();
   }
 
   formStateRestoreCallback(state: string | File | FormData | null): void {
@@ -158,22 +150,14 @@ export class HeruTextField extends FormAssociated(LitElement) {
     } else {
       this.internals.setValidity({});
     }
-    const invalid = this.touched && !this.internals.validity.valid;
-    this.setState('invalid', invalid);
-    this.input.setAttribute('aria-invalid', String(invalid));
-    // Only reference the error while it is shown.
-    const describedBy = `${this.#id}-description${invalid ? ` ${this.#id}-error` : ''}`;
-    this.input.setAttribute('aria-describedby', describedBy);
-    this.renderRoot
-      .querySelector('[part="error"]')
-      ?.toggleAttribute('hidden', !invalid);
-  }
-
-  constructor() {
-    super();
-    this.addEventListener('invalid', () => {
-      this.touched = true;
+    const invalid = this.#validity.sync();
+    // Error replaces helper text while invalid.
+    syncFieldA11y(this.renderRoot, this.input, this.#id, invalid, {
+      hideDescriptionWhenInvalid: true,
     });
+    this.renderRoot
+      .querySelector('[part="description"]')
+      ?.toggleAttribute('hidden', invalid);
   }
 
   #onInput(event: Event): void {
@@ -189,14 +173,14 @@ export class HeruTextField extends FormAssociated(LitElement) {
   }
 
   #onChange(): void {
-    this.touched = true;
+    this.#validity.touch();
     this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   override render() {
     const id = this.#id;
     return html`
-      <label part="label" for="${id}-input">${this.label}</label>
+      ${renderLabel(id, this.label, `${id}-input`)}
       <input
         part="input"
         id="${id}-input"
@@ -210,16 +194,9 @@ export class HeruTextField extends FormAssociated(LitElement) {
         @input=${this.#onInput}
         @change=${this.#onChange}
         @keydown=${this.#onKeydown}
-        @blur=${() => {
-          this.touched = true;
-        }}
+        @blur=${() => this.#validity.touch()}
       />
-      <div part="description" id="${id}-description">
-        <slot name="description"></slot>
-      </div>
-      <div part="error" id="${id}-error" aria-live="polite" hidden>
-        <slot name="error"></slot>
-      </div>
+      ${renderDescription(id)} ${renderError(id)}
     `;
   }
 }

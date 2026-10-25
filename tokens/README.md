@@ -48,7 +48,27 @@ Odd-pixel ramp, value in the name: `radius-1, -3, -5, -7, -9, -11`, plus `radius
 
 ## Focus and motion
 
-`focus-ring-width` (3px), `focus-ring-offset` (2px), `focus-ring-blur` (0.5px), `focus-halo-width` (3px) and `focus-halo` (slate at 12%); total extent is 8px, so keep neighbors ≥ `space-3` (12px) away for 2px+ clearance; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 3px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
+`focus-ring-offset` (1px), `focus-ring-width` (2px), `focus-ring-blur` (0.5px), `focus-halo-width` (1px) and `focus-halo` (slate at 12%); total reach is 4px, so fields use `space-1` (4px) label→control and `space-2` (8px) control→description, and the attached error text starts 6px below the control; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 2px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
+
+## Elevation (shared foundation)
+
+Three semantic levels, defined once in `heru.tokens.json` and emitted as
+`--heru-elevation-*` box-shadow values. Any raised surface uses them: select
+menus, popovers, dialogs, toasts, field status boxes. Components never
+hard-code shadows; the theme applies these tokens through `::part()`.
+Names: NAME PENDING — Technical Writer (semantic `default/hover/urgent` chosen
+over numeric `1/2/3`).
+
+| Token                      | Use                                                          | Built from                            |
+| -------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| `--heru-elevation-default` | Resting raised surface (open menu, popover)                  | slate-950, hue 260, 6% + 12%          |
+| `--heru-elevation-hover`   | RESERVED, unused (option hover is a flat slate-100/200 tint) | slate-950, hue 260, 8% + 16%, tighter |
+| `--heru-elevation-urgent`  | Error-urgent (attached error box)                            | red-600, hue 27, 12% + 24%            |
+
+Related: `--heru-color-error-surface` (error red at 10% alpha, ≈ #fce8eb on white; text contrast 9.62:1) is the flat fill for
+the attached error box (text field and select, no shadow); `--heru-motion-duration-medium` (200ms) drives the menu
+slide-down and error reveal. Both animations are disabled under
+`prefers-reduced-motion`.
 
 ## Theme
 

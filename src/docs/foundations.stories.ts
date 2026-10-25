@@ -211,3 +211,30 @@ export const Focus: StoryObj = {
         <heru-text-field label="Or me"></heru-text-field>
       </div>`,
 };
+
+/** Shared elevation: one scale for menus, popovers, dialogs and status boxes. */
+export const Elevation: StoryObj = {
+  render: () =>
+    html`${styles}
+      <div class="f-grid" style="gap: 32px; padding: 16px">
+        ${(
+          [
+            ['default', 'Resting raised surface: open menu, popover, dialog'],
+            ['hover', 'Interactive item on hover or press'],
+            ['urgent', 'Error-urgent: attached field status (red-tinted)'],
+          ] as const
+        ).map(
+          ([level, use]) =>
+            html`<div class="f-row">
+              <div
+                style="inline-size: 120px; block-size: 64px; border-radius: var(--heru-radius-7); background: var(--heru-color-bg); box-shadow: var(--heru-elevation-${level})"
+              ></div>
+              <span
+                >--heru-elevation-${level}<br /><span class="f-muted"
+                  >${use}</span
+                ></span
+              >
+            </div>`,
+        )}
+      </div>`,
+};

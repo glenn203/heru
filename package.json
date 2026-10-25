@@ -62,6 +62,22 @@
       "types": "./dist/text-field/define.d.ts",
       "import": "./dist/text-field/define.js"
     },
+    "./select": {
+      "types": "./dist/select/select.d.ts",
+      "import": "./dist/select/select.js"
+    },
+    "./select/define": {
+      "types": "./dist/select/define.d.ts",
+      "import": "./dist/select/define.js"
+    },
+    "./option": {
+      "types": "./dist/option/option.d.ts",
+      "import": "./dist/option/option.js"
+    },
+    "./option/define": {
+      "types": "./dist/option/define.d.ts",
+      "import": "./dist/option/define.js"
+    },
     "./tokens.css": "./dist/tokens/tokens.css",
     "./theme.css": "./dist/theme/theme.css",
     "./tokens.json": "./tokens/heru.tokens.resolved.json",

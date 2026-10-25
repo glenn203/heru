@@ -457,18 +457,26 @@
     "error-text": {
       "$value": "{color.red.700}",
       "$description": "Error message text. AA on bg."
+    },
+    "error-surface": {
+      "$value": "oklch(0.586 0.226 21.3 / 0.08)",
+      "$description": "Attached error box fill: Astryx error red #E3193B at 8% alpha (Chuck's Figma v2), in OKLCH. ≈ #fdedef over white."
+    },
+    "error-status-text": {
+      "$value": "oklch(0.368 0.148 25)",
+      "$description": "Attached error box text. Exact Astryx --color-text-red (light) #7B0210 in OKLCH. NAME PENDING — Technical Writer."
     }
   },
   "focus": {
-    "$description": "Focus indicator that grows in: ring-offset gap in color-bg, a ring-width ring (ring-blur edge) in color-focus-ring, then a halo-width halo. Total extent = offset + width + halo (8px); field gaps use space-3 (12px) for ≥2px clearance.",
+    "$description": "Focus indicator that grows in: ring-offset gap (1px) in color-bg, a ring-width ring (2px, ring-blur edge) in color-focus-ring, then a halo-width halo (1px). Total reach = 4px, so label (space-1) and description (space-2) gaps stay normal.",
     "ring-width": {
       "$type": "dimension",
-      "$value": "3px",
+      "$value": "2px",
       "$description": "Ring thickness."
     },
     "ring-offset": {
       "$type": "dimension",
-      "$value": "2px"
+      "$value": "1px"
     },
     "ring-blur": {
       "$type": "dimension",
@@ -477,7 +485,7 @@
     },
     "halo-width": {
       "$type": "dimension",
-      "$value": "3px",
+      "$value": "1px",
       "$description": "Soft halo band visible past the ring's outer edge."
     },
     "halo": {
@@ -495,6 +503,27 @@
     "ease-out": {
       "$type": "cubicBezier",
       "$value": [0.2, 0, 0, 1]
+    },
+    "duration-medium": {
+      "$type": "duration",
+      "$value": "200ms",
+      "$description": "Popup slide-down and error reveal."
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "$description": "Shared elevation foundation (NAME PENDING — Technical Writer). Three semantic levels usable by any raised surface: popovers, menus, dialogs, field status. Built from slate-950 (hue 260) in OKLCH; urgent is tinted from error red (hue 27). Literal CSS box-shadow values.",
+    "default": {
+      "$value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)",
+      "$description": "Resting raised surface: open menu, popover."
+    },
+    "hover": {
+      "$value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)",
+      "$description": "Interactive item on hover/press (lifts within a raised surface)."
+    },
+    "urgent": {
+      "$value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)",
+      "$description": "Error-urgent: attached error/status box. Tinted from red-600."
     }
   }
 }
