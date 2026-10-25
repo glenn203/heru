@@ -158,7 +158,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--heru-elevation-default|--heru-focus-ring|^none$/.test(
+      /var\(--heru-elevation-default|--heru-focus-ring|--heru-color-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -569,4 +569,12 @@ test('matrix report: disabled (exempt) numbers', () => {
     ],
   ];
   for (const [k, r] of rows) console.log(`  [exempt] ${k}: ${r.toFixed(2)}:1`);
+});
+
+test('resting focus ring has no blur (no sub-pixel fringe)', () => {
+  const theme = readFileSync(new URL('../src/theme/theme.css', import.meta.url), 'utf8');
+  assert.ok(
+    !/0 0 var\(--heru-focus-ring-blur\) 0 var\(--heru-color-focus-ring\)/.test(theme),
+    'resting ring layer must be 0 0 0 0',
+  );
 });
