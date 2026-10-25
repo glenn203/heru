@@ -742,3 +742,34 @@ test('open listbox tucks 3px under the trigger (trigger on top), inset 6px', asy
   expect(g.trigBg).toBe('oklch(1 0 0)'); // opaque white (color-bg)
   expect(g.popover).toBe(false); // in-page, not top layer
 });
+
+test('description is hidden (space kept) while open, shown on close', async ({
+  page,
+}) => {
+  await mount(
+    page,
+    `<heru-select label="Fruit">${OPTIONS}<span slot="description">We ship on Mondays.</span></heru-select><p id="after">x</p>`,
+  );
+  await withTheme(page);
+  const read = () =>
+    page.locator('heru-select').evaluate((el) => {
+      const d = el.shadowRoot!.querySelector('[part="description"]')!;
+      return {
+        vis: getComputedStyle(d).visibility,
+        h: d.getBoundingClientRect().height,
+        after: document.querySelector('#after')!.getBoundingClientRect().top,
+      };
+    });
+  const before = await read();
+  expect(before.vis).toBe('visible');
+  const cb = page.getByRole('combobox', { name: 'Fruit' });
+  await expect(cb).toHaveAccessibleDescription('We ship on Mondays.');
+  await cb.click();
+  const open = await read();
+  expect(open.vis).toBe('hidden');
+  expect(open.h).toBe(before.h);
+  expect(open.after).toBe(before.after);
+  await expect(cb).toHaveAccessibleDescription('We ship on Mondays.');
+  await page.keyboard.press('Escape');
+  expect((await read()).vis).toBe('visible');
+});

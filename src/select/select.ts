@@ -76,6 +76,12 @@ export class HeruSelect extends FormAssociated(LitElement) {
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+      /* Helper text hides while the menu is open; visibility keeps its
+         layout space (nothing below jumps) and aria-describedby still
+         resolves hidden text. No transition, so nothing to reduce. */
+      :host([open]) [part='description'] {
+        visibility: hidden;
+      }
       [part='listbox'] {
         position: absolute;
         /* Sits UNDER the trigger (trigger z-index 2): starts 3px beneath it,
