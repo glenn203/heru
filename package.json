@@ -135,7 +135,7 @@
     "format:check": "prettier . --check",
     "test": "node --test test/tokens.test.mjs && playwright test",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build --disable-telemetry -o storybook-static",
+    "build-storybook": "storybook build --disable-telemetry -o storybook-static && node scripts/storybook-title.mjs",
     "changeset": "changeset",
     "release": "pnpm build && pnpm analyze && changeset publish",
     "tokens": "node scripts/build-tokens.mjs"
