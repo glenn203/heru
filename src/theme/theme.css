@@ -37,7 +37,7 @@ heru-button::part(base) {
   outline-offset: var(--heru-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
 /* Variants (NAMES PROVISIONAL — Technical Writer). Each only names its
@@ -163,7 +163,7 @@ heru-button[variant='ghost']:state(disabled)::part(base) {
   outline-offset: var(--heru-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
 :is(
@@ -301,7 +301,7 @@ heru-select::part(trigger) {
   outline-offset: var(--heru-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
 heru-select:hover::part(trigger) {
@@ -587,7 +587,7 @@ heru-otp-input::part(cell) {
     box-shadow var(--heru-duration-default) var(--heru-ease-spring);
   box-shadow:
     0 0 0 0 var(--heru-color-bg),
-    0 0 var(--heru-focus-ring-blur) 0 var(--heru-color-focus-ring),
+    0 0 0 0 var(--heru-color-focus-ring),
     0 0 0 0 var(--heru-focus-halo);
 }
 heru-otp-input:hover::part(cell) {
