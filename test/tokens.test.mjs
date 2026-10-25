@@ -572,9 +572,14 @@ test('matrix report: disabled (exempt) numbers', () => {
 });
 
 test('resting focus ring has no blur (no sub-pixel fringe)', () => {
-  const theme = readFileSync(new URL('../src/theme/theme.css', import.meta.url), 'utf8');
+  const theme = readFileSync(
+    new URL('../src/theme/theme.css', import.meta.url),
+    'utf8',
+  );
   assert.ok(
-    !/0 0 var\(--prism-focus-ring-blur\) 0 var\(--prism-color-focus-ring\)/.test(theme),
+    !/0 0 var\(--prism-focus-ring-blur\) 0 var\(--prism-color-focus-ring\)/.test(
+      theme,
+    ),
     'resting ring layer must be 0 0 0 0',
   );
 });

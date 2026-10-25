@@ -46,7 +46,11 @@ prism-button::part(base) {
  * packages/core/src/Button/Button.tsx). */
 /* Secondary: opaque 8% accent tint over the page bg, accent text. */
 prism-button[variant='secondary']::part(base) {
-  --_bg: color-mix(in oklch, var(--prism-color-bg), var(--prism-color-accent) 8%);
+  --_bg: color-mix(
+    in oklch,
+    var(--prism-color-bg),
+    var(--prism-color-accent) 8%
+  );
   --_on: var(--prism-color-accent);
   --_bg-hover: var(--prism-color-surface-hover);
   --_bg-pressed: var(--prism-color-surface-pressed);
@@ -571,8 +575,8 @@ prism-otp-input::part(error) {
   text-transform: none;
 }
 prism-otp-input:state(invalid)::part(error) {
-  animation: prism-fade-in var(--prism-duration-default) var(--prism-ease-standard)
-    backwards;
+  animation: prism-fade-in var(--prism-duration-default)
+    var(--prism-ease-standard) backwards;
 }
 
 /* ---------- OTP boxes: same box, ring and error styling as an input ---------- */

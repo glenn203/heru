@@ -72,8 +72,8 @@ customElements.define('acme-button', class extends PrismButton {});
 
 ## Components
 
-| Tag               | Parts                                    | States                | Slots                   |
-| ----------------- | ---------------------------------------- | --------------------- | ----------------------- |
+| Tag                | Parts                                    | States                | Slots                   |
+| ------------------ | ---------------------------------------- | --------------------- | ----------------------- |
 | `prism-button`     | `base`, `label`                          | `disabled`, `pressed` | default, `start`, `end` |
 | `prism-text-field` | `label`, `input`, `description`, `error` | `invalid`, `disabled` | `description`, `error`  |
 

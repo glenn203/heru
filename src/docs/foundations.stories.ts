@@ -35,8 +35,8 @@ const styles = html`<style>
   .f-meta {
     padding: var(--prism-space-2);
     font: var(--prism-text-caption-font-weight)
-      var(--prism-text-caption-font-size) / var(--prism-text-caption-line-height)
-      var(--prism-font-family-mono);
+      var(--prism-text-caption-font-size) /
+      var(--prism-text-caption-line-height) var(--prism-font-family-mono);
   }
   .f-meta b {
     display: block;

@@ -913,7 +913,10 @@ test('focus returns to the trigger with the ring on Escape, Enter and click sele
   s = await focusState(page);
   expect(s).toMatchObject({ onTrigger: true, open: false });
   expect(s.ring).not.toBe(restRing); // ring shows after click selection too (:focus)
-  await expect(page.locator('prism-select')).toHaveJSProperty('value', 'banana');
+  await expect(page.locator('prism-select')).toHaveJSProperty(
+    'value',
+    'banana',
+  );
 });
 
 test('Tab out closes and moves on; outside click does not steal focus back', async ({

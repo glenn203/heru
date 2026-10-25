@@ -59,8 +59,8 @@ hard-code shadows; the theme applies these tokens through `::part()`.
 Names: NAME PENDING — Technical Writer (semantic `default/hover/urgent` chosen
 over numeric `1/2/3`).
 
-| Token                      | Use                                                          | Built from                            |
-| -------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| Token                       | Use                                                          | Built from                            |
+| --------------------------- | ------------------------------------------------------------ | ------------------------------------- |
 | `--prism-elevation-default` | Resting raised surface (open menu, popover)                  | slate-950, hue 260, 6% + 12%          |
 | `--prism-elevation-hover`   | RESERVED, unused (option hover is a flat slate-100/200 tint) | slate-950, hue 260, 8% + 16%, tighter |
 | `--prism-elevation-urgent`  | Error-urgent (attached error box)                            | red-600, hue 27, 12% + 24%            |
