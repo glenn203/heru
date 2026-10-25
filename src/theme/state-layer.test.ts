@@ -7,14 +7,14 @@ const withTheme = async (page: Page) => {
   await page.addStyleTag({ path: 'src/theme/theme.css' });
 };
 const MARKUP = `
-  <heru-button id="solid" type="button">Save</heru-button>
-  <heru-button id="outline" variant="outline" type="button">Cancel</heru-button>
-  <heru-button id="off" type="button" disabled>Off</heru-button>
-  <heru-button id="off-outline" variant="outline" type="button" disabled>Off</heru-button>
-  <heru-password-input label="Password" value="pw"></heru-password-input>
-  <heru-test-row id="row">Row</heru-test-row>
-  <heru-test-row id="row-sel" selected>Selected row</heru-test-row>
-  <heru-test-row id="row-off" disabled>Disabled row</heru-test-row>
+  <prism-button id="solid" type="button">Save</prism-button>
+  <prism-button id="outline" variant="outline" type="button">Cancel</prism-button>
+  <prism-button id="off" type="button" disabled>Off</prism-button>
+  <prism-button id="off-outline" variant="outline" type="button" disabled>Off</prism-button>
+  <prism-password-input label="Password" value="pw"></prism-password-input>
+  <prism-test-row id="row">Row</prism-test-row>
+  <prism-test-row id="row-sel" selected>Selected row</prism-test-row>
+  <prism-test-row id="row-off" disabled>Disabled row</prism-test-row>
   <p id="away" style="margin-top:40px">away</p>`;
 
 /** Computed style of a host's part. */
@@ -37,12 +37,12 @@ const probe = (page: Page, expr: string) =>
     return v;
   }, expr);
 const mix = (bg: string, on: string, state: string) =>
-  `color-mix(in oklch, ${bg}, ${on} var(--heru-state-${state}))`;
+  `color-mix(in oklch, ${bg}, ${on} var(--prism-state-${state}))`;
 const SOLID = [
-  'var(--heru-color-accent)',
-  'var(--heru-color-on-accent)',
+  'var(--prism-color-accent)',
+  'var(--prism-color-on-accent)',
 ] as const;
-const VEIL = ['transparent', 'var(--heru-color-text)'] as const;
+const VEIL = ['transparent', 'var(--prism-color-text)'] as const;
 
 async function setup(page: Page) {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -75,7 +75,7 @@ test('outline: transparent rest, veil on hover/pressed, border unchanged, same f
   await setup(page);
   const o = page.locator('#outline');
   const border = await partStyle(o, 'base', 'border-top-color');
-  expect(border).toBe(await probe(page, 'var(--heru-color-border-strong)'));
+  expect(border).toBe(await probe(page, 'var(--prism-color-border-strong)'));
   expect(await partStyle(o, 'base', 'background-color')).toBe(
     'rgba(0, 0, 0, 0)',
   );
@@ -121,7 +121,7 @@ test('veil equals srgb on-colour veil (one formula for solid + transparent)', as
   const b = await px(
     await probe(
       page,
-      'color-mix(in srgb, var(--heru-color-text) var(--heru-state-hover), transparent)',
+      'color-mix(in srgb, var(--prism-color-text) var(--prism-state-hover), transparent)',
     ),
   );
   a.forEach((v, i) => expect(Math.abs(v - (b[i] ?? 0))).toBeLessThanOrEqual(1));
@@ -147,7 +147,7 @@ test('icon button (password toggle): veil on hover/pressed, selected (revealed) 
   page,
 }) => {
   await setup(page);
-  const host = page.locator('heru-password-input');
+  const host = page.locator('prism-password-input');
   const toggle = host.getByRole('button', { name: 'Show password' });
   expect(await partStyle(host, 'toggle', 'background-color')).toBe(
     'rgba(0, 0, 0, 0)',
@@ -168,11 +168,11 @@ test('generic consumer (test row): selected and selected+hover, non-colour cue p
 }) => {
   await setup(page);
   await page.addStyleTag({
-    content: `heru-test-row::part(base){--_bg:var(--heru-color-bg);--_on:var(--heru-color-text)}`,
+    content: `prism-test-row::part(base){--_bg:var(--prism-color-bg);--_on:var(--prism-color-text)}`,
   });
   const sel = page.locator('#row-sel');
-  const bg = 'var(--heru-color-bg)';
-  const on = 'var(--heru-color-text)';
+  const bg = 'var(--prism-color-bg)';
+  const on = 'var(--prism-color-text)';
   expect(await partStyle(sel, 'base', 'background-color')).toBe(
     await probe(page, mix(bg, on, 'selected')),
   );
@@ -180,7 +180,7 @@ test('generic consumer (test row): selected and selected+hover, non-colour cue p
   expect(await partStyle(sel, 'base', 'background-color')).toBe(
     await probe(
       page,
-      `color-mix(in oklch, ${bg}, ${on} calc(var(--heru-state-selected) + var(--heru-state-hover) / 2))`,
+      `color-mix(in oklch, ${bg}, ${on} calc(var(--prism-state-selected) + var(--prism-state-hover) / 2))`,
     ),
   );
   await expect(sel).toContainText('✓'); // selected is never colour-only
@@ -197,17 +197,17 @@ test('option: selected uses the stronger selected mix and keeps the check mark',
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<heru-select label="Fruit" value="apple"><heru-option value="apple">Apple</heru-option><heru-option value="pear">Pear</heru-option></heru-select>`,
+    `<prism-select label="Fruit" value="apple"><prism-option value="apple">Apple</prism-option><prism-option value="pear">Pear</prism-option></prism-select>`,
   );
   await withTheme(page);
   await page.getByRole('combobox').click();
   await page.mouse.move(0, 0);
   await page.getByRole('combobox').press('ArrowDown'); // active → pear
-  const apple = page.locator('heru-option[value="apple"]');
+  const apple = page.locator('prism-option[value="apple"]');
   expect(await partStyle(apple, 'base', 'background-color')).toBe(
     await probe(
       page,
-      mix('var(--heru-color-bg)', 'var(--heru-color-text)', 'selected'),
+      mix('var(--prism-color-bg)', 'var(--prism-color-text)', 'selected'),
     ),
   );
   expect(await partStyle(apple, 'check', 'visibility')).toBe('visible');

@@ -1,5 +1,5 @@
 body {
-  font-family: var(--heru-font-family-sans);
-  color: var(--heru-color-text);
-  background: var(--heru-color-bg);
+  font-family: var(--prism-font-family-sans);
+  color: var(--prism-color-text);
+  background: var(--prism-color-bg);
 }

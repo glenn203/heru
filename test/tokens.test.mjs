@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 
 const resolved = JSON.parse(
   readFileSync(
-    new URL('../tokens/heru.tokens.resolved.json', import.meta.url),
+    new URL('../tokens/prism.tokens.resolved.json', import.meta.url),
     'utf8',
   ),
 );
@@ -123,7 +123,7 @@ test('elevation: three shared levels, slate-based, urgent tinted from error red'
     const e = t[`elevation.${level}`];
     assert.ok(e, `elevation.${level} exists`);
     assert.equal(e.type, 'shadow');
-    assert.equal(e.cssVar, `--heru-elevation-${level}`);
+    assert.equal(e.cssVar, `--prism-elevation-${level}`);
     assert.match(e.value, /oklch\(/);
   }
   assert.match(t['elevation.default'].value, / 260 \//); // slate hue
@@ -134,7 +134,7 @@ test('elevation: three shared levels, slate-based, urgent tinted from error red'
     'utf8',
   );
   for (const level of ['default', 'hover', 'urgent'])
-    assert.ok(css.includes(`--heru-elevation-${level}:`));
+    assert.ok(css.includes(`--prism-elevation-${level}:`));
 });
 
 test('components consume elevation tokens, no hard-coded shadows', () => {
@@ -149,16 +149,16 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
   const block = theme.slice(theme.indexOf('/* ---------- Select'));
   assert.ok(!/box-shadow:[^;]*inset/.test(block), 'no inside-border focus');
   assert.ok(
-    !/box-shadow:\s*var\(--heru-elevation-urgent/.test(theme),
+    !/box-shadow:\s*var\(--prism-elevation-urgent/.test(theme),
     'elevation-urgent is reserved, unused',
   );
   assert.ok(
-    !/var\(--heru-elevation-hover/.test(theme),
+    !/var\(--prism-elevation-hover/.test(theme),
     'elevation-hover is reserved, unused',
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--heru-elevation-default|--heru-focus-ring|--heru-color-focus-ring|^none$/.test(
+      /var\(--prism-elevation-default|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -261,10 +261,10 @@ test('tokens.css: springs ship linear() with an @supports cubic-bezier fallback'
     new URL('../src/tokens/tokens.css', import.meta.url),
     'utf8',
   );
-  assert.match(css, /--heru-ease-spring: linear\(/);
+  assert.match(css, /--prism-ease-spring: linear\(/);
   assert.match(
     css,
-    /@supports not \(animation-timing-function: linear\(0, 1\)\)[\s\S]*--heru-ease-spring: cubic-bezier/,
+    /@supports not \(animation-timing-function: linear\(0, 1\)\)[\s\S]*--prism-ease-spring: cubic-bezier/,
   );
 });
 test('theme: reduced motion zeroes durations and flattens springs', () => {
@@ -274,15 +274,15 @@ test('theme: reduced motion zeroes durations and flattens springs', () => {
   );
   const rm = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce)'));
   for (const k of ['fast', 'default', 'slow'])
-    assert.match(rm, new RegExp(`--heru-duration-${k}: 0\\.01ms`));
-  assert.match(rm, /--heru-ease-spring: linear;/);
-  assert.match(rm, /--heru-ease-spring-bouncy: linear;/);
+    assert.match(rm, new RegExp(`--prism-duration-${k}: 0\\.01ms`));
+  assert.match(rm, /--prism-ease-spring: linear;/);
+  assert.match(rm, /--prism-ease-spring-bouncy: linear;/);
   // No spring on colour, border or the error box.
   assert.doesNotMatch(
     css,
-    /(background-color|border-color|color) var\([^)]*\) var\(--heru-ease-spring/,
+    /(background-color|border-color|color) var\([^)]*\) var\(--prism-ease-spring/,
   );
-  assert.doesNotMatch(css, /heru-error-in[^;]*spring/);
+  assert.doesNotMatch(css, /prism-error-in[^;]*spring/);
 });
 
 // ---------- Semantic layer + shared state layer ----------
@@ -388,11 +388,11 @@ test('elevation and focus halo are built from roles with exact former values', (
   const css = rf(new URL('../src/tokens/tokens.css', import.meta.url), 'utf8');
   assert.match(
     css,
-    /--heru-elevation-default: 0 1px 2px color-mix\(in oklch, var\(--heru-color-shadow\)/,
+    /--prism-elevation-default: 0 1px 2px color-mix\(in oklch, var\(--prism-color-shadow\)/,
   );
   assert.match(
     css,
-    /@supports not \(color: color-mix\(in oklch, red, blue\)\) \{[\s\S]*--heru-elevation-default: 0 1px 2px oklch\(/,
+    /@supports not \(color: color-mix\(in oklch, red, blue\)\) \{[\s\S]*--prism-elevation-default: 0 1px 2px oklch\(/,
   );
 });
 
@@ -422,7 +422,7 @@ test('theme + component styles: no raw palette refs, no colour literals', () => 
     );
     assert.doesNotMatch(
       src,
-      /--heru-color-(slate|red)-\d/,
+      /--prism-color-(slate|red)-\d/,
       `${f}: raw palette ref`,
     );
     assert.doesNotMatch(
@@ -574,7 +574,7 @@ test('matrix report: disabled (exempt) numbers', () => {
 test('resting focus ring has no blur (no sub-pixel fringe)', () => {
   const theme = readFileSync(new URL('../src/theme/theme.css', import.meta.url), 'utf8');
   assert.ok(
-    !/0 0 var\(--heru-focus-ring-blur\) 0 var\(--heru-color-focus-ring\)/.test(theme),
+    !/0 0 var\(--prism-focus-ring-blur\) 0 var\(--prism-color-focus-ring\)/.test(theme),
     'resting ring layer must be 0 0 0 0',
   );
 });

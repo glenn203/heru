@@ -1,10 +1,10 @@
-import { HeruTextField } from './text-field.js';
+import { PrismTextField } from './text-field.js';
 
-if (!customElements.get('heru-text-field'))
-  customElements.define('heru-text-field', HeruTextField);
+if (!customElements.get('prism-text-field'))
+  customElements.define('prism-text-field', PrismTextField);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-text-field': HeruTextField;
+    'prism-text-field': PrismTextField;
   }
 }

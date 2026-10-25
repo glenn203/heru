@@ -10,7 +10,7 @@ import { iconSearch, iconX } from '../internal/icons.js';
  * clears. Clearing returns focus to the input. Enter fires `search`
  * (cancelable) and then submits the owning form, if any.
  *
- * @tag heru-search-input
+ * @tag prism-search-input
  * @slot description - Helper text.
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
@@ -27,13 +27,13 @@ import { iconSearch, iconX } from '../internal/icons.js';
  * @fires change - Committed value change (including clear).
  * @fires search - Enter pressed. `detail.value`. Cancel to skip form submit.
  */
-export class HeruSearchInput extends TextControl {
+export class PrismSearchInput extends TextControl {
   static override styles: CSSResultGroup = [
     TextControl.styles,
     css`
       [part='input'] {
         padding-inline-start: calc(
-          var(--heru-control-padding-inline, 0.75rem) + 20px
+          var(--prism-control-padding-inline, 0.75rem) + 20px
         );
       }
       [part='input']::-webkit-search-cancel-button,
@@ -43,7 +43,7 @@ export class HeruSearchInput extends TextControl {
       [part='search-icon'] {
         position: absolute;
         inset-block: 0;
-        inset-inline-start: var(--heru-control-padding-inline, 0.75rem);
+        inset-inline-start: var(--prism-control-padding-inline, 0.75rem);
         display: grid;
         place-items: center;
         pointer-events: none;

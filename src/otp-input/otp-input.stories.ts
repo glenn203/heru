@@ -16,7 +16,7 @@ interface Args {
  */
 const meta: Meta<Args> = {
   title: 'Components/OTP input',
-  component: 'heru-otp-input',
+  component: 'prism-otp-input',
   args: {
     label: 'Verification code',
     length: 6,
@@ -24,7 +24,7 @@ const meta: Meta<Args> = {
     disabled: false,
   },
   render: (a) => html`
-    <heru-otp-input
+    <prism-otp-input
       label=${a.label}
       length=${a.length}
       name="otp"
@@ -35,7 +35,7 @@ const meta: Meta<Args> = {
     >
       <span slot="description">Sent to •••• 1234.</span>
       <span slot="error">Enter the ${a.length}-digit code.</span>
-    </heru-otp-input>
+    </prism-otp-input>
   `,
 };
 export default meta;

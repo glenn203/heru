@@ -15,18 +15,18 @@ import {
   syncFieldA11y,
 } from '../internal/field-chrome.js';
 import { FieldValidityController } from '../internal/field-validity.js';
-import type { HeruOption } from '../option/option.js';
+import type { PrismOption } from '../option/option.js';
 
-const isOption = (el: Element): el is HeruOption =>
-  el.localName === 'heru-option';
+const isOption = (el: Element): el is PrismOption =>
+  el.localName === 'prism-option';
 
 /**
  * A headless single-value select (APG select-only combobox). Focus stays on
  * the trigger; the active option is exposed with aria-activedescendant via
- * element reflection to the light-DOM `heru-option` children.
+ * element reflection to the light-DOM `prism-option` children.
  *
- * @tag heru-select
- * @slot - `heru-option` elements.
+ * @tag prism-select
+ * @slot - `prism-option` elements.
  * @slot description - Helper text. Replaced by the error while invalid.
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
@@ -45,7 +45,7 @@ const isOption = (el: Element): el is HeruOption =>
  * @fires change - User picked a different option.
  * @fires toggle - Listbox opened or closed (NAME PENDING — Technical Writer).
  */
-export class HeruSelect extends FormAssociated(LitElement) {
+export class PrismSelect extends FormAssociated(LitElement) {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -74,7 +74,7 @@ export class HeruSelect extends FormAssociated(LitElement) {
         z-index: 1;
         display: flex;
         align-items: center;
-        gap: var(--heru-space-2, 0.5rem);
+        gap: var(--prism-space-2, 0.5rem);
         inline-size: 100%;
         cursor: default;
         user-select: none;
@@ -98,7 +98,7 @@ export class HeruSelect extends FormAssociated(LitElement) {
         /* Sits UNDER the trigger (trigger z-index 2): starts 3px beneath it,
          * inset 6px each side. In-page, not top layer, so it can tuck. */
         z-index: 1;
-        inset-inline: calc(var(--heru-space-1, 0.25rem) * 1.5);
+        inset-inline: calc(var(--prism-space-1, 0.25rem) * 1.5);
         inset-block-start: calc(100% - 3px);
         box-sizing: border-box;
         max-block-size: 18rem;
@@ -122,15 +122,15 @@ export class HeruSelect extends FormAssociated(LitElement) {
   @state() private activeIndex = -1;
 
   readonly #validity = new FieldValidityController(this);
-  readonly #id = uniqueId('heru-select');
+  readonly #id = uniqueId('prism-select');
   #defaultValue: string | null = null;
   #typeahead = '';
   #typeaheadTimer?: ReturnType<typeof setTimeout>;
 
-  get options(): HeruOption[] {
+  get options(): PrismOption[] {
     return [...this.children].filter(isOption);
   }
-  get selectedOption(): HeruOption | null {
+  get selectedOption(): PrismOption | null {
     return this.options.find((o) => o.resolvedValue === this.value) ?? null;
   }
   get validity(): ValidityState {
@@ -377,7 +377,7 @@ export class HeruSelect extends FormAssociated(LitElement) {
   };
 
   #onListPointer(e: Event, commit: boolean): void {
-    const opt = (e.target as Element).closest('heru-option');
+    const opt = (e.target as Element).closest('prism-option');
     if (!opt || opt.disabled) return;
     const i = this.options.indexOf(opt);
     if (commit) {

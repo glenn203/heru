@@ -1,5 +1,5 @@
 {
-  "$description": "Herú design tokens (W3C DTCG). One primitive: unit = 4px. Everything else is unit multiples or density-driven. No color tokens yet.",
+  "$description": "Prism design tokens (W3C DTCG). One primitive: unit = 4px. Everything else is unit multiples or density-driven. No color tokens yet.",
   "unit": {
     "$type": "dimension",
     "$value": "4px",
@@ -7,15 +7,15 @@
   },
   "density": {
     "$type": "number",
-    "$description": "Unit-count multipliers that change per density mode. Select a mode with data-heru-density on any element; default also applies on :root.",
+    "$description": "Unit-count multipliers that change per density mode. Select a mode with data-prism-density on any element; default also applies on :root.",
     "$extensions": {
-      "heru.modes": ["compact", "default", "comfortable"]
+      "prism.modes": ["compact", "default", "comfortable"]
     },
     "leading-units": {
       "$value": 5,
       "$description": "Body line height in units.",
       "$extensions": {
-        "heru.modes": {
+        "prism.modes": {
           "compact": 4,
           "default": 5,
           "comfortable": 6
@@ -26,7 +26,7 @@
       "$value": 2,
       "$description": "Control block padding in units (each side).",
       "$extensions": {
-        "heru.modes": {
+        "prism.modes": {
           "compact": 1,
           "default": 2,
           "comfortable": 3
@@ -37,7 +37,7 @@
       "$value": 3,
       "$description": "Control inline padding in units (each side).",
       "$extensions": {
-        "heru.modes": {
+        "prism.modes": {
           "compact": 2,
           "default": 3,
           "comfortable": 4
@@ -48,7 +48,7 @@
       "$value": 8,
       "$description": "Small control height in units (6/8/10 → 24/32/40px). Set directly so compact sm stays at the 24px WCAG 2.2 target size.",
       "$extensions": {
-        "heru.modes": {
+        "prism.modes": {
           "compact": 6,
           "default": 8,
           "comfortable": 10
@@ -577,7 +577,7 @@
       "$value": [0.25, 1, 0.5, 1],
       "$description": "Critically damped (ζ≈1), no overshoot. Pair with duration.default.",
       "$extensions": {
-        "heru.spring": {
+        "prism.spring": {
           "mass": 1,
           "stiffness": 2134,
           "damping": 92.4,
@@ -590,7 +590,7 @@
       "$value": [0.3, 1.25, 0.6, 1],
       "$description": "Underdamped (ζ≈0.72), ~4% overshoot. Pair with duration.slow. Transforms only.",
       "$extensions": {
-        "heru.spring": {
+        "prism.spring": {
           "mass": 1,
           "stiffness": 1000,
           "damping": 45.5,

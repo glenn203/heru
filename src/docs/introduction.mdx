@@ -2,22 +2,22 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Introduction" />
 
-# Herú
+# Prism
 
 Headless web components built with [Lit](https://lit.dev). Behavior, accessibility and form participation are built in; the look is opt-in.
 
-<heru-button type="button">Get started</heru-button>
+<prism-button type="button">Get started</prism-button>
 
 ## Install
 
 ```sh
-pnpm add heru lit
+pnpm add prism lit
 ```
 
 ```js
-import 'heru/define'; // registers every tag: <heru-button>, <heru-text-input>, <heru-password-input>, …
-import 'heru/tokens.css'; // --heru-* design tokens (spacing, type, color, density)
-import 'heru/theme.css'; // optional default look
+import 'prism/define'; // registers every tag: <prism-button>, <prism-text-input>, <prism-password-input>, …
+import 'prism/tokens.css'; // --prism-* design tokens (spacing, type, color, density)
+import 'prism/theme.css'; // optional default look
 ```
 
 Without `theme.css` the components are unstyled apart from structural sizing. Style them yourself with `::part()` and `:state()`.
@@ -26,11 +26,11 @@ Without `theme.css` the components are unstyled apart from structural sizing. St
 
 - **Headless first.** Components ship behavior and accessibility. Visuals live in tokens and an opt-in theme.
 - **Many shallow components.** Small public elements, never one god component.
-- **4px grid.** `--heru-unit` is the only primitive. `space-N` = N × 4px.
-- **Density.** Set `data-heru-density="compact | default | comfortable"` on any element.
-- **Minimal color.** One dark slate ramp and one error red, in OKLCH, behind semantic names like `--heru-color-text`.
-- **Agent-readable.** Token names carry their values, and `heru/tokens.json` resolves every token to px / oklch / hex.
+- **4px grid.** `--prism-unit` is the only primitive. `space-N` = N × 4px.
+- **Density.** Set `data-prism-density="compact | default | comfortable"` on any element.
+- **Minimal color.** One dark slate ramp and one error red, in OKLCH, behind semantic names like `--prism-color-text`.
+- **Agent-readable.** Token names carry their values, and `prism/tokens.json` resolves every token to px / oklch / hex.
 
 ## Fonts
 
-The theme uses Inter and JetBrains Mono through `--heru-font-family-sans` and `--heru-font-family-mono`. Font files are not bundled; load them in your app (this site loads them from Google Fonts).
+The theme uses Inter and JetBrains Mono through `--prism-font-family-sans` and `--prism-font-family-mono`. Font files are not bundled; load them in your app (this site loads them from Google Fonts).

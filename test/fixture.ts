@@ -4,8 +4,8 @@ import type { Page } from '@playwright/test';
 export async function mount(page: Page, markup: string): Promise<void> {
   await page.goto('/test/index.html');
   await page.evaluate(async (html) => {
-    await customElements.whenDefined('heru-button');
-    await customElements.whenDefined('heru-text-field');
+    await customElements.whenDefined('prism-button');
+    await customElements.whenDefined('prism-text-field');
     document.querySelector('#root')!.innerHTML = html;
     const elements = [
       ...document.querySelectorAll('#root *'),

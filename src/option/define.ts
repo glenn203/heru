@@ -1,10 +1,10 @@
-import { HeruOption } from './option.js';
+import { PrismOption } from './option.js';
 
-if (!customElements.get('heru-option'))
-  customElements.define('heru-option', HeruOption);
+if (!customElements.get('prism-option'))
+  customElements.define('prism-option', PrismOption);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-option': HeruOption;
+    'prism-option': PrismOption;
   }
 }

@@ -1,10 +1,10 @@
-import { HeruSearchInput } from './search-input.js';
+import { PrismSearchInput } from './search-input.js';
 
-if (!customElements.get('heru-search-input'))
-  customElements.define('heru-search-input', HeruSearchInput);
+if (!customElements.get('prism-search-input'))
+  customElements.define('prism-search-input', PrismSearchInput);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-search-input': HeruSearchInput;
+    'prism-search-input': PrismSearchInput;
   }
 }

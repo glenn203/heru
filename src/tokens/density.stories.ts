@@ -8,7 +8,7 @@ export default meta;
 const modes = ['compact', 'default', 'comfortable'] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
 
-/** Each column sets data-heru-density; rows show sm, md, lg. */
+/** Each column sets data-prism-density; rows show sm, md, lg. */
 export const DensityModes: StoryObj = {
   render: () => html`
     <style>
@@ -24,17 +24,17 @@ export const DensityModes: StoryObj = {
     <div class="grid">
       ${modes.map(
         (d) =>
-          html`<div class="col" data-heru-density=${d}>
+          html`<div class="col" data-prism-density=${d}>
             <h3>${d}</h3>
             ${sizes.map(
               (s) =>
-                html`<heru-button type="button" size=${s}
-                    >Button ${s}</heru-button
+                html`<prism-button type="button" size=${s}
+                    >Button ${s}</prism-button
                   >
-                  <heru-text-input
+                  <prism-text-input
                     size=${s}
                     label="Field ${s}"
-                  ></heru-text-input>`,
+                  ></prism-text-input>`,
             )}
           </div>`,
       )}

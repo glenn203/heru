@@ -1,10 +1,10 @@
-import { HeruTextInput } from './text-input.js';
+import { PrismTextInput } from './text-input.js';
 
-if (!customElements.get('heru-text-input'))
-  customElements.define('heru-text-input', HeruTextInput);
+if (!customElements.get('prism-text-input'))
+  customElements.define('prism-text-input', PrismTextInput);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-text-input': HeruTextInput;
+    'prism-text-input': PrismTextInput;
   }
 }

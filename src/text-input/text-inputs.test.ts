@@ -39,11 +39,11 @@ async function axe(page: Page) {
 }
 
 const ALL = `
-  <heru-text-input label="Email" type="email" name="email" autocomplete="email" required><span slot="description">Receipts only.</span><span slot="error">Enter an email.</span></heru-text-input>
-  <heru-password-input label="Password" name="pw" required></heru-password-input>
-  <heru-search-input label="Search" name="q"></heru-search-input>
-  <heru-otp-input label="Code" name="otp" required><span slot="error">Enter the code.</span></heru-otp-input>
-  <heru-text-area label="Bio" name="bio" maxlength="40" counter></heru-text-area>`;
+  <prism-text-input label="Email" type="email" name="email" autocomplete="email" required><span slot="description">Receipts only.</span><span slot="error">Enter an email.</span></prism-text-input>
+  <prism-password-input label="Password" name="pw" required></prism-password-input>
+  <prism-search-input label="Search" name="q"></prism-search-input>
+  <prism-otp-input label="Code" name="otp" required><span slot="error">Enter the code.</span></prism-otp-input>
+  <prism-text-area label="Bio" name="bio" maxlength="40" counter></prism-text-area>`;
 
 test('axe: no WCAG A/AA violations, valid and invalid', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' }); // no mid-fade samples
@@ -68,7 +68,7 @@ test('all: label 2px above, description 4px below, shared error box', async ({
     ['text-input', 'password-input', 'search-input', 'text-area']
       .map(
         (t) =>
-          `<heru-${t} label="L" required><span slot="description">D</span><span slot="error">E</span></heru-${t}>`,
+          `<prism-${t} label="L" required><span slot="description">D</span><span slot="error">E</span></prism-${t}>`,
       )
       .join(''),
   );
@@ -79,7 +79,7 @@ test('all: label 2px above, description 4px below, shared error box', async ({
     'search-input',
     'text-area',
   ]) {
-    const g = await page.locator(`heru-${t}`).evaluate((el) => {
+    const g = await page.locator(`prism-${t}`).evaluate((el) => {
       const r = el.shadowRoot!;
       const q = (p: string) =>
         r.querySelector(`[part="${p}"]`)!.getBoundingClientRect();
@@ -90,11 +90,11 @@ test('all: label 2px above, description 4px below, shared error box', async ({
     });
     expect(g, t).toEqual({ label: 2, desc: 4 });
     await page
-      .locator(`heru-${t}`)
+      .locator(`prism-${t}`)
       .evaluate((e: HTMLElement & { checkValidity(): boolean }) =>
         e.checkValidity(),
       );
-    const err = await page.locator(`heru-${t}`).evaluate((el) => {
+    const err = await page.locator(`prism-${t}`).evaluate((el) => {
       const s = getComputedStyle(
         el.shadowRoot!.querySelector('[part="error"]')!,
       );
@@ -120,7 +120,7 @@ test('focus ring grows in on the spring for every input', async ({ page }) => {
     'text-area',
   ]) {
     const tf = await page
-      .locator(`heru-${t}`)
+      .locator(`prism-${t}`)
       .evaluate(
         (el) =>
           getComputedStyle(el.shadowRoot!.querySelector('[part="input"]')!)
@@ -129,9 +129,9 @@ test('focus ring grows in on the spring for every input', async ({ page }) => {
     expect(tf, t).toContain('linear(');
   }
   await page.emulateMedia({ reducedMotion: 'reduce' }); // read the settled ring
-  await native(page, 'heru-text-input').focus();
+  await native(page, 'prism-text-input').focus();
   const ring = await page
-    .locator('heru-text-input')
+    .locator('prism-text-input')
     .evaluate(
       (el) =>
         getComputedStyle(el.shadowRoot!.querySelector('[part="input"]')!)
@@ -144,20 +144,20 @@ test('form submit + reset across the family', async ({ page }) => {
   await mount(
     page,
     `<form>
-      <heru-text-input label="Name" name="name" value="Ada"></heru-text-input>
-      <heru-password-input label="Password" name="pw"></heru-password-input>
-      <heru-search-input label="Search" name="q"></heru-search-input>
-      <heru-otp-input label="Code" name="otp" required><span slot="error">Enter the code.</span></heru-otp-input>
-      <heru-text-area label="Bio" name="bio"></heru-text-area>
-      <heru-text-input label="Off" name="off" value="x" disabled></heru-text-input>
+      <prism-text-input label="Name" name="name" value="Ada"></prism-text-input>
+      <prism-password-input label="Password" name="pw"></prism-password-input>
+      <prism-search-input label="Search" name="q"></prism-search-input>
+      <prism-otp-input label="Code" name="otp" required><span slot="error">Enter the code.</span></prism-otp-input>
+      <prism-text-area label="Bio" name="bio"></prism-text-area>
+      <prism-text-input label="Off" name="off" value="x" disabled></prism-text-input>
       <button>Go</button></form>`,
   );
   await captureSubmit(page);
-  await native(page, 'heru-text-input[name="name"]').fill('Grace');
-  await native(page, 'heru-password-input').fill('s3cret!');
-  await native(page, 'heru-search-input').fill('lit');
-  await native(page, 'heru-otp-input').fill('123456');
-  await native(page, 'heru-text-area').fill('line 1\nline 2');
+  await native(page, 'prism-text-input[name="name"]').fill('Grace');
+  await native(page, 'prism-password-input').fill('s3cret!');
+  await native(page, 'prism-search-input').fill('lit');
+  await native(page, 'prism-otp-input').fill('123456');
+  await native(page, 'prism-text-area').fill('line 1\nline 2');
   await page.getByRole('button', { name: 'Go' }).click();
   expect(await submitted(page)).toEqual({
     name: 'Grace',
@@ -169,7 +169,7 @@ test('form submit + reset across the family', async ({ page }) => {
   await page.evaluate(() => document.querySelector('form')!.reset());
   const vals = await page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement & { value: string }>('form > *')]
-      .filter((e) => 'value' in e && e.localName.startsWith('heru'))
+      .filter((e) => 'value' in e && e.localName.startsWith('prism'))
       .map((e) => e.value),
   );
   expect(vals).toEqual(['Ada', '', '', '', '', 'x']);
@@ -178,19 +178,19 @@ test('form submit + reset across the family', async ({ page }) => {
 test('required / readonly / disabled behave natively', async ({ page }) => {
   await mount(
     page,
-    `<form><heru-text-input label="A" name="a" required></heru-text-input>
-     <heru-text-area label="B" name="b" readonly value="ro"></heru-text-area>
-     <heru-search-input label="C" name="c" disabled value="dis"></heru-search-input></form>`,
+    `<form><prism-text-input label="A" name="a" required></prism-text-input>
+     <prism-text-area label="B" name="b" readonly value="ro"></prism-text-area>
+     <prism-search-input label="C" name="c" disabled value="dis"></prism-search-input></form>`,
   );
   const ok = await page.evaluate(() =>
     document.querySelector('form')!.checkValidity(),
   );
   expect(ok).toBe(false);
-  await expect(native(page, 'heru-text-input')).toHaveAttribute('required', '');
-  await expect(native(page, 'heru-text-area')).toHaveAttribute('readonly', '');
-  await expect(native(page, 'heru-search-input')).toBeDisabled();
+  await expect(native(page, 'prism-text-input')).toHaveAttribute('required', '');
+  await expect(native(page, 'prism-text-area')).toHaveAttribute('readonly', '');
+  await expect(native(page, 'prism-search-input')).toBeDisabled();
   await expect(page.getByRole('button', { name: 'Clear search' })).toBeHidden();
-  await expect(page.locator('heru-text-input')).toHaveJSProperty(
+  await expect(page.locator('prism-text-input')).toHaveJSProperty(
     'validationMessage',
     'Please fill out this field.',
   );
@@ -201,11 +201,11 @@ test('TextInput: type, inputmode, pattern, min/maxlength, autocomplete passthrou
 }) => {
   await mount(
     page,
-    `<heru-text-input label="Phone" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9 ]+" minlength="3" maxlength="12"></heru-text-input>
-     <heru-text-input label="Site" type="url"></heru-text-input>
-     <heru-text-input label="Plain"></heru-text-input>`,
+    `<prism-text-input label="Phone" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9 ]+" minlength="3" maxlength="12"></prism-text-input>
+     <prism-text-input label="Site" type="url"></prism-text-input>
+     <prism-text-input label="Plain"></prism-text-input>`,
   );
-  const tel = native(page, 'heru-text-input[type="tel"]');
+  const tel = native(page, 'prism-text-input[type="tel"]');
   for (const [k, v] of Object.entries({
     type: 'tel',
     inputmode: 'tel',
@@ -215,18 +215,18 @@ test('TextInput: type, inputmode, pattern, min/maxlength, autocomplete passthrou
     maxlength: '12',
   }))
     await expect(tel).toHaveAttribute(k, v);
-  await expect(native(page, 'heru-text-input[type="url"]')).toHaveJSProperty(
+  await expect(native(page, 'prism-text-input[type="url"]')).toHaveJSProperty(
     'type',
     'url',
   );
   // No autocomplete attribute unless asked for: the browser default applies.
   await expect(
-    native(page, 'heru-text-input[label="Plain"]'),
+    native(page, 'prism-text-input[label="Plain"]'),
   ).not.toHaveAttribute('autocomplete', /.*/);
   await tel.fill('abc');
   await tel.blur();
   const mismatch = await page
-    .locator('heru-text-input[type="tel"]')
+    .locator('prism-text-input[type="tel"]')
     .evaluate(
       (e: HTMLElement & { validity: ValidityState }) =>
         e.validity.patternMismatch,
@@ -234,15 +234,15 @@ test('TextInput: type, inputmode, pattern, min/maxlength, autocomplete passthrou
   expect(mismatch).toBe(true);
 });
 
-test('deprecated heru-text-field is a TextInput alias', async ({ page }) => {
+test('deprecated prism-text-field is a TextInput alias', async ({ page }) => {
   await mount(
     page,
-    `<heru-text-field label="Old" value="v"></heru-text-field>`,
+    `<prism-text-field label="Old" value="v"></prism-text-field>`,
   );
   const isTI = await page.evaluate(
     () =>
-      document.querySelector('heru-text-field') instanceof
-      customElements.get('heru-text-input')!,
+      document.querySelector('prism-text-field') instanceof
+      customElements.get('prism-text-input')!,
   );
   expect(isTI).toBe(true);
   await expect(page.getByRole('textbox', { name: 'Old' })).toHaveValue('v');
@@ -253,10 +253,10 @@ test('PasswordInput: toggle a11y, keeps caret + selection, autocomplete, no leak
 }) => {
   await mount(
     page,
-    `<form><heru-password-input label="Password" name="pw" value="hunter22"></heru-password-input>
-     <heru-password-input label="New password" autocomplete="new-password"></heru-password-input></form>`,
+    `<form><prism-password-input label="Password" name="pw" value="hunter22"></prism-password-input>
+     <prism-password-input label="New password" autocomplete="new-password"></prism-password-input></form>`,
   );
-  const host = page.locator('heru-password-input').first();
+  const host = page.locator('prism-password-input').first();
   const input = page.getByLabel('Password', { exact: true });
   const toggle = host.getByRole('button', { name: 'Show password' });
   await expect(input).toHaveAttribute('type', 'password');
@@ -293,7 +293,7 @@ test('SearchInput: searchbox role, clear button, Escape, search event', async ({
 }) => {
   await mount(
     page,
-    `<form><heru-search-input label="Search" name="q"></heru-search-input></form>`,
+    `<form><prism-search-input label="Search" name="q"></prism-search-input></form>`,
   );
   await captureSubmit(page);
   const box = page.getByRole('searchbox', { name: 'Search' });
@@ -312,7 +312,7 @@ test('SearchInput: searchbox role, clear button, Escape, search event', async ({
   await expect(box).toBeFocused();
   await page.evaluate(() =>
     document
-      .querySelector('heru-search-input')!
+      .querySelector('prism-search-input')!
       .addEventListener('search', (e) => {
         (window as unknown as { got: unknown }).got = (e as CustomEvent).detail;
       }),
@@ -328,12 +328,12 @@ test('SearchInput: searchbox role, clear button, Escape, search event', async ({
 test('SearchInput: cancelling search skips form submit', async ({ page }) => {
   await mount(
     page,
-    `<form><heru-search-input label="Search" name="q"></heru-search-input></form>`,
+    `<form><prism-search-input label="Search" name="q"></prism-search-input></form>`,
   );
   await captureSubmit(page);
   await page.evaluate(() =>
     document
-      .querySelector('heru-search-input')!
+      .querySelector('prism-search-input')!
       .addEventListener('search', (e) => e.preventDefault()),
   );
   await page.getByRole('searchbox').fill('x');
@@ -346,10 +346,10 @@ test('OtpInput: one real input with autofill attrs, typing, paste, backspace, co
 }) => {
   await mount(
     page,
-    `<form><heru-otp-input label="Code" name="otp" required></heru-otp-input></form>`,
+    `<form><prism-otp-input label="Code" name="otp" required></prism-otp-input></form>`,
   );
   const box = page.getByRole('textbox', { name: 'Code' });
-  await expect(page.locator('heru-otp-input').locator('input')).toHaveCount(1);
+  await expect(page.locator('prism-otp-input').locator('input')).toHaveCount(1);
   for (const [k, v] of Object.entries({
     autocomplete: 'one-time-code',
     inputmode: 'numeric',
@@ -359,7 +359,7 @@ test('OtpInput: one real input with autofill attrs, typing, paste, backspace, co
     await expect(box).toHaveAttribute(k, v);
   const cells = (): Promise<(string | null)[]> =>
     page
-      .locator('heru-otp-input')
+      .locator('prism-otp-input')
       .evaluate((el) =>
         [...el.shadowRoot!.querySelectorAll('[part~="cell"]')].map(
           (c) => c.textContent,
@@ -368,7 +368,7 @@ test('OtpInput: one real input with autofill attrs, typing, paste, backspace, co
   expect((await cells()).length).toBe(6);
   await page.evaluate(() =>
     document
-      .querySelector('heru-otp-input')!
+      .querySelector('prism-otp-input')!
       .addEventListener('complete', (e) => {
         const w = window as unknown as { done?: unknown[] };
         (w.done ??= []).push((e as CustomEvent).detail);
@@ -377,7 +377,7 @@ test('OtpInput: one real input with autofill attrs, typing, paste, backspace, co
   await box.focus();
   await page.keyboard.type('12x3');
   expect(await cells()).toEqual(['1', '2', '3', '', '', '']);
-  await expect(page.locator('heru-otp-input')).toHaveJSProperty(
+  await expect(page.locator('prism-otp-input')).toHaveJSProperty(
     'validationMessage',
     'Enter all 6 digits.',
   );
@@ -399,14 +399,14 @@ test('OtpInput: one real input with autofill attrs, typing, paste, backspace, co
   expect(
     await page.evaluate(() => (window as unknown as { done: unknown }).done),
   ).toEqual([{ value: '987654' }]);
-  await expect(page.locator('heru-otp-input')).toHaveJSProperty(
+  await expect(page.locator('prism-otp-input')).toHaveJSProperty(
     'validationMessage',
     '',
   );
   // Active cell follows the caret.
   await page.keyboard.press('Backspace');
   const active = await page
-    .locator('heru-otp-input')
+    .locator('prism-otp-input')
     .evaluate((el) =>
       [...el.shadowRoot!.querySelectorAll('[part~="cell"]')].findIndex((c) =>
         c.getAttribute('part')!.includes('cell-active'),
@@ -420,7 +420,7 @@ test('TextArea: rows, autosize grows, no Enter submit, polite counter', async ({
 }) => {
   await mount(
     page,
-    `<form><heru-text-area label="Bio" name="bio" rows="2" autosize counter maxlength="40"></heru-text-area></form>`,
+    `<form><prism-text-area label="Bio" name="bio" rows="2" autosize counter maxlength="40"></prism-text-area></form>`,
   );
   await captureSubmit(page);
   const ta = page.getByRole('textbox', { name: 'Bio' });
@@ -436,10 +436,10 @@ test('TextArea: rows, autosize grows, no Enter submit, polite counter', async ({
   await page.keyboard.type('four');
   expect(await submitted(page)).toBeUndefined();
   expect((await ta.boundingBox())!.height).toBeGreaterThan(h0);
-  const counter = page.locator('heru-text-area').locator('[part="counter"]');
+  const counter = page.locator('prism-text-area').locator('[part="counter"]');
   await expect(counter).toHaveText('18 / 40');
   await expect(counter).toHaveAttribute('aria-hidden', 'true');
-  const status = page.locator('heru-text-area').getByRole('status');
+  const status = page.locator('prism-text-area').getByRole('status');
   await expect(status).toHaveText(''); // quiet while plenty remain
   await ta.fill('x'.repeat(35));
   await expect(status).toHaveText('5 characters remaining.');
@@ -457,8 +457,8 @@ test('densities × sizes: every control (and OTP box) matches the control-height
       .flatMap((d) =>
         ['sm', 'md', 'lg'].map(
           (s) =>
-            `<div data-heru-density="${d}" data-size="${s}">${tags
-              .map((t) => `<heru-${t} label="x" size="${s}"></heru-${t}>`)
+            `<div data-prism-density="${d}" data-size="${s}">${tags
+              .map((t) => `<prism-${t} label="x" size="${s}"></prism-${t}>`)
               .join('')}</div>`,
         ),
       )
@@ -468,7 +468,7 @@ test('densities × sizes: every control (and OTP box) matches the control-height
   const rows = await page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>('[data-size]')].map((row) => {
       const probe = document.createElement('div');
-      probe.style.blockSize = `var(--heru-control-height-${row.dataset.size})`;
+      probe.style.blockSize = `var(--prism-control-height-${row.dataset.size})`;
       row.append(probe);
       const want = probe.getBoundingClientRect().height;
       probe.remove();
@@ -490,8 +490,8 @@ test('OtpInput error is red text only, 5px below the boxes, clears the focus rin
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<heru-otp-input label="Code" required><span slot="description">Sent to you.</span><span slot="error">Enter the 6-digit code.</span></heru-otp-input>
-     <heru-text-input label="Other" required><span slot="error">E</span></heru-text-input>`,
+    `<prism-otp-input label="Code" required><span slot="description">Sent to you.</span><span slot="error">Enter the 6-digit code.</span></prism-otp-input>
+     <prism-text-input label="Other" required><span slot="error">E</span></prism-text-input>`,
   );
   await withTheme(page);
   await page.evaluate(() =>
@@ -503,7 +503,7 @@ test('OtpInput error is red text only, 5px below the boxes, clears the focus rin
   );
   const box = page.getByRole('textbox', { name: 'Code' });
   await box.focus();
-  const g = await page.locator('heru-otp-input').evaluate((el) => {
+  const g = await page.locator('prism-otp-input').evaluate((el) => {
     const r = el.shadowRoot!;
     const err = r.querySelector<HTMLElement>('[part="error"]')!;
     const cs = getComputedStyle(err);
@@ -541,7 +541,7 @@ test('OtpInput error is red text only, 5px below the boxes, clears the focus rin
   await expect(box).toHaveAccessibleDescription('Enter the 6-digit code.');
   // Other inputs keep the attached box.
   const other = await page
-    .locator('heru-text-input')
+    .locator('prism-text-input')
     .evaluate(
       (el) =>
         getComputedStyle(el.shadowRoot!.querySelector('[part="error"]')!)
@@ -553,10 +553,10 @@ test('OtpInput error is red text only, 5px below the boxes, clears the focus rin
 test('OtpInput description sits 4px below the boxes', async ({ page }) => {
   await mount(
     page,
-    `<heru-otp-input label="Code"><span slot="description">Sent.</span></heru-otp-input>`,
+    `<prism-otp-input label="Code"><span slot="description">Sent.</span></prism-otp-input>`,
   );
   await withTheme(page);
-  const gap = await page.locator('heru-otp-input').evaluate((el) => {
+  const gap = await page.locator('prism-otp-input').evaluate((el) => {
     const r = el.shadowRoot!;
     return (
       r.querySelector('[part="description"]')!.getBoundingClientRect().top -

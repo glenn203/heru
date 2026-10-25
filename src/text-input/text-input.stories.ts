@@ -14,12 +14,12 @@ interface Args {
 }
 
 /**
- * Single-line input for text, email, url and tel. `<heru-text-field>` is a
+ * Single-line input for text, email, url and tel. `<prism-text-field>` is a
  * deprecated alias. Tag names are pending Technical Writer review.
  */
 const meta: Meta<Args> = {
   title: 'Components/Text input',
-  component: 'heru-text-input',
+  component: 'prism-text-input',
   argTypes: {
     type: { control: 'inline-radio', options: ['text', 'email', 'url', 'tel'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
@@ -35,7 +35,7 @@ const meta: Meta<Args> = {
     error: 'Enter an email address.',
   },
   render: (a) => html`
-    <heru-text-input
+    <prism-text-input
       label=${a.label}
       type=${a.type}
       size=${a.size}
@@ -48,7 +48,7 @@ const meta: Meta<Args> = {
     >
       <span slot="description">${a.description}</span>
       <span slot="error">${a.error}</span>
-    </heru-text-input>
+    </prism-text-input>
   `,
 };
 export default meta;
@@ -70,11 +70,11 @@ export const Invalid: S = {
       @submit=${(e: Event) => e.preventDefault()}
       style="display: grid; gap: 12px; max-inline-size: 320px"
     >
-      <heru-text-input label=${a.label} type="email" name="email" required>
+      <prism-text-input label=${a.label} type="email" name="email" required>
         <span slot="description">${a.description}</span>
         <span slot="error">${a.error}</span>
-      </heru-text-input>
-      <heru-button>Submit</heru-button>
+      </prism-text-input>
+      <prism-button>Submit</prism-button>
     </form>
   `,
 };

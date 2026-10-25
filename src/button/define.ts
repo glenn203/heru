@@ -1,10 +1,10 @@
-import { HeruButton } from './button.js';
+import { PrismButton } from './button.js';
 
-if (!customElements.get('heru-button'))
-  customElements.define('heru-button', HeruButton);
+if (!customElements.get('prism-button'))
+  customElements.define('prism-button', PrismButton);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-button': HeruButton;
+    'prism-button': PrismButton;
   }
 }

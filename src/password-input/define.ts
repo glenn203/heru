@@ -1,10 +1,10 @@
-import { HeruPasswordInput } from './password-input.js';
+import { PrismPasswordInput } from './password-input.js';
 
-if (!customElements.get('heru-password-input'))
-  customElements.define('heru-password-input', HeruPasswordInput);
+if (!customElements.get('prism-password-input'))
+  customElements.define('prism-password-input', PrismPasswordInput);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'heru-password-input': HeruPasswordInput;
+    'prism-password-input': PrismPasswordInput;
   }
 }

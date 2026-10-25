@@ -13,7 +13,7 @@ import { TextControl } from '../internal/text-control.js';
  * autofill, paste and screen-reader reading. The boxes are aria-hidden
  * decoration; the input sits invisibly on top of them.
  *
- * @tag heru-otp-input
+ * @tag prism-otp-input
  * @slot description - Helper text (e.g. "Sent to •••• 1234").
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
@@ -29,7 +29,7 @@ import { TextControl } from '../internal/text-control.js';
  * @fires change - Committed value change.
  * @fires complete - All boxes are filled. `detail.value`.
  */
-export class HeruOtpInput extends TextControl {
+export class PrismOtpInput extends TextControl {
   static override styles: CSSResultGroup = [
     TextControl.styles,
     css`
@@ -45,16 +45,16 @@ export class HeruOtpInput extends TextControl {
       }
       [part~='cells'] {
         display: flex;
-        gap: var(--heru-space-2, 0.5rem);
+        gap: var(--prism-space-2, 0.5rem);
       }
       [part~='cell'] {
         box-sizing: border-box;
         display: grid;
         place-items: center;
-        inline-size: var(--_heru-control-height);
-        block-size: var(--_heru-control-height);
-        border: var(--heru-border-width, 1px) solid transparent;
-        border-radius: var(--heru-radius-5, 5px);
+        inline-size: var(--_prism-control-height);
+        block-size: var(--_prism-control-height);
+        border: var(--prism-border-width, 1px) solid transparent;
+        border-radius: var(--prism-radius-5, 5px);
         font-variant-numeric: tabular-nums;
       }
       /* The real input: invisible, covers the boxes, receives all input. */

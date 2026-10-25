@@ -12,7 +12,7 @@ interface Args {
 /** Password with a show/hide toggle (aria-pressed). Name pending Technical Writer. */
 const meta: Meta<Args> = {
   title: 'Components/Password input',
-  component: 'heru-password-input',
+  component: 'prism-password-input',
   argTypes: {
     autocomplete: {
       control: 'inline-radio',
@@ -26,7 +26,7 @@ const meta: Meta<Args> = {
     disabled: false,
   },
   render: (a) => html`
-    <heru-password-input
+    <prism-password-input
       label=${a.label}
       name="password"
       autocomplete=${a.autocomplete}
@@ -36,7 +36,7 @@ const meta: Meta<Args> = {
     >
       <span slot="description">At least 12 characters.</span>
       <span slot="error">Enter your password.</span>
-    </heru-password-input>
+    </prism-password-input>
   `,
 };
 export default meta;

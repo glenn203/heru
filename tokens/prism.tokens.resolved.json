@@ -1,165 +1,165 @@
 {
-  "$description": "Resolved Herú tokens per density mode (dimensions in px; colors as oklch() with an sRGB hex fallback). Generated; do not edit.",
+  "$description": "Resolved Prism tokens per density mode (dimensions in px; colors as oklch() with an sRGB hex fallback). Generated; do not edit.",
   "unit": "px",
   "modes": {
     "compact": {
       "unit": {
-        "cssVar": "--heru-unit",
+        "cssVar": "--prism-unit",
         "type": "dimension",
         "value": 4
       },
       "density.leading-units": {
-        "cssVar": "--heru-density-leading-units",
+        "cssVar": "--prism-density-leading-units",
         "type": "number",
         "value": 4
       },
       "density.pad-units": {
-        "cssVar": "--heru-density-pad-units",
+        "cssVar": "--prism-density-pad-units",
         "type": "number",
         "value": 1
       },
       "density.pad-inline-units": {
-        "cssVar": "--heru-density-pad-inline-units",
+        "cssVar": "--prism-density-pad-inline-units",
         "type": "number",
         "value": 2
       },
       "density.control-sm-units": {
-        "cssVar": "--heru-density-control-sm-units",
+        "cssVar": "--prism-density-control-sm-units",
         "type": "number",
         "value": 6
       },
       "space.0": {
-        "cssVar": "--heru-space-0",
+        "cssVar": "--prism-space-0",
         "type": "dimension",
         "value": 0
       },
       "space.1": {
-        "cssVar": "--heru-space-1",
+        "cssVar": "--prism-space-1",
         "type": "dimension",
         "value": 4
       },
       "space.2": {
-        "cssVar": "--heru-space-2",
+        "cssVar": "--prism-space-2",
         "type": "dimension",
         "value": 8
       },
       "space.3": {
-        "cssVar": "--heru-space-3",
+        "cssVar": "--prism-space-3",
         "type": "dimension",
         "value": 12
       },
       "space.4": {
-        "cssVar": "--heru-space-4",
+        "cssVar": "--prism-space-4",
         "type": "dimension",
         "value": 16
       },
       "space.5": {
-        "cssVar": "--heru-space-5",
+        "cssVar": "--prism-space-5",
         "type": "dimension",
         "value": 20
       },
       "space.6": {
-        "cssVar": "--heru-space-6",
+        "cssVar": "--prism-space-6",
         "type": "dimension",
         "value": 24
       },
       "space.8": {
-        "cssVar": "--heru-space-8",
+        "cssVar": "--prism-space-8",
         "type": "dimension",
         "value": 32
       },
       "space.10": {
-        "cssVar": "--heru-space-10",
+        "cssVar": "--prism-space-10",
         "type": "dimension",
         "value": 40
       },
       "space.12": {
-        "cssVar": "--heru-space-12",
+        "cssVar": "--prism-space-12",
         "type": "dimension",
         "value": 48
       },
       "space.16": {
-        "cssVar": "--heru-space-16",
+        "cssVar": "--prism-space-16",
         "type": "dimension",
         "value": 64
       },
       "radius.1": {
-        "cssVar": "--heru-radius-1",
+        "cssVar": "--prism-radius-1",
         "type": "dimension",
         "value": 1
       },
       "radius.3": {
-        "cssVar": "--heru-radius-3",
+        "cssVar": "--prism-radius-3",
         "type": "dimension",
         "value": 3
       },
       "radius.5": {
-        "cssVar": "--heru-radius-5",
+        "cssVar": "--prism-radius-5",
         "type": "dimension",
         "value": 5
       },
       "radius.7": {
-        "cssVar": "--heru-radius-7",
+        "cssVar": "--prism-radius-7",
         "type": "dimension",
         "value": 7
       },
       "radius.9": {
-        "cssVar": "--heru-radius-9",
+        "cssVar": "--prism-radius-9",
         "type": "dimension",
         "value": 9
       },
       "radius.11": {
-        "cssVar": "--heru-radius-11",
+        "cssVar": "--prism-radius-11",
         "type": "dimension",
         "value": 11
       },
       "radius.none": {
-        "cssVar": "--heru-radius-none",
+        "cssVar": "--prism-radius-none",
         "type": "dimension",
         "value": 0
       },
       "radius.full": {
-        "cssVar": "--heru-radius-full",
+        "cssVar": "--prism-radius-full",
         "type": "dimension",
         "value": 9999
       },
       "border.width": {
-        "cssVar": "--heru-border-width",
+        "cssVar": "--prism-border-width",
         "type": "dimension",
         "value": 1
       },
       "leading.body": {
-        "cssVar": "--heru-leading-body",
+        "cssVar": "--prism-leading-body",
         "type": "dimension",
         "value": 16
       },
       "control.height.sm": {
-        "cssVar": "--heru-control-height-sm",
+        "cssVar": "--prism-control-height-sm",
         "type": "dimension",
         "value": 24
       },
       "control.height.md": {
-        "cssVar": "--heru-control-height-md",
+        "cssVar": "--prism-control-height-md",
         "type": "dimension",
         "value": 24
       },
       "control.height.lg": {
-        "cssVar": "--heru-control-height-lg",
+        "cssVar": "--prism-control-height-lg",
         "type": "dimension",
         "value": 32
       },
       "control.padding-inline": {
-        "cssVar": "--heru-control-padding-inline",
+        "cssVar": "--prism-control-padding-inline",
         "type": "dimension",
         "value": 8
       },
       "control.padding-block": {
-        "cssVar": "--heru-control-padding-block",
+        "cssVar": "--prism-control-padding-block",
         "type": "dimension",
         "value": 4
       },
       "font.family.sans": {
-        "cssVar": "--heru-font-family-sans",
+        "cssVar": "--prism-font-family-sans",
         "type": "fontFamily",
         "value": [
           "Inter",
@@ -169,7 +169,7 @@
         ]
       },
       "font.family.mono": {
-        "cssVar": "--heru-font-family-mono",
+        "cssVar": "--prism-font-family-mono",
         "type": "fontFamily",
         "value": [
           "JetBrains Mono",
@@ -179,107 +179,107 @@
         ]
       },
       "font.weight.regular": {
-        "cssVar": "--heru-font-weight-regular",
+        "cssVar": "--prism-font-weight-regular",
         "type": "fontWeight",
         "value": 400
       },
       "font.weight.medium": {
-        "cssVar": "--heru-font-weight-medium",
+        "cssVar": "--prism-font-weight-medium",
         "type": "fontWeight",
         "value": 500
       },
       "font.weight.semibold": {
-        "cssVar": "--heru-font-weight-semibold",
+        "cssVar": "--prism-font-weight-semibold",
         "type": "fontWeight",
         "value": 600
       },
       "font.weight.bold": {
-        "cssVar": "--heru-font-weight-bold",
+        "cssVar": "--prism-font-weight-bold",
         "type": "fontWeight",
         "value": 700
       },
       "font.size.12": {
-        "cssVar": "--heru-font-size-12",
+        "cssVar": "--prism-font-size-12",
         "type": "dimension",
         "value": 12
       },
       "font.size.14": {
-        "cssVar": "--heru-font-size-14",
+        "cssVar": "--prism-font-size-14",
         "type": "dimension",
         "value": 14
       },
       "font.size.16": {
-        "cssVar": "--heru-font-size-16",
+        "cssVar": "--prism-font-size-16",
         "type": "dimension",
         "value": 16
       },
       "font.size.18": {
-        "cssVar": "--heru-font-size-18",
+        "cssVar": "--prism-font-size-18",
         "type": "dimension",
         "value": 18
       },
       "font.size.20": {
-        "cssVar": "--heru-font-size-20",
+        "cssVar": "--prism-font-size-20",
         "type": "dimension",
         "value": 20
       },
       "font.size.24": {
-        "cssVar": "--heru-font-size-24",
+        "cssVar": "--prism-font-size-24",
         "type": "dimension",
         "value": 24
       },
       "font.size.28": {
-        "cssVar": "--heru-font-size-28",
+        "cssVar": "--prism-font-size-28",
         "type": "dimension",
         "value": 28
       },
       "font.line-height.16": {
-        "cssVar": "--heru-font-line-height-16",
+        "cssVar": "--prism-font-line-height-16",
         "type": "dimension",
         "value": 16
       },
       "font.line-height.20": {
-        "cssVar": "--heru-font-line-height-20",
+        "cssVar": "--prism-font-line-height-20",
         "type": "dimension",
         "value": 20
       },
       "font.line-height.24": {
-        "cssVar": "--heru-font-line-height-24",
+        "cssVar": "--prism-font-line-height-24",
         "type": "dimension",
         "value": 24
       },
       "font.line-height.28": {
-        "cssVar": "--heru-font-line-height-28",
+        "cssVar": "--prism-font-line-height-28",
         "type": "dimension",
         "value": 28
       },
       "font.line-height.32": {
-        "cssVar": "--heru-font-line-height-32",
+        "cssVar": "--prism-font-line-height-32",
         "type": "dimension",
         "value": 32
       },
       "font.line-height.36": {
-        "cssVar": "--heru-font-line-height-36",
+        "cssVar": "--prism-font-line-height-36",
         "type": "dimension",
         "value": 36
       },
       "text.caption.font-size": {
-        "cssVar": "--heru-text-caption-font-size",
+        "cssVar": "--prism-text-caption-font-size",
         "type": "number",
         "value": 12
       },
       "text.caption.line-height": {
-        "cssVar": "--heru-text-caption-line-height",
+        "cssVar": "--prism-text-caption-line-height",
         "type": "number",
         "value": 16
       },
       "text.caption.font-weight": {
-        "cssVar": "--heru-text-caption-font-weight",
+        "cssVar": "--prism-text-caption-font-weight",
         "type": "number",
         "value": 400
       },
       "text.caption.font-family": {
-        "cssVar": "--heru-text-caption-font-family",
+        "cssVar": "--prism-text-caption-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -289,22 +289,22 @@
         ]
       },
       "text.label.font-size": {
-        "cssVar": "--heru-text-label-font-size",
+        "cssVar": "--prism-text-label-font-size",
         "type": "number",
         "value": 14
       },
       "text.label.line-height": {
-        "cssVar": "--heru-text-label-line-height",
+        "cssVar": "--prism-text-label-line-height",
         "type": "number",
         "value": 20
       },
       "text.label.font-weight": {
-        "cssVar": "--heru-text-label-font-weight",
+        "cssVar": "--prism-text-label-font-weight",
         "type": "number",
         "value": 500
       },
       "text.label.font-family": {
-        "cssVar": "--heru-text-label-font-family",
+        "cssVar": "--prism-text-label-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -314,22 +314,22 @@
         ]
       },
       "text.body.font-size": {
-        "cssVar": "--heru-text-body-font-size",
+        "cssVar": "--prism-text-body-font-size",
         "type": "number",
         "value": 14
       },
       "text.body.line-height": {
-        "cssVar": "--heru-text-body-line-height",
+        "cssVar": "--prism-text-body-line-height",
         "type": "number",
         "value": 20
       },
       "text.body.font-weight": {
-        "cssVar": "--heru-text-body-font-weight",
+        "cssVar": "--prism-text-body-font-weight",
         "type": "number",
         "value": 400
       },
       "text.body.font-family": {
-        "cssVar": "--heru-text-body-font-family",
+        "cssVar": "--prism-text-body-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -339,22 +339,22 @@
         ]
       },
       "text.body-lg.font-size": {
-        "cssVar": "--heru-text-body-lg-font-size",
+        "cssVar": "--prism-text-body-lg-font-size",
         "type": "number",
         "value": 16
       },
       "text.body-lg.line-height": {
-        "cssVar": "--heru-text-body-lg-line-height",
+        "cssVar": "--prism-text-body-lg-line-height",
         "type": "number",
         "value": 24
       },
       "text.body-lg.font-weight": {
-        "cssVar": "--heru-text-body-lg-font-weight",
+        "cssVar": "--prism-text-body-lg-font-weight",
         "type": "number",
         "value": 400
       },
       "text.body-lg.font-family": {
-        "cssVar": "--heru-text-body-lg-font-family",
+        "cssVar": "--prism-text-body-lg-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -364,22 +364,22 @@
         ]
       },
       "text.heading-3.font-size": {
-        "cssVar": "--heru-text-heading-3-font-size",
+        "cssVar": "--prism-text-heading-3-font-size",
         "type": "number",
         "value": 18
       },
       "text.heading-3.line-height": {
-        "cssVar": "--heru-text-heading-3-line-height",
+        "cssVar": "--prism-text-heading-3-line-height",
         "type": "number",
         "value": 28
       },
       "text.heading-3.font-weight": {
-        "cssVar": "--heru-text-heading-3-font-weight",
+        "cssVar": "--prism-text-heading-3-font-weight",
         "type": "number",
         "value": 600
       },
       "text.heading-3.font-family": {
-        "cssVar": "--heru-text-heading-3-font-family",
+        "cssVar": "--prism-text-heading-3-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -389,22 +389,22 @@
         ]
       },
       "text.heading-2.font-size": {
-        "cssVar": "--heru-text-heading-2-font-size",
+        "cssVar": "--prism-text-heading-2-font-size",
         "type": "number",
         "value": 20
       },
       "text.heading-2.line-height": {
-        "cssVar": "--heru-text-heading-2-line-height",
+        "cssVar": "--prism-text-heading-2-line-height",
         "type": "number",
         "value": 28
       },
       "text.heading-2.font-weight": {
-        "cssVar": "--heru-text-heading-2-font-weight",
+        "cssVar": "--prism-text-heading-2-font-weight",
         "type": "number",
         "value": 600
       },
       "text.heading-2.font-family": {
-        "cssVar": "--heru-text-heading-2-font-family",
+        "cssVar": "--prism-text-heading-2-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -414,22 +414,22 @@
         ]
       },
       "text.heading-1.font-size": {
-        "cssVar": "--heru-text-heading-1-font-size",
+        "cssVar": "--prism-text-heading-1-font-size",
         "type": "number",
         "value": 28
       },
       "text.heading-1.line-height": {
-        "cssVar": "--heru-text-heading-1-line-height",
+        "cssVar": "--prism-text-heading-1-line-height",
         "type": "number",
         "value": 36
       },
       "text.heading-1.font-weight": {
-        "cssVar": "--heru-text-heading-1-font-weight",
+        "cssVar": "--prism-text-heading-1-font-weight",
         "type": "number",
         "value": 700
       },
       "text.heading-1.font-family": {
-        "cssVar": "--heru-text-heading-1-font-family",
+        "cssVar": "--prism-text-heading-1-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -439,22 +439,22 @@
         ]
       },
       "text.code.font-size": {
-        "cssVar": "--heru-text-code-font-size",
+        "cssVar": "--prism-text-code-font-size",
         "type": "number",
         "value": 14
       },
       "text.code.line-height": {
-        "cssVar": "--heru-text-code-line-height",
+        "cssVar": "--prism-text-code-line-height",
         "type": "number",
         "value": 20
       },
       "text.code.font-weight": {
-        "cssVar": "--heru-text-code-font-weight",
+        "cssVar": "--prism-text-code-font-weight",
         "type": "number",
         "value": 400
       },
       "text.code.font-family": {
-        "cssVar": "--heru-text-code-font-family",
+        "cssVar": "--prism-text-code-font-family",
         "type": "number",
         "value": [
           "JetBrains Mono",
@@ -464,303 +464,303 @@
         ]
       },
       "color.slate.0": {
-        "cssVar": "--heru-color-slate-0",
+        "cssVar": "--prism-color-slate-0",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.slate.50": {
-        "cssVar": "--heru-color-slate-50",
+        "cssVar": "--prism-color-slate-50",
         "type": "color",
         "value": "oklch(0.984 0.003 260)",
         "hex": "#f9fafc"
       },
       "color.slate.100": {
-        "cssVar": "--heru-color-slate-100",
+        "cssVar": "--prism-color-slate-100",
         "type": "color",
         "value": "oklch(0.968 0.007 260)",
         "hex": "#f2f5f9"
       },
       "color.slate.200": {
-        "cssVar": "--heru-color-slate-200",
+        "cssVar": "--prism-color-slate-200",
         "type": "color",
         "value": "oklch(0.929 0.013 260)",
         "hex": "#e3e8f0"
       },
       "color.slate.300": {
-        "cssVar": "--heru-color-slate-300",
+        "cssVar": "--prism-color-slate-300",
         "type": "color",
         "value": "oklch(0.869 0.02 260)",
         "hex": "#ccd4e1"
       },
       "color.slate.400": {
-        "cssVar": "--heru-color-slate-400",
+        "cssVar": "--prism-color-slate-400",
         "type": "color",
         "value": "oklch(0.704 0.03 260)",
         "hex": "#95a0b3"
       },
       "color.slate.500": {
-        "cssVar": "--heru-color-slate-500",
+        "cssVar": "--prism-color-slate-500",
         "type": "color",
         "value": "oklch(0.554 0.035 260)",
         "hex": "#677388"
       },
       "color.slate.600": {
-        "cssVar": "--heru-color-slate-600",
+        "cssVar": "--prism-color-slate-600",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.slate.700": {
-        "cssVar": "--heru-color-slate-700",
+        "cssVar": "--prism-color-slate-700",
         "type": "color",
         "value": "oklch(0.372 0.035 260)",
         "hex": "#354153"
       },
       "color.slate.800": {
-        "cssVar": "--heru-color-slate-800",
+        "cssVar": "--prism-color-slate-800",
         "type": "color",
         "value": "oklch(0.279 0.033 260)",
         "hex": "#1f2939"
       },
       "color.slate.900": {
-        "cssVar": "--heru-color-slate-900",
+        "cssVar": "--prism-color-slate-900",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.slate.950": {
-        "cssVar": "--heru-color-slate-950",
+        "cssVar": "--prism-color-slate-950",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.red.50": {
-        "cssVar": "--heru-color-red-50",
+        "cssVar": "--prism-color-red-50",
         "type": "color",
         "value": "oklch(0.971 0.013 27)",
         "hex": "#fef2f1"
       },
       "color.red.500": {
-        "cssVar": "--heru-color-red-500",
+        "cssVar": "--prism-color-red-500",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3)",
         "hex": "#e3193b"
       },
       "color.red.600": {
-        "cssVar": "--heru-color-red-600",
+        "cssVar": "--prism-color-red-600",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.red.700": {
-        "cssVar": "--heru-color-red-700",
+        "cssVar": "--prism-color-red-700",
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
       "color.red.800": {
-        "cssVar": "--heru-color-red-800",
+        "cssVar": "--prism-color-red-800",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "color.bg": {
-        "cssVar": "--heru-color-bg",
+        "cssVar": "--prism-color-bg",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.surface": {
-        "cssVar": "--heru-color-surface",
+        "cssVar": "--prism-color-surface",
         "type": "color",
         "value": "oklch(0.984 0.003 260)",
         "hex": "#f9fafc"
       },
       "color.text": {
-        "cssVar": "--heru-color-text",
+        "cssVar": "--prism-color-text",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.text-muted": {
-        "cssVar": "--heru-color-text-muted",
+        "cssVar": "--prism-color-text-muted",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.border": {
-        "cssVar": "--heru-color-border",
+        "cssVar": "--prism-color-border",
         "type": "color",
         "value": "oklch(0.869 0.02 260)",
         "hex": "#ccd4e1"
       },
       "color.border-strong": {
-        "cssVar": "--heru-color-border-strong",
+        "cssVar": "--prism-color-border-strong",
         "type": "color",
         "value": "oklch(0.554 0.035 260)",
         "hex": "#677388"
       },
       "color.border-popup": {
-        "cssVar": "--heru-color-border-popup",
+        "cssVar": "--prism-color-border-popup",
         "type": "color",
         "value": "oklch(0.704 0.03 260)",
         "hex": "#95a0b3"
       },
       "color.accent": {
-        "cssVar": "--heru-color-accent",
+        "cssVar": "--prism-color-accent",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.accent-hover": {
-        "cssVar": "--heru-color-accent-hover",
+        "cssVar": "--prism-color-accent-hover",
         "type": "color",
         "value": "oklch(0.279 0.033 260)",
         "hex": "#1f2939"
       },
       "color.accent-active": {
-        "cssVar": "--heru-color-accent-active",
+        "cssVar": "--prism-color-accent-active",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.on-accent": {
-        "cssVar": "--heru-color-on-accent",
+        "cssVar": "--prism-color-on-accent",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.surface-hover": {
-        "cssVar": "--heru-color-surface-hover",
+        "cssVar": "--prism-color-surface-hover",
         "type": "color",
         "value": "oklch(0.968 0.007 260)",
         "hex": "#f2f5f9"
       },
       "color.surface-pressed": {
-        "cssVar": "--heru-color-surface-pressed",
+        "cssVar": "--prism-color-surface-pressed",
         "type": "color",
         "value": "oklch(0.929 0.013 260)",
         "hex": "#e3e8f0"
       },
       "color.focus-ring": {
-        "cssVar": "--heru-color-focus-ring",
+        "cssVar": "--prism-color-focus-ring",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.focus-halo": {
-        "cssVar": "--heru-color-focus-halo",
+        "cssVar": "--prism-color-focus-halo",
         "type": "color",
         "value": "oklch(0.554 0.035 260 / 0.12)",
         "hex": "#6773881f"
       },
       "color.shadow": {
-        "cssVar": "--heru-color-shadow",
+        "cssVar": "--prism-color-shadow",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.shadow-urgent": {
-        "cssVar": "--heru-color-shadow-urgent",
+        "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.error": {
-        "cssVar": "--heru-color-error",
+        "cssVar": "--prism-color-error",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.error-text": {
-        "cssVar": "--heru-color-error-text",
+        "cssVar": "--prism-color-error-text",
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
       "color.error-surface-base": {
-        "cssVar": "--heru-color-error-surface-base",
+        "cssVar": "--prism-color-error-surface-base",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3)",
         "hex": "#e3193b"
       },
       "color.error-surface": {
-        "cssVar": "--heru-color-error-surface",
+        "cssVar": "--prism-color-error-surface",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3 / 0.08)",
         "hex": "#e3193b14"
       },
       "color.on-error-surface": {
-        "cssVar": "--heru-color-on-error-surface",
+        "cssVar": "--prism-color-on-error-surface",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "color.error-status-text": {
-        "cssVar": "--heru-color-error-status-text",
+        "cssVar": "--prism-color-error-status-text",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "state.hover": {
-        "cssVar": "--heru-state-hover",
+        "cssVar": "--prism-state-hover",
         "type": "percentage",
         "value": "8%"
       },
       "state.pressed": {
-        "cssVar": "--heru-state-pressed",
+        "cssVar": "--prism-state-pressed",
         "type": "percentage",
         "value": "12%"
       },
       "state.selected": {
-        "cssVar": "--heru-state-selected",
+        "cssVar": "--prism-state-selected",
         "type": "percentage",
         "value": "14%"
       },
       "focus.ring-width": {
-        "cssVar": "--heru-focus-ring-width",
+        "cssVar": "--prism-focus-ring-width",
         "type": "dimension",
         "value": 2
       },
       "focus.ring-offset": {
-        "cssVar": "--heru-focus-ring-offset",
+        "cssVar": "--prism-focus-ring-offset",
         "type": "dimension",
         "value": 1
       },
       "focus.ring-blur": {
-        "cssVar": "--heru-focus-ring-blur",
+        "cssVar": "--prism-focus-ring-blur",
         "type": "dimension",
         "value": 0.5
       },
       "focus.halo-width": {
-        "cssVar": "--heru-focus-halo-width",
+        "cssVar": "--prism-focus-halo-width",
         "type": "dimension",
         "value": 1
       },
       "focus.halo": {
-        "cssVar": "--heru-focus-halo",
+        "cssVar": "--prism-focus-halo",
         "type": "color",
         "value": "oklch(0.554 0.035 260 / 0.12)",
         "hex": "#6773881f"
       },
       "duration.fast": {
-        "cssVar": "--heru-duration-fast",
+        "cssVar": "--prism-duration-fast",
         "type": "duration",
         "value": "120ms"
       },
       "duration.default": {
-        "cssVar": "--heru-duration-default",
+        "cssVar": "--prism-duration-default",
         "type": "duration",
         "value": "200ms"
       },
       "duration.slow": {
-        "cssVar": "--heru-duration-slow",
+        "cssVar": "--prism-duration-slow",
         "type": "duration",
         "value": "320ms"
       },
       "ease.standard": {
-        "cssVar": "--heru-ease-standard",
+        "cssVar": "--prism-ease-standard",
         "type": "cubicBezier",
         "value": [
           0.2,
@@ -770,7 +770,7 @@
         ]
       },
       "ease.spring": {
-        "cssVar": "--heru-ease-spring",
+        "cssVar": "--prism-ease-spring",
         "type": "cubicBezier",
         "value": "linear(0, 0.023, 0.079, 0.1535, 0.2364, 0.3211, 0.4034, 0.4806, 0.5513, 0.615, 0.6714, 0.721, 0.7641, 0.8012, 0.8331, 0.8603, 0.8834, 0.9028, 0.9193, 0.933, 0.9446, 0.9542, 0.9622, 0.9688, 0.9744, 0.9789, 0.9827, 0.9858, 0.9884, 0.9905, 0.9922, 0.9936, 0.9948, 0.9958, 0.9965, 0.9972, 0.9977, 0.9981, 0.9985, 0.9988, 1)",
         "fallback": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -785,7 +785,7 @@
         }
       },
       "ease.spring-bouncy": {
-        "cssVar": "--heru-ease-spring-bouncy",
+        "cssVar": "--prism-ease-spring-bouncy",
         "type": "cubicBezier",
         "value": "linear(0, 0.0283, 0.0999, 0.1976, 0.3084, 0.4222, 0.5322, 0.6336, 0.7235, 0.8008, 0.8652, 0.9171, 0.9575, 0.9879, 1.0097, 1.0243, 1.0332, 1.0375, 1.0386, 1.0372, 1.0343, 1.0305, 1.0262, 1.0218, 1.0176, 1.0137, 1.0103, 1.0074, 1.0049, 1.003, 1.0015, 1.0003, 0.9995, 0.999, 0.9987, 0.9985, 0.9985, 0.9986, 0.9987, 0.9988, 1)",
         "fallback": "cubic-bezier(0.3, 1.25, 0.6, 1)",
@@ -800,179 +800,179 @@
         }
       },
       "elevation.default": {
-        "cssVar": "--heru-elevation-default",
+        "cssVar": "--prism-elevation-default",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)"
       },
       "elevation.hover": {
-        "cssVar": "--heru-elevation-hover",
+        "cssVar": "--prism-elevation-hover",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)"
       },
       "elevation.urgent": {
-        "cssVar": "--heru-elevation-urgent",
+        "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
       }
     },
     "default": {
       "unit": {
-        "cssVar": "--heru-unit",
+        "cssVar": "--prism-unit",
         "type": "dimension",
         "value": 4
       },
       "density.leading-units": {
-        "cssVar": "--heru-density-leading-units",
+        "cssVar": "--prism-density-leading-units",
         "type": "number",
         "value": 5
       },
       "density.pad-units": {
-        "cssVar": "--heru-density-pad-units",
+        "cssVar": "--prism-density-pad-units",
         "type": "number",
         "value": 2
       },
       "density.pad-inline-units": {
-        "cssVar": "--heru-density-pad-inline-units",
+        "cssVar": "--prism-density-pad-inline-units",
         "type": "number",
         "value": 3
       },
       "density.control-sm-units": {
-        "cssVar": "--heru-density-control-sm-units",
+        "cssVar": "--prism-density-control-sm-units",
         "type": "number",
         "value": 8
       },
       "space.0": {
-        "cssVar": "--heru-space-0",
+        "cssVar": "--prism-space-0",
         "type": "dimension",
         "value": 0
       },
       "space.1": {
-        "cssVar": "--heru-space-1",
+        "cssVar": "--prism-space-1",
         "type": "dimension",
         "value": 4
       },
       "space.2": {
-        "cssVar": "--heru-space-2",
+        "cssVar": "--prism-space-2",
         "type": "dimension",
         "value": 8
       },
       "space.3": {
-        "cssVar": "--heru-space-3",
+        "cssVar": "--prism-space-3",
         "type": "dimension",
         "value": 12
       },
       "space.4": {
-        "cssVar": "--heru-space-4",
+        "cssVar": "--prism-space-4",
         "type": "dimension",
         "value": 16
       },
       "space.5": {
-        "cssVar": "--heru-space-5",
+        "cssVar": "--prism-space-5",
         "type": "dimension",
         "value": 20
       },
       "space.6": {
-        "cssVar": "--heru-space-6",
+        "cssVar": "--prism-space-6",
         "type": "dimension",
         "value": 24
       },
       "space.8": {
-        "cssVar": "--heru-space-8",
+        "cssVar": "--prism-space-8",
         "type": "dimension",
         "value": 32
       },
       "space.10": {
-        "cssVar": "--heru-space-10",
+        "cssVar": "--prism-space-10",
         "type": "dimension",
         "value": 40
       },
       "space.12": {
-        "cssVar": "--heru-space-12",
+        "cssVar": "--prism-space-12",
         "type": "dimension",
         "value": 48
       },
       "space.16": {
-        "cssVar": "--heru-space-16",
+        "cssVar": "--prism-space-16",
         "type": "dimension",
         "value": 64
       },
       "radius.1": {
-        "cssVar": "--heru-radius-1",
+        "cssVar": "--prism-radius-1",
         "type": "dimension",
         "value": 1
       },
       "radius.3": {
-        "cssVar": "--heru-radius-3",
+        "cssVar": "--prism-radius-3",
         "type": "dimension",
         "value": 3
       },
       "radius.5": {
-        "cssVar": "--heru-radius-5",
+        "cssVar": "--prism-radius-5",
         "type": "dimension",
         "value": 5
       },
       "radius.7": {
-        "cssVar": "--heru-radius-7",
+        "cssVar": "--prism-radius-7",
         "type": "dimension",
         "value": 7
       },
       "radius.9": {
-        "cssVar": "--heru-radius-9",
+        "cssVar": "--prism-radius-9",
         "type": "dimension",
         "value": 9
       },
       "radius.11": {
-        "cssVar": "--heru-radius-11",
+        "cssVar": "--prism-radius-11",
         "type": "dimension",
         "value": 11
       },
       "radius.none": {
-        "cssVar": "--heru-radius-none",
+        "cssVar": "--prism-radius-none",
         "type": "dimension",
         "value": 0
       },
       "radius.full": {
-        "cssVar": "--heru-radius-full",
+        "cssVar": "--prism-radius-full",
         "type": "dimension",
         "value": 9999
       },
       "border.width": {
-        "cssVar": "--heru-border-width",
+        "cssVar": "--prism-border-width",
         "type": "dimension",
         "value": 1
       },
       "leading.body": {
-        "cssVar": "--heru-leading-body",
+        "cssVar": "--prism-leading-body",
         "type": "dimension",
         "value": 20
       },
       "control.height.sm": {
-        "cssVar": "--heru-control-height-sm",
+        "cssVar": "--prism-control-height-sm",
         "type": "dimension",
         "value": 32
       },
       "control.height.md": {
-        "cssVar": "--heru-control-height-md",
+        "cssVar": "--prism-control-height-md",
         "type": "dimension",
         "value": 36
       },
       "control.height.lg": {
-        "cssVar": "--heru-control-height-lg",
+        "cssVar": "--prism-control-height-lg",
         "type": "dimension",
         "value": 44
       },
       "control.padding-inline": {
-        "cssVar": "--heru-control-padding-inline",
+        "cssVar": "--prism-control-padding-inline",
         "type": "dimension",
         "value": 12
       },
       "control.padding-block": {
-        "cssVar": "--heru-control-padding-block",
+        "cssVar": "--prism-control-padding-block",
         "type": "dimension",
         "value": 8
       },
       "font.family.sans": {
-        "cssVar": "--heru-font-family-sans",
+        "cssVar": "--prism-font-family-sans",
         "type": "fontFamily",
         "value": [
           "Inter",
@@ -982,7 +982,7 @@
         ]
       },
       "font.family.mono": {
-        "cssVar": "--heru-font-family-mono",
+        "cssVar": "--prism-font-family-mono",
         "type": "fontFamily",
         "value": [
           "JetBrains Mono",
@@ -992,107 +992,107 @@
         ]
       },
       "font.weight.regular": {
-        "cssVar": "--heru-font-weight-regular",
+        "cssVar": "--prism-font-weight-regular",
         "type": "fontWeight",
         "value": 400
       },
       "font.weight.medium": {
-        "cssVar": "--heru-font-weight-medium",
+        "cssVar": "--prism-font-weight-medium",
         "type": "fontWeight",
         "value": 500
       },
       "font.weight.semibold": {
-        "cssVar": "--heru-font-weight-semibold",
+        "cssVar": "--prism-font-weight-semibold",
         "type": "fontWeight",
         "value": 600
       },
       "font.weight.bold": {
-        "cssVar": "--heru-font-weight-bold",
+        "cssVar": "--prism-font-weight-bold",
         "type": "fontWeight",
         "value": 700
       },
       "font.size.12": {
-        "cssVar": "--heru-font-size-12",
+        "cssVar": "--prism-font-size-12",
         "type": "dimension",
         "value": 12
       },
       "font.size.14": {
-        "cssVar": "--heru-font-size-14",
+        "cssVar": "--prism-font-size-14",
         "type": "dimension",
         "value": 14
       },
       "font.size.16": {
-        "cssVar": "--heru-font-size-16",
+        "cssVar": "--prism-font-size-16",
         "type": "dimension",
         "value": 16
       },
       "font.size.18": {
-        "cssVar": "--heru-font-size-18",
+        "cssVar": "--prism-font-size-18",
         "type": "dimension",
         "value": 18
       },
       "font.size.20": {
-        "cssVar": "--heru-font-size-20",
+        "cssVar": "--prism-font-size-20",
         "type": "dimension",
         "value": 20
       },
       "font.size.24": {
-        "cssVar": "--heru-font-size-24",
+        "cssVar": "--prism-font-size-24",
         "type": "dimension",
         "value": 24
       },
       "font.size.28": {
-        "cssVar": "--heru-font-size-28",
+        "cssVar": "--prism-font-size-28",
         "type": "dimension",
         "value": 28
       },
       "font.line-height.16": {
-        "cssVar": "--heru-font-line-height-16",
+        "cssVar": "--prism-font-line-height-16",
         "type": "dimension",
         "value": 16
       },
       "font.line-height.20": {
-        "cssVar": "--heru-font-line-height-20",
+        "cssVar": "--prism-font-line-height-20",
         "type": "dimension",
         "value": 20
       },
       "font.line-height.24": {
-        "cssVar": "--heru-font-line-height-24",
+        "cssVar": "--prism-font-line-height-24",
         "type": "dimension",
         "value": 24
       },
       "font.line-height.28": {
-        "cssVar": "--heru-font-line-height-28",
+        "cssVar": "--prism-font-line-height-28",
         "type": "dimension",
         "value": 28
       },
       "font.line-height.32": {
-        "cssVar": "--heru-font-line-height-32",
+        "cssVar": "--prism-font-line-height-32",
         "type": "dimension",
         "value": 32
       },
       "font.line-height.36": {
-        "cssVar": "--heru-font-line-height-36",
+        "cssVar": "--prism-font-line-height-36",
         "type": "dimension",
         "value": 36
       },
       "text.caption.font-size": {
-        "cssVar": "--heru-text-caption-font-size",
+        "cssVar": "--prism-text-caption-font-size",
         "type": "number",
         "value": 12
       },
       "text.caption.line-height": {
-        "cssVar": "--heru-text-caption-line-height",
+        "cssVar": "--prism-text-caption-line-height",
         "type": "number",
         "value": 16
       },
       "text.caption.font-weight": {
-        "cssVar": "--heru-text-caption-font-weight",
+        "cssVar": "--prism-text-caption-font-weight",
         "type": "number",
         "value": 400
       },
       "text.caption.font-family": {
-        "cssVar": "--heru-text-caption-font-family",
+        "cssVar": "--prism-text-caption-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1102,22 +1102,22 @@
         ]
       },
       "text.label.font-size": {
-        "cssVar": "--heru-text-label-font-size",
+        "cssVar": "--prism-text-label-font-size",
         "type": "number",
         "value": 14
       },
       "text.label.line-height": {
-        "cssVar": "--heru-text-label-line-height",
+        "cssVar": "--prism-text-label-line-height",
         "type": "number",
         "value": 20
       },
       "text.label.font-weight": {
-        "cssVar": "--heru-text-label-font-weight",
+        "cssVar": "--prism-text-label-font-weight",
         "type": "number",
         "value": 500
       },
       "text.label.font-family": {
-        "cssVar": "--heru-text-label-font-family",
+        "cssVar": "--prism-text-label-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1127,22 +1127,22 @@
         ]
       },
       "text.body.font-size": {
-        "cssVar": "--heru-text-body-font-size",
+        "cssVar": "--prism-text-body-font-size",
         "type": "number",
         "value": 14
       },
       "text.body.line-height": {
-        "cssVar": "--heru-text-body-line-height",
+        "cssVar": "--prism-text-body-line-height",
         "type": "number",
         "value": 20
       },
       "text.body.font-weight": {
-        "cssVar": "--heru-text-body-font-weight",
+        "cssVar": "--prism-text-body-font-weight",
         "type": "number",
         "value": 400
       },
       "text.body.font-family": {
-        "cssVar": "--heru-text-body-font-family",
+        "cssVar": "--prism-text-body-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1152,22 +1152,22 @@
         ]
       },
       "text.body-lg.font-size": {
-        "cssVar": "--heru-text-body-lg-font-size",
+        "cssVar": "--prism-text-body-lg-font-size",
         "type": "number",
         "value": 16
       },
       "text.body-lg.line-height": {
-        "cssVar": "--heru-text-body-lg-line-height",
+        "cssVar": "--prism-text-body-lg-line-height",
         "type": "number",
         "value": 24
       },
       "text.body-lg.font-weight": {
-        "cssVar": "--heru-text-body-lg-font-weight",
+        "cssVar": "--prism-text-body-lg-font-weight",
         "type": "number",
         "value": 400
       },
       "text.body-lg.font-family": {
-        "cssVar": "--heru-text-body-lg-font-family",
+        "cssVar": "--prism-text-body-lg-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1177,22 +1177,22 @@
         ]
       },
       "text.heading-3.font-size": {
-        "cssVar": "--heru-text-heading-3-font-size",
+        "cssVar": "--prism-text-heading-3-font-size",
         "type": "number",
         "value": 18
       },
       "text.heading-3.line-height": {
-        "cssVar": "--heru-text-heading-3-line-height",
+        "cssVar": "--prism-text-heading-3-line-height",
         "type": "number",
         "value": 28
       },
       "text.heading-3.font-weight": {
-        "cssVar": "--heru-text-heading-3-font-weight",
+        "cssVar": "--prism-text-heading-3-font-weight",
         "type": "number",
         "value": 600
       },
       "text.heading-3.font-family": {
-        "cssVar": "--heru-text-heading-3-font-family",
+        "cssVar": "--prism-text-heading-3-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1202,22 +1202,22 @@
         ]
       },
       "text.heading-2.font-size": {
-        "cssVar": "--heru-text-heading-2-font-size",
+        "cssVar": "--prism-text-heading-2-font-size",
         "type": "number",
         "value": 20
       },
       "text.heading-2.line-height": {
-        "cssVar": "--heru-text-heading-2-line-height",
+        "cssVar": "--prism-text-heading-2-line-height",
         "type": "number",
         "value": 28
       },
       "text.heading-2.font-weight": {
-        "cssVar": "--heru-text-heading-2-font-weight",
+        "cssVar": "--prism-text-heading-2-font-weight",
         "type": "number",
         "value": 600
       },
       "text.heading-2.font-family": {
-        "cssVar": "--heru-text-heading-2-font-family",
+        "cssVar": "--prism-text-heading-2-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1227,22 +1227,22 @@
         ]
       },
       "text.heading-1.font-size": {
-        "cssVar": "--heru-text-heading-1-font-size",
+        "cssVar": "--prism-text-heading-1-font-size",
         "type": "number",
         "value": 28
       },
       "text.heading-1.line-height": {
-        "cssVar": "--heru-text-heading-1-line-height",
+        "cssVar": "--prism-text-heading-1-line-height",
         "type": "number",
         "value": 36
       },
       "text.heading-1.font-weight": {
-        "cssVar": "--heru-text-heading-1-font-weight",
+        "cssVar": "--prism-text-heading-1-font-weight",
         "type": "number",
         "value": 700
       },
       "text.heading-1.font-family": {
-        "cssVar": "--heru-text-heading-1-font-family",
+        "cssVar": "--prism-text-heading-1-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1252,22 +1252,22 @@
         ]
       },
       "text.code.font-size": {
-        "cssVar": "--heru-text-code-font-size",
+        "cssVar": "--prism-text-code-font-size",
         "type": "number",
         "value": 14
       },
       "text.code.line-height": {
-        "cssVar": "--heru-text-code-line-height",
+        "cssVar": "--prism-text-code-line-height",
         "type": "number",
         "value": 20
       },
       "text.code.font-weight": {
-        "cssVar": "--heru-text-code-font-weight",
+        "cssVar": "--prism-text-code-font-weight",
         "type": "number",
         "value": 400
       },
       "text.code.font-family": {
-        "cssVar": "--heru-text-code-font-family",
+        "cssVar": "--prism-text-code-font-family",
         "type": "number",
         "value": [
           "JetBrains Mono",
@@ -1277,303 +1277,303 @@
         ]
       },
       "color.slate.0": {
-        "cssVar": "--heru-color-slate-0",
+        "cssVar": "--prism-color-slate-0",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.slate.50": {
-        "cssVar": "--heru-color-slate-50",
+        "cssVar": "--prism-color-slate-50",
         "type": "color",
         "value": "oklch(0.984 0.003 260)",
         "hex": "#f9fafc"
       },
       "color.slate.100": {
-        "cssVar": "--heru-color-slate-100",
+        "cssVar": "--prism-color-slate-100",
         "type": "color",
         "value": "oklch(0.968 0.007 260)",
         "hex": "#f2f5f9"
       },
       "color.slate.200": {
-        "cssVar": "--heru-color-slate-200",
+        "cssVar": "--prism-color-slate-200",
         "type": "color",
         "value": "oklch(0.929 0.013 260)",
         "hex": "#e3e8f0"
       },
       "color.slate.300": {
-        "cssVar": "--heru-color-slate-300",
+        "cssVar": "--prism-color-slate-300",
         "type": "color",
         "value": "oklch(0.869 0.02 260)",
         "hex": "#ccd4e1"
       },
       "color.slate.400": {
-        "cssVar": "--heru-color-slate-400",
+        "cssVar": "--prism-color-slate-400",
         "type": "color",
         "value": "oklch(0.704 0.03 260)",
         "hex": "#95a0b3"
       },
       "color.slate.500": {
-        "cssVar": "--heru-color-slate-500",
+        "cssVar": "--prism-color-slate-500",
         "type": "color",
         "value": "oklch(0.554 0.035 260)",
         "hex": "#677388"
       },
       "color.slate.600": {
-        "cssVar": "--heru-color-slate-600",
+        "cssVar": "--prism-color-slate-600",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.slate.700": {
-        "cssVar": "--heru-color-slate-700",
+        "cssVar": "--prism-color-slate-700",
         "type": "color",
         "value": "oklch(0.372 0.035 260)",
         "hex": "#354153"
       },
       "color.slate.800": {
-        "cssVar": "--heru-color-slate-800",
+        "cssVar": "--prism-color-slate-800",
         "type": "color",
         "value": "oklch(0.279 0.033 260)",
         "hex": "#1f2939"
       },
       "color.slate.900": {
-        "cssVar": "--heru-color-slate-900",
+        "cssVar": "--prism-color-slate-900",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.slate.950": {
-        "cssVar": "--heru-color-slate-950",
+        "cssVar": "--prism-color-slate-950",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.red.50": {
-        "cssVar": "--heru-color-red-50",
+        "cssVar": "--prism-color-red-50",
         "type": "color",
         "value": "oklch(0.971 0.013 27)",
         "hex": "#fef2f1"
       },
       "color.red.500": {
-        "cssVar": "--heru-color-red-500",
+        "cssVar": "--prism-color-red-500",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3)",
         "hex": "#e3193b"
       },
       "color.red.600": {
-        "cssVar": "--heru-color-red-600",
+        "cssVar": "--prism-color-red-600",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.red.700": {
-        "cssVar": "--heru-color-red-700",
+        "cssVar": "--prism-color-red-700",
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
       "color.red.800": {
-        "cssVar": "--heru-color-red-800",
+        "cssVar": "--prism-color-red-800",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "color.bg": {
-        "cssVar": "--heru-color-bg",
+        "cssVar": "--prism-color-bg",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.surface": {
-        "cssVar": "--heru-color-surface",
+        "cssVar": "--prism-color-surface",
         "type": "color",
         "value": "oklch(0.984 0.003 260)",
         "hex": "#f9fafc"
       },
       "color.text": {
-        "cssVar": "--heru-color-text",
+        "cssVar": "--prism-color-text",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.text-muted": {
-        "cssVar": "--heru-color-text-muted",
+        "cssVar": "--prism-color-text-muted",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.border": {
-        "cssVar": "--heru-color-border",
+        "cssVar": "--prism-color-border",
         "type": "color",
         "value": "oklch(0.869 0.02 260)",
         "hex": "#ccd4e1"
       },
       "color.border-strong": {
-        "cssVar": "--heru-color-border-strong",
+        "cssVar": "--prism-color-border-strong",
         "type": "color",
         "value": "oklch(0.554 0.035 260)",
         "hex": "#677388"
       },
       "color.border-popup": {
-        "cssVar": "--heru-color-border-popup",
+        "cssVar": "--prism-color-border-popup",
         "type": "color",
         "value": "oklch(0.704 0.03 260)",
         "hex": "#95a0b3"
       },
       "color.accent": {
-        "cssVar": "--heru-color-accent",
+        "cssVar": "--prism-color-accent",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.accent-hover": {
-        "cssVar": "--heru-color-accent-hover",
+        "cssVar": "--prism-color-accent-hover",
         "type": "color",
         "value": "oklch(0.279 0.033 260)",
         "hex": "#1f2939"
       },
       "color.accent-active": {
-        "cssVar": "--heru-color-accent-active",
+        "cssVar": "--prism-color-accent-active",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.on-accent": {
-        "cssVar": "--heru-color-on-accent",
+        "cssVar": "--prism-color-on-accent",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.surface-hover": {
-        "cssVar": "--heru-color-surface-hover",
+        "cssVar": "--prism-color-surface-hover",
         "type": "color",
         "value": "oklch(0.968 0.007 260)",
         "hex": "#f2f5f9"
       },
       "color.surface-pressed": {
-        "cssVar": "--heru-color-surface-pressed",
+        "cssVar": "--prism-color-surface-pressed",
         "type": "color",
         "value": "oklch(0.929 0.013 260)",
         "hex": "#e3e8f0"
       },
       "color.focus-ring": {
-        "cssVar": "--heru-color-focus-ring",
+        "cssVar": "--prism-color-focus-ring",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.focus-halo": {
-        "cssVar": "--heru-color-focus-halo",
+        "cssVar": "--prism-color-focus-halo",
         "type": "color",
         "value": "oklch(0.554 0.035 260 / 0.12)",
         "hex": "#6773881f"
       },
       "color.shadow": {
-        "cssVar": "--heru-color-shadow",
+        "cssVar": "--prism-color-shadow",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.shadow-urgent": {
-        "cssVar": "--heru-color-shadow-urgent",
+        "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.error": {
-        "cssVar": "--heru-color-error",
+        "cssVar": "--prism-color-error",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.error-text": {
-        "cssVar": "--heru-color-error-text",
+        "cssVar": "--prism-color-error-text",
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
       "color.error-surface-base": {
-        "cssVar": "--heru-color-error-surface-base",
+        "cssVar": "--prism-color-error-surface-base",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3)",
         "hex": "#e3193b"
       },
       "color.error-surface": {
-        "cssVar": "--heru-color-error-surface",
+        "cssVar": "--prism-color-error-surface",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3 / 0.08)",
         "hex": "#e3193b14"
       },
       "color.on-error-surface": {
-        "cssVar": "--heru-color-on-error-surface",
+        "cssVar": "--prism-color-on-error-surface",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "color.error-status-text": {
-        "cssVar": "--heru-color-error-status-text",
+        "cssVar": "--prism-color-error-status-text",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "state.hover": {
-        "cssVar": "--heru-state-hover",
+        "cssVar": "--prism-state-hover",
         "type": "percentage",
         "value": "8%"
       },
       "state.pressed": {
-        "cssVar": "--heru-state-pressed",
+        "cssVar": "--prism-state-pressed",
         "type": "percentage",
         "value": "12%"
       },
       "state.selected": {
-        "cssVar": "--heru-state-selected",
+        "cssVar": "--prism-state-selected",
         "type": "percentage",
         "value": "14%"
       },
       "focus.ring-width": {
-        "cssVar": "--heru-focus-ring-width",
+        "cssVar": "--prism-focus-ring-width",
         "type": "dimension",
         "value": 2
       },
       "focus.ring-offset": {
-        "cssVar": "--heru-focus-ring-offset",
+        "cssVar": "--prism-focus-ring-offset",
         "type": "dimension",
         "value": 1
       },
       "focus.ring-blur": {
-        "cssVar": "--heru-focus-ring-blur",
+        "cssVar": "--prism-focus-ring-blur",
         "type": "dimension",
         "value": 0.5
       },
       "focus.halo-width": {
-        "cssVar": "--heru-focus-halo-width",
+        "cssVar": "--prism-focus-halo-width",
         "type": "dimension",
         "value": 1
       },
       "focus.halo": {
-        "cssVar": "--heru-focus-halo",
+        "cssVar": "--prism-focus-halo",
         "type": "color",
         "value": "oklch(0.554 0.035 260 / 0.12)",
         "hex": "#6773881f"
       },
       "duration.fast": {
-        "cssVar": "--heru-duration-fast",
+        "cssVar": "--prism-duration-fast",
         "type": "duration",
         "value": "120ms"
       },
       "duration.default": {
-        "cssVar": "--heru-duration-default",
+        "cssVar": "--prism-duration-default",
         "type": "duration",
         "value": "200ms"
       },
       "duration.slow": {
-        "cssVar": "--heru-duration-slow",
+        "cssVar": "--prism-duration-slow",
         "type": "duration",
         "value": "320ms"
       },
       "ease.standard": {
-        "cssVar": "--heru-ease-standard",
+        "cssVar": "--prism-ease-standard",
         "type": "cubicBezier",
         "value": [
           0.2,
@@ -1583,7 +1583,7 @@
         ]
       },
       "ease.spring": {
-        "cssVar": "--heru-ease-spring",
+        "cssVar": "--prism-ease-spring",
         "type": "cubicBezier",
         "value": "linear(0, 0.023, 0.079, 0.1535, 0.2364, 0.3211, 0.4034, 0.4806, 0.5513, 0.615, 0.6714, 0.721, 0.7641, 0.8012, 0.8331, 0.8603, 0.8834, 0.9028, 0.9193, 0.933, 0.9446, 0.9542, 0.9622, 0.9688, 0.9744, 0.9789, 0.9827, 0.9858, 0.9884, 0.9905, 0.9922, 0.9936, 0.9948, 0.9958, 0.9965, 0.9972, 0.9977, 0.9981, 0.9985, 0.9988, 1)",
         "fallback": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -1598,7 +1598,7 @@
         }
       },
       "ease.spring-bouncy": {
-        "cssVar": "--heru-ease-spring-bouncy",
+        "cssVar": "--prism-ease-spring-bouncy",
         "type": "cubicBezier",
         "value": "linear(0, 0.0283, 0.0999, 0.1976, 0.3084, 0.4222, 0.5322, 0.6336, 0.7235, 0.8008, 0.8652, 0.9171, 0.9575, 0.9879, 1.0097, 1.0243, 1.0332, 1.0375, 1.0386, 1.0372, 1.0343, 1.0305, 1.0262, 1.0218, 1.0176, 1.0137, 1.0103, 1.0074, 1.0049, 1.003, 1.0015, 1.0003, 0.9995, 0.999, 0.9987, 0.9985, 0.9985, 0.9986, 0.9987, 0.9988, 1)",
         "fallback": "cubic-bezier(0.3, 1.25, 0.6, 1)",
@@ -1613,179 +1613,179 @@
         }
       },
       "elevation.default": {
-        "cssVar": "--heru-elevation-default",
+        "cssVar": "--prism-elevation-default",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)"
       },
       "elevation.hover": {
-        "cssVar": "--heru-elevation-hover",
+        "cssVar": "--prism-elevation-hover",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)"
       },
       "elevation.urgent": {
-        "cssVar": "--heru-elevation-urgent",
+        "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
       }
     },
     "comfortable": {
       "unit": {
-        "cssVar": "--heru-unit",
+        "cssVar": "--prism-unit",
         "type": "dimension",
         "value": 4
       },
       "density.leading-units": {
-        "cssVar": "--heru-density-leading-units",
+        "cssVar": "--prism-density-leading-units",
         "type": "number",
         "value": 6
       },
       "density.pad-units": {
-        "cssVar": "--heru-density-pad-units",
+        "cssVar": "--prism-density-pad-units",
         "type": "number",
         "value": 3
       },
       "density.pad-inline-units": {
-        "cssVar": "--heru-density-pad-inline-units",
+        "cssVar": "--prism-density-pad-inline-units",
         "type": "number",
         "value": 4
       },
       "density.control-sm-units": {
-        "cssVar": "--heru-density-control-sm-units",
+        "cssVar": "--prism-density-control-sm-units",
         "type": "number",
         "value": 10
       },
       "space.0": {
-        "cssVar": "--heru-space-0",
+        "cssVar": "--prism-space-0",
         "type": "dimension",
         "value": 0
       },
       "space.1": {
-        "cssVar": "--heru-space-1",
+        "cssVar": "--prism-space-1",
         "type": "dimension",
         "value": 4
       },
       "space.2": {
-        "cssVar": "--heru-space-2",
+        "cssVar": "--prism-space-2",
         "type": "dimension",
         "value": 8
       },
       "space.3": {
-        "cssVar": "--heru-space-3",
+        "cssVar": "--prism-space-3",
         "type": "dimension",
         "value": 12
       },
       "space.4": {
-        "cssVar": "--heru-space-4",
+        "cssVar": "--prism-space-4",
         "type": "dimension",
         "value": 16
       },
       "space.5": {
-        "cssVar": "--heru-space-5",
+        "cssVar": "--prism-space-5",
         "type": "dimension",
         "value": 20
       },
       "space.6": {
-        "cssVar": "--heru-space-6",
+        "cssVar": "--prism-space-6",
         "type": "dimension",
         "value": 24
       },
       "space.8": {
-        "cssVar": "--heru-space-8",
+        "cssVar": "--prism-space-8",
         "type": "dimension",
         "value": 32
       },
       "space.10": {
-        "cssVar": "--heru-space-10",
+        "cssVar": "--prism-space-10",
         "type": "dimension",
         "value": 40
       },
       "space.12": {
-        "cssVar": "--heru-space-12",
+        "cssVar": "--prism-space-12",
         "type": "dimension",
         "value": 48
       },
       "space.16": {
-        "cssVar": "--heru-space-16",
+        "cssVar": "--prism-space-16",
         "type": "dimension",
         "value": 64
       },
       "radius.1": {
-        "cssVar": "--heru-radius-1",
+        "cssVar": "--prism-radius-1",
         "type": "dimension",
         "value": 1
       },
       "radius.3": {
-        "cssVar": "--heru-radius-3",
+        "cssVar": "--prism-radius-3",
         "type": "dimension",
         "value": 3
       },
       "radius.5": {
-        "cssVar": "--heru-radius-5",
+        "cssVar": "--prism-radius-5",
         "type": "dimension",
         "value": 5
       },
       "radius.7": {
-        "cssVar": "--heru-radius-7",
+        "cssVar": "--prism-radius-7",
         "type": "dimension",
         "value": 7
       },
       "radius.9": {
-        "cssVar": "--heru-radius-9",
+        "cssVar": "--prism-radius-9",
         "type": "dimension",
         "value": 9
       },
       "radius.11": {
-        "cssVar": "--heru-radius-11",
+        "cssVar": "--prism-radius-11",
         "type": "dimension",
         "value": 11
       },
       "radius.none": {
-        "cssVar": "--heru-radius-none",
+        "cssVar": "--prism-radius-none",
         "type": "dimension",
         "value": 0
       },
       "radius.full": {
-        "cssVar": "--heru-radius-full",
+        "cssVar": "--prism-radius-full",
         "type": "dimension",
         "value": 9999
       },
       "border.width": {
-        "cssVar": "--heru-border-width",
+        "cssVar": "--prism-border-width",
         "type": "dimension",
         "value": 1
       },
       "leading.body": {
-        "cssVar": "--heru-leading-body",
+        "cssVar": "--prism-leading-body",
         "type": "dimension",
         "value": 24
       },
       "control.height.sm": {
-        "cssVar": "--heru-control-height-sm",
+        "cssVar": "--prism-control-height-sm",
         "type": "dimension",
         "value": 40
       },
       "control.height.md": {
-        "cssVar": "--heru-control-height-md",
+        "cssVar": "--prism-control-height-md",
         "type": "dimension",
         "value": 48
       },
       "control.height.lg": {
-        "cssVar": "--heru-control-height-lg",
+        "cssVar": "--prism-control-height-lg",
         "type": "dimension",
         "value": 56
       },
       "control.padding-inline": {
-        "cssVar": "--heru-control-padding-inline",
+        "cssVar": "--prism-control-padding-inline",
         "type": "dimension",
         "value": 16
       },
       "control.padding-block": {
-        "cssVar": "--heru-control-padding-block",
+        "cssVar": "--prism-control-padding-block",
         "type": "dimension",
         "value": 12
       },
       "font.family.sans": {
-        "cssVar": "--heru-font-family-sans",
+        "cssVar": "--prism-font-family-sans",
         "type": "fontFamily",
         "value": [
           "Inter",
@@ -1795,7 +1795,7 @@
         ]
       },
       "font.family.mono": {
-        "cssVar": "--heru-font-family-mono",
+        "cssVar": "--prism-font-family-mono",
         "type": "fontFamily",
         "value": [
           "JetBrains Mono",
@@ -1805,107 +1805,107 @@
         ]
       },
       "font.weight.regular": {
-        "cssVar": "--heru-font-weight-regular",
+        "cssVar": "--prism-font-weight-regular",
         "type": "fontWeight",
         "value": 400
       },
       "font.weight.medium": {
-        "cssVar": "--heru-font-weight-medium",
+        "cssVar": "--prism-font-weight-medium",
         "type": "fontWeight",
         "value": 500
       },
       "font.weight.semibold": {
-        "cssVar": "--heru-font-weight-semibold",
+        "cssVar": "--prism-font-weight-semibold",
         "type": "fontWeight",
         "value": 600
       },
       "font.weight.bold": {
-        "cssVar": "--heru-font-weight-bold",
+        "cssVar": "--prism-font-weight-bold",
         "type": "fontWeight",
         "value": 700
       },
       "font.size.12": {
-        "cssVar": "--heru-font-size-12",
+        "cssVar": "--prism-font-size-12",
         "type": "dimension",
         "value": 12
       },
       "font.size.14": {
-        "cssVar": "--heru-font-size-14",
+        "cssVar": "--prism-font-size-14",
         "type": "dimension",
         "value": 14
       },
       "font.size.16": {
-        "cssVar": "--heru-font-size-16",
+        "cssVar": "--prism-font-size-16",
         "type": "dimension",
         "value": 16
       },
       "font.size.18": {
-        "cssVar": "--heru-font-size-18",
+        "cssVar": "--prism-font-size-18",
         "type": "dimension",
         "value": 18
       },
       "font.size.20": {
-        "cssVar": "--heru-font-size-20",
+        "cssVar": "--prism-font-size-20",
         "type": "dimension",
         "value": 20
       },
       "font.size.24": {
-        "cssVar": "--heru-font-size-24",
+        "cssVar": "--prism-font-size-24",
         "type": "dimension",
         "value": 24
       },
       "font.size.28": {
-        "cssVar": "--heru-font-size-28",
+        "cssVar": "--prism-font-size-28",
         "type": "dimension",
         "value": 28
       },
       "font.line-height.16": {
-        "cssVar": "--heru-font-line-height-16",
+        "cssVar": "--prism-font-line-height-16",
         "type": "dimension",
         "value": 16
       },
       "font.line-height.20": {
-        "cssVar": "--heru-font-line-height-20",
+        "cssVar": "--prism-font-line-height-20",
         "type": "dimension",
         "value": 20
       },
       "font.line-height.24": {
-        "cssVar": "--heru-font-line-height-24",
+        "cssVar": "--prism-font-line-height-24",
         "type": "dimension",
         "value": 24
       },
       "font.line-height.28": {
-        "cssVar": "--heru-font-line-height-28",
+        "cssVar": "--prism-font-line-height-28",
         "type": "dimension",
         "value": 28
       },
       "font.line-height.32": {
-        "cssVar": "--heru-font-line-height-32",
+        "cssVar": "--prism-font-line-height-32",
         "type": "dimension",
         "value": 32
       },
       "font.line-height.36": {
-        "cssVar": "--heru-font-line-height-36",
+        "cssVar": "--prism-font-line-height-36",
         "type": "dimension",
         "value": 36
       },
       "text.caption.font-size": {
-        "cssVar": "--heru-text-caption-font-size",
+        "cssVar": "--prism-text-caption-font-size",
         "type": "number",
         "value": 12
       },
       "text.caption.line-height": {
-        "cssVar": "--heru-text-caption-line-height",
+        "cssVar": "--prism-text-caption-line-height",
         "type": "number",
         "value": 16
       },
       "text.caption.font-weight": {
-        "cssVar": "--heru-text-caption-font-weight",
+        "cssVar": "--prism-text-caption-font-weight",
         "type": "number",
         "value": 400
       },
       "text.caption.font-family": {
-        "cssVar": "--heru-text-caption-font-family",
+        "cssVar": "--prism-text-caption-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1915,22 +1915,22 @@
         ]
       },
       "text.label.font-size": {
-        "cssVar": "--heru-text-label-font-size",
+        "cssVar": "--prism-text-label-font-size",
         "type": "number",
         "value": 14
       },
       "text.label.line-height": {
-        "cssVar": "--heru-text-label-line-height",
+        "cssVar": "--prism-text-label-line-height",
         "type": "number",
         "value": 20
       },
       "text.label.font-weight": {
-        "cssVar": "--heru-text-label-font-weight",
+        "cssVar": "--prism-text-label-font-weight",
         "type": "number",
         "value": 500
       },
       "text.label.font-family": {
-        "cssVar": "--heru-text-label-font-family",
+        "cssVar": "--prism-text-label-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1940,22 +1940,22 @@
         ]
       },
       "text.body.font-size": {
-        "cssVar": "--heru-text-body-font-size",
+        "cssVar": "--prism-text-body-font-size",
         "type": "number",
         "value": 14
       },
       "text.body.line-height": {
-        "cssVar": "--heru-text-body-line-height",
+        "cssVar": "--prism-text-body-line-height",
         "type": "number",
         "value": 20
       },
       "text.body.font-weight": {
-        "cssVar": "--heru-text-body-font-weight",
+        "cssVar": "--prism-text-body-font-weight",
         "type": "number",
         "value": 400
       },
       "text.body.font-family": {
-        "cssVar": "--heru-text-body-font-family",
+        "cssVar": "--prism-text-body-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1965,22 +1965,22 @@
         ]
       },
       "text.body-lg.font-size": {
-        "cssVar": "--heru-text-body-lg-font-size",
+        "cssVar": "--prism-text-body-lg-font-size",
         "type": "number",
         "value": 16
       },
       "text.body-lg.line-height": {
-        "cssVar": "--heru-text-body-lg-line-height",
+        "cssVar": "--prism-text-body-lg-line-height",
         "type": "number",
         "value": 24
       },
       "text.body-lg.font-weight": {
-        "cssVar": "--heru-text-body-lg-font-weight",
+        "cssVar": "--prism-text-body-lg-font-weight",
         "type": "number",
         "value": 400
       },
       "text.body-lg.font-family": {
-        "cssVar": "--heru-text-body-lg-font-family",
+        "cssVar": "--prism-text-body-lg-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -1990,22 +1990,22 @@
         ]
       },
       "text.heading-3.font-size": {
-        "cssVar": "--heru-text-heading-3-font-size",
+        "cssVar": "--prism-text-heading-3-font-size",
         "type": "number",
         "value": 18
       },
       "text.heading-3.line-height": {
-        "cssVar": "--heru-text-heading-3-line-height",
+        "cssVar": "--prism-text-heading-3-line-height",
         "type": "number",
         "value": 28
       },
       "text.heading-3.font-weight": {
-        "cssVar": "--heru-text-heading-3-font-weight",
+        "cssVar": "--prism-text-heading-3-font-weight",
         "type": "number",
         "value": 600
       },
       "text.heading-3.font-family": {
-        "cssVar": "--heru-text-heading-3-font-family",
+        "cssVar": "--prism-text-heading-3-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -2015,22 +2015,22 @@
         ]
       },
       "text.heading-2.font-size": {
-        "cssVar": "--heru-text-heading-2-font-size",
+        "cssVar": "--prism-text-heading-2-font-size",
         "type": "number",
         "value": 20
       },
       "text.heading-2.line-height": {
-        "cssVar": "--heru-text-heading-2-line-height",
+        "cssVar": "--prism-text-heading-2-line-height",
         "type": "number",
         "value": 28
       },
       "text.heading-2.font-weight": {
-        "cssVar": "--heru-text-heading-2-font-weight",
+        "cssVar": "--prism-text-heading-2-font-weight",
         "type": "number",
         "value": 600
       },
       "text.heading-2.font-family": {
-        "cssVar": "--heru-text-heading-2-font-family",
+        "cssVar": "--prism-text-heading-2-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -2040,22 +2040,22 @@
         ]
       },
       "text.heading-1.font-size": {
-        "cssVar": "--heru-text-heading-1-font-size",
+        "cssVar": "--prism-text-heading-1-font-size",
         "type": "number",
         "value": 28
       },
       "text.heading-1.line-height": {
-        "cssVar": "--heru-text-heading-1-line-height",
+        "cssVar": "--prism-text-heading-1-line-height",
         "type": "number",
         "value": 36
       },
       "text.heading-1.font-weight": {
-        "cssVar": "--heru-text-heading-1-font-weight",
+        "cssVar": "--prism-text-heading-1-font-weight",
         "type": "number",
         "value": 700
       },
       "text.heading-1.font-family": {
-        "cssVar": "--heru-text-heading-1-font-family",
+        "cssVar": "--prism-text-heading-1-font-family",
         "type": "number",
         "value": [
           "Inter",
@@ -2065,22 +2065,22 @@
         ]
       },
       "text.code.font-size": {
-        "cssVar": "--heru-text-code-font-size",
+        "cssVar": "--prism-text-code-font-size",
         "type": "number",
         "value": 14
       },
       "text.code.line-height": {
-        "cssVar": "--heru-text-code-line-height",
+        "cssVar": "--prism-text-code-line-height",
         "type": "number",
         "value": 20
       },
       "text.code.font-weight": {
-        "cssVar": "--heru-text-code-font-weight",
+        "cssVar": "--prism-text-code-font-weight",
         "type": "number",
         "value": 400
       },
       "text.code.font-family": {
-        "cssVar": "--heru-text-code-font-family",
+        "cssVar": "--prism-text-code-font-family",
         "type": "number",
         "value": [
           "JetBrains Mono",
@@ -2090,303 +2090,303 @@
         ]
       },
       "color.slate.0": {
-        "cssVar": "--heru-color-slate-0",
+        "cssVar": "--prism-color-slate-0",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.slate.50": {
-        "cssVar": "--heru-color-slate-50",
+        "cssVar": "--prism-color-slate-50",
         "type": "color",
         "value": "oklch(0.984 0.003 260)",
         "hex": "#f9fafc"
       },
       "color.slate.100": {
-        "cssVar": "--heru-color-slate-100",
+        "cssVar": "--prism-color-slate-100",
         "type": "color",
         "value": "oklch(0.968 0.007 260)",
         "hex": "#f2f5f9"
       },
       "color.slate.200": {
-        "cssVar": "--heru-color-slate-200",
+        "cssVar": "--prism-color-slate-200",
         "type": "color",
         "value": "oklch(0.929 0.013 260)",
         "hex": "#e3e8f0"
       },
       "color.slate.300": {
-        "cssVar": "--heru-color-slate-300",
+        "cssVar": "--prism-color-slate-300",
         "type": "color",
         "value": "oklch(0.869 0.02 260)",
         "hex": "#ccd4e1"
       },
       "color.slate.400": {
-        "cssVar": "--heru-color-slate-400",
+        "cssVar": "--prism-color-slate-400",
         "type": "color",
         "value": "oklch(0.704 0.03 260)",
         "hex": "#95a0b3"
       },
       "color.slate.500": {
-        "cssVar": "--heru-color-slate-500",
+        "cssVar": "--prism-color-slate-500",
         "type": "color",
         "value": "oklch(0.554 0.035 260)",
         "hex": "#677388"
       },
       "color.slate.600": {
-        "cssVar": "--heru-color-slate-600",
+        "cssVar": "--prism-color-slate-600",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.slate.700": {
-        "cssVar": "--heru-color-slate-700",
+        "cssVar": "--prism-color-slate-700",
         "type": "color",
         "value": "oklch(0.372 0.035 260)",
         "hex": "#354153"
       },
       "color.slate.800": {
-        "cssVar": "--heru-color-slate-800",
+        "cssVar": "--prism-color-slate-800",
         "type": "color",
         "value": "oklch(0.279 0.033 260)",
         "hex": "#1f2939"
       },
       "color.slate.900": {
-        "cssVar": "--heru-color-slate-900",
+        "cssVar": "--prism-color-slate-900",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.slate.950": {
-        "cssVar": "--heru-color-slate-950",
+        "cssVar": "--prism-color-slate-950",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.red.50": {
-        "cssVar": "--heru-color-red-50",
+        "cssVar": "--prism-color-red-50",
         "type": "color",
         "value": "oklch(0.971 0.013 27)",
         "hex": "#fef2f1"
       },
       "color.red.500": {
-        "cssVar": "--heru-color-red-500",
+        "cssVar": "--prism-color-red-500",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3)",
         "hex": "#e3193b"
       },
       "color.red.600": {
-        "cssVar": "--heru-color-red-600",
+        "cssVar": "--prism-color-red-600",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.red.700": {
-        "cssVar": "--heru-color-red-700",
+        "cssVar": "--prism-color-red-700",
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
       "color.red.800": {
-        "cssVar": "--heru-color-red-800",
+        "cssVar": "--prism-color-red-800",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "color.bg": {
-        "cssVar": "--heru-color-bg",
+        "cssVar": "--prism-color-bg",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.surface": {
-        "cssVar": "--heru-color-surface",
+        "cssVar": "--prism-color-surface",
         "type": "color",
         "value": "oklch(0.984 0.003 260)",
         "hex": "#f9fafc"
       },
       "color.text": {
-        "cssVar": "--heru-color-text",
+        "cssVar": "--prism-color-text",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.text-muted": {
-        "cssVar": "--heru-color-text-muted",
+        "cssVar": "--prism-color-text-muted",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.border": {
-        "cssVar": "--heru-color-border",
+        "cssVar": "--prism-color-border",
         "type": "color",
         "value": "oklch(0.869 0.02 260)",
         "hex": "#ccd4e1"
       },
       "color.border-strong": {
-        "cssVar": "--heru-color-border-strong",
+        "cssVar": "--prism-color-border-strong",
         "type": "color",
         "value": "oklch(0.554 0.035 260)",
         "hex": "#677388"
       },
       "color.border-popup": {
-        "cssVar": "--heru-color-border-popup",
+        "cssVar": "--prism-color-border-popup",
         "type": "color",
         "value": "oklch(0.704 0.03 260)",
         "hex": "#95a0b3"
       },
       "color.accent": {
-        "cssVar": "--heru-color-accent",
+        "cssVar": "--prism-color-accent",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.accent-hover": {
-        "cssVar": "--heru-color-accent-hover",
+        "cssVar": "--prism-color-accent-hover",
         "type": "color",
         "value": "oklch(0.279 0.033 260)",
         "hex": "#1f2939"
       },
       "color.accent-active": {
-        "cssVar": "--heru-color-accent-active",
+        "cssVar": "--prism-color-accent-active",
         "type": "color",
         "value": "oklch(0.208 0.03 260)",
         "hex": "#101826"
       },
       "color.on-accent": {
-        "cssVar": "--heru-color-on-accent",
+        "cssVar": "--prism-color-on-accent",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
       },
       "color.surface-hover": {
-        "cssVar": "--heru-color-surface-hover",
+        "cssVar": "--prism-color-surface-hover",
         "type": "color",
         "value": "oklch(0.968 0.007 260)",
         "hex": "#f2f5f9"
       },
       "color.surface-pressed": {
-        "cssVar": "--heru-color-surface-pressed",
+        "cssVar": "--prism-color-surface-pressed",
         "type": "color",
         "value": "oklch(0.929 0.013 260)",
         "hex": "#e3e8f0"
       },
       "color.focus-ring": {
-        "cssVar": "--heru-color-focus-ring",
+        "cssVar": "--prism-color-focus-ring",
         "type": "color",
         "value": "oklch(0.446 0.035 260)",
         "hex": "#495568"
       },
       "color.focus-halo": {
-        "cssVar": "--heru-color-focus-halo",
+        "cssVar": "--prism-color-focus-halo",
         "type": "color",
         "value": "oklch(0.554 0.035 260 / 0.12)",
         "hex": "#6773881f"
       },
       "color.shadow": {
-        "cssVar": "--heru-color-shadow",
+        "cssVar": "--prism-color-shadow",
         "type": "color",
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
       "color.shadow-urgent": {
-        "cssVar": "--heru-color-shadow-urgent",
+        "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.error": {
-        "cssVar": "--heru-color-error",
+        "cssVar": "--prism-color-error",
         "type": "color",
         "value": "oklch(0.56 0.19 27)",
         "hex": "#cc3430"
       },
       "color.error-text": {
-        "cssVar": "--heru-color-error-text",
+        "cssVar": "--prism-color-error-text",
         "type": "color",
         "value": "oklch(0.48 0.17 27)",
         "hex": "#a92321"
       },
       "color.error-surface-base": {
-        "cssVar": "--heru-color-error-surface-base",
+        "cssVar": "--prism-color-error-surface-base",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3)",
         "hex": "#e3193b"
       },
       "color.error-surface": {
-        "cssVar": "--heru-color-error-surface",
+        "cssVar": "--prism-color-error-surface",
         "type": "color",
         "value": "oklch(0.586 0.226 21.3 / 0.08)",
         "hex": "#e3193b14"
       },
       "color.on-error-surface": {
-        "cssVar": "--heru-color-on-error-surface",
+        "cssVar": "--prism-color-on-error-surface",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "color.error-status-text": {
-        "cssVar": "--heru-color-error-status-text",
+        "cssVar": "--prism-color-error-status-text",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
       },
       "state.hover": {
-        "cssVar": "--heru-state-hover",
+        "cssVar": "--prism-state-hover",
         "type": "percentage",
         "value": "8%"
       },
       "state.pressed": {
-        "cssVar": "--heru-state-pressed",
+        "cssVar": "--prism-state-pressed",
         "type": "percentage",
         "value": "12%"
       },
       "state.selected": {
-        "cssVar": "--heru-state-selected",
+        "cssVar": "--prism-state-selected",
         "type": "percentage",
         "value": "14%"
       },
       "focus.ring-width": {
-        "cssVar": "--heru-focus-ring-width",
+        "cssVar": "--prism-focus-ring-width",
         "type": "dimension",
         "value": 2
       },
       "focus.ring-offset": {
-        "cssVar": "--heru-focus-ring-offset",
+        "cssVar": "--prism-focus-ring-offset",
         "type": "dimension",
         "value": 1
       },
       "focus.ring-blur": {
-        "cssVar": "--heru-focus-ring-blur",
+        "cssVar": "--prism-focus-ring-blur",
         "type": "dimension",
         "value": 0.5
       },
       "focus.halo-width": {
-        "cssVar": "--heru-focus-halo-width",
+        "cssVar": "--prism-focus-halo-width",
         "type": "dimension",
         "value": 1
       },
       "focus.halo": {
-        "cssVar": "--heru-focus-halo",
+        "cssVar": "--prism-focus-halo",
         "type": "color",
         "value": "oklch(0.554 0.035 260 / 0.12)",
         "hex": "#6773881f"
       },
       "duration.fast": {
-        "cssVar": "--heru-duration-fast",
+        "cssVar": "--prism-duration-fast",
         "type": "duration",
         "value": "120ms"
       },
       "duration.default": {
-        "cssVar": "--heru-duration-default",
+        "cssVar": "--prism-duration-default",
         "type": "duration",
         "value": "200ms"
       },
       "duration.slow": {
-        "cssVar": "--heru-duration-slow",
+        "cssVar": "--prism-duration-slow",
         "type": "duration",
         "value": "320ms"
       },
       "ease.standard": {
-        "cssVar": "--heru-ease-standard",
+        "cssVar": "--prism-ease-standard",
         "type": "cubicBezier",
         "value": [
           0.2,
@@ -2396,7 +2396,7 @@
         ]
       },
       "ease.spring": {
-        "cssVar": "--heru-ease-spring",
+        "cssVar": "--prism-ease-spring",
         "type": "cubicBezier",
         "value": "linear(0, 0.023, 0.079, 0.1535, 0.2364, 0.3211, 0.4034, 0.4806, 0.5513, 0.615, 0.6714, 0.721, 0.7641, 0.8012, 0.8331, 0.8603, 0.8834, 0.9028, 0.9193, 0.933, 0.9446, 0.9542, 0.9622, 0.9688, 0.9744, 0.9789, 0.9827, 0.9858, 0.9884, 0.9905, 0.9922, 0.9936, 0.9948, 0.9958, 0.9965, 0.9972, 0.9977, 0.9981, 0.9985, 0.9988, 1)",
         "fallback": "cubic-bezier(0.25, 1, 0.5, 1)",
@@ -2411,7 +2411,7 @@
         }
       },
       "ease.spring-bouncy": {
-        "cssVar": "--heru-ease-spring-bouncy",
+        "cssVar": "--prism-ease-spring-bouncy",
         "type": "cubicBezier",
         "value": "linear(0, 0.0283, 0.0999, 0.1976, 0.3084, 0.4222, 0.5322, 0.6336, 0.7235, 0.8008, 0.8652, 0.9171, 0.9575, 0.9879, 1.0097, 1.0243, 1.0332, 1.0375, 1.0386, 1.0372, 1.0343, 1.0305, 1.0262, 1.0218, 1.0176, 1.0137, 1.0103, 1.0074, 1.0049, 1.003, 1.0015, 1.0003, 0.9995, 0.999, 0.9987, 0.9985, 0.9985, 0.9986, 0.9987, 0.9988, 1)",
         "fallback": "cubic-bezier(0.3, 1.25, 0.6, 1)",
@@ -2426,17 +2426,17 @@
         }
       },
       "elevation.default": {
-        "cssVar": "--heru-elevation-default",
+        "cssVar": "--prism-elevation-default",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)"
       },
       "elevation.hover": {
-        "cssVar": "--heru-elevation-hover",
+        "cssVar": "--prism-elevation-hover",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16)"
       },
       "elevation.urgent": {
-        "cssVar": "--heru-elevation-urgent",
+        "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
       }

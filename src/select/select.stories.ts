@@ -12,16 +12,16 @@ interface Args {
 }
 
 const options = html`
-  <heru-option value="apple">Apple</heru-option>
-  <heru-option value="banana">Banana</heru-option>
-  <heru-option value="cherry">Cherry</heru-option>
-  <heru-option value="durian" disabled>Durian (sold out)</heru-option>
-  <heru-option value="elderberry">Elderberry</heru-option>
+  <prism-option value="apple">Apple</prism-option>
+  <prism-option value="banana">Banana</prism-option>
+  <prism-option value="cherry">Cherry</prism-option>
+  <prism-option value="durian" disabled>Durian (sold out)</prism-option>
+  <prism-option value="elderberry">Elderberry</prism-option>
 `;
 
 const meta: Meta<Args> = {
   title: 'Components/Select',
-  component: 'heru-select',
+  component: 'prism-select',
   args: {
     label: 'Fruit',
     size: 'md',
@@ -33,7 +33,7 @@ const meta: Meta<Args> = {
   argTypes: { size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] } },
   render: ({ label, size, disabled, required, description, error }) => html`
     <div style="max-inline-size: 320px">
-      <heru-select
+      <prism-select
         label=${label}
         name="fruit"
         placeholder="Select a fruit"
@@ -48,7 +48,7 @@ const meta: Meta<Args> = {
             : ''
         }
         <span slot="error">${error}</span>
-      </heru-select>
+      </prism-select>
     </div>
   `,
 };
@@ -62,8 +62,8 @@ export const Sizes: Story = {
     <div style="display: grid; gap: 24px; max-inline-size: 320px">
       ${(['sm', 'md', 'lg'] as const).map(
         (s) =>
-          html`<heru-select label="Size ${s}" size=${s} value="apple"
-            >${options}</heru-select
+          html`<prism-select label="Size ${s}" size=${s} value="apple"
+            >${options}</prism-select
           >`,
       )}
     </div>
@@ -75,9 +75,9 @@ export const Densities: Story = {
     <div style="display: grid; gap: 24px; max-inline-size: 320px">
       ${(['compact', 'default', 'comfortable'] as const).map(
         (d) =>
-          html`<div data-heru-density=${d}>
-            <heru-select label="Density ${d}" value="banana"
-              >${options}</heru-select
+          html`<div data-prism-density=${d}>
+            <prism-select label="Density ${d}" value="banana"
+              >${options}</prism-select
             >
           </div>`,
       )}
@@ -95,7 +95,7 @@ export const WithHelper: Story = {
 export const ErrorState: Story = {
   args: { required: true, description: 'We ship fruit on Mondays.' },
   play: async ({ canvasElement }) => {
-    const el = canvasElement.querySelector('heru-select')!;
+    const el = canvasElement.querySelector('prism-select')!;
     await el.updateComplete;
     el.reportValidity();
   },
@@ -105,7 +105,7 @@ export const ErrorState: Story = {
 export const OpenMenuWithHelper: Story = {
   args: { description: 'We ship fruit on Mondays.' },
   play: async ({ canvasElement }) => {
-    const el = canvasElement.querySelector('heru-select')!;
+    const el = canvasElement.querySelector('prism-select')!;
     await el.updateComplete;
     el.showPicker();
   },

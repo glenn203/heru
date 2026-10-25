@@ -11,14 +11,14 @@ interface Args {
 
 const meta: Meta<Args> = {
   title: 'Components/Button',
-  component: 'heru-button',
+  component: 'prism-button',
   args: { label: 'Save', type: 'button', disabled: false },
   argTypes: {
     type: { control: 'inline-radio', options: ['button', 'submit', 'reset'] },
   },
   render: ({ label, type, disabled, pressed }) =>
-    html`<heru-button type=${type} ?disabled=${disabled} .pressed=${pressed}
-      >${label}</heru-button
+    html`<prism-button type=${type} ?disabled=${disabled} .pressed=${pressed}
+      >${label}</prism-button
     >`,
 };
 export default meta;
@@ -32,13 +32,13 @@ export const Toggle: StoryObj<Args> = {
   args: { label: 'Bold', pressed: false },
 };
 
-/** Sizes follow the density of the nearest [data-heru-density]. */
+/** Sizes follow the density of the nearest [data-prism-density]. */
 export const Sizes: StoryObj<Args> = {
   render: ({ label }) =>
     html`<div style="display: flex; gap: 8px; align-items: center">
-      <heru-button type="button" size="sm">${label}</heru-button>
-      <heru-button type="button" size="md">${label}</heru-button>
-      <heru-button type="button" size="lg">${label}</heru-button>
+      <prism-button type="button" size="sm">${label}</prism-button>
+      <prism-button type="button" size="md">${label}</prism-button>
+      <prism-button type="button" size="lg">${label}</prism-button>
     </div>`,
 };
 
@@ -46,9 +46,9 @@ export const Sizes: StoryObj<Args> = {
 export const Outline: StoryObj = {
   render: () =>
     html`<div style="display: flex; gap: 12px">
-      <heru-button variant="outline" type="button">Cancel</heru-button>
-      <heru-button variant="outline" type="button" disabled
-        >Disabled</heru-button
+      <prism-button variant="outline" type="button">Cancel</prism-button>
+      <prism-button variant="outline" type="button" disabled
+        >Disabled</prism-button
       >
     </div>`,
 };
@@ -63,9 +63,9 @@ const VARIANTS = [
 const variantStory = (v: (typeof VARIANTS)[number]): StoryObj => ({
   render: () =>
     html`<div style="display: flex; gap: 12px">
-      <heru-button variant=${v} type="button">${v}</heru-button>
-      <heru-button variant=${v} type="button" pressed>Selected</heru-button>
-      <heru-button variant=${v} type="button" disabled>Disabled</heru-button>
+      <prism-button variant=${v} type="button">${v}</prism-button>
+      <prism-button variant=${v} type="button" pressed>Selected</prism-button>
+      <prism-button variant=${v} type="button" disabled>Disabled</prism-button>
     </div>`,
 });
 /** Variant names provisional, pending Technical Writer. */
@@ -78,7 +78,7 @@ export const AllVariants: StoryObj = {
   render: () =>
     html`<div style="display: grid; gap: 12px; justify-items: start">
       ${VARIANTS.map(
-        (v) => html`<heru-button variant=${v} type="button">${v}</heru-button>`,
+        (v) => html`<prism-button variant=${v} type="button">${v}</prism-button>`,
       )}
     </div>`,
 };

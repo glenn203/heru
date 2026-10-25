@@ -3,16 +3,16 @@ import { mount } from '../../test/fixture.js';
 
 const V = ['primary', 'secondary', 'ghost', 'outline', 'destructive'] as const;
 const BG: Record<(typeof V)[number], [string, string]> = {
-  primary: ['var(--heru-color-accent)', 'var(--heru-color-on-accent)'],
+  primary: ['var(--prism-color-accent)', 'var(--prism-color-on-accent)'],
   secondary: [
-    'color-mix(in oklch, var(--heru-color-bg), var(--heru-color-accent) 8%)',
-    'var(--heru-color-accent)',
+    'color-mix(in oklch, var(--prism-color-bg), var(--prism-color-accent) 8%)',
+    'var(--prism-color-accent)',
   ],
-  ghost: ['transparent', 'var(--heru-color-text)'],
-  outline: ['transparent', 'var(--heru-color-text)'],
+  ghost: ['transparent', 'var(--prism-color-text)'],
+  outline: ['transparent', 'var(--prism-color-text)'],
   destructive: [
-    'color-mix(in srgb, var(--heru-color-bg), var(--heru-color-error-surface-base) 8%)',
-    'var(--heru-color-on-error-surface)',
+    'color-mix(in srgb, var(--prism-color-bg), var(--prism-color-error-surface-base) 8%)',
+    'var(--prism-color-on-error-surface)',
   ],
 };
 
@@ -23,10 +23,10 @@ async function setup(page: Page) {
     V.map(
       (
         v,
-      ) => `<heru-button id="${v}" variant="${v}" type="button">${v}</heru-button>
-      <heru-button id="${v}-off" variant="${v}" type="button" disabled>off</heru-button>`,
+      ) => `<prism-button id="${v}" variant="${v}" type="button">${v}</prism-button>
+      <prism-button id="${v}-off" variant="${v}" type="button" disabled>off</prism-button>`,
     ).join('') +
-      `<heru-button id="unset" type="button">x</heru-button><p id="away" style="margin-top:40px">away</p>`,
+      `<prism-button id="unset" type="button">x</prism-button><p id="away" style="margin-top:40px">away</p>`,
   );
   await page.addStyleTag({ path: 'src/tokens/tokens.css' });
   await page.addStyleTag({ path: 'src/theme/theme.css' });
@@ -80,7 +80,7 @@ for (const v of V) {
         .toBe(
           await probe(
             page,
-            `color-mix(in oklch, ${bg}, ${on} var(--heru-state-hover))`,
+            `color-mix(in oklch, ${bg}, ${on} var(--prism-state-hover))`,
           ),
         );
       const box = (await b.boundingBox())!;
@@ -91,7 +91,7 @@ for (const v of V) {
         .toBe(
           await probe(
             page,
-            `color-mix(in oklch, ${bg}, ${on} var(--heru-state-pressed))`,
+            `color-mix(in oklch, ${bg}, ${on} var(--prism-state-pressed))`,
           ),
         );
       await page.mouse.up();
@@ -123,7 +123,7 @@ for (const v of V) {
       await b.hover({ force: true });
       expect(await css(b, 'background-color')).toBe(rest);
       expect(await css(b, 'color')).toBe(
-        await probe(page, 'var(--heru-color-text-muted)', 'color'),
+        await probe(page, 'var(--prism-color-text-muted)', 'color'),
       );
       if (v === 'ghost') {
         expect(rest).toBe(await probe(page, 'transparent'));
@@ -149,7 +149,7 @@ test('ghost has no visible border; outline keeps a border-strong border', async 
     await probe(page, 'transparent', 'border-top-color'),
   );
   expect(await css(page.locator('#outline'), 'border-top-color')).toBe(
-    await probe(page, 'var(--heru-color-border-strong)', 'border-top-color'),
+    await probe(page, 'var(--prism-color-border-strong)', 'border-top-color'),
   );
 });
 
@@ -162,10 +162,10 @@ test('destructive rest fill equals the error box (error-surface) over bg', async
     c.width = c.height = 1;
     const x = c.getContext('2d')!;
     const cs = getComputedStyle(document.documentElement);
-    x.fillStyle = cs.getPropertyValue('--heru-color-bg');
+    x.fillStyle = cs.getPropertyValue('--prism-color-bg');
     x.fillRect(0, 0, 1, 1);
     const p = document.createElement('div');
-    p.style.color = 'var(--heru-color-error-surface)';
+    p.style.color = 'var(--prism-color-error-surface)';
     document.body.append(p);
     x.fillStyle = getComputedStyle(p).color;
     p.remove();

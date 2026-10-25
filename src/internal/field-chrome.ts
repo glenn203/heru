@@ -3,7 +3,7 @@ import { textRole } from './control-styles.js';
 
 /**
  * Private shared field chrome: label, description and error, with stable ids
- * `${id}-label|-description|-error`. Used by every Herú field. Not exported.
+ * `${id}-label|-description|-error`. Used by every Prism field. Not exported.
  */
 export const fieldChromeStyles = css`
   :host {

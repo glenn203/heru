@@ -1,13 +1,13 @@
-# Herú tokens
+# Prism tokens
 
-Source: `heru.tokens.json` (W3C DTCG). Build: `pnpm tokens` →
-`src/tokens/tokens.css` (exported as `heru/tokens.css`) and
-`heru.tokens.resolved.json` (exported as `heru/tokens.json`, every value in px per density mode, for Figma and agents). Never edit generated files.
+Source: `prism.tokens.json` (W3C DTCG). Build: `pnpm tokens` →
+`src/tokens/tokens.css` (exported as `prism/tokens.css`) and
+`prism.tokens.resolved.json` (exported as `prism/tokens.json`, every value in px per density mode, for Figma and agents). Never edit generated files.
 
 ## Naming rules
 
-- Every CSS variable starts with `--heru-` and mirrors the token path: `control.height.md` → `--heru-control-height-md`.
-- **One primitive:** `--heru-unit` = 4px (0.25rem, so it scales with user font size). Everything else is a multiple of it.
+- Every CSS variable starts with `--prism-` and mirrors the token path: `control.height.md` → `--prism-control-height-md`.
+- **One primitive:** `--prism-unit` = 4px (0.25rem, so it scales with user font size). Everything else is a multiple of it.
 - **Numbers mean something.** `space-N` = N × 4px. `font-size-N` and `font-line-height-N` = N px. An agent can read the value from the name with no lookup table.
 - **Sizes that aren't numbers are ordered:** `sm` < `md` < `lg` (control heights). Radius uses value-in-name (`radius-5` = 5px).
 - **Text roles** (`text-body-*`, `text-label-*`, `text-heading-1-*`, `text-code-*` …) bundle size, line height, weight and family. Components should use roles; reach for the numeric scales only when no role fits.
@@ -19,8 +19,8 @@ Source: `heru.tokens.json` (W3C DTCG). Build: `pnpm tokens` →
 Three modes: `compact`, `default`, `comfortable`. Set on any element; `default` also applies on `:root`.
 
 ```html
-<main data-heru-density="comfortable">
-  <table data-heru-density="compact">
+<main data-prism-density="comfortable">
+  <table data-prism-density="compact">
     …
   </table>
 </main>
@@ -52,8 +52,8 @@ Odd-pixel ramp, value in the name: `radius-1, -3, -5, -7, -9, -11`, plus `radius
 
 ## Elevation (shared foundation)
 
-Three semantic levels, defined once in `heru.tokens.json` and emitted as
-`--heru-elevation-*` box-shadow values. Any raised surface uses them: select
+Three semantic levels, defined once in `prism.tokens.json` and emitted as
+`--prism-elevation-*` box-shadow values. Any raised surface uses them: select
 menus, popovers, dialogs, toasts, field status boxes. Components never
 hard-code shadows; the theme applies these tokens through `::part()`.
 Names: NAME PENDING — Technical Writer (semantic `default/hover/urgent` chosen
@@ -61,15 +61,15 @@ over numeric `1/2/3`).
 
 | Token                      | Use                                                          | Built from                            |
 | -------------------------- | ------------------------------------------------------------ | ------------------------------------- |
-| `--heru-elevation-default` | Resting raised surface (open menu, popover)                  | slate-950, hue 260, 6% + 12%          |
-| `--heru-elevation-hover`   | RESERVED, unused (option hover is a flat slate-100/200 tint) | slate-950, hue 260, 8% + 16%, tighter |
-| `--heru-elevation-urgent`  | Error-urgent (attached error box)                            | red-600, hue 27, 12% + 24%            |
+| `--prism-elevation-default` | Resting raised surface (open menu, popover)                  | slate-950, hue 260, 6% + 12%          |
+| `--prism-elevation-hover`   | RESERVED, unused (option hover is a flat slate-100/200 tint) | slate-950, hue 260, 8% + 16%, tighter |
+| `--prism-elevation-urgent`  | Error-urgent (attached error box)                            | red-600, hue 27, 12% + 24%            |
 
-Related: `--heru-color-error-surface` (error red at 10% alpha, ≈ #fce8eb on white; text contrast 9.62:1) is the flat fill for
-the attached error box (text field and select, no shadow); `--heru-motion-duration-medium` (200ms) drives the menu
+Related: `--prism-color-error-surface` (error red at 10% alpha, ≈ #fce8eb on white; text contrast 9.62:1) is the flat fill for
+the attached error box (text field and select, no shadow); `--prism-motion-duration-medium` (200ms) drives the menu
 slide-down and error reveal. Both animations are disabled under
 `prefers-reduced-motion`.
 
 ## Theme
 
-`heru/theme.css` is an opt-in look built only on `::part()`, `:state()` and these tokens. Fonts (Inter, JetBrains Mono) are referenced by name and not bundled; load them in your app.
+`prism/theme.css` is an opt-in look built only on `::part()`, `:state()` and these tokens. Fonts (Inter, JetBrains Mono) are referenced by name and not bundled; load them in your app.
