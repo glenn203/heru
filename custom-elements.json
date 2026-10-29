@@ -1597,6 +1597,15 @@
             },
             {
               "kind": "field",
+              "name": "#hasItems",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "#lastTotal",
               "privacy": "private",
               "type": {
@@ -2062,6 +2071,37 @@
                 }
               ],
               "description": "Moves `card` so it ends at `index` among `target`'s other cards."
+            },
+            {
+              "kind": "method",
+              "name": "moveCardTo",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "card",
+                  "type": {
+                    "text": "PrismCard"
+                  }
+                },
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "PrismCardList"
+                  }
+                },
+                {
+                  "name": "index",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Moves `card` into `target` (another list of the same `reorder-group`, or\nthis one) at `index` among the target's other cards, or to the end. Meant\nfor an app's own menu items such as \"Move to row 2\". It says what a drag\nsays (the card, both list labels and the new position), fires\n`prism-card-reorder` and flashes the card. Focus goes back to the control\nthe person used, the card's menu button, so they can press it again."
             },
             {
               "kind": "method",
@@ -4173,6 +4213,31 @@
           "declaration": {
             "name": "PrismCard",
             "module": "src/card/card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/card/dashboard-rows.recipe.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "createDashboardRows",
+          "return": {
+            "type": {
+              "text": "HTMLElement"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "createDashboardRows",
+          "declaration": {
+            "name": "createDashboardRows",
+            "module": "src/card/dashboard-rows.recipe.ts"
           }
         }
       ]

@@ -11,6 +11,7 @@ import '../avatar/define.js';
 import '../progress/define.js';
 import '../datalist/define.js';
 import { iconRefresh } from '../internal/icons.js';
+import { createDashboardRows } from './dashboard-rows.recipe.js';
 
 /**
  * Card recipes: whole screens' worth of cards assembled from the card parts and
@@ -917,4 +918,23 @@ export const IncidentTask: Story = {
       </prism-card>`,
       '460px',
     ),
+};
+
+// ---------------------------------------------------------------------------
+// 13. Dashboard rows (reorder-group across rows)
+// ---------------------------------------------------------------------------
+
+/**
+ * Three rows of three widget cards. Each row is its own drop zone in one
+ * `reorder-group`. Drag a card to another row and that row takes four while the
+ * source keeps two. Every row shares its width equally, whatever it holds: one
+ * card fills the row, and an empty row stays a dashed drop target.
+ *
+ * Without a mouse, open "More options for {card}" and use Move earlier, later,
+ * to start or to end, or **Move to row N** (every row but the card's own).
+ * Focus stays on that menu button, and each move is announced with the row
+ * names. **Reset layout** puts the cards back in 3 x 3 and says so.
+ */
+export const DashboardRows: Story = {
+  render: () => createDashboardRows(),
 };
