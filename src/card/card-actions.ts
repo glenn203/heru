@@ -17,7 +17,7 @@ import { CARD_NARROW_PX, type PrismCard } from './card.js';
  *   one overflow menu († narrow rule: page says "about 280px or less").
  * - `slot="footer"`: up to two `prism-button`s, ghost or secondary (soft),
  *   plus one primary only on a `standalone` card. A "View all" link counts as
- *   one. Medium size, 8px apart, at the end (mirrors in right-to-left).
+ *   one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).
  * - no slot (content-only card): the last row of the content, at the end,
  *   medium size, 8px apart, ghost and secondary only. Soft goes on the right,
  *   ghost to its left (put the ghost button first in the DOM). The row wraps
@@ -133,11 +133,15 @@ export class PrismCardActions extends LitElement {
       },
     );
     applyViolations(children, violations);
-    // Footer and content rows are medium. Normalise so the rule can't drift.
-    if (this.placement !== 'header')
+    // Footer and content rows are medium, except a widget footer ("View all"),
+    // which is small. Normalise so the rule can't drift.
+    if (this.placement !== 'header') {
+      const size =
+        this.placement === 'footer' && card?.capabilities.widget ? 'sm' : 'md';
       for (const c of children)
-        if (c.localName === 'prism-button' && c.getAttribute('size') !== 'md')
-          c.setAttribute('size', 'md');
+        if (c.localName === 'prism-button' && c.getAttribute('size') !== size)
+          c.setAttribute('size', size);
+    }
     this.#applyOrder(children);
     this.#fold();
   }

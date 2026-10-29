@@ -647,7 +647,7 @@ export class PrismCard extends LitElement {
       t = html`<div data-prism-card-state="error">
         <p>${this.stateMessage || "This couldn't be loaded."}</p>
         <prism-button
-          variant="outline"
+          variant="secondary"
           size="sm"
           type="button"
           @click=${() =>
