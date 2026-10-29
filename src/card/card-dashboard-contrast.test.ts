@@ -320,19 +320,21 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
         '.dash h2 { color: #bbb !important } prism-card-title { color: #ccc !important }',
     });
     const a = await audit(page);
-    expect(a.fails.some((f) => f.what.includes('Row 1'))).toBe(true);
+    expect(a.fails.some((f) => f.what.includes('Dashboard'))).toBe(true);
     expect(a.fails.length).toBeGreaterThan(8);
   });
 
   test('empty row: the note and the dashed border', async ({ page }) => {
     await setup(page);
-    for (const t of ['Admin sign-ins', 'Policy changes', 'Reports queued']) {
+    for (const t of ['Member sign-ins', 'Settings changes', 'Exports queued']) {
       await page.getByRole('button', { name: `More options for ${t}` }).click();
       await page.getByRole('menuitem', { name: `Move to row 1, ${t}` }).click();
       await settle(page, 200);
     }
     const a = await audit(page, () => edges(page));
-    expect(a.checks.some((c) => c.what.includes('Row 3 is empty'))).toBe(true);
+    expect(a.checks.some((c) => c.what.includes('Nothing here yet'))).toBe(
+      true,
+    );
     expect(a.checks.some((c) => c.what === 'empty drop zone border')).toBe(
       true,
     );
@@ -345,8 +347,8 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await setup(page);
     for (const name of [
-      'Reorder Hosts online',
-      'More options for Hosts online',
+      'Reorder Active resources',
+      'More options for Active resources',
     ]) {
       await page.getByRole('button', { name, exact: true }).hover();
       await settle(page, 120);
@@ -360,7 +362,7 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
     }
     // Pressed too.
     const b = page.getByRole('button', {
-      name: 'More options for Hosts online',
+      name: 'More options for Active resources',
     });
     await b.hover();
     await page.mouse.down();
@@ -374,9 +376,9 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
   }) => {
     await setup(page);
     const targets = [
-      page.getByRole('button', { name: 'More options for Open detections' }),
+      page.getByRole('button', { name: 'More options for Open items' }),
       page.getByRole('button', {
-        name: 'Reorder Open detections',
+        name: 'Reorder Open items',
         exact: true,
       }),
       page.getByRole('button', { name: 'Reset layout' }),
@@ -441,7 +443,7 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
   test('menu open: items and the Move to row entries', async ({ page }) => {
     await setup(page);
     await page
-      .getByRole('button', { name: 'More options for Open detections' })
+      .getByRole('button', { name: 'More options for Open items' })
       .click();
     await settle(page, 200);
     const a = await audit(page);
@@ -449,7 +451,7 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
     expect(fmt(a.fails)).toEqual([]);
     // A hovered item too.
     await page
-      .getByRole('menuitem', { name: 'Move to row 2, Open detections' })
+      .getByRole('menuitem', { name: 'Move to row 2, Open items' })
       .hover();
     await settle(page, 100);
     expect(fmt((await audit(page)).fails)).toEqual([]);
@@ -460,7 +462,7 @@ test.describe('dashboard rows: contrast (WCAG 2.2 AA)', () => {
   }) => {
     await setup(page);
     const h = (await page
-      .getByRole('button', { name: 'Reorder Open detections', exact: true })
+      .getByRole('button', { name: 'Reorder Open items', exact: true })
       .boundingBox())!;
     const z = (await page.locator('.dash-zone').nth(1).boundingBox())!;
     await page.mouse.move(h.x + h.width / 2, h.y + h.height / 2);

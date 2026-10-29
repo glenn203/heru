@@ -72,7 +72,7 @@ type ListState = 'loading' | 'refreshing' | 'empty' | 'no-matches' | 'error';
  * gives them a default look and fires events so a Section can take over.
  *
  * ```html
- * <prism-card-list label="Hosts" selection="multi" total="120" page="2">
+ * <prism-card-list label="Resources" selection="multi" total="120" page="2">
  *   <prism-card type="selectable" kind="collection" value="h-13">…</prism-card>
  * </prism-card-list>
  * ```

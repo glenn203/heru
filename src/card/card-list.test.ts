@@ -24,13 +24,13 @@ async function setup(page: Page, markup: string, width = 1300) {
 const card = (id: string, extra = '') => `
   <prism-card type="selectable" kind="collection" value="${id}" ${extra}>
     <prism-card-select slot="header"></prism-card-select>
-    <prism-card-title slot="header" level="3">Host ${id}</prism-card-title>
+    <prism-card-title slot="header" level="3">Resource ${id}</prism-card-title>
     <prism-card-description slot="header">Lumen Server</prism-card-description>
-    <p>Last seen 4 min ago</p>
+    <p>Updated 4 min ago</p>
   </prism-card>`;
 const cards = (ids: string[]) => ids.map((i) => card(i)).join('');
 const LIST = (ids: string[], attrs = '', style = 'width:1300px') =>
-  `<prism-card-list id="l" label="Hosts" ${attrs} style="${style}">${cards(ids)}</prism-card-list>`;
+  `<prism-card-list id="l" label="Resources" ${attrs} style="${style}">${cards(ids)}</prism-card-list>`;
 const ids = (from: number, n: number) =>
   Array.from({ length: n }, (_, i) => `h-${from + i}`);
 
@@ -134,7 +134,7 @@ test.describe('card list: semantics', () => {
   }) => {
     const errors = await setup(page, LIST(ids(1, 3)));
     expect(errors).toEqual([]);
-    await expect(page.getByRole('list', { name: 'Hosts' })).toHaveCount(1);
+    await expect(page.getByRole('list', { name: 'Resources' })).toHaveCount(1);
     await expect(page.getByRole('listitem')).toHaveCount(3);
     await expect(page.getByRole('heading', { level: 3 })).toHaveCount(3);
     await expect(page.getByRole('region')).toHaveCount(0);
@@ -279,7 +279,7 @@ test.describe('card list: paging', () => {
 test.describe('card list: selection is kept across pages', () => {
   const bar = (page: Page) => page.locator('#l [data-prism-selection-bar]');
   const box = (page: Page, id: string) =>
-    page.getByRole('checkbox', { name: `Host ${id}` });
+    page.getByRole('checkbox', { name: `Resource ${id}` });
   const swap = (page: Page, html: string) =>
     page.locator('#l').evaluate((el, h) => {
       for (const c of [...el.children])
@@ -455,11 +455,11 @@ test.describe('card list: states', () => {
   test('empty, first use: your content in the empty slot', async ({ page }) => {
     await setup(
       page,
-      `<prism-card-list id="l" label="Hosts" state="empty"><div slot="empty" id="first"><p>No hosts yet</p><prism-button>Add a host</prism-button></div></prism-card-list>`,
+      `<prism-card-list id="l" label="Resources" state="empty"><div slot="empty" id="first"><p>No resources yet</p><prism-button>Add a resource</prism-button></div></prism-card-list>`,
     );
     await expect(page.locator('#first')).toBeVisible();
     await expect(
-      page.getByRole('button', { name: 'Add a host' }),
+      page.getByRole('button', { name: 'Add a resource' }),
     ).toBeVisible();
   });
 
@@ -482,10 +482,10 @@ test.describe('card list: states', () => {
   test('error, whole list: what failed, one Retry', async ({ page }) => {
     await setup(
       page,
-      LIST([], 'state="error" state-message="The hosts service is down."'),
+      LIST([], 'state="error" state-message="The resources service is down."'),
     );
     await expect(
-      page.getByText('The hosts service is down.').first(),
+      page.getByText('The resources service is down.').first(),
     ).toBeVisible();
     await expect(page.getByRole('button', { name: 'Retry' })).toHaveCount(1);
     await page.evaluate(() => {
@@ -504,13 +504,13 @@ test.describe('card list: states', () => {
   }) => {
     await setup(
       page,
-      `<prism-card-list id="l" label="Hosts">${card('a')}${card('b', 'state="error" state-message="This host failed to load."')}${card('c')}</prism-card-list>`,
+      `<prism-card-list id="l" label="Resources">${card('a')}${card('b', 'state="error" state-message="This resource failed to load."')}${card('c')}</prism-card-list>`,
     );
     await expect(page.getByRole('button', { name: 'Retry' })).toHaveCount(1);
     await expect(
-      page.getByText('This host failed to load.').first(),
+      page.getByText('This resource failed to load.').first(),
     ).toBeVisible();
-    await page.getByRole('checkbox', { name: 'Host a' }).check();
+    await page.getByRole('checkbox', { name: 'Resource a' }).check();
     await expect(page.locator('#l [data-prism-selection-bar]')).toContainText(
       '1 selected',
     );

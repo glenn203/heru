@@ -86,9 +86,9 @@ test.describe('prism-progress', () => {
   }) => {
     await setup(
       page,
-      '<prism-progress id="p" label="Scanning"></prism-progress>',
+      '<prism-progress id="p" label="Loading"></prism-progress>',
     );
-    const bar = page.getByRole('progressbar', { name: 'Scanning' });
+    const bar = page.getByRole('progressbar', { name: 'Loading' });
     expect(await bar.getAttribute('aria-valuenow')).toBeNull();
     const anim = () =>
       page

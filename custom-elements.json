@@ -176,6 +176,185 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/badge/badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Updates 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
+          "name": "PrismBadge",
+          "cssParts": [
+            {
+              "description": "The badge box.",
+              "name": "base"
+            },
+            {
+              "description": "The default status dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Status only. Replaces the default dot. Decorative.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showZero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "attribute": "show-zero"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveTone",
+              "type": {
+                "text": "TagTone"
+              },
+              "description": "The tone in effect.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "fieldName": "job"
+            },
+            {
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "fieldName": "count"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-zero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "fieldName": "showZero"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "fieldName": "status"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A zero count that is hidden.",
+              "name": "empty"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismBadge",
+          "declaration": {
+            "name": "PrismBadge",
+            "module": "src/badge/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/button/button.ts",
       "declarations": [
         {
@@ -1235,7 +1414,7 @@
         },
         {
           "kind": "class",
-          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Hosts\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
+          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Resources\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
           "name": "PrismCardList",
           "cssParts": [
             {
@@ -2472,7 +2651,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A big number for a widget, with an optional label. NAME PROVISIONAL.\n\nThe number uses the PROPOSED metric text style: 28px / 36px, weight 600,\ntabular figures, built from existing primitives. The spec leaves the\nreal size, weight and line height to Typography, which has not been edited,\nso this is a stand-in set in component-private `--_metric-*` properties\n(never from outside). No Display style is used inside a card.\n\nReading order is number first, then the label, so a screen reader says\n\"1,284 detections\". Put a time range in the label only if the number is\nspecific to it; the widget header already shows an overridden range.",
+          "description": "A big number for a widget, with an optional label. NAME PROVISIONAL.\n\nThe number uses the PROPOSED metric text style: 28px / 36px, weight 600,\ntabular figures, built from existing primitives. The spec leaves the\nreal size, weight and line height to Typography, which has not been edited,\nso this is a stand-in set in component-private `--_metric-*` properties\n(never from outside). No Display style is used inside a card.\n\nReading order is number first, then the label, so a screen reader says\n\"1,284 items\". Put a time range in the label only if the number is\nspecific to it; the widget header already shows an overridden range.",
           "name": "PrismCardMetric",
           "cssParts": [
             {
@@ -2498,7 +2677,7 @@
                 "text": "string"
               },
               "default": "''",
-              "description": "What the number counts, for example \"Detections\".",
+              "description": "What the number counts, for example \"Items\".",
               "attribute": "label"
             }
           ],
@@ -2509,7 +2688,7 @@
                 "text": "string"
               },
               "default": "''",
-              "description": "What the number counts, for example \"Detections\".",
+              "description": "What the number counts, for example \"Items\".",
               "fieldName": "label"
             }
           ],
@@ -2770,7 +2949,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A loading placeholder: grey lines where text will be. NAME PROVISIONAL (the Skeleton component is not built yet, so this is\ncard-private and swappable).\n\nIt is decorative: `aria-hidden`, never focusable. The loading state is\nannounced as text by whatever owns it (a card or a card list), so the\nskeleton never carries information on its own.\n\n- `variant=\"text\"` (default): `lines` lines of text.\n- `variant=\"card\"`: a whole card the same size as a real one (title line,\n  description line, two content lines, a footer line).\n\nColour and the shimmer live in the opt-in theme (reduced motion removes the\nshimmer there).",
+          "description": "A loading placeholder: grey lines where text will be. NAME PROVISIONAL (the Skeleton component is not\nbuilt yet, so this is card-private and swappable).\n\nIt is decorative: `aria-hidden`, never focusable. The loading state is\nannounced as text by whatever owns it (a card or a card list), so the\nskeleton never carries information on its own.\n\n- `variant=\"text\"` (default): `lines` lines of text.\n- `variant=\"card\"`: a whole card the same size as a real one (title line,\n  description line, two content lines, a footer line).\n\nColour and the shimmer live in the opt-in theme (reduced motion removes the\nshimmer there).",
           "name": "PrismCardSkeleton",
           "cssParts": [
             {
@@ -3251,7 +3430,7 @@
         },
         {
           "kind": "class",
-          "description": "One self-contained item with its own surface. NAMES PROVISIONAL except\nCard, CardTitle and CardDescription (settled names).\n\nThree slots: `header`, `content` and `footer`. Header and footer accept only\nthe approved parts (see card-slots.ts); anything else is hidden with a dev\nerror. Unslotted children go to `content`, which is free.\n\n```html\n<prism-card>\n  <prism-card-title slot=\"header\" level=\"3\">Phishing playbook</prism-card-title>\n  <prism-card-description slot=\"header\">Owner: SOC</prism-card-description>\n  <p>Free content.</p>\n  <prism-card-meta slot=\"footer\">Updated 2 min ago</prism-card-meta>\n  <prism-card-actions slot=\"footer\">\n    <prism-button variant=\"ghost\">View all</prism-button>\n  </prism-card-actions>\n</prism-card>\n```\n\nAccessibility: the card has no role of its own beyond `group` (standalone),\n`listitem` (inside `prism-card-list`) or none (inside an `li`). Its name is\nthe CardTitle text, copied to `aria-label` because ID references cannot cross\nshadow roots. It is never a landmark. An author `role` or `aria-label` wins.\n\nTypes: `default`, `borderless`, `clickable`, `selectable` (`kind`),\n`widget` and `collapsible`. Draggable cards come later.\n\nWidget (a Card in a Grid; there is no Widget component): the header holds\nthe title, a scope description and up to two actions (plus a compact\nTimeRangeInput only when the widget overrides the page range). The time range\nis set at page level: put `data-prism-time-range=\"Last 24 hours\"` on the\nToolbar or page element; every widget below it follows it. A widget with its\nown `range` overrides it, shows that range in its header and is marked\n\"Overridden\" (text, not colour only). The card fires `prism-card-range` when\nits effective range changes. `state=\"loading|error|empty\"` replaces the\ncontent only; header and footer stay. There is no resize here.\n\nCollapsible: the title row is the toggle button (`aria-expanded`, and\n`aria-controls` pointing at the content), `open` is the state, and\n`storage-key` remembers it for the session. Header actions sit beside the\ntoggle. Nest at most two levels.",
+          "description": "One self-contained item with its own surface. NAMES PROVISIONAL except\nCard, CardTitle and CardDescription (settled names).\n\nThree slots: `header`, `content` and `footer`. Header and footer accept only\nthe approved parts (see card-slots.ts); anything else is hidden with a dev\nerror. Unslotted children go to `content`, which is free.\n\n```html\n<prism-card>\n  <prism-card-title slot=\"header\" level=\"3\">Onboarding guide</prism-card-title>\n  <prism-card-description slot=\"header\">Owner: Design</prism-card-description>\n  <p>Free content.</p>\n  <prism-card-meta slot=\"footer\">Updated 2 min ago</prism-card-meta>\n  <prism-card-actions slot=\"footer\">\n    <prism-button variant=\"ghost\">View all</prism-button>\n  </prism-card-actions>\n</prism-card>\n```\n\nAccessibility: the card has no role of its own beyond `group` (standalone),\n`listitem` (inside `prism-card-list`) or none (inside an `li`). Its name is\nthe CardTitle text, copied to `aria-label` because ID references cannot cross\nshadow roots. It is never a landmark. An author `role` or `aria-label` wins.\n\nTypes: `default`, `borderless`, `clickable`, `selectable` (`kind`),\n`widget` and `collapsible`. Draggable cards come later.\n\nWidget (a Card in a Grid; there is no Widget component): the header holds\nthe title, a scope description and up to two actions (plus a compact\nTimeRangeInput only when the widget overrides the page range). The time range\nis set at page level: put `data-prism-time-range=\"Last 24 hours\"` on the\nToolbar or page element; every widget below it follows it. A widget with its\nown `range` overrides it, shows that range in its header and is marked\n\"Overridden\" (text, not colour only). The card fires `prism-card-range` when\nits effective range changes. `state=\"loading|error|empty\"` replaces the\ncontent only; header and footer stay. There is no resize here.\n\nCollapsible: the title row is the toggle button (`aria-expanded`, and\n`aria-controls` pointing at the content), `open` is the state, and\n`storage-key` remembers it for the session. Header actions sit beside the\ntoggle. Nest at most two levels.",
           "name": "PrismCard",
           "cssParts": [
             {
@@ -3353,7 +3532,7 @@
               "type": {
                 "text": "'choice' | 'collection' | undefined"
               },
-              "description": "Selectable cards only. `choice` (plan picker, option grid) toggles when you\nclick anywhere on it and has no other controls. `collection` (a host in a\nlist you bulk-act on) toggles only through its control, and its title stays\na link or button. NAMES PROVISIONAL.",
+              "description": "Selectable cards only. `choice` (plan picker, option grid) toggles when you\nclick anywhere on it and has no other controls. `collection` (a resource in a\nlist you bulk-act on) toggles only through its control, and its title stays\na link or button. NAMES PROVISIONAL.",
               "attribute": "kind",
               "reflects": true
             },
@@ -3915,7 +4094,7 @@
               "type": {
                 "text": "'choice' | 'collection' | undefined"
               },
-              "description": "Selectable cards only. `choice` (plan picker, option grid) toggles when you\nclick anywhere on it and has no other controls. `collection` (a host in a\nlist you bulk-act on) toggles only through its control, and its title stays\na link or button. NAMES PROVISIONAL.",
+              "description": "Selectable cards only. `choice` (plan picker, option grid) toggles when you\nclick anywhere on it and has no other controls. `collection` (a resource in a\nlist you bulk-act on) toggles only through its control, and its title stays\na link or button. NAMES PROVISIONAL.",
               "fieldName": "kind"
             },
             {
@@ -4341,185 +4520,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/badge/badge.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Alerts 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
-          "name": "PrismBadge",
-          "cssParts": [
-            {
-              "description": "The badge box.",
-              "name": "base"
-            },
-            {
-              "description": "The default status dot.",
-              "name": "dot"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Status only. Replaces the default dot. Decorative.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "attribute": "job",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "attribute": "count"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showZero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "attribute": "show-zero"
-            },
-            {
-              "kind": "field",
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "attribute": "status",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "effectiveTone",
-              "type": {
-                "text": "TagTone"
-              },
-              "description": "The tone in effect.",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "fieldName": "job"
-            },
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "fieldName": "count"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-zero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "fieldName": "showZero"
-            },
-            {
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "fieldName": "status"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "A zero count that is hidden.",
-              "name": "empty"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-badge",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismBadge",
-          "declaration": {
-            "name": "PrismBadge",
-            "module": "src/badge/badge.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/description-list/description-list-item.ts",
       "declarations": [
         {
@@ -4550,7 +4550,7 @@
                 "text": "string"
               },
               "default": "''",
-              "description": "The label: \"Sensor\", \"OS\".",
+              "description": "The label: \"Version\", \"OS\".",
               "attribute": "label"
             }
           ],
@@ -4561,7 +4561,7 @@
                 "text": "string"
               },
               "default": "''",
-              "description": "The label: \"Sensor\", \"OS\".",
+              "description": "The label: \"Version\", \"OS\".",
               "fieldName": "label"
             }
           ],
@@ -4590,7 +4590,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Label and value pairs about one thing: OS, Lumen OS; Sensor, 7.14.2. This\nis a description list (it is not a Tag).\n`prism-description-list` holds `prism-description-list-item`s. PROVISIONAL props:\n`orientation` and `label`.\n\n- `orientation=\"horizontal\"` (default): labels in one column, values in the\n  next, aligned across rows (a subgrid). `vertical` puts each label above\n  its value.\n- Semantics: the list is a `list` of `listitem`s; each label is a `term` and\n  each value a `definition`, so a screen reader says \"Sensor, 7.14.2\".\n  Give the list a `label` when it is not already named by a heading.",
+          "description": "Label and value pairs about one thing: OS, Lumen OS; Version, 7.14.2. This\nis a description list (it is not a Tag).\n`prism-description-list` holds `prism-description-list-item`s. PROVISIONAL props:\n`orientation` and `label`.\n\n- `orientation=\"horizontal\"` (default): labels in one column, values in the\n  next, aligned across rows (a subgrid). `vertical` puts each label above\n  its value.\n- Semantics: the list is a `list` of `listitem`s; each label is a `term` and\n  each value a `definition`, so a screen reader says \"Version, 7.14.2\".\n  Give the list a `label` when it is not already named by a heading.",
           "name": "PrismDescriptionList",
           "cssParts": [
             {
@@ -4670,7 +4670,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A square, icon-only button. NAME PROVISIONAL.\n\nAlways ghost in the theme: transparent fill, text-colour overlay on hover and\npress. Not form-associated: it never submits. `label` is required because\nthere is no visible text; it becomes the accessible name. When the button\nlives in a card, put the card's title in the label (\"More options for\nPhishing playbook\").",
+          "description": "A square, icon-only button. NAME PROVISIONAL.\n\nAlways ghost in the theme: transparent fill, text-colour overlay on hover and\npress. Not form-associated: it never submits. `label` is required because\nthere is no visible text; it becomes the accessible name. When the button\nlives in a card, put the card's title in the label (\"More options for\nOnboarding guide\").",
           "name": "PrismIconButton",
           "cssParts": [
             {
@@ -10930,7 +10930,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A short label on an item: a category, a keyword or a property, so people can\nscan and tell things apart. Names and values follow the Tag page: `job`,\n`emphasis` and `tone`. `size` is NAME PROVISIONAL.\n\nFour behaviors, split by what a person can do (not by colour):\n- read-only (default): a label, no click.\n- `dismissible`: a remove button (\"Remove {text}\"); fires `prism-tag-remove`.\n  The tag does not remove itself: the app decides.\n- `selectable`: a toggle button (`aria-pressed`); fires `prism-tag-select`.\n- `trigger`: a button that opens something (a Select) and shows a caret in\n  the trailing slot; fires `prism-tag-trigger`. It looks like any other Tag.\n\nA Tag never navigates. For a link use a link. For a count or Live / Running\n/ Stopped use Badge.\n\nAccessibility: the text is the name and the meaning, so colour is never the\nonly signal. Put a short word in the tag (a few words, no wrapping). An\nicon only helps scanning. Interactive tags are at least 24px high even at\n`size=\"sm\"` (WCAG 2.5.8).",
+          "description": "A short label on an item: a category, a keyword or a property, so people can\nfind and tell things apart. Names and values follow the Tag page: `job`,\n`emphasis` and `tone`. `size` is NAME PROVISIONAL.\n\nFour behaviors, split by what a person can do (not by colour):\n- read-only (default): a label, no click.\n- `dismissible`: a remove button (\"Remove {text}\"); fires `prism-tag-remove`.\n  The tag does not remove itself: the app decides.\n- `selectable`: a toggle button (`aria-pressed`); fires `prism-tag-select`.\n- `trigger`: a button that opens something (a Select) and shows a caret in\n  the trailing slot; fires `prism-tag-trigger`. It looks like any other Tag.\n\nA Tag never navigates. For a link use a link. For a count or Live / Running\n/ Stopped use Badge.\n\nAccessibility: the text is the name and the meaning, so colour is never the\nonly signal. Put a short word in the tag (a few words, no wrapping). An\nicon only helps reading. Interactive tags are at least 24px high even at\n`size=\"sm\"` (WCAG 2.5.8).",
           "name": "PrismTag",
           "cssParts": [
             {

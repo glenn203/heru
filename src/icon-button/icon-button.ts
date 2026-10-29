@@ -11,7 +11,7 @@ import { stateLayer } from '../internal/state-layer.js';
  * press. Not form-associated: it never submits. `label` is required because
  * there is no visible text; it becomes the accessible name. When the button
  * lives in a card, put the card's title in the label ("More options for
- * Phishing playbook").
+ * Onboarding guide").
  *
  * @tag prism-icon-button
  * @slot - The icon (decorative; hidden from assistive tech by the component).

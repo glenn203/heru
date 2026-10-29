@@ -16,13 +16,13 @@ const meta: Meta<Args> = {
   args: { count: 48, max: 99 },
   render: ({ count, max }) =>
     html`<prism-button variant="ghost"
-      >Alerts <prism-badge count=${count} max=${max}></prism-badge
+      >Updates <prism-badge count=${count} max=${max}></prism-badge
     ></prism-button>`,
 };
 export default meta;
 type Story = StoryObj<Args>;
 
-/** A count sits inside the control it counts, so it reads "Alerts 48". */
+/** A count sits inside the control it counts, so it reads "Updates 48". */
 export const Count: Story = {};
 
 /** Above the cap it reads 99+. Zero is hidden unless `show-zero`. */

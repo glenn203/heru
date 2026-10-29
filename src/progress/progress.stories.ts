@@ -61,7 +61,7 @@ export const Steps: Story = {
 export const Indeterminate: Story = {
   render: () =>
     html`<div style="max-inline-size:320px">
-      <prism-progress label="Scanning hosts"></prism-progress>
+      <prism-progress label="Loading resources"></prism-progress>
     </div>`,
 };
 

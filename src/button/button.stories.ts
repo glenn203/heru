@@ -48,7 +48,7 @@ export const Outline: StoryObj = {
     html`<div style="display: flex; gap: 12px">
       <prism-button variant="outline" type="button">Cancel</prism-button>
       <prism-button variant="outline" type="button" disabled
-        >Disabled</prism-button
+        >Unavailable</prism-button
       >
     </div>`,
 };
@@ -65,7 +65,9 @@ const variantStory = (v: (typeof VARIANTS)[number]): StoryObj => ({
     html`<div style="display: flex; gap: 12px">
       <prism-button variant=${v} type="button">${v}</prism-button>
       <prism-button variant=${v} type="button" pressed>Selected</prism-button>
-      <prism-button variant=${v} type="button" disabled>Disabled</prism-button>
+      <prism-button variant=${v} type="button" disabled
+        >Unavailable</prism-button
+      >
     </div>`,
 });
 /** Variant names provisional, pending. */

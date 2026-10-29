@@ -20,7 +20,7 @@ const STATUS_TEXT: Record<BadgeStatus, string> = {
  * - `job="count"` (default): `count` is the number; above `max` (default 99)
  *   it reads "99+". A zero count is hidden unless `show-zero`. The badge is
  *   not a button: you click the parent. Put it inside the control it counts,
- *   so the control reads "Alerts 48".
+ *   so the control reads "Updates 48".
  * - `job="status"`: `status` is `live`, `running` or `stopped` and the badge
  *   says the word. A small prefix dot shows by default (a soft pulse for Live,
  *   which stops under reduced motion); put your own icon in the `icon` slot.

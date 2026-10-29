@@ -22,15 +22,15 @@ const box = (page: Page, sel: string) =>
   });
 
 test.describe('prism-badge', () => {
-  test('count: the number, inside the control it counts, which reads "Alerts 48"', async ({
+  test('count: the number, inside the control it counts, which reads "Updates 48"', async ({
     page,
   }) => {
     const errors = await setup(
       page,
-      '<prism-button id="b" variant="ghost">Alerts <prism-badge count="48"></prism-badge></prism-button>',
+      '<prism-button id="b" variant="ghost">Updates <prism-badge count="48"></prism-badge></prism-button>',
     );
     expect(errors).toEqual([]);
-    await expect(page.getByRole('button', { name: 'Alerts 48' })).toHaveCount(
+    await expect(page.getByRole('button', { name: 'Updates 48' })).toHaveCount(
       1,
     );
   });
@@ -40,7 +40,7 @@ test.describe('prism-badge', () => {
   }) => {
     await setup(
       page,
-      '<prism-button variant="ghost">Hosts <prism-badge id="b" count="128"></prism-badge></prism-button>',
+      '<prism-button variant="ghost">Resources <prism-badge id="b" count="128"></prism-badge></prism-button>',
     );
     const r = await page.locator('#b').evaluate((el) => {
       const base = el.shadowRoot!.querySelector('[part="base"]')!;
@@ -51,7 +51,7 @@ test.describe('prism-badge', () => {
     });
     expect(r).toEqual({ visible: '99+', spoken: 'more than 99' });
     await expect(
-      page.getByRole('button', { name: 'Hosts more than 99' }),
+      page.getByRole('button', { name: 'Resources more than 99' }),
     ).toHaveCount(1);
   });
 

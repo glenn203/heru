@@ -45,10 +45,10 @@ const targets = (page: Page) =>
 
 const HEADER_CARD = (id = 'c', width = 420) => `
   <prism-card id="${id}" style="width:${width}px">
-    <prism-card-title slot="header" level="3">Host lumen-web-01</prism-card-title>
+    <prism-card-title slot="header" level="3">Resource lumen-board-01</prism-card-title>
     <prism-card-actions slot="header" id="${id}-act">
-      <prism-icon-button label="Refresh Host lumen-web-01">R</prism-icon-button>
-      <prism-icon-button label="Export Host lumen-web-01">E</prism-icon-button>
+      <prism-icon-button label="Refresh Resource lumen-board-01">R</prism-icon-button>
+      <prism-icon-button label="Export Resource lumen-board-01">E</prism-icon-button>
     </prism-card-actions>
     <p>Body</p>
   </prism-card>`;
@@ -58,8 +58,8 @@ test.describe('widget error Retry', () => {
     await setup(
       page,
       `<prism-card id="w" type="widget" state="error" state-message="Timed out." style="width:360px">
-        <prism-card-title slot="header" level="3">Detections</prism-card-title>
-        <prism-card-metric label="Detections">1</prism-card-metric>
+        <prism-card-title slot="header" level="3">Items</prism-card-title>
+        <prism-card-metric label="Items">1</prism-card-metric>
       </prism-card>`,
     );
     const retry = page.getByRole('button', { name: 'Retry' });
@@ -104,7 +104,7 @@ test.describe('widget error Retry', () => {
 test.describe('widget footer View all', () => {
   const FOOT = (type: string) => `
     <prism-card id="c" ${type} style="width:360px">
-      <prism-card-title slot="header" level="3">Detections</prism-card-title>
+      <prism-card-title slot="header" level="3">Items</prism-card-title>
       <p>Body</p>
       <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
       <prism-card-actions slot="footer"><prism-button id="v" variant="ghost">View all</prism-button></prism-card-actions>
@@ -163,12 +163,12 @@ test.describe('header actions', () => {
     await setup(
       page,
       `<prism-card id="c" type="widget" style="width:420px">
-        <prism-card-title slot="header" level="3">Detections</prism-card-title>
+        <prism-card-title slot="header" level="3">Items</prism-card-title>
         <prism-card-actions slot="header">
-          <prism-icon-button label="Refresh Detections">R</prism-icon-button>
-          <prism-menu label="More options for Detections"><prism-menu-item>Configure</prism-menu-item></prism-menu>
+          <prism-icon-button label="Refresh Items">R</prism-icon-button>
+          <prism-menu label="More options for Items"><prism-menu-item>Configure</prism-menu-item></prism-menu>
         </prism-card-actions>
-        <prism-card-metric label="Detections">1</prism-card-metric>
+        <prism-card-metric label="Items">1</prism-card-metric>
       </prism-card>`,
     );
     const gap = await page.evaluate(() => {
@@ -219,7 +219,7 @@ test.describe('icon buttons inside a card are small', () => {
   test('the handle used as the menu button is small too', async ({ page }) => {
     await setup(
       page,
-      `<prism-card-list id="l" label="Playbooks" reorderable columns="1" style="width:420px">
+      `<prism-card-list id="l" label="Guides" reorderable columns="1" style="width:420px">
         <prism-card value="a"><prism-card-handle slot="header"></prism-card-handle>
           <prism-card-title slot="header" level="3">Alpha</prism-card-title><p>x</p></prism-card>
         <prism-card value="b"><prism-card-handle slot="header"></prism-card-handle>
@@ -289,17 +289,17 @@ test.describe('icon buttons inside a card are small', () => {
 
 test.describe('card list: list role on an inner wrapper', () => {
   const LIST = (attrs = '') => `
-    <prism-card-list id="l" label="Hosts" ${attrs} style="width:900px">
+    <prism-card-list id="l" label="Resources" ${attrs} style="width:900px">
       ${['a', 'b', 'c']
         .map(
           (v) => `<prism-card type="selectable" kind="collection" value="${v}">
             <prism-card-select slot="header"></prism-card-select>
-            <prism-card-title slot="header" level="3">Host ${v}</prism-card-title><p>x</p></prism-card>`,
+            <prism-card-title slot="header" level="3">Resource ${v}</prism-card-title><p>x</p></prism-card>`,
         )
         .join('')}
     </prism-card-list>`;
 
-  test('the host has no role; the wrapper is the named list around the cards', async ({
+  test('the card list has no role; the wrapper is the named list around the cards', async ({
     page,
   }) => {
     await setup(page, LIST('total="30" page-size="12"'));
@@ -322,7 +322,7 @@ test.describe('card list: list role on an inner wrapper', () => {
     });
     expect(r.hostRole).toBeNull();
     expect(r.hostLabel).toBeNull();
-    expect(r.listLabel).toBe('Hosts');
+    expect(r.listLabel).toBe('Resources');
     expect(r.lists).toBe(1);
     expect(r.assigned).toBe(3);
     expect(r.statusInList).toBe(false);
@@ -330,7 +330,7 @@ test.describe('card list: list role on an inner wrapper', () => {
     expect(r.toolbarInList).toBe(false);
     expect(r.status).toBe(true);
     expect(r.pager).toBe(true);
-    await expect(page.getByRole('list', { name: 'Hosts' })).toHaveCount(1);
+    await expect(page.getByRole('list', { name: 'Resources' })).toHaveCount(1);
     await expect(page.getByRole('listitem')).toHaveCount(3);
   });
 

@@ -3,7 +3,7 @@ import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
- * Label and value pairs about one thing: OS, Lumen OS; Sensor, 7.14.2. This
+ * Label and value pairs about one thing: OS, Lumen OS; Version, 7.14.2. This
  * is a description list (it is not a Tag).
  * `prism-description-list` holds `prism-description-list-item`s. PROVISIONAL props:
  * `orientation` and `label`.
@@ -12,7 +12,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  *   next, aligned across rows (a subgrid). `vertical` puts each label above
  *   its value.
  * - Semantics: the list is a `list` of `listitem`s; each label is a `term` and
- *   each value a `definition`, so a screen reader says "Sensor, 7.14.2".
+ *   each value a `definition`, so a screen reader says "Version, 7.14.2".
  *   Give the list a `label` when it is not already named by a heading.
  *
  * @tag prism-description-list

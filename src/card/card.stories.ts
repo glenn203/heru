@@ -30,12 +30,12 @@ export const Default: StoryObj<Args> = {
     frame(
       html`<prism-card type=${type} ?raised=${raised} ?standalone=${standalone}>
         <prism-card-title slot="header" level="3"
-          >Phishing playbook</prism-card-title
+          >Onboarding guide</prism-card-title
         >
         <prism-card-description slot="header"
-          >Triage steps for reported email.</prism-card-description
+          >Steps for welcoming new members.</prism-card-description
         >
-        <p style="margin:0">Runs when a user reports a suspicious message.</p>
+        <p style="margin:0">Runs when a new member joins.</p>
         <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
         <prism-card-actions slot="footer">
           <prism-button variant="ghost">View all</prism-button>
@@ -72,20 +72,20 @@ export const HeaderParts: StoryObj<Args> = {
           <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" />
         </svg>
         <prism-card-title slot="header" level="3"
-          >host-eu-0042</prism-card-title
+          >resource-eu-0042</prism-card-title
         >
         <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
-          >Critical</prism-tag
+          >Urgent</prism-tag
         >
         <prism-card-description slot="header"
-          >Lumen Server 9, last seen 4 min ago</prism-card-description
+          >Lumen Board 9, last seen 4 min ago</prism-card-description
         >
         <prism-card-actions slot="header">
-          <prism-icon-button label="Refresh host-eu-0042"
+          <prism-icon-button label="Refresh resource-eu-0042"
             >${iconRefresh()}</prism-icon-button
           >
-          <prism-menu label="More options for host-eu-0042">
-            <prism-menu-item>Isolate</prism-menu-item>
+          <prism-menu label="More options for resource-eu-0042">
+            <prism-menu-item>Pause</prism-menu-item>
             <prism-menu-item>Export</prism-menu-item>
           </prism-menu>
         </prism-card-actions>
@@ -103,7 +103,7 @@ export const ContentOnly: StoryObj<Args> = {
   render: () =>
     frame(
       html`<prism-card>
-        <p style="margin:0">Add a second factor to keep your account safe.</p>
+        <p style="margin:0">Add a profile photo so your team can find you.</p>
         <prism-card-actions>
           <prism-button variant="ghost">Later</prism-button>
           <prism-button variant="secondary">Set up</prism-button>
@@ -118,12 +118,12 @@ export const StandaloneTask: StoryObj<Args> = {
     frame(
       html`<prism-card standalone>
         <prism-card-title slot="header" level="3"
-          >Rotate API keys</prism-card-title
+          >Renew your plan</prism-card-title
         >
-        <p style="margin:0">Three keys expire this week.</p>
+        <p style="margin:0">Your trial ends this week.</p>
         <prism-card-actions slot="footer">
           <prism-button variant="ghost">Snooze</prism-button>
-          <prism-button>Rotate now</prism-button>
+          <prism-button>Renew now</prism-button>
         </prism-card-actions>
       </prism-card>`,
     ),
@@ -155,12 +155,12 @@ export const Narrow: StoryObj<Args> = {
   render: () =>
     frame(
       html`<prism-card>
-        <prism-card-title slot="header" level="3">Playbook</prism-card-title>
+        <prism-card-title slot="header" level="3">Guide</prism-card-title>
         <prism-card-actions slot="header">
-          <prism-icon-button label="Refresh Playbook"
+          <prism-icon-button label="Refresh Guide"
             >${iconRefresh()}</prism-icon-button
           >
-          <prism-icon-button label="Export Playbook">E</prism-icon-button>
+          <prism-icon-button label="Export Guide">E</prism-icon-button>
         </prism-card-actions>
         <p style="margin:0">Body</p>
         <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
@@ -188,19 +188,19 @@ export const ClickableLink: StoryObj<Args> = {
   render: () =>
     frame(
       html`<prism-card type="clickable">
-        <prism-card-title slot="header" level="3" href="#playbook"
-          >Phishing playbook</prism-card-title
+        <prism-card-title slot="header" level="3" href="#guide"
+          >Onboarding guide</prism-card-title
         >
         <prism-card-description slot="header"
-          >Triage steps for reported email.</prism-card-description
+          >Steps for welcoming new members.</prism-card-description
         >
         <prism-card-actions slot="header">
-          <prism-menu label="More options for Phishing playbook">
+          <prism-menu label="More options for Onboarding guide">
             <prism-menu-item>Duplicate</prism-menu-item>
             <prism-menu-item>Archive</prism-menu-item>
           </prism-menu>
         </prism-card-actions>
-        <div>Updated 2 min ago by the SOC team.</div>
+        <div>Updated 2 min ago by the Design team.</div>
       </prism-card>`,
     ),
 };
@@ -211,7 +211,7 @@ export const ClickableAction: StoryObj<Args> = {
     frame(
       html`<prism-card type="clickable" raised>
         <prism-card-title slot="header" level="3" action
-          >host-eu-0042</prism-card-title
+          >resource-eu-0042</prism-card-title
         >
         <div>Opens the details Drawer.</div>
       </prism-card>`,
@@ -224,10 +224,10 @@ export const ClickableDisabled: StoryObj<Args> = {
     frame(
       html`<prism-card type="clickable" disabled>
         <prism-card-title slot="header" level="3" href="#x"
-          >Quarantine report</prism-card-title
+          >Archive report</prism-card-title
         >
         <prism-card-description slot="header"
-          >Needs the Analyst role.</prism-card-description
+          >Needs the Editor role.</prism-card-description
         >
       </prism-card>`,
     ),
@@ -243,7 +243,7 @@ export const ChoiceCards: StoryObj<Args> = {
     >
       ${ROW('free', 'Free plan', 'For trying it out.')}
       ${ROW('team', 'Team plan', 'Shared dashboards.')}
-      ${ROW('ent', 'Enterprise plan', 'Single sign-on and audit.')}
+      ${ROW('ent', 'Enterprise plan', 'Shared dashboards and activity export.')}
     </prism-card-group>`,
 };
 
@@ -256,7 +256,7 @@ export const CollectionCards: StoryObj<Args> = {
   render: () =>
     html`<prism-card-group
       selection="multi"
-      label="Hosts"
+      label="Resources"
       style="display:grid;gap:16px;max-inline-size:360px"
     >
       ${['a', 'b', 'c'].map(
@@ -268,18 +268,18 @@ export const CollectionCards: StoryObj<Args> = {
             ?selected=${v === 'b'}
           >
             <prism-card-select slot="header"></prism-card-select>
-            <prism-card-title slot="header" level="3" href="#host-${v}"
-              >Host ${v.toUpperCase()}</prism-card-title
+            <prism-card-title slot="header" level="3" href="#resource-${v}"
+              >Resource ${v.toUpperCase()}</prism-card-title
             >
             <prism-card-description slot="header"
-              >Lumen Server 9</prism-card-description
+              >Lumen Board 9</prism-card-description
             >
             <prism-card-actions slot="header">
-              <prism-menu label="More options for Host ${v.toUpperCase()}">
-                <prism-menu-item>Isolate</prism-menu-item>
+              <prism-menu label="More options for Resource ${v.toUpperCase()}">
+                <prism-menu-item>Pause</prism-menu-item>
               </prism-menu>
             </prism-card-actions>
-            <div>Last seen 4 min ago</div>
+            <div>Updated 4 min ago</div>
           </prism-card>`,
       )}
     </prism-card-group>`,
@@ -310,7 +310,7 @@ const widget = (
         <prism-menu-item>Remove</prism-menu-item>
       </prism-menu>
     </prism-card-actions>
-    <prism-card-metric label="Detections">${value}</prism-card-metric>
+    <prism-card-metric label="Items">${value}</prism-card-metric>
     <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
     <prism-card-actions slot="footer">
       <prism-button variant="ghost" size="sm">View all</prism-button>
@@ -344,8 +344,8 @@ export const WidgetTimeRange: StoryObj<Args> = {
           <option>Last 7 days</option>
         </select>
       </label>
-      ${widget('Detections over time', '1,284')}
-      ${widget('Detections, 30 days', '9,402', { range: 'Last 30 days' })}
+      ${widget('Items over time', '1,284')}
+      ${widget('Items, 30 days', '9,402', { range: 'Last 30 days' })}
     </section>`,
 };
 
@@ -358,7 +358,7 @@ export const WidgetStates: StoryObj<Args> = {
       ${widget('Loading', '0', { state: 'loading' })}
       ${widget('Error', '0', {
         state: 'error',
-        message: 'The detections service timed out.',
+        message: 'The items service timed out.',
       })}
       ${widget('Empty', '0', { state: 'empty' })}
     </div>`,
@@ -392,15 +392,15 @@ export const Collapsible: StoryObj<Args> = {
     ),
 };
 
-const HOST_PAGES = 5;
-const hostCards = (page: number, size: number): string =>
+const RESOURCE_PAGES = 5;
+const resourceCards = (page: number, size: number): string =>
   Array.from({ length: Math.min(size, 6) }, (_, i) => {
-    const id = `host-${(page - 1) * 6 + i + 1}`;
+    const id = `resource-${(page - 1) * 6 + i + 1}`;
     return `<prism-card type="selectable" kind="collection" value="${id}">
       <prism-card-select slot="header"></prism-card-select>
-      <prism-card-title slot="header" level="3" href="#${id}">Host ${id.slice(5)}</prism-card-title>
-      <prism-card-description slot="header">Lumen Server 9</prism-card-description>
-      <div>Last seen ${i + 1} min ago</div>
+      <prism-card-title slot="header" level="3" href="#${id}">Resource ${id.slice(5)}</prism-card-title>
+      <prism-card-description slot="header">Lumen Board 9</prism-card-description>
+      <div>Updated ${i + 1} min ago</div>
       <prism-card-meta slot="footer">Page ${page}</prism-card-meta>
     </prism-card>`;
   }).join('');
@@ -412,17 +412,17 @@ const hostCards = (page: number, size: number): string =>
 export const CardList: StoryObj<Args> = {
   render: () => {
     const list = document.createElement('prism-card-list');
-    list.setAttribute('label', 'Hosts');
-    list.setAttribute('total', String(HOST_PAGES * 6));
+    list.setAttribute('label', 'Resources');
+    list.setAttribute('total', String(RESOURCE_PAGES * 6));
     list.setAttribute('page-size', '12');
-    list.innerHTML = hostCards(1, 12);
+    list.innerHTML = resourceCards(1, 12);
     list.addEventListener('prism-card-list-page', (e) => {
       const { page, pageSize } = (
         e as CustomEvent<{ page: number; pageSize: number }>
       ).detail;
       for (const c of [...list.children])
         if (c.localName === 'prism-card') c.remove();
-      list.insertAdjacentHTML('afterbegin', hostCards(page, pageSize));
+      list.insertAdjacentHTML('afterbegin', resourceCards(page, pageSize));
     });
     return list;
   },
@@ -433,7 +433,7 @@ export const CardListStates: StoryObj<Args> = {
   render: () =>
     html`<div style="display:grid;gap:32px">
       <prism-card-list
-        label="Loading hosts"
+        label="Loading resources"
         state="loading"
         skeleton-count="4"
       ></prism-card-list>
@@ -441,7 +441,7 @@ export const CardListStates: StoryObj<Args> = {
       <prism-card-list
         label="Error"
         state="error"
-        state-message="The hosts service is down."
+        state-message="The resources service is down."
       ></prism-card-list>
     </div>`,
 };
@@ -450,9 +450,9 @@ export const CardListStates: StoryObj<Args> = {
 export const CardListOneColumn: StoryObj<Args> = {
   render: () => {
     const list = document.createElement('prism-card-list');
-    list.setAttribute('label', 'Hosts');
+    list.setAttribute('label', 'Resources');
     list.setAttribute('columns', '1');
-    list.innerHTML = hostCards(1, 3);
+    list.innerHTML = resourceCards(1, 3);
     list.style.maxInlineSize = '420px';
     return list;
   },
@@ -461,16 +461,16 @@ export const CardListOneColumn: StoryObj<Args> = {
 // ---- M4: reorderable lists (names provisional) ----
 
 const REORDER_NAMES = [
-  'Phishing playbook',
-  'Malware triage',
-  'Account takeover',
-  'Data exposure',
+  'Onboarding guide',
+  'Release review',
+  'Account setup',
+  'Data export',
 ];
 const reorderCard = (name: string, menu = true) => `
   <prism-card value="${name}">
     <prism-card-handle slot="header"></prism-card-handle>
     <prism-card-title slot="header" level="3">${name}</prism-card-title>
-    <prism-card-description slot="header">Runs on report</prism-card-description>
+    <prism-card-description slot="header">Runs on request</prism-card-description>
     ${
       menu
         ? `<prism-card-actions slot="header"><prism-menu label="More options for ${name}"><prism-menu-item>Rename</prism-menu-item></prism-menu></prism-card-actions>`
@@ -488,7 +488,7 @@ const reorderCard = (name: string, menu = true) => `
 export const ReorderableList: StoryObj<Args> = {
   render: () => {
     const list = document.createElement('prism-card-list');
-    list.setAttribute('label', 'Playbooks');
+    list.setAttribute('label', 'Guides');
     list.setAttribute('reorderable', '');
     list.setAttribute('columns', '1');
     list.style.maxInlineSize = '420px';
@@ -501,7 +501,7 @@ export const ReorderableList: StoryObj<Args> = {
 export const ReorderableGrid: StoryObj<Args> = {
   render: () => {
     const list = document.createElement('prism-card-list');
-    list.setAttribute('label', 'Playbooks');
+    list.setAttribute('label', 'Guides');
     list.setAttribute('reorderable', '');
     list.style.maxInlineSize = '760px';
     list.innerHTML = REORDER_NAMES.map((n) => reorderCard(n)).join('');
@@ -513,7 +513,7 @@ export const ReorderableGrid: StoryObj<Args> = {
 export const ReorderableHandleMenu: StoryObj<Args> = {
   render: () => {
     const list = document.createElement('prism-card-list');
-    list.setAttribute('label', 'Playbooks');
+    list.setAttribute('label', 'Guides');
     list.setAttribute('reorderable', '');
     list.setAttribute('columns', '1');
     list.style.maxInlineSize = '420px';
@@ -529,7 +529,7 @@ export const ReorderBetweenLists: StoryObj<Args> = {
     wrap.style.cssText =
       'display:grid;grid-template-columns:repeat(2,minmax(0,320px));gap:32px';
     const mk = (label: string, names: string[]) =>
-      `<prism-card-list label="${label}" reorderable columns="1" reorder-group="playbooks">${names.map((n) => reorderCard(n)).join('')}</prism-card-list>`;
+      `<prism-card-list label="${label}" reorderable columns="1" reorder-group="guides">${names.map((n) => reorderCard(n)).join('')}</prism-card-list>`;
     wrap.innerHTML =
       mk('Draft', REORDER_NAMES.slice(0, 2)) +
       mk('Active', REORDER_NAMES.slice(2));

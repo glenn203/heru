@@ -33,8 +33,8 @@ async function setup(page: Page, markup: string, width?: number) {
 }
 const BASIC = `
   <prism-card id="c">
-    <prism-card-title slot="header" level="3">Phishing playbook</prism-card-title>
-    <prism-card-description slot="header">Owner: SOC</prism-card-description>
+    <prism-card-title slot="header" level="3">Onboarding guide</prism-card-title>
+    <prism-card-description slot="header">Owner: Design</prism-card-description>
     <p>Body text</p>
     <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
     <prism-card-actions slot="footer">
@@ -57,10 +57,10 @@ test.describe('shared card: slots, name, heading', () => {
     const errors = await setup(page, BASIC);
     expect(errors).toEqual([]);
     await expect(
-      page.getByRole('heading', { level: 3, name: 'Phishing playbook' }),
+      page.getByRole('heading', { level: 3, name: 'Onboarding guide' }),
     ).toHaveCount(1);
     await expect(
-      page.getByRole('group', { name: 'Phishing playbook' }),
+      page.getByRole('group', { name: 'Onboarding guide' }),
     ).toHaveCount(1);
     await expect(page.getByText('Body text')).toBeVisible();
     await expect(page.getByText('Updated 2 min ago')).toBeVisible();
@@ -265,12 +265,12 @@ test.describe('header and footer accept only approved parts', () => {
   test('header actions: one overflow menu is accepted', async ({ page }) => {
     const errors = await setup(
       page,
-      `<prism-card><prism-card-title slot="header" level="3">Playbook</prism-card-title>
-        <prism-card-actions slot="header"><prism-menu label="More options for Playbook"><prism-menu-item>Edit</prism-menu-item></prism-menu></prism-card-actions></prism-card>`,
+      `<prism-card><prism-card-title slot="header" level="3">Guide</prism-card-title>
+        <prism-card-actions slot="header"><prism-menu label="More options for Guide"><prism-menu-item>Edit</prism-menu-item></prism-menu></prism-card-actions></prism-card>`,
     );
     expect(errors).toEqual([]);
     await expect(
-      page.getByRole('button', { name: 'More options for Playbook' }),
+      page.getByRole('button', { name: 'More options for Guide' }),
     ).toBeVisible();
   });
 
@@ -468,7 +468,7 @@ test.describe('layout and elevation', () => {
       `<prism-card id="c" style="width:420px">
         <svg slot="header" data-prism-card-icon width="16" height="16" id="ic"></svg>
         <prism-card-title slot="header" level="3" id="t">Title</prism-card-title>
-        <prism-tag slot="header" id="tag">Critical</prism-tag>
+        <prism-tag slot="header" id="tag">Urgent</prism-tag>
         <prism-card-description slot="header" id="d">Desc</prism-card-description>
         <prism-card-actions slot="header" id="act"><prism-icon-button label="Refresh">r</prism-icon-button></prism-card-actions>
         <div id="body">Body</div></prism-card>`,
@@ -612,10 +612,10 @@ test.describe('layout and elevation', () => {
 test.describe('narrow card (†)', () => {
   const NARROW = (w: number) => `
     <prism-card id="c" style="width:${w}px">
-      <prism-card-title slot="header" level="3">Playbook</prism-card-title>
+      <prism-card-title slot="header" level="3">Guide</prism-card-title>
       <prism-card-actions slot="header">
-        <prism-icon-button label="Refresh Playbook" id="i1">r</prism-icon-button>
-        <prism-icon-button label="Export Playbook" id="i2">e</prism-icon-button>
+        <prism-icon-button label="Refresh Guide" id="i1">r</prism-icon-button>
+        <prism-icon-button label="Export Guide" id="i2">e</prism-icon-button>
       </prism-card-actions>
       <p>Body</p>
       <prism-card-meta slot="footer">Updated</prism-card-meta>
@@ -631,7 +631,7 @@ test.describe('narrow card (†)', () => {
     ).toBe(true);
     await expect(page.locator('#i1')).toBeHidden();
     const menu = page.getByRole('button', {
-      name: 'More options for Playbook',
+      name: 'More options for Guide',
     });
     await expect(menu).toBeVisible();
     await menu.click();
@@ -652,9 +652,7 @@ test.describe('narrow card (†)', () => {
           () => ((window as unknown as Win).hit = 'refresh'),
         ),
       );
-    await page
-      .getByRole('button', { name: 'More options for Playbook' })
-      .click();
+    await page.getByRole('button', { name: 'More options for Guide' }).click();
     await page.getByRole('menuitem', { name: 'Refresh' }).click();
     expect(await page.evaluate(() => (window as unknown as Win).hit)).toBe(
       'refresh',

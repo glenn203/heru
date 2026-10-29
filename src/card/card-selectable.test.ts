@@ -50,18 +50,18 @@ const PLANS = (extra = '') => `
       .join('')}
   </prism-card-group>
   <button id="after">after</button>`;
-const HOSTS = (attrs = '') => `
+const RESOURCES = (attrs = '') => `
   <button id="before">before</button>
-  <prism-card-group id="g" selection="multi" label="Hosts" ${attrs}>
+  <prism-card-group id="g" selection="multi" label="Resources" ${attrs}>
     ${['a', 'b', 'c']
       .map(
         (
           v,
         ) => `<prism-card id="${v}" type="selectable" kind="collection" value="${v}" style="width:320px;margin-block-end:8px">
         <prism-card-select slot="header"></prism-card-select>
-        <prism-card-title slot="header" level="3" href="#host-${v}">Host ${v.toUpperCase()}</prism-card-title>
+        <prism-card-title slot="header" level="3" href="#resource-${v}">Resource ${v.toUpperCase()}</prism-card-title>
         <prism-card-description slot="header">Lumen server ${v}.</prism-card-description>
-        <prism-card-actions slot="header"><prism-menu label="More options for Host ${v.toUpperCase()}"><prism-menu-item>Isolate</prism-menu-item></prism-menu></prism-card-actions>
+        <prism-card-actions slot="header"><prism-menu label="More options for Resource ${v.toUpperCase()}"><prism-menu-item>Pause</prism-menu-item></prism-menu></prism-card-actions>
         <div>content ${v}</div>
       </prism-card>`,
       )
@@ -84,9 +84,9 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   test('the checkbox is always visible, named by the title, described by the description', async ({
     page,
   }) => {
-    const errors = await setup(page, HOSTS());
+    const errors = await setup(page, RESOURCES());
     expect(errors).toEqual([]);
-    const cb = page.getByRole('checkbox', { name: 'Host A' });
+    const cb = page.getByRole('checkbox', { name: 'Resource A' });
     await expect(cb).toBeVisible();
     await expect(cb).toHaveAccessibleDescription('Lumen server a.');
     // 24 by 24px target at least.
@@ -103,41 +103,45 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   test('clicking the checkbox selects; clicking elsewhere on the card does not', async ({
     page,
   }) => {
-    await setup(page, HOSTS());
-    await page.getByRole('checkbox', { name: 'Host A' }).click();
+    await setup(page, RESOURCES());
+    await page.getByRole('checkbox', { name: 'Resource A' }).click();
     expect(await selected(page)).toEqual(['a']);
     await page.locator('#b').getByText('content b').click();
     expect(await selected(page)).toEqual(['a']);
     expect(await isSel(page, 'a')).toBe(true);
     expect(await isSel(page, 'b')).toBe(false);
-    await page.getByRole('checkbox', { name: 'Host A' }).click();
+    await page.getByRole('checkbox', { name: 'Resource A' }).click();
     expect(await selected(page)).toEqual([]);
   });
 
   test('the title stays a link and is its own tab stop; order is checkbox, title, actions', async ({
     page,
   }) => {
-    await setup(page, HOSTS());
+    await setup(page, RESOURCES());
     await page.locator('#before').focus();
     await page.keyboard.press('Tab');
-    await expect(page.getByRole('checkbox', { name: 'Host A' })).toBeFocused();
-    await page.keyboard.press('Tab');
-    await expect(page.getByRole('link', { name: 'Host A' })).toBeFocused();
-    await page.keyboard.press('Tab');
     await expect(
-      page.getByRole('button', { name: 'More options for Host A' }),
+      page.getByRole('checkbox', { name: 'Resource A' }),
     ).toBeFocused();
     await page.keyboard.press('Tab');
-    await expect(page.getByRole('checkbox', { name: 'Host B' })).toBeFocused();
+    await expect(page.getByRole('link', { name: 'Resource A' })).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(
+      page.getByRole('button', { name: 'More options for Resource A' }),
+    ).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(
+      page.getByRole('checkbox', { name: 'Resource B' }),
+    ).toBeFocused();
   });
 
   test('Space toggles; a polite message says how many are selected', async ({
     page,
   }) => {
-    await setup(page, HOSTS());
-    await page.getByRole('checkbox', { name: 'Host A' }).focus();
+    await setup(page, RESOURCES());
+    await page.getByRole('checkbox', { name: 'Resource A' }).focus();
     await page.keyboard.press(' ');
-    await page.getByRole('checkbox', { name: 'Host B' }).focus();
+    await page.getByRole('checkbox', { name: 'Resource B' }).focus();
     await page.keyboard.press(' ');
     expect(await selected(page)).toEqual(['a', 'b']);
     const status = page.locator('#g').locator('[role="status"]');
@@ -150,9 +154,9 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   });
 
   test('selection-change event carries the ids and count', async ({ page }) => {
-    await setup(page, HOSTS());
-    await page.getByRole('checkbox', { name: 'Host C' }).click();
-    await page.getByRole('checkbox', { name: 'Host A' }).click();
+    await setup(page, RESOURCES());
+    await page.getByRole('checkbox', { name: 'Resource C' }).click();
+    await page.getByRole('checkbox', { name: 'Resource A' }).click();
     const events = await page.evaluate(() => (window as unknown as Win).events);
     expect(events).toEqual([
       { selected: ['c'], count: 1 },
@@ -163,8 +167,8 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   test('selected look: 14% overlay, 18% on hover, 2px inside ring, checked control', async ({
     page,
   }) => {
-    await setup(page, HOSTS());
-    await page.getByRole('checkbox', { name: 'Host A' }).click();
+    await setup(page, RESOURCES());
+    await page.getByRole('checkbox', { name: 'Resource A' }).click();
     await page.mouse.move(0, 0);
     await settle(page);
     const bg = ['var(--prism-color-bg)', 'var(--prism-color-text)'] as const;
@@ -196,15 +200,19 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
       );
     expect(ring).toMatch(/inset/);
     expect(ring).toMatch(/ 2px/);
-    await expect(page.getByRole('checkbox', { name: 'Host A' })).toBeChecked();
+    await expect(
+      page.getByRole('checkbox', { name: 'Resource A' }),
+    ).toBeChecked();
   });
 
   test('a nested control keeps the selected overlay but adds no hover on it', async ({
     page,
   }) => {
-    await setup(page, HOSTS());
-    await page.getByRole('checkbox', { name: 'Host A' }).click();
-    await page.getByRole('button', { name: 'More options for Host A' }).hover();
+    await setup(page, RESOURCES());
+    await page.getByRole('checkbox', { name: 'Resource A' }).click();
+    await page
+      .getByRole('button', { name: 'More options for Resource A' })
+      .hover();
     await settle(page);
     const got = await painted(page.locator('#a'), 'base');
     const want = await expected(
@@ -219,7 +227,7 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   test('initial selected attributes are read once; ids not on screen stay selected', async ({
     page,
   }) => {
-    await setup(page, HOSTS().replace('value="b"', 'value="b" selected'));
+    await setup(page, RESOURCES().replace('value="b"', 'value="b" selected'));
     expect(await selected(page)).toEqual(['b']);
     await page.locator('#g').evaluate((el) => {
       (el as unknown as { selected: string[] }).selected = ['b', 'zz'];
@@ -234,12 +242,14 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
       card.setAttribute('kind', 'collection');
       card.setAttribute('value', 'zz');
       card.innerHTML =
-        '<prism-card-select slot="header"></prism-card-select><prism-card-title slot="header" level="3">Host ZZ</prism-card-title><p>x</p>';
+        '<prism-card-select slot="header"></prism-card-select><prism-card-title slot="header" level="3">Resource ZZ</prism-card-title><p>x</p>';
       el.append(card);
     });
     await settle(page);
     expect(await isSel(page, 'zz')).toBe(true);
-    await expect(page.getByRole('checkbox', { name: 'Host ZZ' })).toBeChecked();
+    await expect(
+      page.getByRole('checkbox', { name: 'Resource ZZ' }),
+    ).toBeChecked();
     // Removing a card (paging away) keeps its id.
     await page.locator('#zz').evaluate((el) => el.remove());
     await settle(page);
@@ -251,11 +261,15 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   }) => {
     const errors = await setup(
       page,
-      `<prism-card-group id="g" label="Hosts"><prism-card id="d" type="selectable" kind="collection" value="d" disabled style="width:320px"><prism-card-select slot="header"></prism-card-select><prism-card-title slot="header" level="3">Host D</prism-card-title><prism-card-description slot="header">Offline: cannot be selected.</prism-card-description></prism-card></prism-card-group>`,
+      `<prism-card-group id="g" label="Resources"><prism-card id="d" type="selectable" kind="collection" value="d" disabled style="width:320px"><prism-card-select slot="header"></prism-card-select><prism-card-title slot="header" level="3">Resource D</prism-card-title><prism-card-description slot="header">Offline: cannot be selected.</prism-card-description></prism-card></prism-card-group>`,
     );
     expect(errors).toEqual([]);
-    await expect(page.getByRole('checkbox', { name: 'Host D' })).toBeDisabled();
-    await page.getByRole('checkbox', { name: 'Host D' }).click({ force: true });
+    await expect(
+      page.getByRole('checkbox', { name: 'Resource D' }),
+    ).toBeDisabled();
+    await page
+      .getByRole('checkbox', { name: 'Resource D' })
+      .click({ force: true });
     expect(await selected(page)).toEqual([]);
     const got = await painted(page.locator('#d'), 'base');
     const want = await expected(
@@ -270,7 +284,7 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
   test('the card does not nest controls inside the control: the checkbox is a real input', async ({
     page,
   }) => {
-    await setup(page, HOSTS());
+    await setup(page, RESOURCES());
     const tag = await page
       .locator('#a prism-card-select')
       .evaluate((el) => el.shadowRoot!.querySelector('input')!.type);
@@ -517,8 +531,8 @@ test.describe('selection rules and errors', () => {
     page,
   }) => {
     await page.emulateMedia({ forcedColors: 'active' });
-    await setup(page, HOSTS());
-    await page.getByRole('checkbox', { name: 'Host A' }).click();
+    await setup(page, RESOURCES());
+    await page.getByRole('checkbox', { name: 'Resource A' }).click();
     const o = await page.locator('#a').evaluate((el) => {
       const cs = getComputedStyle(
         el.shadowRoot!.querySelector('[part="base"]')!,
@@ -537,8 +551,8 @@ test.describe('menu trigger inside a selected card', () => {
       page,
       `<prism-card id="c" type="selectable" kind="collection" value="x" selected>
         <prism-card-header>
-          <prism-card-title slot="title" level="3">Host</prism-card-title>
-          <prism-menu slot="actions" label="More options for Host">
+          <prism-card-title slot="title" level="3">Resource</prism-card-title>
+          <prism-menu slot="actions" label="More options for Resource">
             <prism-menu-item>Rename</prism-menu-item>
           </prism-menu>
         </prism-card-header>

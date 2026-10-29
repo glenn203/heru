@@ -7,7 +7,9 @@
  * row. A row lays its cards out as equal columns sized to its item count
  * (`grid-auto-flow: column` with `1fr` columns), so one card fills the row, and
  * an empty row stays a visible drop target. Without a pointer, the card's menu
- * has the Move items plus "Move to row N" for every other row.
+ * has the Move items plus "Move to row N" for every other row. The row names
+ * ("Row 1" to "Row 3") are visually hidden: screen readers get them as headings
+ * and list names, and the grid shows only the cards.
  */
 
 interface Widget {
@@ -22,72 +24,72 @@ interface Widget {
 const ROWS: Widget[][] = [
   [
     {
-      id: 'detections',
-      title: 'Open detections',
-      label: 'Detections',
+      id: 'items',
+      title: 'Open items',
+      label: 'Items',
       value: '1,284',
       header:
         '<prism-badge slot="header" job="status" status="live"></prism-badge>',
     },
     {
-      id: 'hosts',
-      title: 'Hosts online',
-      label: 'Hosts',
+      id: 'resources',
+      title: 'Active resources',
+      label: 'Resources',
       value: '4,092',
       extra:
         '<prism-tag job="health" tone="success" size="sm">Healthy</prism-tag>',
     },
     {
       id: 'coverage',
-      title: 'Sensor coverage',
+      title: 'Setup coverage',
       label: 'Coverage',
       value: '96%',
       extra:
-        '<prism-progress label="Hosts with a sensor" value="96" show-value tone="success"></prism-progress>',
+        '<prism-progress label="Resources set up" value="96" show-value tone="success"></prism-progress>',
     },
   ],
   [
     {
-      id: 'critical',
-      title: 'Critical alerts',
-      label: 'Critical',
+      id: 'urgent',
+      title: 'Urgent items',
+      label: 'Urgent',
       value: '23',
       extra:
-        '<prism-tag job="severity" tone="danger" emphasis="high" size="sm">Critical</prism-tag>',
+        '<prism-tag job="severity" tone="danger" emphasis="high" size="sm">Urgent</prism-tag>',
     },
     {
-      id: 'response',
-      title: 'Time to respond',
+      id: 'resolve',
+      title: 'Time to resolve',
       label: 'Median, minutes',
       value: '14',
     },
     {
       id: 'disk',
-      title: 'Disk used',
-      label: 'Fleet average',
+      title: 'Storage used',
+      label: 'Workspace average',
       value: '72%',
       extra:
-        '<prism-progress label="Disk used" value="72" show-value tone="warning"></prism-progress>',
+        '<prism-progress label="Storage used" value="72" show-value tone="warning"></prism-progress>',
     },
   ],
   [
     {
       id: 'signins',
-      title: 'Admin sign-ins',
+      title: 'Member sign-ins',
       label: 'This week',
       value: '58',
     },
     {
-      id: 'policies',
-      title: 'Policy changes',
+      id: 'settings',
+      title: 'Settings changes',
       label: 'This week',
       value: '7',
       extra:
-        '<prism-tag job="policy" tone="info" size="sm">Reviewed</prism-tag>',
+        '<prism-tag job="status" tone="info" size="sm">Reviewed</prism-tag>',
     },
     {
       id: 'reports',
-      title: 'Reports queued',
+      title: 'Exports queued',
       label: 'Waiting',
       value: '12',
       header: '<prism-badge slot="header" count="12"></prism-badge>',
@@ -165,12 +167,12 @@ export function createDashboardRows(): HTMLElement {
     ${ROWS.map(
       (cards, i) => `
       <section aria-labelledby="dash-row-${String(i + 1)}">
-        <h2 id="dash-row-${String(i + 1)}">Row ${String(i + 1)}</h2>
+        <h2 id="dash-row-${String(i + 1)}" class="dash-sr">Row ${String(i + 1)}</h2>
         <div class="dash-zone">
           <prism-card-list class="dash-list" label="Row ${String(i + 1)}" reorderable reorder-group="dashboard" data-dash-row="${String(i + 1)}">
             ${cards.map(widgetHtml).join('')}
           </prism-card-list>
-          <p class="dash-empty">Row ${String(i + 1)} is empty. Drag a card here, or choose Move to row ${String(i + 1)} on a card.</p>
+          <p class="dash-empty">Nothing here yet. Drag a card here, or use a card's menu to move one in.</p>
         </div>
       </section>`,
     ).join('')}

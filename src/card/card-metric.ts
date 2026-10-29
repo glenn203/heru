@@ -11,7 +11,7 @@ import { property } from 'lit/decorators.js';
  * (never from outside). No Display style is used inside a card.
  *
  * Reading order is number first, then the label, so a screen reader says
- * "1,284 detections". Put a time range in the label only if the number is
+ * "1,284 items". Put a time range in the label only if the number is
  * specific to it; the widget header already shows an overridden range.
  *
  * @tag prism-card-metric
@@ -62,7 +62,7 @@ export class PrismCardMetric extends LitElement {
     }
   `;
 
-  /** What the number counts, for example "Detections". */
+  /** What the number counts, for example "Items". */
   @property() label = '';
 
   override render() {

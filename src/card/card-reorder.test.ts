@@ -39,7 +39,7 @@ const card = (name: string, opts: { menu?: boolean; plain?: boolean } = {}) =>
         <p>Body of ${name}</p>
       </prism-card>`;
 const LIST = (names = NAMES, attrs = '', opts = {}, style = 'width:380px') =>
-  `<prism-card-list id="l" label="Playbooks" reorderable columns="1" ${attrs} style="${style}">${names.map((n) => card(n, opts)).join('')}</prism-card-list>`;
+  `<prism-card-list id="l" label="Guides" reorderable columns="1" ${attrs} style="${style}">${names.map((n) => card(n, opts)).join('')}</prism-card-list>`;
 const order = (page: Page, id = '#l') =>
   page
     .locator(`${id} > prism-card`)
