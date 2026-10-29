@@ -152,8 +152,8 @@ export class PrismCard extends LitElement {
         margin-block: calc(
           (
               var(--prism-font-line-height-20, 1.25rem) - var(
-                  --prism-control-height-md,
-                  2.25rem
+                  --prism-control-height-sm,
+                  2rem
                 )
             ) /
             2
@@ -193,13 +193,13 @@ export class PrismCard extends LitElement {
         grid-column: 7;
         grid-row: 1 / span 2;
         margin-inline-start: var(--prism-space-2, 0.5rem);
-        /* Centre a medium icon button on the title's first line (20px). The
+        /* Centre a small icon button on the title's first line (20px). The
          button's hover fill may extend into the card padding, not over text. */
         margin-block: calc(
           (
               var(--prism-font-line-height-20, 1.25rem) - var(
-                  --prism-control-height-md,
-                  2.25rem
+                  --prism-control-height-sm,
+                  2rem
                 )
             ) /
             2
@@ -632,7 +632,7 @@ export class PrismCard extends LitElement {
       t = html`<div data-prism-card-state="error">
         <p>${this.stateMessage || "This couldn't be loaded."}</p>
         <prism-button
-          variant="secondary"
+          variant="outline"
           size="sm"
           type="button"
           @click=${() =>
@@ -723,6 +723,17 @@ export class PrismCard extends LitElement {
     this.#syncName(header);
     this.#syncRole();
     this.#syncInteraction(header);
+    this.#syncControlSizes();
+  }
+
+  /**
+   * Every icon button and menu trigger in a card is small: 32px at the default
+   * density, 24px compact and 40px comfortable, so it never drops under the 24px
+   * minimum target (WCAG 2.5.8). Set here so authors can't drift.
+   */
+  #syncControlSizes(): void {
+    for (const el of this.querySelectorAll('prism-icon-button, prism-menu'))
+      if (el.getAttribute('size') !== 'sm') el.setAttribute('size', 'sm');
   }
 
   /** Wires the title, the selection control and the interaction rules. */
@@ -950,7 +961,11 @@ export class PrismCard extends LitElement {
   #syncRole(): void {
     const parent = this.parentElement;
     if (parent?.localName === 'li') this.#setAttr('role', null);
-    else if (parent?.localName === 'prism-card-list')
+    else if (
+      parent?.localName === 'prism-card-list' &&
+      !this.hasAttribute('slot')
+    )
+      // A card in the list's `empty` slot sits outside the list wrapper.
       this.#setAttr('role', 'listitem');
     else this.#setAttr('role', 'group');
   }

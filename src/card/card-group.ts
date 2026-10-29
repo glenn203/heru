@@ -127,8 +127,11 @@ export class PrismCardGroup extends LitElement {
       if (initial.length) this.#sel.set(initial.filter(Boolean));
     }
     const single = this.selection === 'single';
-    this.setAttribute('role', this.hostRole());
-    if (this.label) this.setAttribute('aria-label', this.label);
+    const role = this.hostRole();
+    if (role) {
+      this.setAttribute('role', role);
+      if (this.label) this.setAttribute('aria-label', this.label);
+    }
     const enabled = cards.filter((c) => !c.disabled);
     // Roving tab stop (single): the selected card, else the first enabled one.
     const stop =
@@ -148,8 +151,11 @@ export class PrismCardGroup extends LitElement {
     this.synced();
   }
 
-  /** The host's role. A card list overrides it to `list`. */
-  protected hostRole(): string {
+  /**
+   * The host's role. A card list overrides it with `null`: its list role lives
+   * on an inner wrapper so the toolbar, pager and status sit outside the list.
+   */
+  protected hostRole(): string | null {
     return this.selection === 'single' ? 'radiogroup' : 'group';
   }
   /** Called after every sync. A card list hooks in here. */

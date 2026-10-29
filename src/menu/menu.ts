@@ -51,6 +51,8 @@ export class PrismMenu extends LitElement {
 
   /** Required. Names the button and the menu: "More options for {title}". */
   @property() label = '';
+  /** Trigger size, passed to its icon button. NAME PROVISIONAL. */
+  @property({ reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
   @property({ type: Boolean, reflect: true }) open = false;
   /** Which edge of the button the popup aligns to. Follows direction. */
   @property({ reflect: true }) align: 'end' | 'start' = 'end';
@@ -238,6 +240,7 @@ export class PrismMenu extends LitElement {
         part="trigger"
         exportparts="base:trigger-base"
         .label=${this.label}
+        size=${this.size}
         haspopup="menu"
         .expanded=${this.open}
         @click=${this.#onTriggerClick}

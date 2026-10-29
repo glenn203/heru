@@ -190,6 +190,7 @@ export class PrismCardActions extends LitElement {
         this.folded.length
           ? html`<prism-menu
               part="overflow"
+              size="sm"
               label=${title ? `More options for ${title}` : 'More options'}
               @prism-menu-select=${(e: CustomEvent<{ item: HTMLElement }>) =>
                 this.folded[Number(e.detail.item.dataset['i'])]?.button.click()}
