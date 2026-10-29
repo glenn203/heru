@@ -5,12 +5,17 @@ import '../button/define.js';
 import '../select/define.js';
 import '../option/define.js';
 import '../text-field/define.js';
+import '../tag/define.js';
+import '../badge/define.js';
+import '../avatar/define.js';
+import '../progress/define.js';
+import '../datalist/define.js';
 import { iconRefresh } from '../internal/icons.js';
 
 /**
- * Card recipes: whole screens' worth of cards assembled ONLY from the existing
- * card parts (and the Button, Select and Text field that already exist). No new
- * components and no new tokens. Every name, number and date is made up.
+ * Card recipes: whole screens' worth of cards assembled from the card parts and
+ * the library's own Tag, Badge, Avatar, Progress, Datalist, Button, Select and
+ * Text field. No inline stand-ins; nothing here defines an element. Every name, number and date is made up.
  *
  * Rules every recipe follows:
  * - Each card title is a real heading. Cards sit under an h2 for their group,
@@ -20,19 +25,6 @@ import { iconRefresh } from '../internal/icons.js';
  * - Footers hold meta and at most two actions, and at most one primary, only on
  *   a standalone task card.
  */
-
-// Tag and Badge do not exist yet. The same throwaway stand-in as the main Card
-// stories, so a recipe can show where one sits. Not part of the library.
-if (!customElements.get('prism-tag'))
-  customElements.define(
-    'prism-tag',
-    class extends HTMLElement {
-      connectedCallback() {
-        this.style.cssText =
-          'display:inline-block;font:500 12px/18px Inter,sans-serif;padding:0 6px;border:1px solid currentColor;border-radius:3px;white-space:nowrap';
-      }
-    },
-  );
 
 const meta: Meta = {
   title: 'Card recipes',
@@ -63,17 +55,14 @@ const group = (
   </section>`;
 };
 
-/** Key facts as a description list: term, then value, two columns. */
-const facts = (rows: [string, string][]) =>
-  html`<dl
-    style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 16px"
-  >
+/** Key facts: label and value pairs, aligned in two columns (Datalist). */
+const facts = (rows: [string, string][], label: string) =>
+  html`<prism-datalist label=${label}>
     ${rows.map(
       ([k, v]) =>
-        html`<dt style="color:var(--prism-color-text-muted)">${k}</dt>
-          <dd style="margin:0">${v}</dd>`,
+        html`<prism-datalist-item label=${k}>${v}</prism-datalist-item>`,
     )}
-  </dl>`;
+  </prism-datalist>`;
 
 const dot = (shape: 'circle' | 'square' | 'tri') =>
   html`<svg
@@ -126,7 +115,7 @@ export const HostSummary: Story = {
         <prism-card-title slot="header" level="3" href="#host-lyra-0142"
           >lyra-0142</prism-card-title
         >
-        <prism-tag slot="header">Online</prism-tag>
+        <prism-tag slot="header" job="health" tone="success">Online</prism-tag>
         <prism-card-description slot="header"
           >Windows Server 2022, Frankfurt</prism-card-description
         >
@@ -137,12 +126,22 @@ export const HostSummary: Story = {
             <prism-menu-item>Export details</prism-menu-item>
           </prism-menu>
         </prism-card-actions>
-        ${facts([
-          ['Sensor', '7.14.2'],
-          ['IP address', '192.0.2.42'],
-          ['Open detections', '2'],
-          ['Policy', 'Servers, standard'],
-        ])}
+        ${facts(
+          [
+            ['Sensor', '7.14.2'],
+            ['IP address', '192.0.2.42'],
+            ['Open detections', '2'],
+            ['Policy', 'Servers, standard'],
+          ],
+          'lyra-0142 details',
+        )}
+        <prism-progress
+          label="Disk used"
+          value="72"
+          show-value
+          tone="warning"
+          style="margin-block-start:12px"
+        ></prism-progress>
         <prism-card-meta slot="footer">Last seen 4 min ago</prism-card-meta>
       </prism-card>`,
       '420px',
@@ -153,6 +152,11 @@ export const HostSummary: Story = {
 // 2. Device fleet grid
 // ---------------------------------------------------------------------------
 
+const HEALTH_TONE: Record<string, string> = {
+  Online: 'success',
+  Offline: 'danger',
+  'Needs update': 'warning',
+};
 const FLEET: [string, string, string, string][] = [
   ['orion-laptop-07', 'macOS 15', 'Online', 'Seen 2 min ago'],
   ['orion-laptop-12', 'Windows 11', 'Online', 'Seen 9 min ago'],
@@ -175,7 +179,7 @@ export const DeviceFleetGrid: Story = {
         FLEET.map(
           ([name, os, status, seen]) => `<prism-card type="clickable">
             <prism-card-title slot="header" level="3" href="#${name}">${name}</prism-card-title>
-            <prism-tag slot="header">${status}</prism-tag>
+            <prism-tag slot="header" job="health" tone="${HEALTH_TONE[status]}">${status}</prism-tag>
             <prism-card-description slot="header">${os}</prism-card-description>
             <prism-card-meta slot="footer">${seen}</prism-card-meta>
           </prism-card>`,
@@ -188,6 +192,12 @@ export const DeviceFleetGrid: Story = {
 // 3. Detection alerts with severity
 // ---------------------------------------------------------------------------
 
+const SEVERITY_TONE: Record<string, string> = {
+  Critical: 'danger',
+  High: 'danger',
+  Medium: 'warning',
+  Low: 'info',
+};
 const DETECTIONS: [string, string, string, string][] = [
   [
     'Critical',
@@ -231,7 +241,13 @@ export const DetectionAlerts: Story = {
               <prism-card-title slot="header" level="3"
                 >${title}</prism-card-title
               >
-              <prism-tag slot="header">${sev}</prism-tag>
+              <prism-tag
+                slot="header"
+                job="severity"
+                tone=${SEVERITY_TONE[sev] ?? 'neutral'}
+                emphasis=${sev === 'Critical' ? 'high' : 'low'}
+                >${sev}</prism-tag
+              >
               <prism-card-description slot="header"
                 >${who}</prism-card-description
               >
@@ -258,7 +274,12 @@ const kpi = (
   title: string,
   label: string,
   value: string,
-  extra: { range?: string; state?: string; message?: string } = {},
+  extra: {
+    range?: string;
+    state?: string;
+    message?: string;
+    live?: boolean;
+  } = {},
 ) =>
   html`<prism-card
     type="widget"
@@ -267,6 +288,15 @@ const kpi = (
     state-message=${extra.message ?? ''}
   >
     <prism-card-title slot="header" level="3">${title}</prism-card-title>
+    ${
+      extra.live
+        ? html`<prism-badge
+            slot="header"
+            job="status"
+            status="live"
+          ></prism-badge>`
+        : ''
+    }
     <prism-card-actions slot="header">
       <prism-icon-button label="Refresh ${title}"
         >${iconRefresh()}</prism-icon-button
@@ -317,7 +347,7 @@ export const KpiDashboard: Story = {
           <option>Last 30 days</option>
         </select>
       </label>
-      ${kpi('Detections', 'Detections', '1,284')}
+      ${kpi('Detections', 'Detections', '1,284', { live: true })}
       ${kpi('Hosts at risk', 'Hosts', '37')}
       ${kpi('Phishing reports', 'Reports', '212', { range: 'Last 30 days' })}
       ${kpi('Mean time to respond', 'Minutes', '18', { state: 'loading' })}
@@ -377,7 +407,9 @@ export const PricingPlans: Story = {
               >
               ${
                 v === 'team'
-                  ? html`<prism-tag slot="header">Most popular</prism-tag>`
+                  ? html`<prism-tag slot="header" tone="accent"
+                      >Most popular</prism-tag
+                    >`
                   : ''
               }
               <prism-card-description slot="header"
@@ -442,6 +474,11 @@ const APPS: [string, string, string, string, 'circle' | 'square' | 'tri'][] = [
   ],
 ];
 
+const APP_TONE: Record<string, string> = {
+  Connected: 'success',
+  Available: 'neutral',
+  Beta: 'info',
+};
 const shapeSvg = (s: 'circle' | 'square' | 'tri') =>
   `<svg slot="header" data-prism-card-icon width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">${
     s === 'circle'
@@ -462,7 +499,7 @@ export const IntegrationCatalog: Story = {
           ([name, cat, status, text, shape]) => `<prism-card type="clickable">
             ${shapeSvg(shape)}
             <prism-card-title slot="header" level="3" href="#${name.toLowerCase().replace(/ /g, '-')}">${name}</prism-card-title>
-            <prism-tag slot="header">${status}</prism-tag>
+            <prism-tag slot="header" job="${status === 'Beta' ? 'keyword' : 'presence'}" tone="${APP_TONE[status]}">${status}</prism-tag>
             <p style="margin:0">${text}</p>
             <prism-card-meta slot="footer">${cat}</prism-card-meta>
           </prism-card>`,
@@ -481,36 +518,25 @@ export const UserProfile: Story = {
     group(
       'Team',
       html`<prism-card>
-        <svg
+        <prism-avatar
           slot="header"
-          data-prism-card-icon
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="11" fill="none" stroke="currentColor" />
-          <text
-            x="12"
-            y="16"
-            text-anchor="middle"
-            font-size="11"
-            fill="currentColor"
-            font-family="Inter, sans-serif"
-          >
-            MO
-          </text>
-        </svg>
+          name="Maya Ortiz"
+          size="sm"
+          decorative
+        ></prism-avatar>
         <prism-card-title slot="header" level="3">Maya Ortiz</prism-card-title>
-        <prism-tag slot="header">Admin</prism-tag>
+        <prism-tag slot="header" job="keyword">Admin</prism-tag>
         <prism-card-description slot="header"
           >Security analyst, Lisbon</prism-card-description
         >
-        ${facts([
-          ['Email', 'maya.ortiz@example.com'],
-          ['Team', 'Threat response'],
-          ['Joined', 'March 2024'],
-        ])}
+        ${facts(
+          [
+            ['Email', 'maya.ortiz@example.com'],
+            ['Team', 'Threat response'],
+            ['Joined', 'March 2024'],
+          ],
+          'Maya Ortiz details',
+        )}
         <prism-card-meta slot="footer">Active today</prism-card-meta>
         <prism-card-actions slot="footer">
           <prism-button variant="ghost">Message</prism-button>
@@ -566,6 +592,21 @@ export const OnboardingAndMarketing: Story = {
           'Dismiss',
           'Read more',
         )}
+        <prism-card>
+          <h3 style="margin:0 0 12px;font:600 16px/24px Inter,sans-serif">
+            Finish setting up
+          </h3>
+          <prism-progress
+            label="Setup progress"
+            value="3"
+            max="5"
+            value-text="3 of 5 steps"
+            show-value
+          ></prism-progress>
+          <prism-card-actions>
+            <prism-button variant="secondary">Continue</prism-button>
+          </prism-card-actions>
+        </prism-card>
       </div>`,
       '960px',
     ),
@@ -686,7 +727,7 @@ export const KanbanBoard: Story = {
               ([title, who, pri, due]) => `<prism-card value="${title}">
                 <prism-card-handle slot="header"></prism-card-handle>
                 <prism-card-title slot="header" level="3">${title}</prism-card-title>
-                <prism-tag slot="header">${pri}</prism-tag>
+                <prism-tag slot="header" job="keyword" tone="${pri === 'High' ? 'danger' : pri === 'Medium' ? 'warning' : 'neutral'}">${pri}</prism-tag>
                 <prism-card-description slot="header">${who}</prism-card-description>
                 <prism-card-meta slot="footer">${due}</prism-card-meta>
               </prism-card>`,
@@ -836,7 +877,9 @@ export const ActivityFeed: Story = {
           >Showing the last 5 events</prism-card-meta
         >
         <prism-card-actions slot="footer">
-          <prism-button variant="ghost">View all activity</prism-button>
+          <prism-button variant="ghost"
+            >Unread <prism-badge count="12"></prism-badge
+          ></prism-button>
         </prism-card-actions>
       </prism-card>`,
       '460px',
@@ -856,7 +899,9 @@ export const IncidentTask: Story = {
         <prism-card-title slot="header" level="3"
           >Respond to the credential dumping alert</prism-card-title
         >
-        <prism-tag slot="header">Critical</prism-tag>
+        <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
+          >Critical</prism-tag
+        >
         <prism-card-description slot="header"
           >orion-laptop-07</prism-card-description
         >

@@ -53,7 +53,15 @@ const range = (page: Page) =>
       shown: !part.hidden,
       text: part.hidden
         ? ''
-        : String(part.textContent).replace(/\s+/g, ' ').trim(),
+        : [
+            part.textContent,
+            ...[...part.querySelectorAll('slot')].flatMap((sl) =>
+              sl.assignedNodes({ flatten: true }).map((n) => n.textContent),
+            ),
+          ]
+            .join(' ')
+            .replace(/\s+/g, ' ')
+            .trim(),
     };
   });
 
@@ -193,16 +201,27 @@ test.describe('widget time range: page level with a per-widget override', () => 
     expect((await range(page)).effective).toBe('Last 30 days');
   });
 
-  test('the override cue is not colour alone: the flag has a border and the word', async ({
+  test('the override cue is not colour alone: the flag is a Tag with a fill and the word', async ({
     page,
   }) => {
     await setup(page, WIDGET('range="Last 30 days"'));
     const flag = await page.locator('#w').evaluate((el) => {
-      const f = el.shadowRoot!.querySelector('[part="range-flag"]')!;
-      const cs = getComputedStyle(f);
-      return { text: f.textContent, border: cs.borderTopWidth };
+      const f = el.querySelector('prism-tag')!;
+      const cs = getComputedStyle(
+        f.shadowRoot!.querySelector('[part="base"]')!,
+      );
+      return {
+        text: f.textContent,
+        tag: f.localName,
+        border: cs.borderTopWidth,
+        fill: cs.backgroundColor,
+      };
     });
-    expect(flag).toEqual({ text: 'Overridden', border: '1px' });
+    // A Tag: the word plus a filled box, so the override is never colour alone.
+    expect(flag.text).toBe('Overridden');
+    expect(flag.tag).toBe('prism-tag');
+    expect(flag.border).toBe('1px');
+    expect(flag.fill).not.toBe('rgba(0, 0, 0, 0)');
   });
 
   test('removing the override returns to the page range and fires the event', async ({

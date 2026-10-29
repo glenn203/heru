@@ -680,3 +680,79 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
     'resting ring layer must be 0 0 0 0',
   );
 });
+
+// ---------- Tone palette (Tag, Badge, Progress) ----------
+// Tones neutral/accent/danger come from tokens; info/success/warning are
+// PROPOSED private --_tone-* values in theme.css. All pairs are measured here.
+{
+  const src = readFileSync(
+    new URL('../src/internal/tones.ts', import.meta.url),
+    'utf8',
+  );
+  const block = src.slice(
+    src.indexOf('/* TONES-START */'),
+    src.indexOf('/* TONES-END */'),
+  );
+  const resolve = (v) => {
+    const m = /^var\(--prism-color-([a-z0-9-]+)/.exec(v);
+    if (!m) return v;
+    const name = m[1].replace(/^([a-z]+)-(\d+)$/, '$1.$2');
+    return color(name);
+  };
+  const tones = { neutral: {} };
+  // Defaults (neutral): the first rule has no [tone] selector.
+  const base = block.slice(0, block.indexOf(":host([${a}='accent'])"));
+  for (const m of base.matchAll(/--_tone-([a-z-]+): ([^;]+);/g))
+    tones.neutral[m[1]] = resolve(m[2].trim());
+  for (const t of ['accent', 'danger', 'info', 'success', 'warning']) {
+    const start = block.indexOf(`:host([\${a}='${t}'])`);
+    tones[t] = {};
+    for (const m of block
+      .slice(start)
+      .split(/\n\s*\}/)[0]
+      .matchAll(/--_tone-([a-z-]+): ([^;]+);/g))
+      tones[t][m[1]] = resolve(m[2].trim());
+    tones[t]['high-fg'] = tones.neutral['high-fg']; // white, set once on :host
+  }
+  const page = color('bg');
+  const surface = color('surface');
+  for (const [tone, v] of Object.entries(tones)) {
+    test(`tone ${tone}: all four values are present and inside sRGB`, () => {
+      for (const k of ['low-bg', 'low-fg', 'high-bg', 'high-fg'])
+        assert.ok(v[k], `${k} missing`);
+      for (const k of ['low-bg', 'low-fg', 'high-bg'])
+        assert.ok(inSrgb(v[k]), `${k} ${v[k]} out of sRGB`);
+    });
+    test(`tone ${tone}: low text >= 4.5:1 on its tint, on the page and on a surface`, () => {
+      assert.ok(contrast(v['low-fg'], v['low-bg']) >= 4.5, 'on tint');
+      assert.ok(contrast(v['low-fg'], page) >= 4.5, 'on page (ghost)');
+      assert.ok(contrast(v['low-fg'], surface) >= 4.5, 'on surface (ghost)');
+    });
+    test(`tone ${tone}: high text (white) >= 4.5:1 on its fill; fill >= 3:1 on the page`, () => {
+      assert.ok(contrast(v['high-fg'], v['high-bg']) >= 4.5, 'text on fill');
+      assert.ok(contrast(v['high-bg'], page) >= 3, 'fill on page');
+    });
+    test(`tone ${tone}: progress fill >= 3:1 on its track (surface-pressed)`, () => {
+      assert.ok(contrast(v['high-bg'], color('surface-pressed')) >= 3);
+    });
+  }
+  test('the Tag page lists exactly six tones', () => {
+    assert.deepEqual(Object.keys(tones).sort(), [
+      'accent',
+      'danger',
+      'info',
+      'neutral',
+      'success',
+      'warning',
+    ]);
+  });
+  test('Datalist label (text-muted) and value (text) pass on bg and surface', () => {
+    for (const fg of ['text-muted', 'text'])
+      for (const bg of ['bg', 'surface'])
+        assert.ok(contrast(color(fg), color(bg)) >= 4.5, `${fg} on ${bg}`);
+  });
+  test('Avatar initials (text) on its surface-pressed fill >= 4.5:1; Progress track edge >= 3:1', () => {
+    assert.ok(contrast(color('text'), color('surface-pressed')) >= 4.5);
+    assert.ok(contrast(color('border-strong'), page) >= 3);
+  });
+}

@@ -1,20 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './define.js';
+import '../tag/define.js';
 import { iconRefresh } from '../internal/icons.js';
-
-// Tag and Badge do not exist yet. A throwaway stand-in so the header story can
-// show where one sits. Not part of the library.
-if (!customElements.get('prism-tag'))
-  customElements.define(
-    'prism-tag',
-    class extends HTMLElement {
-      connectedCallback() {
-        this.style.cssText =
-          'display:inline-block;font:500 12px/18px Inter,sans-serif;padding:0 6px;border:1px solid currentColor;border-radius:3px;white-space:nowrap';
-      }
-    },
-  );
 
 interface Args {
   type: 'default' | 'borderless';
@@ -86,7 +74,9 @@ export const HeaderParts: StoryObj<Args> = {
         <prism-card-title slot="header" level="3"
           >host-eu-0042</prism-card-title
         >
-        <prism-tag slot="header">Critical</prism-tag>
+        <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
+          >Critical</prism-tag
+        >
         <prism-card-description slot="header"
           >Windows Server 2022, last seen 4 min ago</prism-card-description
         >
