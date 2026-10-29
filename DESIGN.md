@@ -146,7 +146,9 @@ milestones), and one CardActions with at most two ghost icon buttons or an
 overflow menu. **No text buttons in the header.** Footer: one CardMeta and one
 CardActions with at most two actions: ghost and secondary (soft), plus **one
 primary only on a `standalone` card**. Outline and destructive are never
-allowed. A "View all" link counts as one action.
+allowed in a footer or button row. Every `prism-icon-button` and menu trigger in a
+card is size `sm` (32px at the default density, 24 compact, 40 comfortable, never
+under the 24px minimum target), and header icon buttons sit 8px apart. A "View all" link counts as one action.
 
 Content-only cards put `prism-card-actions` (no slot) last in the content:
 end side, 8px apart, medium, ghost to the left of secondary, no primary,
@@ -227,7 +229,8 @@ the bottom of cards in the same row. Never position it with absolute placement.
 - **Card states** (`state="loading|error|empty"`, any card): only the content is
   replaced; header and footer stay. Loading is a skeleton and a polite "Loading"
   (`aria-busy`). Error says what failed (`state-message`) with one Retry
-  (`prism-card-retry`). Empty on a widget says "No data for this range" with
+  (`prism-card-retry`), an outline small button (the one generated control that
+  is outline; the footer rule above does not apply to it). Empty on a widget says "No data for this range" with
   "Change range" (`prism-card-change-range`). Controls the card generates for
   these are light-DOM children (`data-prism-generated`, `display: contents`),
   because the theme cannot style a `prism-button` inside a shadow root.
@@ -248,7 +251,8 @@ the bottom of cards in the same row. Never position it with absolute placement.
   640px one, 640 to 1023 two, 1024 to 1279 three, 1280 and up four, never under
   280px per card (`minmax(0, 1fr)`; below 280px it reflows to the container),
   16px gap, equal row heights, no masonry. `columns="1"` pins one column.
-  Role `list`, cards are `listitem`s; `label` is required; titles share a
+  The `list` role is on an inner wrapper around the cards (named by `label`), so the
+  selected count, pager and status sit outside it; cards are `listitem`s; `label` is required; titles share a
   `level` (dev error otherwise). `total` sets `aria-setsize` and `aria-posinset`
   from the data. **Paging** is server-side: `page`, `page-size` (12, 24 or 48,
   default 24), `prism-card-list-page`. The built-in pager (Previous, "Page X of

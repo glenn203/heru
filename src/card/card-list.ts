@@ -1,5 +1,6 @@
 import { css, html, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { PrismCardGroup } from './card-group.js';
 import { devError } from './card-slots.js';
 import { authored, renderLight } from './light-dom.js';
@@ -82,8 +83,9 @@ type ListState = 'loading' | 'refreshing' | 'empty' | 'no-matches' | 'error';
  *   1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)
  *   and cards in a row share a height. `columns="1"` pins one column (Aside,
  *   Drawer, Modal). No masonry.
- * - **Semantics.** The host is a labelled `list` and each card a `listitem`
- *   (the card sets its own role). Titles stay real headings: give every card
+ * - **Semantics.** An inner wrapper around the cards is the labelled `list` and
+ *   each card a `listitem` (the card sets its own role). The host has no role,
+ *   so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card
  *   the same `level`, one below the Section heading. With `total` set, each
  *   card gets `aria-posinset` and `aria-setsize` from the data, not from what
  *   is on the page.
@@ -280,8 +282,9 @@ export class PrismCardList extends PrismCardGroup {
     this.#drag = undefined;
   }
 
-  protected override hostRole(): string {
-    return 'list';
+  /** No role on the host: the `list` is the inner wrapper around the cards. */
+  protected override hostRole(): string | null {
+    return null;
   }
 
   protected override synced(): void {
@@ -585,7 +588,7 @@ export class PrismCardList extends PrismCardGroup {
           handle,
           '',
           this.reorderable
-            ? html`<prism-menu label=${`Reorder ${title}`}>
+            ? html`<prism-menu size="sm" label=${`Reorder ${title}`}>
                 <span slot="trigger">${iconGrip()}</span>
                 ${specs.map(
                   (s) =>
@@ -910,7 +913,13 @@ export class PrismCardList extends PrismCardGroup {
           ? html`<div part="state">
               <slot name="state"></slot><slot name="empty"></slot>
             </div>`
-          : html`<div part="grid">
+          : html`<div
+              part="grid"
+              role=${ifDefined(state === 'loading' ? undefined : 'list')}
+              aria-label=${ifDefined(
+                state === 'loading' ? undefined : this.label || undefined,
+              )}
+            >
               ${
                 state === 'loading'
                   ? html`<slot name="skeleton"></slot>`
