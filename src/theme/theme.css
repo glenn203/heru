@@ -863,13 +863,6 @@ prism-card-meta {
 prism-card::part(range) {
   color: var(--prism-color-text-muted);
 }
-prism-card::part(range-flag) {
-  color: var(--prism-color-text);
-  font-weight: var(--prism-font-weight-semibold);
-  border: var(--prism-border-width) solid var(--prism-color-border-strong);
-  border-radius: var(--prism-radius-3);
-  padding-inline: var(--prism-space-1);
-}
 prism-card-metric::part(value) {
   color: var(--prism-color-text);
 }
@@ -998,9 +991,6 @@ prism-card-list::part(busy) {
   }
   prism-card-list::part(busy) {
     background: Highlight;
-  }
-  prism-card::part(range-flag) {
-    border-color: CanvasText;
   }
   prism-card-title::part(toggle):focus-visible {
     outline-color: Highlight;
@@ -1139,4 +1129,107 @@ prism-card[type='clickable']
   ) {
   position: relative;
   z-index: 1;
+}
+
+/* Tag, Badge and Progress read --_tone-low-bg, --_tone-low-fg, --_tone-high-bg
+ * and --_tone-high-fg from their host. The PROPOSED palette that sets them is
+ * component-private (src/internal/tones.ts), not in this file or the tokens. */
+/* ---------- Tag (job, emphasis, tone) ---------- */
+prism-tag::part(base) {
+  --_bg: var(--_tone-low-bg);
+  --_on: var(--_tone-low-fg);
+  background-color: var(--_bg);
+  color: var(--_on);
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+}
+prism-tag[emphasis='high']::part(base) {
+  --_bg: var(--_tone-high-bg);
+  --_on: var(--_tone-high-fg);
+}
+prism-tag[emphasis='ghost']::part(base) {
+  --_bg: transparent;
+  --_on: var(--_tone-low-fg);
+}
+/* Selected: a solid border in the text colour as well as the fill, so it is
+   never colour alone. */
+prism-tag:state(selected)::part(base) {
+  border-color: currentColor;
+}
+prism-tag::part(remove) {
+  --_bg: transparent;
+  --_on: currentColor;
+  color: inherit;
+  outline: 2px solid transparent;
+}
+prism-tag::part(base):focus-visible,
+prism-tag::part(remove):focus-visible {
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+prism-tag:state(disabled)::part(base) {
+  opacity: 0.6;
+}
+
+/* ---------- Badge (count, status) ---------- */
+prism-badge::part(base) {
+  background-color: var(--_tone-high-bg);
+  color: var(--_tone-high-fg);
+}
+/* Process status is the quieter tint; a count is the solid pill. */
+prism-badge[job='status']::part(base) {
+  background-color: var(--_tone-low-bg);
+  color: var(--_tone-low-fg);
+}
+
+/* ---------- Avatar ---------- */
+prism-avatar::part(base) {
+  background-color: var(--prism-color-surface-pressed);
+  color: var(--prism-color-text);
+  border: var(--prism-border-width) solid var(--prism-color-border);
+}
+
+/* ---------- Progress ---------- */
+prism-progress::part(row) {
+  color: var(--prism-color-text);
+}
+prism-progress::part(track) {
+  background-color: var(--prism-color-surface-pressed);
+  border-color: var(--prism-color-border-strong);
+}
+prism-progress::part(fill) {
+  background-color: var(--_tone-high-bg);
+}
+
+/* ---------- Datalist ---------- */
+prism-datalist-item::part(label) {
+  color: var(--prism-color-text-muted);
+}
+prism-datalist-item::part(value) {
+  color: var(--prism-color-text);
+}
+
+@media (forced-colors: active) {
+  prism-tag::part(base),
+  prism-badge::part(base),
+  prism-avatar::part(base),
+  prism-progress::part(track) {
+    border-color: CanvasText;
+  }
+  prism-progress::part(fill) {
+    background-color: Highlight;
+  }
+  prism-tag::part(base):focus-visible,
+  prism-tag::part(remove):focus-visible {
+    outline-color: Highlight;
+  }
 }

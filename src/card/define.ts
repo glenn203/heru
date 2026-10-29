@@ -12,6 +12,7 @@ import { PrismCardSkeleton } from './card-skeleton.js';
 import '../button/define.js';
 import '../icon-button/define.js';
 import '../menu/define.js';
+import '../tag/define.js';
 
 const defs: [string, CustomElementConstructor][] = [
   ['prism-card', PrismCard],

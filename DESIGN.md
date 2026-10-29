@@ -312,6 +312,45 @@ fromList, toList }`, positions are 1-based) and `prism-card-reorder-failed`
 - **Not built (dagger items).** Alt+Arrow shortcuts, "Move to position" form,
   stacked copy for a multi-selection drag.
 
+### Primitives (card-primitives, names provisional unless noted)
+
+Extracted from the card stories and recipes. Names follow the Notion pages
+where they exist: **Tag** (`job`, `emphasis`, `tone`), **Badge** (`job`
+count or status), **Datalist** (label/value pairs). Avatar and Progress have no
+Notion page yet, so those names and props are provisional.
+
+| Element          | Role and props                                                                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prism-tag`      | Short word with meaning. `job`, `emphasis` (high, low, ghost), `tone`, `size` (sm 20px, md 24px). Behaviors: read-only, `dismissible`, `selectable`, `trigger`.           |
+| `prism-badge`    | `job="count"` (`count`, `max` 99, `show-zero`) or `job="status"` (`status` live, running, stopped). Not clickable. The parent carries the name, the badge the number.     |
+| `prism-avatar`   | Person or entity. `name` (initials fallback, accessible name), `src`, `size` xs to xl (24, 32, 40, 48, 64px), `shape`, `decorative` when the name is written beside it.   |
+| `prism-progress` | `role=progressbar` with `aria-valuemin/max/now/valuetext`. `label` (required), `value`, `max`, `value-text`, `show-value`, `hide-label`, `tone`. No value: indeterminate. |
+| `prism-datalist` | Label/value list. `label`, `orientation` (horizontal, vertical). Children `prism-datalist-item` with `label`. Roles: list, listitem, term, definition.                    |
+
+Rules: the word carries the meaning, never colour alone (Tag text, Badge status
+word, Progress value text, Datalist labels). Tag selected shows a solid border;
+a Live badge pulses its dot, and reduced motion stops it. Interactive Tags keep
+a 24px minimum target. The card's "Overridden" flag is a real `prism-tag`.
+
+Not built: a **status dot** (it would duplicate Tag `health` and `presence`,
+and Badge `status`; the Notion rules keep status as words) and **prism-icon**
+(the icon system is undecided; stories keep a placeholder svg).
+
+#### Tone palette (PROPOSED)
+
+Six tones: neutral, info, success, warning, danger, accent. They live in
+`src/internal/tones.ts` as private `--_tone-low-bg/fg` and `--_tone-high-bg/fg`
+(neutral, accent and danger come from existing tokens). Info, success and
+warning are **PROPOSED OKLCH literals** (hues 258, 150 and 60/90), not tokens;
+`tokens/*.json` is untouched. `test/tokens.test.mjs` checks every tone: sRGB
+gamut, low text 4.5:1 on its tint, page and surface, white text on the high
+fill 4.5:1, and the fill 3:1 against the page.
+
+Open questions: (1) Tag `emphasis`: the Tag page lists high, low and ghost, the
+matrix page says ghost was killed on 2026-09-06 and outline is deferred. All
+three are built. (2) Tag `size` and Badge `tone` are not in the specs.
+(3) Whether Avatar gets a presence `status`.
+
 ### PROPOSED, not tokens yet
 
 These values live as component-private `--_*` custom properties built from

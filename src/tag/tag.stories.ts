@@ -1,0 +1,109 @@
+import type { Meta, StoryObj } from '@storybook/web-components';
+import { html } from 'lit';
+import './define.js';
+import { iconRefresh } from '../internal/icons.js';
+
+interface Args {
+  text: string;
+  tone: 'neutral' | 'info' | 'success' | 'warning' | 'danger' | 'accent';
+  emphasis: 'high' | 'low' | 'ghost';
+  size: 'sm' | 'md';
+}
+
+const TONES = ['neutral', 'info', 'success', 'warning', 'danger', 'accent'];
+
+const meta: Meta<Args> = {
+  title: 'Components/Tag',
+  component: 'prism-tag',
+  args: { text: 'Critical', tone: 'danger', emphasis: 'low', size: 'md' },
+  argTypes: {
+    tone: { control: 'select', options: TONES },
+    emphasis: { control: 'inline-radio', options: ['high', 'low', 'ghost'] },
+    size: { control: 'inline-radio', options: ['sm', 'md'] },
+  },
+  render: ({ text, tone, emphasis, size }) =>
+    html`<prism-tag tone=${tone} emphasis=${emphasis} size=${size}
+      >${text}</prism-tag
+    >`,
+};
+export default meta;
+type Story = StoryObj<Args>;
+
+export const Default: Story = {};
+
+/** Six tones, three emphases. The word carries the meaning, not the colour. */
+export const TonesAndEmphasis: Story = {
+  render: () =>
+    html`<div style="display:grid;gap:12px">
+      ${['low', 'high', 'ghost'].map(
+        (e) =>
+          html`<div style="display:flex;gap:8px;flex-wrap:wrap">
+            ${TONES.map(
+              (t) => html`<prism-tag tone=${t} emphasis=${e}>${t}</prism-tag>`,
+            )}
+          </div>`,
+      )}
+    </div>`,
+};
+
+/** Jobs say what the word means. `job` has no colour of its own: pick the tone. */
+export const Jobs: Story = {
+  render: () =>
+    html`<div style="display:flex;gap:8px;flex-wrap:wrap">
+      <prism-tag job="severity" tone="danger" emphasis="high"
+        >Critical</prism-tag
+      >
+      <prism-tag job="status">In progress</prism-tag>
+      <prism-tag job="presence" tone="success">Added</prism-tag>
+      <prism-tag job="resolution" tone="success">False positive</prism-tag>
+      <prism-tag job="containment" tone="danger">Contained</prism-tag>
+      <prism-tag job="health" tone="warning">Needs update</prism-tag>
+      <prism-tag job="policy" tone="success">Enabled</prism-tag>
+      <prism-tag job="mitigation" tone="success">Process blocked</prism-tag>
+      <prism-tag job="keyword">APT29</prism-tag>
+    </div>`,
+};
+
+export const Sizes: Story = {
+  render: () =>
+    html`<div style="display:flex;gap:8px;align-items:center">
+      <prism-tag size="sm">Small, 20px</prism-tag>
+      <prism-tag>Medium, 24px</prism-tag>
+    </div>`,
+};
+
+/** An icon in front helps scanning. It never replaces the word. */
+export const WithIcon: Story = {
+  render: () =>
+    html`<prism-tag tone="info"
+      ><span slot="icon" aria-hidden="true">${iconRefresh()}</span
+      >Syncing</prism-tag
+    >`,
+};
+
+/** Dismissible: an applied filter. The app removes it on the event. */
+export const Dismissible: Story = {
+  render: () =>
+    html`<div
+      style="display:flex;gap:8px"
+      @prism-tag-remove=${(e: Event) => (e.target as HTMLElement).remove()}
+    >
+      <prism-tag dismissible job="keyword">Endpoint</prism-tag>
+      <prism-tag dismissible job="keyword" tone="danger">FANCY BEAR</prism-tag>
+    </div>`,
+};
+
+/** Selectable: on or off, like a filter chip. `aria-pressed` and a solid border. */
+export const Selectable: Story = {
+  render: () =>
+    html`<div style="display:flex;gap:8px">
+      <prism-tag selectable selected>Windows</prism-tag>
+      <prism-tag selectable>Linux</prism-tag>
+      <prism-tag selectable disabled>macOS</prism-tag>
+    </div>`,
+};
+
+/** Trigger: click opens a Select. It looks like any Tag, with a caret. */
+export const Trigger: Story = {
+  render: () => html`<prism-tag trigger job="status">In progress</prism-tag>`,
+};

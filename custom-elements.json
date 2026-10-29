@@ -4,6 +4,178 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/avatar/avatar.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "initialsOf",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Up to two initials: first letter of the first and last word."
+        },
+        {
+          "kind": "class",
+          "description": "A picture or initials that stands for a person or thing. Common props:\n`name`, `src`, `size`, `shape`. NAMES PROVISIONAL (Technical Writer).\n\n- With `src` it shows the image, and falls back to initials if the image\n  fails to load. With no `src` it shows the initials of `name`.\n- The accessible name is `name` (role `img`). When the name is already\n  written next to the avatar (a card title, a list row), set `decorative`\n  so it is hidden from assistive tech instead of read twice.\n- Sizes are 24 / 32 / 40 / 48 / 64px: `xs`, `sm`, `md` (default), `lg`, `xl`.\n- Initials sit on a neutral fill; the picture or letters carry the meaning,\n  never a colour per person.",
+          "name": "PrismAvatar",
+          "cssParts": [
+            {
+              "description": "The circle or square.",
+              "name": "base"
+            },
+            {
+              "description": "The picture.",
+              "name": "image"
+            },
+            {
+              "description": "The initials.",
+              "name": "initials"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. The person or thing: names the avatar and makes the initials.",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "src",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Picture URL.",
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "AvatarSize"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "shape",
+              "type": {
+                "text": "'circle' | 'square'"
+              },
+              "default": "'circle'",
+              "attribute": "shape",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "decorative",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "The name is written beside it: hide the avatar from assistive tech.",
+              "attribute": "decorative",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "failed",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. The person or thing: names the avatar and makes the initials.",
+              "fieldName": "name"
+            },
+            {
+              "name": "src",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Picture URL.",
+              "fieldName": "src"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "AvatarSize"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "shape",
+              "type": {
+                "text": "'circle' | 'square'"
+              },
+              "default": "'circle'",
+              "fieldName": "shape"
+            },
+            {
+              "name": "decorative",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "The name is written beside it: hide the avatar from assistive tech.",
+              "fieldName": "decorative"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-avatar",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "initialsOf",
+          "declaration": {
+            "name": "initialsOf",
+            "module": "src/avatar/avatar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PrismAvatar",
+          "declaration": {
+            "name": "PrismAvatar",
+            "module": "src/avatar/avatar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/button/button.ts",
       "declarations": [
         {
@@ -4104,6 +4276,331 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/datalist/datalist-item.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One label and value of a `prism-datalist`. The default slot is the value\n(text, a Tag, a link). NAME PROVISIONAL.",
+          "name": "PrismDatalistItem",
+          "cssParts": [
+            {
+              "description": "The label (a `term`).",
+              "name": "label"
+            },
+            {
+              "description": "The value (a `definition`).",
+              "name": "value"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The value.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The label: \"Sensor\", \"OS\".",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The label: \"Sensor\", \"OS\".",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-datalist-item",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismDatalistItem",
+          "declaration": {
+            "name": "PrismDatalistItem",
+            "module": "src/datalist/datalist-item.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/datalist/datalist.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Label and value pairs about one thing: OS, Windows; Sensor, 7.14.2. The\nTag and Badge pages name this job **Datalist** (it is not a Tag).\n`prism-datalist` holds `prism-datalist-item`s. PROVISIONAL props:\n`orientation` and `label`.\n\n- `orientation=\"horizontal\"` (default): labels in one column, values in the\n  next, aligned across rows (a subgrid). `vertical` puts each label above\n  its value.\n- Semantics: the list is a `list` of `listitem`s; each label is a `term` and\n  each value a `definition`, so a screen reader says \"Sensor, 7.14.2\".\n  Give the list a `label` when it is not already named by a heading.",
+          "name": "PrismDatalist",
+          "cssParts": [
+            {
+              "description": "The grid.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The `prism-datalist-item`s.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Names the list when no heading does.",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Names the list when no heading does.",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-datalist",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismDatalist",
+          "declaration": {
+            "name": "PrismDatalist",
+            "module": "src/datalist/datalist.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/badge/badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Alerts 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
+          "name": "PrismBadge",
+          "cssParts": [
+            {
+              "description": "The badge box.",
+              "name": "base"
+            },
+            {
+              "description": "The default status dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Status only. Replaces the default dot. Decorative.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showZero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "attribute": "show-zero"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveTone",
+              "type": {
+                "text": "TagTone"
+              },
+              "description": "The tone in effect.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "fieldName": "job"
+            },
+            {
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "fieldName": "count"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-zero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "fieldName": "showZero"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "fieldName": "status"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A zero count that is hidden.",
+              "name": "empty"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismBadge",
+          "declaration": {
+            "name": "PrismBadge",
+            "module": "src/badge/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/icon-button/icon-button.ts",
       "declarations": [
         {
@@ -6050,6 +6547,62 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/internal/tones.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "tonePalette",
+          "return": {
+            "type": {
+              "text": "CSSResult"
+            }
+          },
+          "parameters": [
+            {
+              "name": "attr",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "PROPOSED tone palette for Tag, Badge and Progress. Component-private\n`--_tone-*` properties; NOT tokens and nothing is added to tokens/*.json.\n\nThe Tag page names six tones: neutral, info, success, warning, danger and\naccent. The tokens have no success, warning or info colour yet, so those\nthree are stand-in OKLCH values here. Neutral, accent and danger reuse the\nexisting slate, accent and red values. Every pair is contrast-tested by\ntest/tokens.test.mjs (\"tone palette\"), which reads this file:\nlow text >= 4.5:1 on its tint and on the page, high text >= 4.5:1 on its\nfill, fills >= 3:1 on the page and on the progress track.\n\n  low  = light tint fill with coloured text (the default emphasis)\n  high = solid fill with white text\n\n`attr` is the host attribute that carries the tone. The theme reads the four\nproperties (`--_tone-low-bg`, `--_tone-low-fg`, `--_tone-high-bg`,\n`--_tone-high-fg`) from the host."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "tonePalette",
+          "declaration": {
+            "name": "tonePalette",
+            "module": "src/internal/tones.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/internal/visually-hidden.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "visuallyHidden",
+          "default": "css` .visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; } `",
+          "description": "Hides text from sight but keeps it for screen readers. Private helper."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "visuallyHidden",
+          "declaration": {
+            "name": "visuallyHidden",
+            "module": "src/internal/visually-hidden.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/menu/menu-item.ts",
       "declarations": [
         {
@@ -7592,6 +8145,226 @@
           "declaration": {
             "name": "PrismOtpInput",
             "module": "src/otp-input/otp-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/progress/progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL (Technical Writer).\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
+          "name": "PrismProgress",
+          "cssParts": [
+            {
+              "description": "The row (label, value).",
+              "name": "base"
+            },
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The written value.",
+              "name": "value"
+            },
+            {
+              "description": "The bar's track.",
+              "name": "track"
+            },
+            {
+              "description": "The filled part.",
+              "name": "fill"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showValue",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "attribute": "show-value"
+            },
+            {
+              "kind": "field",
+              "name": "valueText",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "attribute": "value-text"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "attribute": "hide-label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#determinate",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#now",
+              "privacy": "private",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#text",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-value",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "fieldName": "showValue"
+            },
+            {
+              "name": "value-text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "fieldName": "valueText"
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "fieldName": "hideLabel"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "No value.",
+              "name": "indeterminate"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-progress",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismProgress",
+          "declaration": {
+            "name": "PrismProgress",
+            "module": "src/progress/progress.ts"
           }
         }
       ]
@@ -10082,6 +10855,423 @@
           "declaration": {
             "name": "PrismSelect",
             "module": "src/select/select.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tag/tag.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A short label on an item: a category, a keyword or a property, so people can\nscan and tell things apart. Names and values follow the Tag page: `job`,\n`emphasis` and `tone`. `size` is NAME PROVISIONAL.\n\nFour behaviors, split by what a person can do (not by colour):\n- read-only (default): a label, no click.\n- `dismissible`: a remove button (\"Remove {text}\"); fires `prism-tag-remove`.\n  The tag does not remove itself: the app decides.\n- `selectable`: a toggle button (`aria-pressed`); fires `prism-tag-select`.\n- `trigger`: a button that opens something (a Select) and shows a caret in\n  the trailing slot; fires `prism-tag-trigger`. It looks like any other Tag.\n\nA Tag never navigates. For a link use a link. For a count or Live / Running\n/ Stopped use Badge.\n\nAccessibility: the text is the name and the meaning, so colour is never the\nonly signal. Put a short word in the tag (a few words, no wrapping). An\nicon only helps scanning. Interactive tags are at least 24px high even at\n`size=\"sm\"` (WCAG 2.5.8).",
+          "name": "PrismTag",
+          "cssParts": [
+            {
+              "description": "The tag box (a span, or a button when interactive).",
+              "name": "base"
+            },
+            {
+              "description": "The text.",
+              "name": "label"
+            },
+            {
+              "description": "The remove button of a dismissible tag.",
+              "name": "remove"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The text. Required, short.",
+              "name": ""
+            },
+            {
+              "description": "Optional icon in front. Decorative.",
+              "name": "icon"
+            },
+            {
+              "description": "Optional, after the text. A caret by default on a `trigger`.",
+              "name": "trailing"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "TagJob | undefined"
+              },
+              "description": "The Tag's meaning. Only a label for scripts and analytics.",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "emphasis",
+              "type": {
+                "text": "'high' | 'low' | 'ghost'"
+              },
+              "default": "'low'",
+              "description": "How loud the fill is. `low` (light tint) is the default.",
+              "attribute": "emphasis",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'neutral'",
+              "description": "The colour family. The text carries the meaning, not the colour.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "description": "`sm` is 20px, `md` 24px. NAME PROVISIONAL.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adds a remove button.",
+              "attribute": "dismissible",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the tag an on/off toggle.",
+              "attribute": "selectable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether a selectable tag is on.",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the tag a button that opens a Select (or similar).",
+              "attribute": "trigger",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Trigger: whether what it opens is open.",
+              "attribute": "expanded"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "removeLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Label for the remove button's name, after \"Remove\". Defaults to the text.",
+              "attribute": "remove-label"
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "#state",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#readText",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "slot",
+                  "type": {
+                    "text": "HTMLSlotElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "#onSlot",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#fire",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "detail",
+                  "optional": true,
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "#onSelect",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "name",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "The remove button was pressed.",
+              "name": "prism-tag-remove"
+            },
+            {
+              "description": "A selectable tag toggled. `detail: { selected }`.",
+              "name": "prism-tag-select"
+            },
+            {
+              "description": "A trigger tag was pressed.",
+              "name": "prism-tag-trigger"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "TagJob | undefined"
+              },
+              "description": "The Tag's meaning. Only a label for scripts and analytics.",
+              "fieldName": "job"
+            },
+            {
+              "name": "emphasis",
+              "type": {
+                "text": "'high' | 'low' | 'ghost'"
+              },
+              "default": "'low'",
+              "description": "How loud the fill is. `low` (light tint) is the default.",
+              "fieldName": "emphasis"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'neutral'",
+              "description": "The colour family. The text carries the meaning, not the colour.",
+              "fieldName": "tone"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "description": "`sm` is 20px, `md` 24px. NAME PROVISIONAL.",
+              "fieldName": "size"
+            },
+            {
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Adds a remove button.",
+              "fieldName": "dismissible"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the tag an on/off toggle.",
+              "fieldName": "selectable"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether a selectable tag is on.",
+              "fieldName": "selected"
+            },
+            {
+              "name": "trigger",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Makes the tag a button that opens a Select (or similar).",
+              "fieldName": "trigger"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Trigger: whether what it opens is open.",
+              "fieldName": "expanded"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "remove-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Label for the remove button's name, after \"Remove\". Defaults to the text.",
+              "fieldName": "removeLabel"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A selectable tag that is on.",
+              "name": "selected"
+            },
+            {
+              "description": "A selectable or trigger tag.",
+              "name": "interactive"
+            },
+            {
+              "description": "A disabled interactive tag.",
+              "name": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-tag",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismTag",
+          "declaration": {
+            "name": "PrismTag",
+            "module": "src/tag/tag.ts"
           }
         }
       ]

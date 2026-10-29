@@ -164,8 +164,14 @@ export class PrismCard extends LitElement {
         grid-row: 1;
         margin-inline-end: var(--prism-space-2, 0.5rem);
       }
+      /* An avatar is taller than a line: it spans the title and description. */
+      [part='header'] ::slotted(prism-avatar) {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        align-self: start;
+        margin-inline-end: var(--prism-space-2, 0.5rem);
+      }
       [part='header'] ::slotted(prism-icon),
-      [part='header'] ::slotted(prism-avatar),
       [part='header'] ::slotted([data-prism-card-icon]) {
         grid-column: 3;
         grid-row: 1;
@@ -571,6 +577,15 @@ export class PrismCard extends LitElement {
       changed.has('type')
     )
       this.#renderState();
+    if (changed.has('range') || changed.has('type'))
+      // "Overridden" is a Tag, as light DOM so the theme styles it.
+      renderLight(
+        this,
+        'range-flag',
+        this.rangeOverridden
+          ? html`<prism-tag size="sm" emphasis="low">Overridden</prism-tag>`
+          : null,
+      );
     if (
       changed.has('range') ||
       changed.has('pageRange') ||
@@ -976,7 +991,7 @@ export class PrismCard extends LitElement {
         <slot name="header"></slot>
         <div part="range" ?hidden=${!this.rangeOverridden}>
           <span part="range-text">${this.range}</span>
-          <span part="range-flag">Overridden</span>
+          <slot name="range-flag"></slot>
         </div>
       </div>
       <div part="content" ?hidden=${this.type === 'collapsible' && !this.open}>
