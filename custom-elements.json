@@ -176,6 +176,185 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/badge/badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Alerts 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
+          "name": "PrismBadge",
+          "cssParts": [
+            {
+              "description": "The badge box.",
+              "name": "base"
+            },
+            {
+              "description": "The default status dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Status only. Replaces the default dot. Decorative.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showZero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "attribute": "show-zero"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveTone",
+              "type": {
+                "text": "TagTone"
+              },
+              "description": "The tone in effect.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "fieldName": "job"
+            },
+            {
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "fieldName": "count"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-zero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "fieldName": "showZero"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "fieldName": "status"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A zero count that is hidden.",
+              "name": "empty"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismBadge",
+          "declaration": {
+            "name": "PrismBadge",
+            "module": "src/badge/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/button/button.ts",
       "declarations": [
         {
@@ -600,7 +779,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A group of card actions. NAME PROVISIONAL (Technical Writer).\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu († narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size, 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
+          "description": "A group of card actions. NAME PROVISIONAL (Technical Writer).\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu († narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
           "name": "PrismCardActions",
           "slots": [
             {
@@ -4422,185 +4601,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/badge/badge.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Alerts 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
-          "name": "PrismBadge",
-          "cssParts": [
-            {
-              "description": "The badge box.",
-              "name": "base"
-            },
-            {
-              "description": "The default status dot.",
-              "name": "dot"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Status only. Replaces the default dot. Decorative.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "attribute": "job",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "attribute": "count"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showZero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "attribute": "show-zero"
-            },
-            {
-              "kind": "field",
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "attribute": "status",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "effectiveTone",
-              "type": {
-                "text": "TagTone"
-              },
-              "description": "The tone in effect.",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "fieldName": "job"
-            },
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "fieldName": "count"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-zero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "fieldName": "showZero"
-            },
-            {
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "fieldName": "status"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "A zero count that is hidden.",
-              "name": "empty"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-badge",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismBadge",
-          "declaration": {
-            "name": "PrismBadge",
-            "module": "src/badge/badge.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/icon-button/icon-button.ts",
       "declarations": [
         {
@@ -8151,226 +8151,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/progress/progress.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL (Technical Writer).\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
-          "name": "PrismProgress",
-          "cssParts": [
-            {
-              "description": "The row (label, value).",
-              "name": "base"
-            },
-            {
-              "description": "The visible label.",
-              "name": "label"
-            },
-            {
-              "description": "The written value.",
-              "name": "value"
-            },
-            {
-              "description": "The bar's track.",
-              "name": "track"
-            },
-            {
-              "description": "The filled part.",
-              "name": "fill"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "number | undefined"
-              },
-              "description": "Current value from 0 to `max`. Leave off when unknown.",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "100",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showValue",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Writes the value beside the label.",
-              "attribute": "show-value"
-            },
-            {
-              "kind": "field",
-              "name": "valueText",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
-              "attribute": "value-text"
-            },
-            {
-              "kind": "field",
-              "name": "hideLabel",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Hides the label from sight (it still names the bar).",
-              "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone"
-              },
-              "default": "'accent'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#determinate",
-              "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#now",
-              "privacy": "private",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#text",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
-              "fieldName": "label"
-            },
-            {
-              "name": "value",
-              "type": {
-                "text": "number | undefined"
-              },
-              "description": "Current value from 0 to `max`. Leave off when unknown.",
-              "fieldName": "value"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "100",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-value",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Writes the value beside the label.",
-              "fieldName": "showValue"
-            },
-            {
-              "name": "value-text",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
-              "fieldName": "valueText"
-            },
-            {
-              "name": "hide-label",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Hides the label from sight (it still names the bar).",
-              "fieldName": "hideLabel"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone"
-              },
-              "default": "'accent'",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "No value.",
-              "name": "indeterminate"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-progress",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismProgress",
-          "declaration": {
-            "name": "PrismProgress",
-            "module": "src/progress/progress.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/password-input/password-input.ts",
       "declarations": [
         {
@@ -9251,6 +9031,226 @@
           "declaration": {
             "name": "PrismPasswordInput",
             "module": "src/password-input/password-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/progress/progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL (Technical Writer).\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
+          "name": "PrismProgress",
+          "cssParts": [
+            {
+              "description": "The row (label, value).",
+              "name": "base"
+            },
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The written value.",
+              "name": "value"
+            },
+            {
+              "description": "The bar's track.",
+              "name": "track"
+            },
+            {
+              "description": "The filled part.",
+              "name": "fill"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showValue",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "attribute": "show-value"
+            },
+            {
+              "kind": "field",
+              "name": "valueText",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "attribute": "value-text"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "attribute": "hide-label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#determinate",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#now",
+              "privacy": "private",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#text",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-value",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "fieldName": "showValue"
+            },
+            {
+              "name": "value-text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "fieldName": "valueText"
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "fieldName": "hideLabel"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "No value.",
+              "name": "indeterminate"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-progress",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismProgress",
+          "declaration": {
+            "name": "PrismProgress",
+            "module": "src/progress/progress.ts"
           }
         }
       ]

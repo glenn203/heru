@@ -36,7 +36,7 @@ const WIDGET = (attrs = '', body = '') => `
       ${body || '<prism-card-metric label="Detections">1,284</prism-card-metric>'}
       <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
       <prism-card-actions slot="footer">
-        <prism-button variant="ghost">View all</prism-button>
+        <prism-button variant="ghost" size="sm">View all</prism-button>
       </prism-card-actions>
     </prism-card>
   </section>`;

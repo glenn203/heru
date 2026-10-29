@@ -54,7 +54,7 @@ const HEADER_CARD = (id = 'c', width = 420) => `
   </prism-card>`;
 
 test.describe('widget error Retry', () => {
-  test('is an outline button, small', async ({ page }) => {
+  test('is a soft (secondary) button, small', async ({ page }) => {
     await setup(
       page,
       `<prism-card id="w" type="widget" state="error" state-message="Timed out." style="width:360px">
@@ -65,19 +65,21 @@ test.describe('widget error Retry', () => {
     const retry = page.getByRole('button', { name: 'Retry' });
     await expect(retry).toHaveCount(1);
     const btn = page.locator('#w prism-button');
-    await expect(btn).toHaveAttribute('variant', 'outline');
+    await expect(btn).toHaveAttribute('variant', 'secondary');
     await expect(btn).toHaveAttribute('size', 'sm');
-    // Painted as the outline variant: a visible border, no fill.
+    // Painted as the soft variant: a tinted fill, no border.
     const paint = await btn.evaluate((el) => {
       const cs = getComputedStyle(
         el.shadowRoot!.querySelector('[part="base"]')!,
       );
       return {
-        border: cs.borderTopWidth,
+        border: cs.borderTopColor,
+        fill: cs.backgroundColor,
         h: el.getBoundingClientRect().height,
       };
     });
-    expect(paint.border).toBe('1px');
+    expect(paint.border).toBe('rgba(0, 0, 0, 0)');
+    expect(paint.fill).not.toBe('rgba(0, 0, 0, 0)');
     expect(paint.h).toBeGreaterThanOrEqual(24);
     // No dev error: the guard does not touch the generated control.
     await expect(page.locator('#w')).not.toHaveAttribute('data-prism-invalid');
@@ -93,6 +95,45 @@ test.describe('widget error Retry', () => {
         <prism-card-actions slot="footer"><prism-button variant="outline" id="o">Out</prism-button></prism-card-actions></prism-card>`,
     );
     await expect(page.locator('#o')).toHaveAttribute(
+      'data-prism-invalid',
+      /outline button is not allowed/,
+    );
+  });
+});
+
+test.describe('widget footer View all', () => {
+  const FOOT = (type: string) => `
+    <prism-card id="c" ${type} style="width:360px">
+      <prism-card-title slot="header" level="3">Detections</prism-card-title>
+      <p>Body</p>
+      <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
+      <prism-card-actions slot="footer"><prism-button id="v" variant="ghost">View all</prism-button></prism-card-actions>
+    </prism-card>`;
+
+  test('is ghost and small in a widget footer, and the guard allows it', async ({
+    page,
+  }) => {
+    await setup(page, FOOT('type="widget"'));
+    const v = page.locator('#v');
+    await expect(v).toHaveAttribute('variant', 'ghost');
+    await expect(v).toHaveAttribute('size', 'sm');
+    await expect(v).not.toHaveAttribute('data-prism-invalid');
+    const h = await v.evaluate((el) => el.getBoundingClientRect().height);
+    expect(h).toBeGreaterThanOrEqual(24);
+    expect(h).toBeLessThan(40);
+  });
+
+  test('other card footers stay medium', async ({ page }) => {
+    await setup(page, FOOT(''));
+    await expect(page.locator('#v')).toHaveAttribute('size', 'md');
+  });
+
+  test('a widget footer still refuses outline', async ({ page }) => {
+    await setup(
+      page,
+      FOOT('type="widget"').replace('variant="ghost"', 'variant="outline"'),
+    );
+    await expect(page.locator('#v')).toHaveAttribute(
       'data-prism-invalid',
       /outline button is not allowed/,
     );

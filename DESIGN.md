@@ -229,8 +229,9 @@ the bottom of cards in the same row. Never position it with absolute placement.
 - **Card states** (`state="loading|error|empty"`, any card): only the content is
   replaced; header and footer stay. Loading is a skeleton and a polite "Loading"
   (`aria-busy`). Error says what failed (`state-message`) with one Retry
-  (`prism-card-retry`), an outline small button (the one generated control that
-  is outline; the footer rule above does not apply to it). Empty on a widget says "No data for this range" with
+  (`prism-card-retry`), a soft (secondary) small button (a generated
+  control, so the footer rule above does not apply to it). A widget footer's
+  "View all" is a ghost small button; other footers stay medium. Empty on a widget says "No data for this range" with
   "Change range" (`prism-card-change-range`). Controls the card generates for
   these are light-DOM children (`data-prism-generated`, `display: contents`),
   because the theme cannot style a `prism-button` inside a shadow root.
