@@ -294,3 +294,176 @@ export const CollectionCards: StoryObj<Args> = {
       )}
     </prism-card-group>`,
 };
+
+// ---- M3: widget, collapsible, card list (names provisional) ----
+
+const widget = (
+  title: string,
+  value: string,
+  extra: { range?: string; state?: string; message?: string } = {},
+) =>
+  html`<prism-card
+    type="widget"
+    range=${extra.range ?? ''}
+    state=${extra.state ?? ''}
+    state-message=${extra.message ?? ''}
+  >
+    <prism-card-title slot="header" level="3">${title}</prism-card-title>
+    <prism-card-description slot="header">All tenants</prism-card-description>
+    <prism-card-actions slot="header">
+      <prism-icon-button label="Refresh ${title}"
+        >${iconRefresh()}</prism-icon-button
+      >
+      <prism-menu label="More options for ${title}">
+        <prism-menu-item>Configure</prism-menu-item>
+        <prism-menu-item>Export</prism-menu-item>
+        <prism-menu-item>Remove</prism-menu-item>
+      </prism-menu>
+    </prism-card-actions>
+    <prism-card-metric label="Detections">${value}</prism-card-metric>
+    <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
+    <prism-card-actions slot="footer">
+      <prism-button variant="ghost">View all</prism-button>
+    </prism-card-actions>
+  </prism-card>`;
+
+/**
+ * Widgets follow the page's time range (`data-prism-time-range` on the Toolbar
+ * or page). The second widget overrides it: its range shows in the header with
+ * the word "Overridden". Change the page range with the select.
+ */
+export const WidgetTimeRange: StoryObj<Args> = {
+  render: () =>
+    html`<section
+      id="widget-page"
+      data-prism-time-range="Last 24 hours"
+      style="display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,340px))"
+    >
+      <label style="grid-column:1/-1;font:14px Inter,sans-serif"
+        >Page time range
+        <select
+          @change=${(e: Event) =>
+            (e.target as HTMLElement)
+              .closest('section')
+              ?.setAttribute(
+                'data-prism-time-range',
+                (e.target as HTMLSelectElement).value,
+              )}
+        >
+          <option>Last 24 hours</option>
+          <option>Last 7 days</option>
+        </select>
+      </label>
+      ${widget('Detections over time', '1,284')}
+      ${widget('Detections, 30 days', '9,402', { range: 'Last 30 days' })}
+    </section>`,
+};
+
+/** States stay inside the widget; the header and footer stay put. */
+export const WidgetStates: StoryObj<Args> = {
+  render: () =>
+    html`<div
+      style="display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,300px))"
+    >
+      ${widget('Loading', '0', { state: 'loading' })}
+      ${widget('Error', '0', {
+        state: 'error',
+        message: 'The detections service timed out.',
+      })}
+      ${widget('Empty', '0', { state: 'empty' })}
+    </div>`,
+};
+
+/** The title row is the toggle. Closed by default; actions sit beside it. */
+export const Collapsible: StoryObj<Args> = {
+  render: () =>
+    frame(
+      html`<div style="display:grid;gap:16px">
+        <prism-card type="collapsible" storage-key="story-adv">
+          <prism-card-title slot="header" level="3"
+            >Advanced settings</prism-card-title
+          >
+          <prism-card-actions slot="header">
+            <prism-icon-button label="Reset Advanced settings"
+              >${iconRefresh()}</prism-icon-button
+            >
+          </prism-card-actions>
+          <p style="margin:0">Optional detail group.</p>
+          <prism-card-meta slot="footer">Edited yesterday</prism-card-meta>
+        </prism-card>
+        <prism-card type="collapsible" open>
+          <prism-card-title slot="header" level="3"
+            >Open by default</prism-card-title
+          >
+          <p style="margin:0">Open because people need it on first view.</p>
+        </prism-card>
+      </div>`,
+      420,
+    ),
+};
+
+const HOST_PAGES = 5;
+const hostCards = (page: number, size: number): string =>
+  Array.from({ length: Math.min(size, 6) }, (_, i) => {
+    const id = `host-${(page - 1) * 6 + i + 1}`;
+    return `<prism-card type="selectable" kind="collection" value="${id}">
+      <prism-card-select slot="header"></prism-card-select>
+      <prism-card-title slot="header" level="3" href="#${id}">Host ${id.slice(5)}</prism-card-title>
+      <prism-card-description slot="header">Windows Server 2022</prism-card-description>
+      <div>Last seen ${i + 1} min ago</div>
+      <prism-card-meta slot="footer">Page ${page}</prism-card-meta>
+    </prism-card>`;
+  }).join('');
+
+/**
+ * A paged list of collection cards. "Next" swaps in the next page's cards (as a
+ * server would); selected ids stay selected and "N selected" keeps counting.
+ */
+export const CardList: StoryObj<Args> = {
+  render: () => {
+    const list = document.createElement('prism-card-list');
+    list.setAttribute('label', 'Hosts');
+    list.setAttribute('total', String(HOST_PAGES * 6));
+    list.setAttribute('page-size', '12');
+    list.innerHTML = hostCards(1, 12);
+    list.addEventListener('prism-card-list-page', (e) => {
+      const { page, pageSize } = (
+        e as CustomEvent<{ page: number; pageSize: number }>
+      ).detail;
+      for (const c of [...list.children])
+        if (c.localName === 'prism-card') c.remove();
+      list.insertAdjacentHTML('afterbegin', hostCards(page, pageSize));
+    });
+    return list;
+  },
+};
+
+/** Loading, refreshing, empty, no matches, error. */
+export const CardListStates: StoryObj<Args> = {
+  render: () =>
+    html`<div style="display:grid;gap:32px">
+      <prism-card-list
+        label="Loading hosts"
+        state="loading"
+        skeleton-count="4"
+      ></prism-card-list>
+      <prism-card-list label="No matches" state="no-matches"></prism-card-list>
+      <prism-card-list
+        label="Error"
+        state="error"
+        state-message="The hosts service is down."
+      ></prism-card-list>
+    </div>`,
+};
+
+/** One column in an Aside, Drawer or Modal. */
+export const CardListOneColumn: StoryObj<Args> = {
+  render: () => {
+    const list = document.createElement('prism-card-list');
+    list.setAttribute('label', 'Hosts');
+    list.setAttribute('columns', '1');
+    list.innerHTML = hostCards(1, 3);
+    list.style.maxInlineSize = '420px';
+    return list;
+  },
+};

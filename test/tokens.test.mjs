@@ -568,6 +568,39 @@ const MATRIX = [
       ['color.text', 'icon'], // check mark / radio dot
     ],
   ],
+  // M3: widget (metric number, label, range line and its "Overridden" flag),
+  // the collapsible toggle (title text, chevron over the hover and press tint),
+  // and the card list (selected count, pager text, page-size select edge).
+  // Skeleton lines are decorative (aria-hidden) and carry no information.
+  [
+    'widget (metric, range)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // metric number, "Overridden" flag
+      ['color.text-muted', 'text'], // metric label, range line, "Updated"
+      ['color.border-strong', 'border'], // the flag's edge
+    ],
+  ],
+  [
+    'collapsible toggle',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // title
+      ['color.text-muted', 'icon'], // chevron
+    ],
+  ],
+  [
+    'card list (count, pager)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // "3 selected", page status
+      ['color.text-muted', 'text'], // "Per page"
+      ['color.border-strong', 'border'], // page-size select edge
+    ],
+  ],
   ['menu item', 'color.bg', 'color.text', [['color.text', 'text']]],
 ];
 export const MATRIX_RESULTS = [];

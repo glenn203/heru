@@ -855,6 +855,158 @@ prism-card-meta {
   }
 }
 
+/* ---------- Widget, collapsible, metric, skeleton, card list (M3) ----------
+ * Names provisional. Colours, borders and radii only; layout is in the
+ * components. Skeleton lines are decorative (aria-hidden, the state is text). */
+/* Widget: the range line under the description. "Overridden" is text, so the
+   override never relies on colour alone. */
+prism-card::part(range) {
+  color: var(--prism-color-text-muted);
+}
+prism-card::part(range-flag) {
+  color: var(--prism-color-text);
+  font-weight: var(--prism-font-weight-semibold);
+  border: var(--prism-border-width) solid var(--prism-color-border-strong);
+  border-radius: var(--prism-radius-3);
+  padding-inline: var(--prism-space-1);
+}
+prism-card-metric::part(value) {
+  color: var(--prism-color-text);
+}
+prism-card-metric::part(label) {
+  color: var(--prism-color-text-muted);
+}
+/* In-card states (loading, error, empty) and list states. */
+[data-prism-card-state],
+[data-prism-list-state] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--prism-space-2);
+  color: var(--prism-color-text);
+}
+[data-prism-card-state] p,
+[data-prism-list-state] p {
+  margin: 0;
+}
+[data-prism-list-state] {
+  align-items: center;
+  text-align: center;
+  padding-block: var(--prism-space-8);
+}
+/* Collapsible: the title row is the toggle. A tint on hover and press, and the
+   same focus ring as the buttons. */
+prism-card-title::part(toggle) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-3);
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+}
+prism-card-title::part(chevron) {
+  color: var(--prism-color-text-muted);
+}
+prism-card-title::part(toggle):focus-visible {
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+/* Skeleton */
+prism-card-skeleton::part(line) {
+  background: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-3);
+  animation: prism-card-pulse 1.6s var(--prism-ease-standard) infinite;
+}
+prism-card-skeleton[variant='card']::part(base) {
+  border: var(--prism-border-width) solid var(--prism-color-border);
+  border-radius: var(--prism-radius-7);
+}
+@keyframes prism-card-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+/* Card list */
+[data-prism-selection-bar] {
+  display: flex;
+  align-items: center;
+  gap: var(--prism-space-3);
+  color: var(--prism-color-text);
+}
+[data-prism-count] {
+  font-weight: var(--prism-font-weight-semibold);
+  border-radius: var(--prism-radius-3);
+}
+[data-prism-count]:focus-visible {
+  outline: 2px solid var(--prism-color-focus-ring);
+  outline-offset: var(--prism-focus-ring-offset);
+}
+[data-prism-pager] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--prism-space-3);
+  color: var(--prism-color-text);
+}
+[data-prism-page-size] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--prism-space-2);
+  color: var(--prism-color-text-muted);
+}
+[data-prism-page-size] select {
+  min-block-size: 1.5rem;
+  padding-inline: var(--prism-space-2);
+  color: var(--prism-color-text);
+  background: var(--prism-color-bg);
+  border: var(--prism-border-width) solid var(--prism-color-border-strong);
+  border-radius: var(--prism-radius-5);
+  font: inherit;
+}
+[data-prism-page-size] select:focus-visible {
+  outline: 2px solid var(--prism-color-focus-ring);
+  outline-offset: var(--prism-focus-ring-offset);
+}
+prism-card-list::part(busy) {
+  background: var(--prism-color-accent);
+  animation: prism-card-pulse 1.2s var(--prism-ease-standard) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  prism-card-skeleton::part(line),
+  prism-card-list::part(busy) {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  prism-card-skeleton::part(line) {
+    background: GrayText;
+  }
+  prism-card-skeleton[variant='card']::part(base) {
+    border-color: CanvasText;
+  }
+  prism-card-list::part(busy) {
+    background: Highlight;
+  }
+  prism-card::part(range-flag) {
+    border-color: CanvasText;
+  }
+  prism-card-title::part(toggle):focus-visible {
+    outline-color: Highlight;
+  }
+}
+
 /* Stretched link (rule 3 and the layers): controls deeper than a direct child
    still sit above the title's stretched click area. */
 prism-card[type='clickable']

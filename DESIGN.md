@@ -119,17 +119,20 @@ CardDescription, TimeRangeInput. Everything else here is **provisional**
 `prism-icon-button`, `prism-menu`, `prism-menu-item`, the `type`, `raised` and
 `standalone` attributes.
 
-| Element                  | Job                                                                   |
-| ------------------------ | --------------------------------------------------------------------- |
-| `prism-card`             | Surface with three slots: `header`, `content` (default) and `footer`. |
-| `prism-card-title`       | The card's name, always a real h2 to h6. `level` is **required**.     |
-| `prism-card-description` | Supporting text, two lines then ellipsis.                             |
-| `prism-card-meta`        | Footer meta, one line.                                                |
-| `prism-card-actions`     | Header, footer or content-only button row. Enforces the action rules. |
-| `prism-card-select`      | Visible native checkbox or radio of a selectable card.                |
-| `prism-card-group`       | Selection group: single (radio) or multi (checkbox), by item id.      |
-| `prism-icon-button`      | Square ghost icon button. `label` is required (the accessible name).  |
-| `prism-menu` / `-item`   | Minimal menu button (APG). Used for overflow and the Move menu later. |
+| Element                  | Job                                                                     |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `prism-card`             | Surface with three slots: `header`, `content` (default) and `footer`.   |
+| `prism-card-title`       | The card's name, always a real h2 to h6. `level` is **required**.       |
+| `prism-card-description` | Supporting text, two lines then ellipsis.                               |
+| `prism-card-meta`        | Footer meta, one line.                                                  |
+| `prism-card-actions`     | Header, footer or content-only button row. Enforces the action rules.   |
+| `prism-card-select`      | Visible native checkbox or radio of a selectable card.                  |
+| `prism-card-group`       | Selection group: single (radio) or multi (checkbox), by item id.        |
+| `prism-card-list`        | Grid or list of cards: columns 1/2/3/4, paging, selection across pages. |
+| `prism-card-metric`      | A big number for a widget, with a label (PROPOSED metric style).        |
+| `prism-card-skeleton`    | Decorative loading placeholder (`text` lines or a whole `card`).        |
+| `prism-icon-button`      | Square ghost icon button. `label` is required (the accessible name).    |
+| `prism-menu` / `-item`   | Minimal menu button (APG). Used for overflow and the Move menu later.   |
 
 ### Restricted slots
 
@@ -204,18 +207,78 @@ the bottom of cards in the same row. Never position it with absolute placement.
   reason must be in its description (dev error otherwise). A nested control's
   label must include the card title (dev error otherwise).
 
+### Widget, collapsible and card list (M3, names provisional)
+
+- **Widget** (`type="widget"`, a Card in a Grid; there is no Widget component).
+  Header: title, a scope description, up to two actions (refresh icon button,
+  overflow menu); a compact TimeRangeInput is accepted by tag name only when the
+  widget overrides the range (TimeRangeInput is not built here). Footer:
+  `prism-card-meta` "Updated 2 min ago" and a ghost "View all". The card is a
+  labelled `group`, never a landmark. **No resize** (needs Grid edit mode).
+  No header or footer dividers (dagger on the page).
+- **Time range contract.** The page (Toolbar) sets
+  `data-prism-time-range="Last 24 hours"` on any ancestor; every widget below it
+  follows it, including later changes. A widget with its own `range` overrides
+  it, shows that range in its header with the word "Overridden" (text, a border,
+  not colour alone) and ignores page changes. `card.effectiveRange` and
+  `card.rangeOverridden` are readable; `prism-card-range` fires when the
+  effective range changes so the widget can refetch.
+- **Card states** (`state="loading|error|empty"`, any card): only the content is
+  replaced; header and footer stay. Loading is a skeleton and a polite "Loading"
+  (`aria-busy`). Error says what failed (`state-message`) with one Retry
+  (`prism-card-retry`). Empty on a widget says "No data for this range" with
+  "Change range" (`prism-card-change-range`). Controls the card generates for
+  these are light-DOM children (`data-prism-generated`, `display: contents`),
+  because the theme cannot style a `prism-button` inside a shadow root.
+- **Metric.** `prism-card-metric` shows the number in the PROPOSED metric style
+  (28/36, 600, tabular figures; `--_metric-*`, private) with a 12/20 label under
+  it. No Display style inside a card.
+- **Collapsible** (`type="collapsible"`). The title row is a real `<button>` in
+  the heading: chevron first, `aria-expanded`, and `aria-controls` through
+  element reflection (`ariaControlsElements`, pointing at the light-DOM content,
+  because an ID cannot cross shadow roots). Header actions sit beside it, never
+  inside. `open` is the state (default closed, set it where people need the
+  content on first view), `storage-key` keeps it for the session
+  (`sessionStorage`), and `prism-card-open-change` lets a page put it in the URL.
+  Closed content is `display: none`, so it leaves the tab order. The footer
+  stays. More than two nested levels is a dev error. `href` and `action` on the
+  title are ignored with a dev error.
+- **Card list.** Columns follow the list's own width (container query): under
+  640px one, 640 to 1023 two, 1024 to 1279 three, 1280 and up four, never under
+  280px per card (`minmax(0, 1fr)`; below 280px it reflows to the container),
+  16px gap, equal row heights, no masonry. `columns="1"` pins one column.
+  Role `list`, cards are `listitem`s; `label` is required; titles share a
+  `level` (dev error otherwise). `total` sets `aria-setsize` and `aria-posinset`
+  from the data. **Paging** is server-side: `page`, `page-size` (12, 24 or 48,
+  default 24), `prism-card-list-page`. The built-in pager (Previous, "Page X of
+  Y", a Per page select) is shown even for one page; a `pagination` slot
+  replaces it, and `load-more` swaps it for a Load more button. A new `total`
+  says "24 results" politely.
+- **Selection across pages.** The list extends `prism-card-group`, multi only,
+  by `value` id. Ids that are not on screen stay selected. "N selected" and a
+  "Clear selection" button show above the cards (`hide-selection-bar`, or fill
+  the `toolbar` slot, to use the page Toolbar instead). Clear moves focus to the
+  count, so it is not lost. Read `list.selected`; listen for
+  `prism-selection-change`.
+- **List states** (`state`): `loading` (skeleton cards, about eight, list busy),
+  `refreshing` (cards stay, quiet busy line), `empty` (your `empty` slot),
+  `no-matches` ("No matches", Clear filters), `error` (what failed, Retry). One
+  failed card uses `state="error"` on that card.
+
 ### PROPOSED, not tokens yet
 
 These values live as component-private `--_*` custom properties built from
 existing primitives. They are **not** in `tokens/*.json` and Typography is
 untouched. They wait for approval.
 
-| Private property  | Value                                  | Where                                                            |
-| ----------------- | -------------------------------------- | ---------------------------------------------------------------- |
-| `--_title-*`      | 14px / 20px / 600 sans                 | `prism-card-title` (component title style)                       |
-| `--_supporting-*` | 12px / 20px / 400 sans                 | description and meta (page says 12/20; token `caption` is 12/16) |
-| `--_pad`          | density pad units + 2 (12 / 16 / 20px) | `prism-card`                                                     |
-| `CARD_NARROW_PX`  | 280                                    | narrow rule (page marks it with a dagger)                        |
+| Private property   | Value                                   | Where                                                                     |
+| ------------------ | --------------------------------------- | ------------------------------------------------------------------------- |
+| `--_title-*`       | 14px / 20px / 600 sans                  | `prism-card-title` (component title style)                                |
+| `--_supporting-*`  | 12px / 20px / 400 sans                  | description and meta (page says 12/20; token `caption` is 12/16)          |
+| `--_pad`           | density pad units + 2 (12 / 16 / 20px)  | `prism-card`                                                              |
+| `--_metric-*`      | 28px / 36px / 600 sans, tabular figures | `prism-card-metric` (metric text style; the page leaves it to Typography) |
+| `CARD_LIST_MIN_PX` | 280                                     | card list minimum card width (page: "at least 280px")                     |
+| `CARD_NARROW_PX`   | 280                                     | narrow rule (page marks it with a dagger)                                 |
 
 ### Behavior notes
 

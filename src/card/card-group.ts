@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, type CSSResultGroup } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { devError } from './card-slots.js';
 import { SelectionController } from './selection-controller.js';
@@ -27,7 +27,7 @@ import { uniqueId } from '../internal/ids.js';
  * @fires prism-selection-change - `detail: { selected: string[], count: number }`.
  */
 export class PrismCardGroup extends LitElement {
-  static override styles = css`
+  static override styles: CSSResultGroup = css`
     :host {
       display: block;
     }
@@ -51,7 +51,7 @@ export class PrismCardGroup extends LitElement {
   /** Accessible name of the group. */
   @property() label = '';
 
-  @state() private message = '';
+  @state() protected message = '';
 
   readonly #sel = new SelectionController(this, { mode: 'multi' });
   readonly #id = uniqueId('prism-card-group');
@@ -76,7 +76,7 @@ export class PrismCardGroup extends LitElement {
   get cards(): PrismCard[] {
     return [
       ...this.querySelectorAll<PrismCard>('prism-card[type="selectable"]'),
-    ].filter((c) => c.closest('prism-card-group') === this);
+    ].filter((c) => c.closest('prism-card-group, prism-card-list') === this);
   }
 
   override connectedCallback(): void {
@@ -104,10 +104,7 @@ export class PrismCardGroup extends LitElement {
   override updated(changed: Map<PropertyKey, unknown>): void {
     if (changed.has('selection') || changed.has('label')) this.#schedule();
     if (!this.label && !this.hasAttribute('aria-label'))
-      devError(
-        this,
-        '<prism-card-group> needs a `label` that names the group.',
-      );
+      devError(this, `<${this.localName}> needs a \`label\` that names it.`);
   }
 
   #schedule(): void {
@@ -130,7 +127,7 @@ export class PrismCardGroup extends LitElement {
       if (initial.length) this.#sel.set(initial.filter(Boolean));
     }
     const single = this.selection === 'single';
-    this.setAttribute('role', single ? 'radiogroup' : 'group');
+    this.setAttribute('role', this.hostRole());
     if (this.label) this.setAttribute('aria-label', this.label);
     const enabled = cards.filter((c) => !c.disabled);
     // Roving tab stop (single): the selected card, else the first enabled one.
@@ -148,6 +145,16 @@ export class PrismCardGroup extends LitElement {
       select.posinset = single ? i + 1 : undefined;
       select.setsize = single ? cards.length : undefined;
     });
+    this.synced();
+  }
+
+  /** The host's role. A card list overrides it to `list`. */
+  protected hostRole(): string {
+    return this.selection === 'single' ? 'radiogroup' : 'group';
+  }
+  /** Called after every sync. A card list hooks in here. */
+  protected synced(): void {
+    /* nothing */
   }
 
   #idOf(card: PrismCard): string {

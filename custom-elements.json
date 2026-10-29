@@ -681,7 +681,7 @@
               "type": {
                 "text": "string"
               },
-              "privacy": "private",
+              "privacy": "protected",
               "default": "''"
             },
             {
@@ -776,6 +776,28 @@
                 }
               },
               "description": "Pushes the selection into every card on screen."
+            },
+            {
+              "kind": "method",
+              "name": "hostRole",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "description": "The host's role. A card list overrides it to `list`."
+            },
+            {
+              "kind": "method",
+              "name": "synced",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Called after every sync. A card list hooks in here."
             },
             {
               "kind": "method",
@@ -877,6 +899,705 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/card/card-list.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "CARD_LIST_PAGE_SIZES",
+          "type": {
+            "text": "[12, 24, 48]"
+          },
+          "default": "[12, 24, 48]",
+          "description": "Page sizes the Card page names (\"Common page sizes are 12, 24 and 48\")."
+        },
+        {
+          "kind": "variable",
+          "name": "CARD_LIST_MIN_PX",
+          "type": {
+            "text": "number"
+          },
+          "default": "280",
+          "description": "PROPOSED (page: \"Cards stay at least 280px wide\")."
+        },
+        {
+          "kind": "class",
+          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL\n(Technical Writer). Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Hosts\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** The host is a labelled `list` and each card a `listitem`\n  (the card sets its own role). Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
+          "name": "PrismCardList",
+          "cssParts": [
+            {
+              "description": "The grid of cards.",
+              "name": "grid"
+            },
+            {
+              "description": "The visually hidden live region.",
+              "name": "status",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "description": "The quiet busy line while refreshing.",
+              "name": "busy"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The cards, all of one type with the same slots.",
+              "name": "",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "description": "Replaces the selected count and Clear selection.",
+              "name": "toolbar"
+            },
+            {
+              "description": "Replaces the built-in pager.",
+              "name": "pagination"
+            },
+            {
+              "description": "First-use empty state: a short title, one sentence, one button.",
+              "name": "empty"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "columns",
+              "type": {
+                "text": "'1' | undefined"
+              },
+              "description": "Pins one column (\"1\") for an Aside, Drawer or Modal. Otherwise automatic.",
+              "attribute": "columns",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Current page, starting at 1. Server-side: you swap the children.",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pageSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "24",
+              "description": "Cards per page: 12, 24 or 48.",
+              "attribute": "page-size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "total",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Total items across all pages (also sets each card's position and size).",
+              "attribute": "total"
+            },
+            {
+              "kind": "field",
+              "name": "loadMore",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Replaces the pager with a \"Load more\" button (a feed that grows).",
+              "attribute": "load-more",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "state",
+              "type": {
+                "text": "ListState | undefined"
+              },
+              "attribute": "state",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "stateMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The reason for `state=\"error\"`.",
+              "attribute": "state-message"
+            },
+            {
+              "kind": "field",
+              "name": "skeletonCount",
+              "type": {
+                "text": "number"
+              },
+              "default": "8",
+              "description": "How many skeleton cards to show while loading (about eight).",
+              "attribute": "skeleton-count"
+            },
+            {
+              "kind": "field",
+              "name": "hideSelectionBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the built-in \"N selected\" bar (use your Toolbar instead).",
+              "attribute": "hide-selection-bar"
+            },
+            {
+              "kind": "field",
+              "name": "#hadCards",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "#lastTotal",
+              "privacy": "private",
+              "type": {
+                "text": "number | undefined"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hostRole",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "description": "The host's role. A card list overrides it to `list`.",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "synced",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Called after every sync. A card list hooks in here.",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#items",
+              "privacy": "private",
+              "type": {
+                "text": "PrismCard[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "#renderBars",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Everything the list adds itself goes in the light DOM (see light-dom.ts)."
+            },
+            {
+              "kind": "method",
+              "name": "#fire",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "detail",
+                  "optional": true,
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#go",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "#onSize",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "#onClear",
+              "privacy": "private",
+              "description": "Clear selection: the button disappears, so focus moves to the count."
+            },
+            {
+              "kind": "field",
+              "name": "selection",
+              "type": {
+                "text": "'single' | 'multi'"
+              },
+              "default": "'multi'",
+              "description": "`single` is a radio group, `multi` a set of checkboxes.",
+              "attribute": "selection",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Accessible name of the group.",
+              "attribute": "label",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "protected",
+              "default": "''",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#sel",
+              "privacy": "private",
+              "readonly": true,
+              "default": "new SelectionController(this, { mode: 'multi' })",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#id",
+              "privacy": "private",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#observer",
+              "privacy": "private",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#primed",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#scheduled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "Selected item ids, in the order they were selected.",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "cards",
+              "type": {
+                "text": "PrismCard[]"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#schedule",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#sync",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Pushes the selection into every card on screen.",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#idOf",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "card",
+                  "type": {
+                    "text": "PrismCard"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#onCardChange",
+              "privacy": "private",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#changed",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "announce",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#onKeydown",
+              "privacy": "private",
+              "readonly": true,
+              "description": "Single selection: arrows move and select (APG radio group).",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "name",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Pager used. `detail: { page, pageSize }`.",
+              "name": "prism-card-list-page"
+            },
+            {
+              "description": "Load more pressed.",
+              "name": "prism-card-list-load-more"
+            },
+            {
+              "description": "Retry pressed in the error state.",
+              "name": "prism-card-list-retry"
+            },
+            {
+              "description": "Clear filters pressed in no-matches.",
+              "name": "prism-card-list-clear-filters"
+            },
+            {
+              "name": "prism-selection-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { selected: string[], count: number }`.",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "columns",
+              "type": {
+                "text": "'1' | undefined"
+              },
+              "description": "Pins one column (\"1\") for an Aside, Drawer or Modal. Otherwise automatic.",
+              "fieldName": "columns"
+            },
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Current page, starting at 1. Server-side: you swap the children.",
+              "fieldName": "page"
+            },
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "24",
+              "description": "Cards per page: 12, 24 or 48.",
+              "fieldName": "pageSize"
+            },
+            {
+              "name": "total",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Total items across all pages (also sets each card's position and size).",
+              "fieldName": "total"
+            },
+            {
+              "name": "load-more",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Replaces the pager with a \"Load more\" button (a feed that grows).",
+              "fieldName": "loadMore"
+            },
+            {
+              "name": "state",
+              "type": {
+                "text": "ListState | undefined"
+              },
+              "fieldName": "state"
+            },
+            {
+              "name": "state-message",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The reason for `state=\"error\"`.",
+              "fieldName": "stateMessage"
+            },
+            {
+              "name": "skeleton-count",
+              "type": {
+                "text": "number"
+              },
+              "default": "8",
+              "description": "How many skeleton cards to show while loading (about eight).",
+              "fieldName": "skeletonCount"
+            },
+            {
+              "name": "hide-selection-bar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the built-in \"N selected\" bar (use your Toolbar instead).",
+              "fieldName": "hideSelectionBar"
+            },
+            {
+              "name": "selection",
+              "type": {
+                "text": "'single' | 'multi'"
+              },
+              "default": "'multi'",
+              "description": "`single` is a radio group, `multi` a set of checkboxes.",
+              "fieldName": "selection",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Accessible name of the group.",
+              "fieldName": "label",
+              "inheritedFrom": {
+                "name": "PrismCardGroup",
+                "module": "src/card/card-group.ts"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "PrismCardGroup",
+            "module": "/src/card/card-group.js"
+          },
+          "tagName": "prism-card-list",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CARD_LIST_PAGE_SIZES",
+          "declaration": {
+            "name": "CARD_LIST_PAGE_SIZES",
+            "module": "src/card/card-list.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CARD_LIST_MIN_PX",
+          "declaration": {
+            "name": "CARD_LIST_MIN_PX",
+            "module": "src/card/card-list.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PrismCardList",
+          "declaration": {
+            "name": "PrismCardList",
+            "module": "src/card/card-list.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/card/card-meta.ts",
       "declarations": [
         {
@@ -905,6 +1626,72 @@
           "declaration": {
             "name": "PrismCardMeta",
             "module": "src/card/card-meta.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/card/card-metric.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A big number for a widget, with an optional label. NAME PROVISIONAL\n(Technical Writer).\n\nThe number uses the PROPOSED metric text style: 28px / 36px, weight 600,\ntabular figures, built from existing primitives. The Notion page leaves the\nreal size, weight and line height to Typography, which has not been edited,\nso this is a stand-in set in component-private `--_metric-*` properties\n(never from outside). No Display style is used inside a card.\n\nReading order is number first, then the label, so a screen reader says\n\"1,284 detections\". Put a time range in the label only if the number is\nspecific to it; the widget header already shows an overridden range.",
+          "name": "PrismCardMetric",
+          "cssParts": [
+            {
+              "description": "The number.",
+              "name": "value"
+            },
+            {
+              "description": "The label under the number.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The number, already formatted for the reader's locale.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "What the number counts, for example \"Detections\".",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "What the number counts, for example \"Detections\".",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-card-metric",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismCardMetric",
+          "declaration": {
+            "name": "PrismCardMetric",
+            "module": "src/card/card-metric.ts"
           }
         }
       ]
@@ -1143,6 +1930,84 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/card/card-skeleton.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A loading placeholder: grey lines where text will be. NAME PROVISIONAL\n(Technical Writer; the Skeleton component is not built yet, so this is\ncard-private and swappable).\n\nIt is decorative: `aria-hidden`, never focusable. The loading state is\nannounced as text by whatever owns it (a card or a card list), so the\nskeleton never carries information on its own.\n\n- `variant=\"text\"` (default): `lines` lines of text.\n- `variant=\"card\"`: a whole card the same size as a real one (title line,\n  description line, two content lines, a footer line).\n\nColour and the shimmer live in the opt-in theme (reduced motion removes the\nshimmer there).",
+          "name": "PrismCardSkeleton",
+          "cssParts": [
+            {
+              "description": "The skeleton surface.",
+              "name": "base"
+            },
+            {
+              "description": "One line.",
+              "name": "line"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'text' | 'card'"
+              },
+              "default": "'text'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "lines",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "description": "Text variant only.",
+              "attribute": "lines"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "'text' | 'card'"
+              },
+              "default": "'text'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "lines",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "description": "Text variant only.",
+              "fieldName": "lines"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-card-skeleton",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismCardSkeleton",
+          "declaration": {
+            "name": "PrismCardSkeleton",
+            "module": "src/card/card-skeleton.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/card/card-slots.ts",
       "declarations": [
         {
@@ -1355,7 +2220,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "The card's name, and always a real heading (h2 to h6), in a list too.\nNAME FROM THE NOTION CARD PAGE (CardTitle); `level` is provisional.\n\n`level` is required and has no default: pick it from the surrounding\noutline (one below the Section heading, never skipping a level). Without a\nvalid level the text renders as plain text and a dev error is logged,\nbecause a wrong default heading would break the page outline.\n\nLook: the PROPOSED component title text style (14px / 20px / 600). It is not\na heading style; the level only sets the semantics. Wraps to two lines, then\nclamps with an ellipsis.\n\nInteraction: give it `href` (the card goes somewhere) or `action` (the card\ndoes something) and the heading holds a real `<a>` or `<button>`. Its name is\nthe title text only, never the whole card's text. On a `clickable` card its\nclick area is stretched with a pseudo-element over the whole card; the card\nis the positioning context. Other controls in the card sit above that layer.\nOn a collection card the link or button is just the title (not stretched).\nA borderless card is never clickable, so there the title stays plain text.",
+          "description": "The card's name, and always a real heading (h2 to h6), in a list too.\nNAME FROM THE NOTION CARD PAGE (CardTitle); `level` is provisional.\n\n`level` is required and has no default: pick it from the surrounding\noutline (one below the Section heading, never skipping a level). Without a\nvalid level the text renders as plain text and a dev error is logged,\nbecause a wrong default heading would break the page outline.\n\nLook: the PROPOSED component title text style (14px / 20px / 600). It is not\na heading style; the level only sets the semantics. Wraps to two lines, then\nclamps with an ellipsis.\n\nInteraction: give it `href` (the card goes somewhere) or `action` (the card\ndoes something) and the heading holds a real `<a>` or `<button>`. Its name is\nthe title text only, never the whole card's text. On a `clickable` card its\nclick area is stretched with a pseudo-element over the whole card; the card\nis the positioning context. Other controls in the card sit above that layer.\nOn a collection card the link or button is just the title (not stretched).\nA borderless card is never clickable, so there the title stays plain text.\nOn a collapsible card the title row is the toggle button (chevron first, then\nthe text) with `aria-expanded`; header actions sit beside it, never inside.",
           "name": "PrismCardTitle",
           "cssParts": [
             {
@@ -1365,6 +2230,14 @@
             {
               "description": "The real link or button (when `href` or `action` is set).",
               "name": "link"
+            },
+            {
+              "description": "The toggle button (collapsible cards).",
+              "name": "toggle"
+            },
+            {
+              "description": "The chevron inside the toggle.",
+              "name": "chevron"
             },
             {
               "description": "The clamped text.",
@@ -1425,6 +2298,11 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "#onToggle",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "#wrap",
               "privacy": "private",
@@ -1436,6 +2314,12 @@
                   }
                 }
               ]
+            }
+          ],
+          "events": [
+            {
+              "description": "The toggle was pressed (collapsible cards).",
+              "name": "prism-card-expand"
             }
           ],
           "attributes": [
@@ -1512,8 +2396,26 @@
           "description": "PROPOSED (page: \"about 280px or less †\"): the narrow breakpoint."
         },
         {
+          "kind": "variable",
+          "name": "TIME_RANGE_ATTR",
+          "type": {
+            "text": "string"
+          },
+          "default": "'data-prism-time-range'",
+          "description": "Page-level time range contract: set this on the Toolbar or the page."
+        },
+        {
+          "kind": "variable",
+          "name": "COLLAPSIBLE_MAX_DEPTH",
+          "type": {
+            "text": "number"
+          },
+          "default": "2",
+          "description": "Collapsible cards nest at most two levels deep (Card page)."
+        },
+        {
           "kind": "class",
-          "description": "One self-contained item with its own surface. NAMES PROVISIONAL except\nCard, CardTitle and CardDescription (Notion Card page).\n\nThree slots: `header`, `content` and `footer`. Header and footer accept only\nthe approved parts (see card-slots.ts); anything else is hidden with a dev\nerror. Unslotted children go to `content`, which is free.\n\n```html\n<prism-card>\n  <prism-card-title slot=\"header\" level=\"3\">Phishing playbook</prism-card-title>\n  <prism-card-description slot=\"header\">Owner: SOC</prism-card-description>\n  <p>Free content.</p>\n  <prism-card-meta slot=\"footer\">Updated 2 min ago</prism-card-meta>\n  <prism-card-actions slot=\"footer\">\n    <prism-button variant=\"ghost\">View all</prism-button>\n  </prism-card-actions>\n</prism-card>\n```\n\nAccessibility: the card has no role of its own beyond `group` (standalone),\n`listitem` (inside `prism-card-list`) or none (inside an `li`). Its name is\nthe CardTitle text, copied to `aria-label` because ID references cannot cross\nshadow roots. It is never a landmark. An author `role` or `aria-label` wins.\n\nThis milestone covers the shared card and the `default` and `borderless`\ntypes. Clickable, selectable, widget and collapsible types come later.",
+          "description": "One self-contained item with its own surface. NAMES PROVISIONAL except\nCard, CardTitle and CardDescription (Notion Card page).\n\nThree slots: `header`, `content` and `footer`. Header and footer accept only\nthe approved parts (see card-slots.ts); anything else is hidden with a dev\nerror. Unslotted children go to `content`, which is free.\n\n```html\n<prism-card>\n  <prism-card-title slot=\"header\" level=\"3\">Phishing playbook</prism-card-title>\n  <prism-card-description slot=\"header\">Owner: SOC</prism-card-description>\n  <p>Free content.</p>\n  <prism-card-meta slot=\"footer\">Updated 2 min ago</prism-card-meta>\n  <prism-card-actions slot=\"footer\">\n    <prism-button variant=\"ghost\">View all</prism-button>\n  </prism-card-actions>\n</prism-card>\n```\n\nAccessibility: the card has no role of its own beyond `group` (standalone),\n`listitem` (inside `prism-card-list`) or none (inside an `li`). Its name is\nthe CardTitle text, copied to `aria-label` because ID references cannot cross\nshadow roots. It is never a landmark. An author `role` or `aria-label` wins.\n\nTypes: `default`, `borderless`, `clickable`, `selectable` (`kind`),\n`widget` and `collapsible`. Draggable cards come later.\n\nWidget (a Card in a Grid; there is no Widget component): the header holds\nthe title, a scope description and up to two actions (plus a compact\nTimeRangeInput only when the widget overrides the page range). The time range\nis set at page level: put `data-prism-time-range=\"Last 24 hours\"` on the\nToolbar or page element; every widget below it follows it. A widget with its\nown `range` overrides it, shows that range in its header and is marked\n\"Overridden\" (text, not colour only). The card fires `prism-card-range` when\nits effective range changes. `state=\"loading|error|empty\"` replaces the\ncontent only; header and footer stay. There is no resize here.\n\nCollapsible: the title row is the toggle button (`aria-expanded`, and\n`aria-controls` pointing at the content), `open` is the state, and\n`storage-key` remembers it for the session. Header actions sit beside the\ntoggle. Nest at most two levels.",
           "name": "PrismCard",
           "cssParts": [
             {
@@ -1552,12 +2454,62 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "'default' | 'borderless' | 'clickable' | 'selectable'"
+                "text": "CardType"
               },
               "default": "'default'",
               "description": "Surface type. `default` is bordered. `borderless` is a flat fill with no\nborder or shadow (replaces Panel); it is never clickable or selectable.\n`clickable` makes the whole card one link or button through the stretched\ntitle. `selectable` needs `kind`. Widget and collapsible arrive later.\nInteractive types take the stronger edge so it meets 3:1. NAME PROVISIONAL.",
               "attribute": "type",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Collapsible only: open (content shown). Default closed.",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "storageKey",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Collapsible only: remembers open or closed for the session under this key\n(sessionStorage). A page may also put the state in the URL from the\n`prism-card-open-change` event. NAME PROVISIONAL.",
+              "attribute": "storage-key"
+            },
+            {
+              "kind": "field",
+              "name": "state",
+              "type": {
+                "text": "'loading' | 'error' | 'empty' | undefined"
+              },
+              "description": "Widget (and any card in a list): `loading` shows a skeleton, `error` says\nwhat failed with a Retry, `empty` says \"No data for this range\" and offers\n\"Change range\" on a widget. Only the content is replaced. NAMES PROVISIONAL.",
+              "attribute": "state",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "stateMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The reason for `state=\"error\"` (what failed and why).",
+              "attribute": "state-message"
+            },
+            {
+              "kind": "field",
+              "name": "range",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Widget only: this widget's own time range. Overrides the page's.",
+              "attribute": "range"
             },
             {
               "kind": "field",
@@ -1652,6 +2604,15 @@
             },
             {
               "kind": "field",
+              "name": "pageRange",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "''"
+            },
+            {
+              "kind": "field",
               "name": "#internals",
               "privacy": "private",
               "readonly": true
@@ -1723,6 +2684,121 @@
                 "text": "string"
               },
               "description": "The description text, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveRange",
+              "type": {
+                "text": "string"
+              },
+              "description": "The time range this widget shows: its own, else the page's.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "rangeOverridden",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True when the widget overrides the page range.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "#rangeSource",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Element | null"
+                }
+              },
+              "description": "Nearest ancestor (also across shadow roots) with the page range."
+            },
+            {
+              "kind": "field",
+              "name": "#rangeObserver",
+              "privacy": "private",
+              "type": {
+                "text": "MutationObserver | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#lastRange",
+              "privacy": "private",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#syncPageRange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#watchPageRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#storeKey",
+              "privacy": "private",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "Session memory for a collapsible card.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "#restoreOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#persistOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#onExpand",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#renderState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "What replaces the content in a card state, as light DOM so the theme\nreaches its buttons. Loading is announced from the status region."
+            },
+            {
+              "kind": "field",
+              "name": "#statusText",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
               "readonly": true
             },
             {
@@ -1896,15 +2972,85 @@
               }
             }
           ],
+          "events": [
+            {
+              "name": "prism-card-range",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "A widget's effective time range changed. `detail: { range, overridden }`."
+            },
+            {
+              "name": "prism-card-retry",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Retry was pressed in the error state."
+            },
+            {
+              "name": "prism-card-change-range",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Change range was pressed in a widget's empty state."
+            },
+            {
+              "description": "A collapsible card opened or closed. `detail: { open }`.",
+              "name": "prism-card-open-change"
+            }
+          ],
           "attributes": [
             {
               "name": "type",
               "type": {
-                "text": "'default' | 'borderless' | 'clickable' | 'selectable'"
+                "text": "CardType"
               },
               "default": "'default'",
               "description": "Surface type. `default` is bordered. `borderless` is a flat fill with no\nborder or shadow (replaces Panel); it is never clickable or selectable.\n`clickable` makes the whole card one link or button through the stretched\ntitle. `selectable` needs `kind`. Widget and collapsible arrive later.\nInteractive types take the stronger edge so it meets 3:1. NAME PROVISIONAL.",
               "fieldName": "type"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Collapsible only: open (content shown). Default closed.",
+              "fieldName": "open"
+            },
+            {
+              "name": "storage-key",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Collapsible only: remembers open or closed for the session under this key\n(sessionStorage). A page may also put the state in the URL from the\n`prism-card-open-change` event. NAME PROVISIONAL.",
+              "fieldName": "storageKey"
+            },
+            {
+              "name": "state",
+              "type": {
+                "text": "'loading' | 'error' | 'empty' | undefined"
+              },
+              "description": "Widget (and any card in a list): `loading` shows a skeleton, `error` says\nwhat failed with a Retry, `empty` says \"No data for this range\" and offers\n\"Change range\" on a widget. Only the content is replaced. NAMES PROVISIONAL.",
+              "fieldName": "state"
+            },
+            {
+              "name": "state-message",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "The reason for `state=\"error\"` (what failed and why).",
+              "fieldName": "stateMessage"
+            },
+            {
+              "name": "range",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Widget only: this widget's own time range. Overrides the page's.",
+              "fieldName": "range"
             },
             {
               "name": "kind",
@@ -1972,6 +3118,14 @@
             {
               "description": "The footer slot has content.",
               "name": "has-footer"
+            },
+            {
+              "description": "A collapsible card that is closed.",
+              "name": "collapsed"
+            },
+            {
+              "description": "A widget with its own time range.",
+              "name": "range-overridden"
             }
           ],
           "superclass": {
@@ -1993,10 +3147,121 @@
         },
         {
           "kind": "js",
+          "name": "TIME_RANGE_ATTR",
+          "declaration": {
+            "name": "TIME_RANGE_ATTR",
+            "module": "src/card/card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "COLLAPSIBLE_MAX_DEPTH",
+          "declaration": {
+            "name": "COLLAPSIBLE_MAX_DEPTH",
+            "module": "src/card/card.ts"
+          }
+        },
+        {
+          "kind": "js",
           "name": "PrismCard",
           "declaration": {
             "name": "PrismCard",
             "module": "src/card/card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/card/light-dom.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "GENERATED_ATTR",
+          "type": {
+            "text": "string"
+          },
+          "default": "'data-prism-generated'",
+          "description": "Marks nodes the card family generates in its own light DOM."
+        },
+        {
+          "kind": "function",
+          "name": "renderLight",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "host",
+              "type": {
+                "text": "HTMLElement"
+              }
+            },
+            {
+              "name": "slot",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "template",
+              "type": {
+                "text": "TemplateResult | null"
+              }
+            }
+          ],
+          "description": "Renders a template into a generated light-DOM child of `host` that is\nassigned to the named slot, or removes it when `template` is null.\n\nWhy light DOM: the opt-in theme styles `prism-button` and friends from the\ndocument, and document selectors cannot reach into a shadow root. Controls\nthe card family adds itself (Retry, Clear selection, the pager) therefore\nlive in the light DOM so they get the same look as any other button. The\ncontainer is `display: contents`, so it never takes part in layout."
+        },
+        {
+          "kind": "function",
+          "name": "authored",
+          "return": {
+            "type": {
+              "text": "Element | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "host",
+              "type": {
+                "text": "Element"
+              }
+            },
+            {
+              "name": "slot",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "An author-supplied (not generated) child assigned to a slot."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "GENERATED_ATTR",
+          "declaration": {
+            "name": "GENERATED_ATTR",
+            "module": "src/card/light-dom.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "renderLight",
+          "declaration": {
+            "name": "renderLight",
+            "module": "src/card/light-dom.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "authored",
+          "declaration": {
+            "name": "authored",
+            "module": "src/card/light-dom.ts"
           }
         }
       ]
@@ -4109,165 +5374,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/option/option.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
-          "name": "PrismOption",
-          "cssParts": [
-            {
-              "description": "The row.",
-              "name": "base"
-            },
-            {
-              "description": "Selected indicator.",
-              "name": "check"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The option label.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Submitted value. Falls back to the text content.",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Initial selection (like native).",
-              "attribute": "selected",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Display label override; defaults to the text content.",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "resolvedValue",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "text",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Submitted value. Falls back to the text content.",
-              "fieldName": "value"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Initial selection (like native).",
-              "fieldName": "selected"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Display label override; defaults to the text content.",
-              "fieldName": "label"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "This option is the select's value.",
-              "name": "selected"
-            },
-            {
-              "description": "Keyboard/pointer highlighted.",
-              "name": "active"
-            },
-            {
-              "description": "Not selectable; skipped by arrow keys.",
-              "name": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-option",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismOption",
-          "declaration": {
-            "name": "PrismOption",
-            "module": "src/option/option.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/otp-input/otp-input.ts",
       "declarations": [
         {
@@ -5191,6 +6297,165 @@
           "declaration": {
             "name": "PrismOtpInput",
             "module": "src/otp-input/otp-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/option/option.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
+          "name": "PrismOption",
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            },
+            {
+              "description": "Selected indicator.",
+              "name": "check"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The option label.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Submitted value. Falls back to the text content.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Initial selection (like native).",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Display label override; defaults to the text content.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "resolvedValue",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Submitted value. Falls back to the text content.",
+              "fieldName": "value"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Initial selection (like native).",
+              "fieldName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Display label override; defaults to the text content.",
+              "fieldName": "label"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "This option is the select's value.",
+              "name": "selected"
+            },
+            {
+              "description": "Keyboard/pointer highlighted.",
+              "name": "active"
+            },
+            {
+              "description": "Not selectable; skipped by arrow keys.",
+              "name": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-option",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismOption",
+          "declaration": {
+            "name": "PrismOption",
+            "module": "src/option/option.ts"
           }
         }
       ]

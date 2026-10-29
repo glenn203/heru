@@ -1,8 +1,9 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { stateLayer } from '../internal/state-layer.js';
 import type { PrismCardTitle } from './card-title.js';
 import type { PrismCardSelect } from './card-select.js';
+import { renderLight } from './light-dom.js';
 import {
   applyViolations,
   devError,
@@ -13,6 +14,26 @@ import {
 
 /** PROPOSED (page: "about 280px or less †"): the narrow breakpoint. */
 export const CARD_NARROW_PX = 280;
+
+export type CardType =
+  | 'default'
+  | 'borderless'
+  | 'clickable'
+  | 'selectable'
+  | 'widget'
+  | 'collapsible';
+const CARD_TYPES: CardType[] = [
+  'default',
+  'borderless',
+  'clickable',
+  'selectable',
+  'widget',
+  'collapsible',
+];
+/** Page-level time range contract: set this on the Toolbar or the page. */
+export const TIME_RANGE_ATTR = 'data-prism-time-range';
+/** Collapsible cards nest at most two levels deep (Card page). */
+export const COLLAPSIBLE_MAX_DEPTH = 2;
 
 /**
  * One self-contained item with its own surface. NAMES PROVISIONAL except
@@ -39,8 +60,23 @@ export const CARD_NARROW_PX = 280;
  * the CardTitle text, copied to `aria-label` because ID references cannot cross
  * shadow roots. It is never a landmark. An author `role` or `aria-label` wins.
  *
- * This milestone covers the shared card and the `default` and `borderless`
- * types. Clickable, selectable, widget and collapsible types come later.
+ * Types: `default`, `borderless`, `clickable`, `selectable` (`kind`),
+ * `widget` and `collapsible`. Draggable cards come later.
+ *
+ * Widget (a Card in a Grid; there is no Widget component): the header holds
+ * the title, a scope description and up to two actions (plus a compact
+ * TimeRangeInput only when the widget overrides the page range). The time range
+ * is set at page level: put `data-prism-time-range="Last 24 hours"` on the
+ * Toolbar or page element; every widget below it follows it. A widget with its
+ * own `range` overrides it, shows that range in its header and is marked
+ * "Overridden" (text, not colour only). The card fires `prism-card-range` when
+ * its effective range changes. `state="loading|error|empty"` replaces the
+ * content only; header and footer stay. There is no resize here.
+ *
+ * Collapsible: the title row is the toggle button (`aria-expanded`, and
+ * `aria-controls` pointing at the content), `open` is the state, and
+ * `storage-key` remembers it for the session. Header actions sit beside the
+ * toggle. Nest at most two levels.
  *
  * @tag prism-card
  * @slot header - CardTitle (required), CardDescription, icon or avatar, Tag or Badge, CardActions.
@@ -53,6 +89,12 @@ export const CARD_NARROW_PX = 280;
  * @cssstate narrow - The card is 280px wide or less.
  * @cssstate has-header - The header slot has content.
  * @cssstate has-footer - The footer slot has content.
+ * @cssstate collapsed - A collapsible card that is closed.
+ * @cssstate range-overridden - A widget with its own time range.
+ * @fires prism-card-open-change - A collapsible card opened or closed. `detail: { open }`.
+ * @fires prism-card-range - A widget's effective time range changed. `detail: { range, overridden }`.
+ * @fires prism-card-retry - Retry was pressed in the error state.
+ * @fires prism-card-change-range - Change range was pressed in a widget's empty state.
  */
 export class PrismCard extends LitElement {
   static override styles = [
@@ -145,6 +187,41 @@ export class PrismCard extends LitElement {
             2
         );
       }
+      /* Widget range line, under the description (row 3, title column). */
+      [part='range'] {
+        grid-column: 4 / 7;
+        grid-row: 3;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--prism-space-2, 0.5rem);
+        align-items: baseline;
+        font-family: var(--prism-font-family-sans, system-ui, sans-serif);
+        font-size: var(--prism-font-size-12, 0.75rem);
+        line-height: var(--prism-font-line-height-20, 1.25rem);
+      }
+      [part='range'][hidden] {
+        display: none;
+      }
+      [part='content'][hidden] {
+        display: none;
+      }
+      :host(:state(collapsed)) [part='header'] {
+        margin-block-end: 0;
+      }
+      [part='status'] {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+      /* States stay inside the card: only the content is replaced. */
+      [part='content'] ::slotted([slot='state']) {
+        display: contents;
+      }
       [part='content'] {
         flex: 1 1 auto;
         min-inline-size: 0;
@@ -232,8 +309,30 @@ export class PrismCard extends LitElement {
    * title. `selectable` needs `kind`. Widget and collapsible arrive later.
    * Interactive types take the stronger edge so it meets 3:1. NAME PROVISIONAL.
    */
-  @property({ reflect: true }) type:
-    'default' | 'borderless' | 'clickable' | 'selectable' = 'default';
+  @property({ reflect: true }) type: CardType = 'default';
+
+  /** Collapsible only: open (content shown). Default closed. */
+  @property({ type: Boolean, reflect: true }) open = false;
+
+  /**
+   * Collapsible only: remembers open or closed for the session under this key
+   * (sessionStorage). A page may also put the state in the URL from the
+   * `prism-card-open-change` event. NAME PROVISIONAL.
+   */
+  @property({ attribute: 'storage-key' }) storageKey?: string;
+
+  /**
+   * Widget (and any card in a list): `loading` shows a skeleton, `error` says
+   * what failed with a Retry, `empty` says "No data for this range" and offers
+   * "Change range" on a widget. Only the content is replaced. NAMES PROVISIONAL.
+   */
+  @property({ reflect: true }) state?: 'loading' | 'error' | 'empty';
+
+  /** The reason for `state="error"` (what failed and why). */
+  @property({ attribute: 'state-message' }) stateMessage = '';
+
+  /** Widget only: this widget's own time range. Overrides the page's. */
+  @property() range = '';
 
   /**
    * Selectable cards only. `choice` (plan picker, option grid) toggles when you
@@ -274,6 +373,7 @@ export class PrismCard extends LitElement {
   @state() private hasHeader = false;
   @state() private hasFooter = false;
   @state() private nested = false;
+  @state() private pageRange = '';
 
   readonly #internals = this.attachInternals();
   #observer?: MutationObserver;
@@ -285,7 +385,7 @@ export class PrismCard extends LitElement {
       standalone: this.standalone,
       selectable: this.type === 'selectable',
       draggable: false,
-      widget: false,
+      widget: this.type === 'widget',
     };
   }
 
@@ -308,8 +408,66 @@ export class PrismCard extends LitElement {
     );
   }
 
+  /** The time range this widget shows: its own, else the page's. */
+  get effectiveRange(): string {
+    return this.range || this.pageRange;
+  }
+  /** True when the widget overrides the page range. */
+  get rangeOverridden(): boolean {
+    return this.type === 'widget' && !!this.range;
+  }
+
+  /** Nearest ancestor (also across shadow roots) with the page range. */
+  #rangeSource(): Element | null {
+    let node: Node | null =
+      this.parentNode ?? (this.getRootNode() as ShadowRoot).host ?? null;
+    while (node) {
+      if (node instanceof Element && node.hasAttribute(TIME_RANGE_ATTR))
+        return node;
+      node = node.parentNode ?? (node as ShadowRoot).host ?? null;
+    }
+    return null;
+  }
+  #rangeObserver?: MutationObserver;
+  #lastRange?: string;
+  #syncPageRange = (): void => {
+    const src = this.#rangeSource();
+    this.pageRange = src?.getAttribute(TIME_RANGE_ATTR) ?? '';
+  };
+  #watchPageRange(): void {
+    this.#rangeObserver?.disconnect();
+    this.#rangeObserver = undefined;
+    if (this.type !== 'widget') return;
+    this.#syncPageRange();
+    const src = this.#rangeSource();
+    if (!src) return;
+    this.#rangeObserver = new MutationObserver(this.#syncPageRange);
+    this.#rangeObserver.observe(src, {
+      attributes: true,
+      attributeFilter: [TIME_RANGE_ATTR],
+    });
+  }
+
+  /** Session memory for a collapsible card. */
+  get #storeKey(): string | null {
+    return this.storageKey ? `prism-card:${this.storageKey}` : null;
+  }
+  #restoreOpen(): void {
+    const key = this.#storeKey;
+    if (!key || this.type !== 'collapsible') return;
+    try {
+      const v = sessionStorage.getItem(key);
+      if (v === '1') this.open = true;
+      else if (v === '0') this.open = false;
+    } catch {
+      /* storage blocked: stay with the attribute */
+    }
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
+    this.#restoreOpen();
+    this.#watchPageRange();
     this.#syncRole();
     this.#observer = new MutationObserver(() => this.#schedule());
     this.#observer.observe(this, {
@@ -330,6 +488,7 @@ export class PrismCard extends LitElement {
     this.addEventListener('focusout', this.#onFocusOut);
     this.addEventListener('click', this.#onClick);
     this.addEventListener('prism-card-toggle', this.#onToggle);
+    this.addEventListener('prism-card-expand', this.#onExpand);
     this.#schedule();
   }
 
@@ -337,6 +496,8 @@ export class PrismCard extends LitElement {
     super.disconnectedCallback();
     this.#observer?.disconnect();
     this.#resize?.disconnect();
+    this.#rangeObserver?.disconnect();
+    this.removeEventListener('prism-card-expand', this.#onExpand);
     this.removeEventListener('pointerover', this.#onPointerOver);
     this.removeEventListener('pointerleave', this.#onPointerLeave);
     this.removeEventListener('focusin', this.#onFocusIn);
@@ -352,18 +513,20 @@ export class PrismCard extends LitElement {
           this,
           'A borderless card never has a shadow; `raised` is ignored.',
         );
-      if (
-        !['default', 'borderless', 'clickable', 'selectable'].includes(
-          this.type,
-        )
-      )
+      if (!CARD_TYPES.includes(this.type))
         devError(
           this,
-          `Unknown type "${String(this.type)}". Available now: default, borderless, clickable, selectable.`,
+          `Unknown type "${String(this.type)}". Available now: ${CARD_TYPES.join(', ')}.`,
         );
     }
     this.#setState('selected', this.selected && this.type === 'selectable');
     this.#setState('disabled', this.disabled);
+    this.#setState('collapsed', this.type === 'collapsible' && !this.open);
+    this.#setState('range-overridden', this.rangeOverridden);
+    if (changed.has('type')) this.#watchPageRange();
+    if (this.state)
+      this.#setAttr('aria-busy', this.state === 'loading' ? 'true' : null);
+    else this.#setAttr('aria-busy', null);
   }
 
   override updated(changed: Map<PropertyKey, unknown>): void {
@@ -372,9 +535,125 @@ export class PrismCard extends LitElement {
       changed.has('type') ||
       changed.has('kind') ||
       changed.has('disabled') ||
-      changed.has('selected')
+      changed.has('selected') ||
+      changed.has('open')
     )
       this.#schedule();
+    if (
+      changed.has('state') ||
+      changed.has('stateMessage') ||
+      changed.has('type')
+    )
+      this.#renderState();
+    if (
+      changed.has('range') ||
+      changed.has('pageRange') ||
+      changed.has('type')
+    ) {
+      const range = this.effectiveRange;
+      const key = `${range}|${String(this.rangeOverridden)}`;
+      if (this.#lastRange !== undefined && this.#lastRange !== key)
+        this.dispatchEvent(
+          new CustomEvent('prism-card-range', {
+            bubbles: true,
+            composed: true,
+            detail: { range, overridden: this.rangeOverridden },
+          }),
+        );
+      this.#lastRange = key;
+    }
+    if (changed.has('open') && changed.get('open') !== undefined)
+      this.#persistOpen();
+  }
+
+  #persistOpen(): void {
+    const key = this.#storeKey;
+    if (!key || this.type !== 'collapsible') return;
+    try {
+      sessionStorage.setItem(key, this.open ? '1' : '0');
+    } catch {
+      /* storage blocked */
+    }
+  }
+
+  #onExpand = (event: Event): void => {
+    if (this.type !== 'collapsible') return;
+    // Only this card's own title; a nested collapsible handles itself.
+    if (
+      event.composedPath()[0] instanceof Element &&
+      this.#title &&
+      !event.composedPath().includes(this.#title)
+    )
+      return;
+    event.stopPropagation();
+    this.open = !this.open;
+    this.dispatchEvent(
+      new CustomEvent('prism-card-open-change', {
+        bubbles: true,
+        composed: true,
+        detail: { open: this.open },
+      }),
+    );
+  };
+
+  /** What replaces the content in a card state, as light DOM so the theme
+   *  reaches its buttons. Loading is announced from the status region. */
+  #renderState(): void {
+    let t: TemplateResult | null = null;
+    if (this.state === 'loading')
+      t = html`<prism-card-skeleton lines="3"></prism-card-skeleton>`;
+    else if (this.state === 'error')
+      t = html`<div data-prism-card-state="error">
+        <p>${this.stateMessage || "This couldn't be loaded."}</p>
+        <prism-button
+          variant="secondary"
+          size="sm"
+          type="button"
+          @click=${() =>
+            this.dispatchEvent(
+              new CustomEvent('prism-card-retry', {
+                bubbles: true,
+                composed: true,
+              }),
+            )}
+          >Retry</prism-button
+        >
+      </div>`;
+    else if (this.state === 'empty') {
+      const widget = this.type === 'widget';
+      t = html`<div data-prism-card-state="empty">
+        <p>${widget ? 'No data for this range' : 'Nothing to show'}</p>
+        ${
+          widget
+            ? html`<prism-button
+                variant="ghost"
+                size="sm"
+                type="button"
+                @click=${() =>
+                  this.dispatchEvent(
+                    new CustomEvent('prism-card-change-range', {
+                      bubbles: true,
+                      composed: true,
+                    }),
+                  )}
+                >Change range</prism-button
+              >`
+            : null
+        }
+      </div>`;
+    }
+    renderLight(this, 'state', t);
+  }
+
+  get #statusText(): string {
+    if (this.state === 'loading') return 'Loading';
+    if (this.state === 'error')
+      return this.stateMessage || "This couldn't be loaded.";
+    if (this.state === 'empty')
+      return this.type === 'widget'
+        ? 'No data for this range'
+        : 'Nothing to show';
+    return '';
   }
 
   #setState(name: string, on: boolean): void {
@@ -441,6 +720,44 @@ export class PrismCard extends LitElement {
         devError(
           this,
           'A clickable card needs a link or button: give its CardTitle `href` (goes somewhere) or `action` (does something).',
+        );
+    }
+    if (title) {
+      const collapsible = this.type === 'collapsible';
+      title.expandable = collapsible;
+      title.expanded = collapsible && this.open;
+      title.controls = collapsible
+        ? [...this.children].filter(
+            (c) =>
+              (!c.hasAttribute('slot') ||
+                c.getAttribute('slot') === 'content') &&
+              !c.hasAttribute('data-prism-generated'),
+          )
+        : [];
+      title.requestUpdate();
+    }
+    if (this.type === 'collapsible') {
+      let depth = 1;
+      for (
+        let p = this.parentElement?.closest('prism-card[type="collapsible"]');
+        p;
+        p = p.parentElement?.closest('prism-card[type="collapsible"]')
+      )
+        depth++;
+      if (depth > COLLAPSIBLE_MAX_DEPTH)
+        devError(
+          this,
+          'Do not nest collapsible cards more than two levels. Use an Accordion for a set of foldable items.',
+        );
+    }
+    if (this.type === 'widget') {
+      if (
+        !this.range &&
+        this.querySelector(':scope > [slot="header"] prism-time-range-input')
+      )
+        devError(
+          this,
+          'A widget shows a TimeRangeInput only when it overrides the page range: set `range` too.',
         );
     }
     if (this.disabled && !this.descriptionText && (clickable || selectable))
@@ -570,7 +887,8 @@ export class PrismCard extends LitElement {
       }),
     );
     // Without a group nothing else will update us.
-    if (!this.closest('prism-card-group')) this.selected = detail.checked;
+    if (!this.closest('prism-card-group, prism-card-list'))
+      this.selected = detail.checked;
   };
 
   /** Role and name are set as host attributes (not only ElementInternals) so
@@ -606,11 +924,28 @@ export class PrismCard extends LitElement {
     return html`<div part="base" ?data-nested=${this.nested}>
       <div part="header" ?hidden=${!this.hasHeader}>
         <slot name="header"></slot>
+        <div part="range" ?hidden=${!this.rangeOverridden}>
+          <span part="range-text">${this.range}</span>
+          <span part="range-flag">Overridden</span>
+        </div>
       </div>
-      <div part="content"><slot name="content"></slot><slot></slot></div>
+      <div part="content" ?hidden=${this.type === 'collapsible' && !this.open}>
+        ${
+          this.state
+            ? html`<slot name="state"></slot>`
+            : html`<slot name="content"></slot><slot></slot>`
+        }
+      </div>
       <div part="footer" ?hidden=${!this.hasFooter}>
         <slot name="footer"></slot>
       </div>
+      ${
+        this.type === 'widget' || this.state
+          ? html`<div part="status" role="status" aria-live="polite">
+              ${this.#statusText}
+            </div>`
+          : null
+      }
     </div>`;
   }
 }
