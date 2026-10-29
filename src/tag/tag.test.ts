@@ -34,7 +34,7 @@ test.describe('prism-tag', () => {
   }) => {
     const errors = await setup(
       page,
-      '<prism-tag id="t" job="severity" tone="danger">Critical</prism-tag>',
+      '<prism-tag id="t" job="severity" tone="danger">Urgent</prism-tag>',
     );
     expect(errors).toEqual([]);
     const r = await page.locator('#t').evaluate((el) => ({
@@ -43,7 +43,7 @@ test.describe('prism-tag', () => {
     }));
     expect(r).toEqual({ tag: 'span', buttons: 0 });
     await expect(page.locator('#t')).toHaveAttribute('job', 'severity');
-    await expect(page.getByText('Critical')).toBeVisible();
+    await expect(page.getByText('Urgent')).toBeVisible();
   });
 
   test('defaults: low emphasis, neutral tone, 24px; sm is 20px', async ({
@@ -92,7 +92,7 @@ test.describe('prism-tag', () => {
   test('high emphasis text is white on the fill', async ({ page }) => {
     await setup(
       page,
-      '<prism-tag id="h" tone="danger" emphasis="high">Critical</prism-tag>',
+      '<prism-tag id="h" tone="danger" emphasis="high">Urgent</prism-tag>',
     );
     expect((await paint(page, '#h')).color).toMatch(
       /^(rgb\(255, 255, 255\)|oklch\(1 0 )/,

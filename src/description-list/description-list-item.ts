@@ -28,7 +28,7 @@ export class PrismDescriptionListItem extends LitElement {
     }
   `;
 
-  /** The label: "Sensor", "OS". */
+  /** The label: "Version", "OS". */
   @property() label = '';
 
   override connectedCallback(): void {

@@ -136,18 +136,13 @@ test.describe('dashboard rows: layout', () => {
     await setup(page);
     const z = (await page.locator('.dash-zone').nth(1).boundingBox())!;
     // Drop on the right half of the last card of row 2.
-    await dragTo(
-      page,
-      'Open detections',
-      z.x + z.width - 40,
-      z.y + z.height / 2,
-    );
+    await dragTo(page, 'Open items', z.x + z.width - 40, z.y + z.height / 2);
     await page.mouse.up();
     await settle(page, 250);
     expect(await counts(page)).toEqual([2, 4, 3]);
     for (const n of [1, 2, 3]) await expectFills(page, n);
     expect(await listStatus(page, 2)).toMatch(
-      /^Open detections moved from Row 1 to Row 2, position \d of 4\.$/,
+      /^Open items moved from Row 1 to Row 2, position \d of 4\.$/,
     );
   });
 
@@ -156,7 +151,7 @@ test.describe('dashboard rows: layout', () => {
   }) => {
     await setup(page);
     // Empty row 3 and leave row 1 with one card, by keyboard.
-    for (const t of ['Admin sign-ins', 'Policy changes', 'Reports queued'])
+    for (const t of ['Member sign-ins', 'Settings changes', 'Exports queued'])
       await menuChoose(page, t, `Move to row 1, ${t}`);
     expect(await counts(page)).toEqual([6, 3, 0]);
     // Row 3 is empty: dashed, at least 100px tall, with its note, and no empty list role.
@@ -175,16 +170,11 @@ test.describe('dashboard rows: layout', () => {
     expect(zone.h).toBeGreaterThanOrEqual(100);
     expect(zone.border).toBe('dashed');
     expect(zone.note).toBe('flex');
-    expect(zone.text).toMatch(/^Row 3 is empty/);
+    expect(zone.text).toMatch(/^Nothing here yet/);
     await expect(page.getByRole('list', { name: 'Row 3' })).toHaveCount(0);
     // Drag a card from row 2 into the empty row.
     const z = (await page.locator('.dash-zone').nth(2).boundingBox())!;
-    await dragTo(
-      page,
-      'Critical alerts',
-      z.x + z.width / 2,
-      z.y + z.height / 2,
-    );
+    await dragTo(page, 'Urgent items', z.x + z.width / 2, z.y + z.height / 2);
     await page.mouse.up();
     await settle(page, 250);
     expect(await counts(page)).toEqual([6, 2, 1]);
@@ -193,7 +183,7 @@ test.describe('dashboard rows: layout', () => {
     const g = await geometry(page, 3);
     expect(g.cards[0]!.width).toBeGreaterThan(g.grid.width - 2);
     expect(await listStatus(page, 3)).toBe(
-      'Critical alerts moved from Row 2 to Row 3, position 1 of 1.',
+      'Urgent items moved from Row 2 to Row 3, position 1 of 1.',
     );
     await expect(page.getByRole('list', { name: 'Row 3' })).toHaveCount(1);
   });
@@ -216,17 +206,17 @@ test.describe('dashboard rows: keyboard only', () => {
           ),
         ].map((i) => i.getAttribute('aria-label') ?? i.textContent!.trim());
       }, title);
-    const a = await items('Open detections');
-    expect(a).toContain('Move to row 2, Open detections');
-    expect(a).toContain('Move to row 3, Open detections');
-    expect(a).not.toContain('Move to row 1, Open detections');
+    const a = await items('Open items');
+    expect(a).toContain('Move to row 2, Open items');
+    expect(a).toContain('Move to row 3, Open items');
+    expect(a).not.toContain('Move to row 1, Open items');
     // The Move items come before the row items.
     expect(a.findIndex((n) => n.startsWith('Move to start'))).toBeLessThan(
       a.findIndex((n) => n.startsWith('Move to row 2')),
     );
-    const b = await items('Disk used');
-    expect(b).not.toContain('Move to row 2, Disk used');
-    expect(b).toContain('Move to row 1, Disk used');
+    const b = await items('Storage used');
+    expect(b).not.toContain('Move to row 2, Storage used');
+    expect(b).toContain('Move to row 1, Storage used');
   });
 
   test('every kind of move works from the keyboard; focus stays on the card menu button; each move is announced', async ({
@@ -234,90 +224,90 @@ test.describe('dashboard rows: keyboard only', () => {
   }) => {
     await setup(page);
     // Within the row: later, to end, earlier, to start.
-    await menuChoose(page, 'Open detections', 'Move later, Open detections');
+    await menuChoose(page, 'Open items', 'Move later, Open items');
     expect((await rows(page))[0]).toEqual([
-      'Hosts online',
-      'Open detections',
-      'Sensor coverage',
+      'Active resources',
+      'Open items',
+      'Setup coverage',
     ]);
     expect(await listStatus(page, 1)).toBe(
-      'Open detections moved from position 1 to position 2 of 3.',
+      'Open items moved from position 1 to position 2 of 3.',
     );
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
 
-    await menuChoose(page, 'Open detections', 'Move to end, Open detections');
-    expect((await rows(page))[0]![2]).toBe('Open detections');
+    await menuChoose(page, 'Open items', 'Move to end, Open items');
+    expect((await rows(page))[0]![2]).toBe('Open items');
     expect(await listStatus(page, 1)).toBe(
-      'Open detections moved from position 2 to position 3 of 3.',
+      'Open items moved from position 2 to position 3 of 3.',
     );
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
 
-    await menuChoose(page, 'Open detections', 'Move earlier, Open detections');
-    expect((await rows(page))[0]![1]).toBe('Open detections');
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await menuChoose(page, 'Open items', 'Move earlier, Open items');
+    expect((await rows(page))[0]![1]).toBe('Open items');
+    await expect(trigger(page, 'Open items')).toBeFocused();
 
-    await menuChoose(page, 'Open detections', 'Move to start, Open detections');
-    expect((await rows(page))[0]![0]).toBe('Open detections');
+    await menuChoose(page, 'Open items', 'Move to start, Open items');
+    expect((await rows(page))[0]![0]).toBe('Open items');
     expect(await listStatus(page, 1)).toBe(
-      'Open detections moved from position 2 to position 1 of 3.',
+      'Open items moved from position 2 to position 1 of 3.',
     );
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
 
     // To another row.
-    await menuChoose(page, 'Open detections', 'Move to row 2, Open detections');
+    await menuChoose(page, 'Open items', 'Move to row 2, Open items');
     expect(await counts(page)).toEqual([2, 4, 3]);
-    expect((await rows(page))[1]![3]).toBe('Open detections');
+    expect((await rows(page))[1]![3]).toBe('Open items');
     expect(await listStatus(page, 2)).toBe(
-      'Open detections moved from Row 1 to Row 2, position 4 of 4.',
+      'Open items moved from Row 1 to Row 2, position 4 of 4.',
     );
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
     for (const n of [1, 2, 3]) await expectFills(page, n);
 
     // The menu is current: no Move to row 2 now, but row 1 and 3; press again.
-    await menuChoose(page, 'Open detections', 'Move to row 3, Open detections');
+    await menuChoose(page, 'Open items', 'Move to row 3, Open items');
     expect(await counts(page)).toEqual([2, 3, 4]);
     expect(await listStatus(page, 3)).toBe(
-      'Open detections moved from Row 2 to Row 3, position 4 of 4.',
+      'Open items moved from Row 2 to Row 3, position 4 of 4.',
     );
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
     // Back to row 1, and the card is still reachable by Tab from its own handle.
-    await menuChoose(page, 'Open detections', 'Move to row 1, Open detections');
+    await menuChoose(page, 'Open items', 'Move to row 1, Open items');
     expect(await counts(page)).toEqual([3, 3, 3]);
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
   });
 
   test('moving the last card out of a row leaves an empty drop zone and the focus on the moved card', async ({
     page,
   }) => {
     await setup(page);
-    for (const t of ['Open detections', 'Hosts online'])
+    for (const t of ['Open items', 'Active resources'])
       await menuChoose(page, t, `Move to row 2, ${t}`);
-    await menuChoose(page, 'Sensor coverage', 'Move to row 2, Sensor coverage');
+    await menuChoose(page, 'Setup coverage', 'Move to row 2, Setup coverage');
     expect(await counts(page)).toEqual([0, 6, 3]);
-    await expect(trigger(page, 'Sensor coverage')).toBeFocused();
+    await expect(trigger(page, 'Setup coverage')).toBeFocused();
     // Row 1 is a valid target for a keyboard move.
-    await menuChoose(page, 'Disk used', 'Move to row 1, Disk used');
+    await menuChoose(page, 'Storage used', 'Move to row 1, Storage used');
     expect(await counts(page)).toEqual([1, 5, 3]);
     await expectFills(page, 1);
     expect(await listStatus(page, 1)).toBe(
-      'Disk used moved from Row 2 to Row 1, position 1 of 1.',
+      'Storage used moved from Row 2 to Row 1, position 1 of 1.',
     );
-    await expect(trigger(page, 'Disk used')).toBeFocused();
+    await expect(trigger(page, 'Storage used')).toBeFocused();
   });
 
   test('the drag handle is a focusable button, the menu is reachable by Tab, and Escape closes it with focus kept', async ({
     page,
   }) => {
     await setup(page);
-    await trigger(page, 'Open detections').focus();
+    await trigger(page, 'Open items').focus();
     await page.keyboard.press('Enter');
     await expect(
-      page.getByRole('menuitem', { name: 'Move to row 2, Open detections' }),
+      page.getByRole('menuitem', { name: 'Move to row 2, Open items' }),
     ).toBeVisible();
     await page.keyboard.press('Escape');
-    await expect(trigger(page, 'Open detections')).toBeFocused();
+    await expect(trigger(page, 'Open items')).toBeFocused();
     await expect(
-      page.getByRole('menuitem', { name: 'Move to row 2, Open detections' }),
+      page.getByRole('menuitem', { name: 'Move to row 2, Open items' }),
     ).toHaveCount(0);
   });
 });
@@ -328,9 +318,9 @@ test.describe('dashboard rows: reset', () => {
   }) => {
     await setup(page);
     const first = await rows(page);
-    await menuChoose(page, 'Open detections', 'Move to row 3, Open detections');
-    await menuChoose(page, 'Hosts online', 'Move to end, Hosts online');
-    await menuChoose(page, 'Disk used', 'Move to row 1, Disk used');
+    await menuChoose(page, 'Open items', 'Move to row 3, Open items');
+    await menuChoose(page, 'Active resources', 'Move to end, Active resources');
+    await menuChoose(page, 'Storage used', 'Move to row 1, Storage used');
     expect(await counts(page)).toEqual([3, 2, 4]);
     const reset = page.getByRole('button', { name: 'Reset layout' });
     await reset.focus();
@@ -344,16 +334,16 @@ test.describe('dashboard rows: reset', () => {
     await expect(reset).toBeFocused();
     for (const n of [1, 2, 3]) await expectFills(page, n);
     // The menus are right for the restored rows and keep working.
-    await menuChoose(page, 'Open detections', 'Move to row 2, Open detections');
+    await menuChoose(page, 'Open items', 'Move to row 2, Open items');
     expect(await counts(page)).toEqual([2, 4, 3]);
     await expect(
-      page.getByRole('menuitem', { name: 'Move to row 1, Open detections' }),
+      page.getByRole('menuitem', { name: 'Move to row 1, Open items' }),
     ).toHaveCount(0);
   });
 
   test('Reset after an emptied row fills it again', async ({ page }) => {
     await setup(page);
-    for (const t of ['Admin sign-ins', 'Policy changes', 'Reports queued'])
+    for (const t of ['Member sign-ins', 'Settings changes', 'Exports queued'])
       await menuChoose(page, t, `Move to row 1, ${t}`);
     expect(await counts(page)).toEqual([6, 3, 0]);
     await page.getByRole('button', { name: 'Reset layout' }).click();
@@ -385,15 +375,15 @@ test.describe('dashboard rows: announcements', () => {
     });
     expect(dash).toEqual(['status', 'polite']);
     const z = (await page.locator('.dash-zone').nth(1).boundingBox())!;
-    await dragTo(page, 'Open detections', z.x + 40, z.y + z.height / 2);
+    await dragTo(page, 'Open items', z.x + 40, z.y + z.height / 2);
     expect(await listStatus(page, 1)).toBe(
-      'Picked up Open detections, position 1 of 3.',
+      'Picked up Open items, position 1 of 3.',
     );
     await page.keyboard.press('Escape');
     await page.mouse.up();
     await settle(page, 200);
     expect(await listStatus(page, 1)).toBe(
-      'Move canceled. Open detections is at position 1 of 3.',
+      'Move canceled. Open items is at position 1 of 3.',
     );
     expect(await counts(page)).toEqual([3, 3, 3]);
   });
@@ -414,32 +404,30 @@ test.describe('dashboard rows: announcements', () => {
         t,
       );
     const z = (await page.locator('.dash-zone').nth(1).boundingBox())!;
-    await dragTo(
-      page,
-      'Open detections',
-      z.x + z.width - 40,
-      z.y + z.height / 2,
-    );
-    expect(await inert('Open detections')).toBe(true);
-    expect(await inert('Hosts online')).toBe(false);
+    await dragTo(page, 'Open items', z.x + z.width - 40, z.y + z.height / 2);
+    expect(await inert('Open items')).toBe(true);
+    expect(await inert('Active resources')).toBe(false);
     await page.mouse.up();
     await settle(page, 250);
-    expect(await inert('Open detections')).toBe(false);
+    expect(await inert('Open items')).toBe(false);
     await expect(
       page.getByRole('button', {
-        name: 'Reorder Open detections',
+        name: 'Reorder Open items',
         exact: true,
       }),
     ).toBeFocused();
     // Cancel with Escape.
-    await dragTo(page, 'Hosts online', z.x + 40, z.y + z.height / 2);
-    expect(await inert('Hosts online')).toBe(true);
+    await dragTo(page, 'Active resources', z.x + 40, z.y + z.height / 2);
+    expect(await inert('Active resources')).toBe(true);
     await page.keyboard.press('Escape');
     await page.mouse.up();
     await settle(page, 250);
-    expect(await inert('Hosts online')).toBe(false);
+    expect(await inert('Active resources')).toBe(false);
     await expect(
-      page.getByRole('button', { name: 'Reorder Hosts online', exact: true }),
+      page.getByRole('button', {
+        name: 'Reorder Active resources',
+        exact: true,
+      }),
     ).toBeFocused();
   });
 });

@@ -22,7 +22,7 @@ import { createDashboardRows } from './dashboard-rows.recipe.js';
  * - Each card title is a real heading. Cards sit under an h2 for their group,
  *   so the cards are h3.
  * - Every icon-only control has a label that names its card.
- * - Severity and status are always written as words, never colour alone.
+ * - Priority and status are always written as words, never colour alone.
  * - Footers hold meta and at most two actions, and at most one primary, only on
  *   a standalone task card.
  */
@@ -102,58 +102,61 @@ const listOf = (attrs: Record<string, string | true>, cards: string) => {
 };
 
 // ---------------------------------------------------------------------------
-// 1. Host summary
+// 1. Resource overview
 // ---------------------------------------------------------------------------
 
 /**
- * One host at a glance. A clickable card: the title is the one link, the
+ * One resource at a glance. A clickable card: the title is the one link, the
  * overflow menu keeps working above it. The status is a word, with a Tag.
  */
-export const HostSummary: Story = {
+export const ResourceOverview: Story = {
   render: () =>
     group(
-      'Hosts',
+      'Resources',
       html`<prism-card type="clickable" raised>
         ${dot('square')}
-        <prism-card-title slot="header" level="3" href="#host-lumen-web-01"
-          >lumen-web-01</prism-card-title
+        <prism-card-title
+          slot="header"
+          level="3"
+          href="#resource-lumen-board-01"
+          >lumen-board-01</prism-card-title
         >
         <prism-tag slot="header" job="health" tone="success">Online</prism-tag>
         <prism-card-description slot="header"
-          >Lumen Server 9, Aurora Bay</prism-card-description
+          >Lumen Board 9, Aurora Bay</prism-card-description
         >
         <prism-card-actions slot="header">
-          <prism-menu label="More options for lumen-web-01">
-            <prism-menu-item>Run a scan</prism-menu-item>
-            <prism-menu-item>Isolate</prism-menu-item>
+          <prism-menu label="More options for lumen-board-01">
+            <prism-menu-item>Refresh</prism-menu-item>
+            <prism-menu-item>Pause</prism-menu-item>
             <prism-menu-item>Export details</prism-menu-item>
           </prism-menu>
         </prism-card-actions>
         ${facts(
           [
-            ['Tenant', 'Aperture Labs'],
-            ['Sensor', '7.14.2'],
-            ['IP address', '192.0.2.42'],
-            ['Open detections', '2'],
-            ['Policy', 'Servers, standard'],
+            ['Workspace', 'Aperture Labs'],
+            ['Version', '7.14.2'],
+            ['Region', 'Aurora Bay'],
+            ['Open items', '2'],
+            ['Profile', 'Standard'],
           ],
-          'lumen-web-01 details',
+          'lumen-board-01 details',
         )}
         <prism-progress
-          label="Disk used"
+          label="Storage used"
           value="72"
           show-value
           tone="warning"
           style="margin-block-start:12px"
         ></prism-progress>
-        <prism-card-meta slot="footer">Last seen 4 min ago</prism-card-meta>
+        <prism-card-meta slot="footer">Updated 4 min ago</prism-card-meta>
       </prism-card>`,
       '420px',
     ),
 };
 
 // ---------------------------------------------------------------------------
-// 2. Device fleet grid
+// 2. Resource grid
 // ---------------------------------------------------------------------------
 
 const HEALTH_TONE: Record<string, string> = {
@@ -161,26 +164,26 @@ const HEALTH_TONE: Record<string, string> = {
   Offline: 'danger',
   'Needs update': 'warning',
 };
-const FLEET: [string, string, string, string][] = [
-  ['prism-laptop-07', 'Aurora OS 15', 'Online', 'Seen 2 min ago'],
-  ['prism-laptop-12', 'Lumen OS 11', 'Online', 'Seen 9 min ago'],
-  ['spectra-db-02', 'Spectra OS 6.8', 'Offline', 'Seen 3 days ago'],
-  ['lumen-web-02', 'Spectra OS 6.8', 'Online', 'Seen 1 min ago'],
-  ['halo-kiosk-21', 'Lumen OS 10', 'Needs update', 'Seen 1 hour ago'],
-  ['halo-phone-05', 'Halo Mobile 15', 'Online', 'Seen 14 min ago'],
+const RESOURCES_GRID: [string, string, string, string][] = [
+  ['prism-panel-07', 'Aurora OS 15', 'Online', 'Updated 2 min ago'],
+  ['prism-panel-12', 'Lumen OS 11', 'Online', 'Seen 9 min ago'],
+  ['spectra-board-02', 'Spectra OS 6.8', 'Offline', 'Seen 3 days ago'],
+  ['lumen-board-02', 'Spectra OS 6.8', 'Online', 'Seen 1 min ago'],
+  ['halo-panel-21', 'Lumen OS 10', 'Needs update', 'Seen 1 hour ago'],
+  ['halo-panel-05', 'Halo Mobile 15', 'Online', 'Seen 14 min ago'],
 ];
 
 /**
- * Many devices in the card list: one to four columns from the list's own width,
+ * Many resources in the card list: one to four columns from the list's own width,
  * never narrower than 280px, 16px apart. Each card is a link.
  */
-export const DeviceFleetGrid: Story = {
+export const ResourceGrid: Story = {
   render: () =>
     group(
-      'Devices',
+      'Resources',
       listOf(
-        { label: 'Devices' },
-        FLEET.map(
+        { label: 'Resources' },
+        RESOURCES_GRID.map(
           ([name, os, status, seen]) => `<prism-card type="clickable">
             <prism-card-title slot="header" level="3" href="#${name}">${name}</prism-card-title>
             <prism-tag slot="header" job="health" tone="${HEALTH_TONE[status]}">${status}</prism-tag>
@@ -193,53 +196,53 @@ export const DeviceFleetGrid: Story = {
 };
 
 // ---------------------------------------------------------------------------
-// 3. Detection alerts with severity
+// 3. Open items with priority
 // ---------------------------------------------------------------------------
 
 const SEVERITY_TONE: Record<string, string> = {
-  Critical: 'danger',
+  Urgent: 'danger',
   High: 'danger',
-  Medium: 'warning',
+  Normal: 'neutral',
   Low: 'info',
 };
-const DETECTIONS: [string, string, string, string][] = [
+const OPEN_ITEMS: [string, string, string, string][] = [
   [
-    'Critical',
-    'Spectral Drift credential theft',
-    'prism-laptop-07',
-    'Blocked a process reading protected memory.',
+    'Urgent',
+    'Lumen Bloom export failed',
+    'prism-panel-07',
+    'A render job stopped before it finished.',
   ],
   [
     'High',
-    'Prism Shard dropper download',
-    'halo-kiosk-21',
-    'A script fetched a file from an unrecognized host.',
+    'Prism Shard upload stalled',
+    'halo-panel-21',
+    'A file upload paused and did not resume.',
   ],
   [
-    'Medium',
-    'Unusual login location',
+    'Normal',
+    'Unusual usage spike',
     'Iris Vale',
-    'A sign-in came from a country not seen in 90 days.',
+    'Storage use is higher than in the last 90 days.',
   ],
   [
     'Low',
-    'Refraction-7 installer launched',
-    'lumen-web-02',
-    'An installer with no publisher ran once.',
+    'Refraction-7 update available',
+    'lumen-board-02',
+    'A newer version is ready to install.',
   ],
 ];
 
 /**
- * Alert cards. Severity is a Tag with the word in it (never colour alone) and
+ * Item cards. Priority is a Tag with the word in it (never colour alone) and
  * is the first thing after the title. The footer has meta and two actions, no
  * primary.
  */
-export const DetectionAlerts: Story = {
+export const OpenItems: Story = {
   render: () =>
     group(
-      'Open detections',
+      'Open items',
       html`<div style="display:grid;gap:16px">
-        ${DETECTIONS.map(
+        ${OPEN_ITEMS.map(
           ([sev, title, who, text]) =>
             html`<prism-card>
               <prism-card-title slot="header" level="3"
@@ -249,19 +252,17 @@ export const DetectionAlerts: Story = {
                 slot="header"
                 job="severity"
                 tone=${SEVERITY_TONE[sev] ?? 'neutral'}
-                emphasis=${sev === 'Critical' ? 'high' : 'low'}
+                emphasis=${sev === 'Urgent' ? 'high' : 'low'}
                 >${sev}</prism-tag
               >
               <prism-card-description slot="header"
                 >${who}</prism-card-description
               >
               <p style="margin:0">${text}</p>
-              <prism-card-meta slot="footer"
-                >Detected 12 min ago</prism-card-meta
-              >
+              <prism-card-meta slot="footer">Opened 12 min ago</prism-card-meta>
               <prism-card-actions slot="footer">
                 <prism-button variant="ghost">Dismiss</prism-button>
-                <prism-button variant="secondary">Investigate</prism-button>
+                <prism-button variant="secondary">Review</prism-button>
               </prism-card-actions>
             </prism-card>`,
         )}
@@ -319,7 +320,7 @@ const kpi = (
 
 /**
  * A dashboard of widgets. The select sets the page's time range, every widget
- * follows it, and "Phishing reports" overrides it with its own range. The last
+ * follows it, and "Feedback notes" overrides it with its own range. The last
  * widget shows the loading state.
  */
 export const KpiDashboard: Story = {
@@ -333,7 +334,7 @@ export const KpiDashboard: Story = {
         id="kpi-h"
         style="grid-column:1/-1;margin:0;font:600 20px/28px var(--prism-font-family-sans)"
       >
-        Security overview
+        Activity overview
       </h2>
       <label style="grid-column:1/-1;font:14px var(--prism-font-family-sans)"
         >Time range
@@ -351,10 +352,10 @@ export const KpiDashboard: Story = {
           <option>Last 30 days</option>
         </select>
       </label>
-      ${kpi('Detections', 'Detections', '1,284', { live: true })}
-      ${kpi('Hosts at risk', 'Hosts', '37')}
-      ${kpi('Phishing reports', 'Reports', '212', { range: 'Last 30 days' })}
-      ${kpi('Mean time to respond', 'Minutes', '18', { state: 'loading' })}
+      ${kpi('Items', 'Items', '1,284', { live: true })}
+      ${kpi('Resources to review', 'Resources', '37')}
+      ${kpi('Feedback notes', 'Notes', '212', { range: 'Last 30 days' })}
+      ${kpi('Mean time to resolve', 'Minutes', '18', { state: 'loading' })}
     </section>`,
 };
 
@@ -379,7 +380,7 @@ const PLANS: [string, string, string, string[]][] = [
     'ent',
     'Enterprise',
     'Talk to sales',
-    ['Single sign-on', 'Audit log export', 'Named contact'],
+    ['Team directory sync', 'Activity log export', 'Named contact'],
   ],
 ];
 
@@ -438,21 +439,21 @@ const APPS: [string, string, string, string, 'circle' | 'square' | 'tri'][] = [
     'Calendar sync',
     'Productivity',
     'Connected',
-    'Show events beside alerts.',
+    'Show events beside updates.',
     'circle',
   ],
   [
     'Chat notifications',
     'Messaging',
     'Connected',
-    'Post new detections to a channel.',
+    'Post new items to a channel.',
     'square',
   ],
   [
     'Ticket tracker',
     'Workflow',
     'Available',
-    'Open a ticket from any alert.',
+    'Open a ticket from any item.',
     'tri',
   ],
   [
@@ -463,17 +464,17 @@ const APPS: [string, string, string, string, 'circle' | 'square' | 'tri'][] = [
     'circle',
   ],
   [
-    'Identity provider',
-    'Access',
+    'Team directory',
+    'Directory',
     'Beta',
-    'Sync groups for single sign-on.',
+    'Sync groups from your directory.',
     'square',
   ],
   [
     'Status page',
     'Communication',
     'Available',
-    'Share incident updates publicly.',
+    'Share status updates publicly.',
     'tri',
   ],
 ];
@@ -531,13 +532,13 @@ export const UserProfile: Story = {
         <prism-card-title slot="header" level="3">Iris Vale</prism-card-title>
         <prism-tag slot="header" job="keyword">Admin</prism-tag>
         <prism-card-description slot="header"
-          >Security analyst, Halo Harbor</prism-card-description
+          >Product designer, Halo Harbor</prism-card-description
         >
         ${facts(
           [
             ['Email', 'iris.vale@example.com'],
-            ['Tenant', 'Halo Corp'],
-            ['Team', 'Threat response'],
+            ['Workspace', 'Halo Studio'],
+            ['Team', 'Optics'],
             ['Joined', 'March 2024'],
           ],
           'Iris Vale details',
@@ -580,14 +581,14 @@ export const OnboardingAndMarketing: Story = {
         style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"
       >
         ${promo(
-          'Add a second factor',
-          'Two-step sign-in keeps your account safe if a password leaks.',
+          'Add a profile photo',
+          'A photo helps your team recognize you in lists and comments.',
           'Later',
           'Set up',
         )}
         ${promo(
           'Invite your team',
-          'Share dashboards and alerts. It takes a minute.',
+          'Share dashboards and updates. It takes a minute.',
           'Skip',
           'Invite',
         )}
@@ -658,9 +659,7 @@ export const SettingsGroups: Story = {
             <legend style="padding:0;margin-block-end:8px">
               Email me about
             </legend>
-            <label
-              ><input type="checkbox" checked /> New critical detections</label
-            >
+            <label><input type="checkbox" checked /> New urgent items</label>
             <label><input type="checkbox" /> Weekly summary</label>
             <label><input type="checkbox" /> Product news</label>
           </fieldset>
@@ -669,7 +668,7 @@ export const SettingsGroups: Story = {
           <prism-card-title slot="header" level="3"
             >Data retention</prism-card-title
           >
-          <prism-select label="Keep detections for" value="90">
+          <prism-select label="Keep items for" value="90">
             <prism-option value="30">30 days</prism-option>
             <prism-option value="90">90 days</prism-option>
             <prism-option value="365">1 year</prism-option>
@@ -687,15 +686,15 @@ export const SettingsGroups: Story = {
 
 const TASKS: Record<string, [string, string, string, string][]> = {
   'To do': [
-    ['Review firewall rules', 'Quill M.', 'High', 'Due Nov 4'],
-    ['Patch kiosk fleet', 'Rowan T.', 'Medium', 'Due Nov 6'],
-    ['Update runbook', 'Iris V.', 'Low', 'Due Nov 12'],
+    ['Review layout rules', 'Quill M.', 'High', 'Due Nov 4'],
+    ['Update gallery panels', 'Rowan T.', 'Normal', 'Due Nov 6'],
+    ['Update handbook', 'Iris V.', 'Low', 'Due Nov 12'],
   ],
   'In progress': [
-    ['Investigate login spike', 'Iris V.', 'High', 'Due Nov 1'],
-    ['Rotate service keys', 'Rowan T.', 'Medium', 'Due Nov 3'],
+    ['Review usage spike', 'Iris V.', 'High', 'Due Nov 1'],
+    ['Rename shared folders', 'Rowan T.', 'Normal', 'Due Nov 3'],
   ],
-  Done: [['Enable two-step sign-in', 'Quill M.', 'Medium', 'Done Oct 27']],
+  Done: [['Publish the style guide', 'Quill M.', 'Normal', 'Done Oct 27']],
 };
 
 /**
@@ -708,7 +707,7 @@ const TASKS: Record<string, [string, string, string, string][]> = {
 export const KanbanBoard: Story = {
   render: () => {
     const board = document.createElement('section');
-    board.setAttribute('aria-label', 'Response tasks');
+    board.setAttribute('aria-label', 'Project tasks');
     board.style.cssText =
       'display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,300px));align-items:start';
     let n = 0;
@@ -727,7 +726,7 @@ export const KanbanBoard: Story = {
           {
             label: column,
             reorderable: true,
-            'reorder-group': 'response-tasks',
+            'reorder-group': 'project-tasks',
             columns: '1',
           },
           cards
@@ -735,7 +734,7 @@ export const KanbanBoard: Story = {
               ([title, who, pri, due]) => `<prism-card value="${title}">
                 <prism-card-handle slot="header"></prism-card-handle>
                 <prism-card-title slot="header" level="3">${title}</prism-card-title>
-                <prism-tag slot="header" job="keyword" tone="${pri === 'High' ? 'danger' : pri === 'Medium' ? 'warning' : 'neutral'}">${pri}</prism-tag>
+                <prism-tag slot="header" job="keyword" tone="${pri === 'High' ? 'danger' : 'neutral'}">${pri}</prism-tag>
                 <prism-card-description slot="header">${who}</prism-card-description>
                 <prism-card-meta slot="footer">${due}</prism-card-meta>
               </prism-card>`,
@@ -754,11 +753,11 @@ export const KanbanBoard: Story = {
 // ---------------------------------------------------------------------------
 
 const REPORTS: [string, string, string][] = [
-  ['Weekly detections', 'Every Monday', 'Oct 27'],
-  ['Host coverage', 'Every month', 'Oct 1'],
-  ['Phishing trends', 'Every Friday', 'Oct 24'],
-  ['Admin sign-ins', 'Every day', 'Oct 28'],
-  ['Policy changes', 'On demand', 'Oct 15'],
+  ['Weekly items', 'Every Monday', 'Oct 27'],
+  ['Resource coverage', 'Every month', 'Oct 1'],
+  ['Usage trends', 'Every Friday', 'Oct 24'],
+  ['Member sign-ins', 'Every day', 'Oct 28'],
+  ['Settings changes', 'On demand', 'Oct 15'],
 ];
 
 /**
@@ -810,10 +809,10 @@ export const EmptyState: Story = {
     return html`<div style="display:grid;gap:32px;max-inline-size:520px">
       ${group('Saved searches', list)}
       ${group(
-        'Detections',
+        'Items',
         html`<prism-card type="borderless">
           <prism-card-title slot="header" level="3"
-            >No detections in this period</prism-card-title
+            >No items in this period</prism-card-title
           >
           <p style="margin:0">
             Nothing matched in the last 24 hours. Try a longer time range.
@@ -832,21 +831,21 @@ export const EmptyState: Story = {
 // ---------------------------------------------------------------------------
 
 const ACTIVITY: [string, string, string][] = [
-  ['2026-10-29T09:41', '9:41 AM', 'Iris Vale isolated prism-laptop-07.'],
+  ['2026-10-29T09:41', '9:41 AM', 'Iris Vale paused prism-panel-07.'],
   [
     '2026-10-29T09:12',
     '9:12 AM',
-    'Policy "Servers, standard" was updated by Rowan Thorne.',
+    'Profile "Standard" was updated by Rowan Thorne.',
   ],
   [
     '2026-10-29T08:55',
     '8:55 AM',
-    'A critical detection was opened on spectra-db-02.',
+    'An urgent item was opened on spectra-board-02.',
   ],
   [
     '2026-10-28T17:30',
     'Yesterday, 5:30 PM',
-    'Weekly detections report was sent to 4 people.',
+    'Weekly items report was sent to 4 people.',
   ],
   [
     '2026-10-28T14:02',
@@ -899,28 +898,28 @@ export const ActivityFeed: Story = {
 // ---------------------------------------------------------------------------
 
 /** The one place a primary button belongs: a standalone task card with one next step. */
-export const IncidentTask: Story = {
+export const ProjectTask: Story = {
   render: () =>
     group(
       'Needs you',
       html`<prism-card standalone raised>
         <prism-card-title slot="header" level="3"
-          >Respond to the Spectral Drift alert</prism-card-title
+          >Review the Lumen Bloom update</prism-card-title
         >
         <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
-          >Critical</prism-tag
+          >Urgent</prism-tag
         >
         <prism-card-description slot="header"
-          >prism-laptop-07</prism-card-description
+          >prism-panel-07</prism-card-description
         >
         <p style="margin:0">
-          The process was blocked. Confirm the host is clean before it rejoins
-          the network.
+          The export was paused. Confirm the files look right before it
+          restarts.
         </p>
         <prism-card-meta slot="footer">Opened 12 min ago</prism-card-meta>
         <prism-card-actions slot="footer">
           <prism-button variant="ghost">Snooze</prism-button>
-          <prism-button>Start response</prism-button>
+          <prism-button>Start review</prism-button>
         </prism-card-actions>
       </prism-card>`,
       '460px',

@@ -23,17 +23,17 @@ async function setup(page: Page, markup: string) {
 const WIDGET = (attrs = '', body = '') => `
   <section id="page" data-prism-time-range="Last 24 hours">
     <prism-card id="w" type="widget" ${attrs} style="width:360px">
-      <prism-card-title slot="header" level="3">Detections over time</prism-card-title>
+      <prism-card-title slot="header" level="3">Items over time</prism-card-title>
       <prism-card-description slot="header">Aperture Labs</prism-card-description>
       <prism-card-actions slot="header">
-        <prism-icon-button label="Refresh Detections over time">R</prism-icon-button>
-        <prism-menu label="More options for Detections over time">
+        <prism-icon-button label="Refresh Items over time">R</prism-icon-button>
+        <prism-menu label="More options for Items over time">
           <prism-menu-item>Configure</prism-menu-item>
           <prism-menu-item>Export</prism-menu-item>
           <prism-menu-item>Remove</prism-menu-item>
         </prism-menu>
       </prism-card-actions>
-      ${body || '<prism-card-metric label="Detections">1,284</prism-card-metric>'}
+      ${body || '<prism-card-metric label="Items">1,284</prism-card-metric>'}
       <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
       <prism-card-actions slot="footer">
         <prism-button variant="ghost" size="sm">View all</prism-button>
@@ -74,10 +74,10 @@ test.describe('widget card', () => {
     await expect(page.locator('#w')).toHaveAttribute('role', 'group');
     await expect(page.locator('#w')).toHaveAttribute(
       'aria-label',
-      'Detections over time',
+      'Items over time',
     );
     await expect(
-      page.getByRole('heading', { level: 3, name: 'Detections over time' }),
+      page.getByRole('heading', { level: 3, name: 'Items over time' }),
     ).toHaveCount(1);
     await expect(page.getByRole('region')).toHaveCount(0);
   });
@@ -88,11 +88,11 @@ test.describe('widget card', () => {
     const errors = await setup(page, WIDGET());
     expect(errors).toEqual([]);
     await expect(
-      page.getByRole('button', { name: 'Refresh Detections over time' }),
+      page.getByRole('button', { name: 'Refresh Items over time' }),
     ).toBeVisible();
     await expect(
       page.getByRole('button', {
-        name: 'More options for Detections over time',
+        name: 'More options for Items over time',
       }),
     ).toBeVisible();
     await expect(page.getByText('Aperture Labs')).toBeVisible();
@@ -125,7 +125,7 @@ test.describe('widget card', () => {
       weight: '600',
       tabular: expect.stringContaining('tabular-nums'),
       labelBelow: true,
-      label: 'Detections',
+      label: 'Items',
     });
   });
 
@@ -294,7 +294,7 @@ test.describe('widget states stay inside the widget', () => {
     await expect(page.locator('prism-card-metric')).toBeHidden();
     await expect(page.locator('prism-card-skeleton')).toBeVisible();
     await expect(
-      page.getByRole('heading', { name: 'Detections over time' }),
+      page.getByRole('heading', { name: 'Items over time' }),
     ).toBeVisible();
     await expect(page.getByText('Updated 2 min ago')).toBeVisible();
     await expect(page.locator('#w').locator('[part="status"]')).toHaveText(
@@ -312,14 +312,14 @@ test.describe('widget states stay inside the widget', () => {
   }) => {
     await setup(
       page,
-      WIDGET('state="error" state-message="Detections service timed out."') +
+      WIDGET('state="error" state-message="Items service timed out."') +
         '<prism-card id="other" type="widget"><prism-card-title slot="header" level="3">Other</prism-card-title><prism-card-metric>7</prism-card-metric></prism-card>',
     );
     await expect(page.locator('#w [data-prism-card-state] p')).toHaveText(
-      'Detections service timed out.',
+      'Items service timed out.',
     );
     await expect(page.locator('#w').locator('[part="status"]')).toHaveText(
-      'Detections service timed out.',
+      'Items service timed out.',
     );
     await expect(page.getByRole('button', { name: 'Retry' })).toHaveCount(1);
     await expect(page.locator('#other prism-card-metric')).toBeVisible();

@@ -9,7 +9,7 @@ interface Win {
 
 const MENU = `
   <button id="before">before</button>
-  <prism-menu id="m" label="More options for Phishing playbook">
+  <prism-menu id="m" label="More options for Onboarding guide">
     <prism-menu-item id="top">Move to top</prism-menu-item>
     <prism-menu-item id="up" disabled>Move up</prism-menu-item>
     <prism-menu-item id="down">Move down</prism-menu-item>
@@ -35,7 +35,7 @@ const setup = async (page: Page) => {
   return errors;
 };
 const trigger = (page: Page) =>
-  page.getByRole('button', { name: 'More options for Phishing playbook' });
+  page.getByRole('button', { name: 'More options for Onboarding guide' });
 const activeId = (page: Page) =>
   page.evaluate(() => document.activeElement?.id ?? '');
 const isOpen = (page: Page) =>
@@ -54,7 +54,7 @@ test('menu button semantics: haspopup, expanded, named menu, items', async ({
   await t.click();
   await expect(t).toHaveAttribute('aria-expanded', 'true');
   await expect(
-    page.getByRole('menu', { name: 'More options for Phishing playbook' }),
+    page.getByRole('menu', { name: 'More options for Onboarding guide' }),
   ).toBeVisible();
   await expect(page.getByRole('menuitem')).toHaveCount(4);
   await expect(page.getByRole('menuitem', { name: 'Move up' })).toHaveAttribute(

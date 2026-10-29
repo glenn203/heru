@@ -19,11 +19,14 @@ const meta: Meta<Args> = {
   },
   render: ({ orientation }) =>
     html`<div style="max-inline-size:360px">
-      <prism-description-list label="Host details" orientation=${orientation}>
+      <prism-description-list
+        label="Resource details"
+        orientation=${orientation}
+      >
         <prism-description-list-item label="OS"
-          >Lumen Server 9</prism-description-list-item
+          >Lumen Board 9</prism-description-list-item
         >
-        <prism-description-list-item label="Sensor"
+        <prism-description-list-item label="Version"
           >7.14.2</prism-description-list-item
         >
         <prism-description-list-item label="IP address"

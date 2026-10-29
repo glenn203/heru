@@ -24,11 +24,11 @@ async function setup(page: Page, markup: string) {
 const LINK = `
   <p id="before" tabindex="0">before</p>
   <prism-card id="c" type="clickable" style="width:360px">
-    <prism-card-title slot="header" level="3" href="#opened">Phishing playbook</prism-card-title>
-    <prism-card-description slot="header">Triage steps for reported email.</prism-card-description>
+    <prism-card-title slot="header" level="3" href="#opened">Onboarding guide</prism-card-title>
+    <prism-card-description slot="header">Steps for welcoming new members.</prism-card-description>
     <div id="body">Some content that is not a control.</div>
     <prism-card-actions slot="footer">
-      <prism-button id="nested" variant="ghost">Share Phishing playbook</prism-button>
+      <prism-button id="nested" variant="ghost">Share Onboarding guide</prism-button>
     </prism-card-actions>
   </prism-card>`;
 const box = (page: Page, sel: string) =>
@@ -49,17 +49,17 @@ test.describe('clickable card (stretched link)', () => {
   }) => {
     const errors = await setup(page, LINK);
     expect(errors).toEqual([]);
-    const link = page.getByRole('link', { name: 'Phishing playbook' });
+    const link = page.getByRole('link', { name: 'Onboarding guide' });
     await expect(link).toHaveCount(1);
     await expect(link).toHaveAttribute('href', '#opened');
     // The heading holds the link, so the outline is intact.
     await expect(
-      page.getByRole('heading', { level: 3, name: 'Phishing playbook' }),
+      page.getByRole('heading', { level: 3, name: 'Onboarding guide' }),
     ).toHaveCount(1);
     // Not the whole card's text.
-    await expect(
-      page.getByRole('link', { name: /Triage|content/ }),
-    ).toHaveCount(0);
+    await expect(page.getByRole('link', { name: /Steps|content/ })).toHaveCount(
+      0,
+    );
   });
 
   test('clicking anywhere on the card follows the link', async ({ page }) => {
@@ -99,17 +99,17 @@ test.describe('clickable card (stretched link)', () => {
     await page.locator('#before').focus();
     await page.keyboard.press('Tab');
     await expect(
-      page.getByRole('link', { name: 'Phishing playbook' }),
+      page.getByRole('link', { name: 'Onboarding guide' }),
     ).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(
-      page.getByRole('button', { name: 'Share Phishing playbook' }),
+      page.getByRole('button', { name: 'Share Onboarding guide' }),
     ).toBeFocused();
   });
 
   test('Enter follows the link', async ({ page }) => {
     await setup(page, LINK);
-    await page.getByRole('link', { name: 'Phishing playbook' }).focus();
+    await page.getByRole('link', { name: 'Onboarding guide' }).focus();
     await page.keyboard.press('Enter');
     expect(await page.evaluate(() => location.hash)).toBe('#opened');
   });
@@ -350,7 +350,7 @@ test.describe('clickable card (stretched link)', () => {
   }) => {
     const errors = await setup(
       page,
-      `<prism-card type="clickable"><prism-card-title slot="header" level="3" href="#x">Playbook</prism-card-title>
+      `<prism-card type="clickable"><prism-card-title slot="header" level="3" href="#x">Guide</prism-card-title>
         <prism-card-actions slot="header"><prism-menu label="More options"><prism-menu-item>A</prism-menu-item></prism-menu></prism-card-actions></prism-card>
        <prism-card type="clickable"><prism-card-title slot="header" level="3" href="#y">Other</prism-card-title>
         <prism-card-actions slot="header"><prism-menu label="More options for Other"><prism-menu-item>A</prism-menu-item></prism-menu></prism-card-actions></prism-card>`,

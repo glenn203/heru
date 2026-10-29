@@ -15,7 +15,7 @@ const TONES = ['neutral', 'info', 'success', 'warning', 'danger', 'accent'];
 const meta: Meta<Args> = {
   title: 'Components/Tag',
   component: 'prism-tag',
-  args: { text: 'Critical', tone: 'danger', emphasis: 'low', size: 'md' },
+  args: { text: 'Urgent', tone: 'danger', emphasis: 'low', size: 'md' },
   argTypes: {
     tone: { control: 'select', options: TONES },
     emphasis: { control: 'inline-radio', options: ['high', 'low', 'ghost'] },
@@ -50,16 +50,14 @@ export const TonesAndEmphasis: Story = {
 export const Jobs: Story = {
   render: () =>
     html`<div style="display:flex;gap:8px;flex-wrap:wrap">
-      <prism-tag job="severity" tone="danger" emphasis="high"
-        >Critical</prism-tag
-      >
+      <prism-tag job="severity" tone="danger" emphasis="high">Urgent</prism-tag>
       <prism-tag job="status">In progress</prism-tag>
       <prism-tag job="presence" tone="success">Added</prism-tag>
-      <prism-tag job="resolution" tone="success">False positive</prism-tag>
-      <prism-tag job="containment" tone="danger">Contained</prism-tag>
+      <prism-tag job="resolution" tone="success">Resolved</prism-tag>
+      <prism-tag job="containment" tone="danger">On hold</prism-tag>
       <prism-tag job="health" tone="warning">Needs update</prism-tag>
       <prism-tag job="policy" tone="success">Enabled</prism-tag>
-      <prism-tag job="mitigation" tone="success">Process blocked</prism-tag>
+      <prism-tag job="mitigation" tone="success">Action stopped</prism-tag>
       <prism-tag job="keyword">Refraction-7</prism-tag>
     </div>`,
 };
@@ -72,7 +70,7 @@ export const Sizes: Story = {
     </div>`,
 };
 
-/** An icon in front helps scanning. It never replaces the word. */
+/** An icon in front helps reading. It never replaces the word. */
 export const WithIcon: Story = {
   render: () =>
     html`<prism-tag tone="info"
@@ -88,10 +86,8 @@ export const Dismissible: Story = {
       style="display:flex;gap:8px"
       @prism-tag-remove=${(e: Event) => (e.target as HTMLElement).remove()}
     >
-      <prism-tag dismissible job="keyword">Endpoint</prism-tag>
-      <prism-tag dismissible job="keyword" tone="danger"
-        >Spectral Drift</prism-tag
-      >
+      <prism-tag dismissible job="keyword">Region</prism-tag>
+      <prism-tag dismissible job="keyword" tone="danger">Lumen Bloom</prism-tag>
     </div>`,
 };
 

@@ -17,9 +17,9 @@ async function setup(page: Page, markup: string) {
 
 const LIST = (
   attrs = '',
-) => `<div style="width:360px"><prism-description-list id="d" label="Host details" ${attrs}>
-  <prism-description-list-item label="OS">Lumen Server 9</prism-description-list-item>
-  <prism-description-list-item label="Sensor">7.14.2</prism-description-list-item>
+) => `<div style="width:360px"><prism-description-list id="d" label="Resource details" ${attrs}>
+  <prism-description-list-item label="OS">Lumen Board 9</prism-description-list-item>
+  <prism-description-list-item label="Version">7.14.2</prism-description-list-item>
   <prism-description-list-item label="IP address"><prism-tag>192.0.2.42</prism-tag></prism-description-list-item>
 </prism-description-list></div>`;
 
@@ -29,9 +29,9 @@ test.describe('prism-description-list', () => {
   }) => {
     const errors = await setup(page, LIST());
     expect(errors).toEqual([]);
-    await expect(page.getByRole('list', { name: 'Host details' })).toHaveCount(
-      1,
-    );
+    await expect(
+      page.getByRole('list', { name: 'Resource details' }),
+    ).toHaveCount(1);
     await expect(page.getByRole('listitem')).toHaveCount(3);
     await expect(page.getByRole('term')).toHaveCount(3);
     await expect(page.getByRole('definition')).toHaveCount(3);

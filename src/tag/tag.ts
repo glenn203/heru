@@ -19,7 +19,7 @@ export type TagJob =
 
 /**
  * A short label on an item: a category, a keyword or a property, so people can
- * scan and tell things apart. Names and values follow the Tag page: `job`,
+ * find and tell things apart. Names and values follow the Tag page: `job`,
  * `emphasis` and `tone`. `size` is NAME PROVISIONAL.
  *
  * Four behaviors, split by what a person can do (not by colour):
@@ -35,7 +35,7 @@ export type TagJob =
  *
  * Accessibility: the text is the name and the meaning, so colour is never the
  * only signal. Put a short word in the tag (a few words, no wrapping). An
- * icon only helps scanning. Interactive tags are at least 24px high even at
+ * icon only helps reading. Interactive tags are at least 24px high even at
  * `size="sm"` (WCAG 2.5.8).
  *
  * @tag prism-tag

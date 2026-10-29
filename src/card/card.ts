@@ -46,8 +46,8 @@ export const COLLAPSIBLE_MAX_DEPTH = 2;
  *
  * ```html
  * <prism-card>
- *   <prism-card-title slot="header" level="3">Phishing playbook</prism-card-title>
- *   <prism-card-description slot="header">Owner: SOC</prism-card-description>
+ *   <prism-card-title slot="header" level="3">Onboarding guide</prism-card-title>
+ *   <prism-card-description slot="header">Owner: Design</prism-card-description>
  *   <p>Free content.</p>
  *   <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
  *   <prism-card-actions slot="footer">
@@ -360,7 +360,7 @@ export class PrismCard extends LitElement {
 
   /**
    * Selectable cards only. `choice` (plan picker, option grid) toggles when you
-   * click anywhere on it and has no other controls. `collection` (a host in a
+   * click anywhere on it and has no other controls. `collection` (a resource in a
    * list you bulk-act on) toggles only through its control, and its title stays
    * a link or button. NAMES PROVISIONAL.
    */
