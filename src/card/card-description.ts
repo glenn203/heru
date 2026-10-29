@@ -12,7 +12,7 @@ import { LitElement, css, html } from 'lit';
 export class PrismCardDescription extends LitElement {
   static override styles = css`
     :host {
-      /* PROPOSED supporting style on the card (12/20/400, per the page).
+      /* Supporting style (decided 12/20) on the card (12/20/400, per the page).
          The existing caption token is 12/16, so this is not a token yet. */
       --_supporting-font-family: var(
         --prism-font-family-sans,

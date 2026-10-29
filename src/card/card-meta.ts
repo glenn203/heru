@@ -10,7 +10,7 @@ import { LitElement, css, html } from 'lit';
 export class PrismCardMeta extends LitElement {
   static override styles = css`
     :host {
-      /* PROPOSED supporting style (12/20/400), see prism-card-description. */
+      /* Supporting style (decided 12/20) (12/20/400), see prism-card-description. */
       --_supporting-font-family: var(
         --prism-font-family-sans,
         Inter,
