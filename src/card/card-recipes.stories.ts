@@ -9,13 +9,13 @@ import '../tag/define.js';
 import '../badge/define.js';
 import '../avatar/define.js';
 import '../progress/define.js';
-import '../datalist/define.js';
+import '../description-list/define.js';
 import { iconRefresh } from '../internal/icons.js';
 import { createDashboardRows } from './dashboard-rows.recipe.js';
 
 /**
  * Card recipes: whole screens' worth of cards assembled from the card parts and
- * the library's own Tag, Badge, Avatar, Progress, Datalist, Button, Select and
+ * the library's own Tag, Badge, Avatar, Progress, Description list, Button, Select and
  * Text field. No inline stand-ins; nothing here defines an element. Every name, number and date is made up.
  *
  * Rules every recipe follows:
@@ -48,7 +48,7 @@ const group = (
   return html`<section aria-labelledby=${id} style="max-inline-size:${width}">
     <h2
       id=${id}
-      style="margin:0 0 16px;font:600 20px/28px Inter,sans-serif;color:var(--prism-color-text)"
+      style="margin:0 0 16px;font:600 20px/28px var(--prism-font-family-sans);color:var(--prism-color-text)"
     >
       ${heading}
     </h2>
@@ -56,14 +56,16 @@ const group = (
   </section>`;
 };
 
-/** Key facts: label and value pairs, aligned in two columns (Datalist). */
+/** Key facts: label and value pairs, aligned in two columns (Description list). */
 const facts = (rows: [string, string][], label: string) =>
-  html`<prism-datalist label=${label}>
+  html`<prism-description-list label=${label}>
     ${rows.map(
       ([k, v]) =>
-        html`<prism-datalist-item label=${k}>${v}</prism-datalist-item>`,
+        html`<prism-description-list-item label=${k}
+          >${v}</prism-description-list-item
+        >`,
     )}
-  </prism-datalist>`;
+  </prism-description-list>`;
 
 const dot = (shape: 'circle' | 'square' | 'tri') =>
   html`<svg
@@ -113,15 +115,15 @@ export const HostSummary: Story = {
       'Hosts',
       html`<prism-card type="clickable" raised>
         ${dot('square')}
-        <prism-card-title slot="header" level="3" href="#host-lyra-0142"
-          >lyra-0142</prism-card-title
+        <prism-card-title slot="header" level="3" href="#host-lumen-web-01"
+          >lumen-web-01</prism-card-title
         >
         <prism-tag slot="header" job="health" tone="success">Online</prism-tag>
         <prism-card-description slot="header"
-          >Windows Server 2022, Frankfurt</prism-card-description
+          >Lumen Server 9, Aurora Bay</prism-card-description
         >
         <prism-card-actions slot="header">
-          <prism-menu label="More options for lyra-0142">
+          <prism-menu label="More options for lumen-web-01">
             <prism-menu-item>Run a scan</prism-menu-item>
             <prism-menu-item>Isolate</prism-menu-item>
             <prism-menu-item>Export details</prism-menu-item>
@@ -129,12 +131,13 @@ export const HostSummary: Story = {
         </prism-card-actions>
         ${facts(
           [
+            ['Tenant', 'Aperture Labs'],
             ['Sensor', '7.14.2'],
             ['IP address', '192.0.2.42'],
             ['Open detections', '2'],
             ['Policy', 'Servers, standard'],
           ],
-          'lyra-0142 details',
+          'lumen-web-01 details',
         )}
         <prism-progress
           label="Disk used"
@@ -159,12 +162,12 @@ const HEALTH_TONE: Record<string, string> = {
   'Needs update': 'warning',
 };
 const FLEET: [string, string, string, string][] = [
-  ['orion-laptop-07', 'macOS 15', 'Online', 'Seen 2 min ago'],
-  ['orion-laptop-12', 'Windows 11', 'Online', 'Seen 9 min ago'],
-  ['vega-db-03', 'Linux 6.8', 'Offline', 'Seen 3 days ago'],
-  ['vega-web-11', 'Linux 6.8', 'Online', 'Seen 1 min ago'],
-  ['atlas-kiosk-21', 'Windows 10', 'Needs update', 'Seen 1 hour ago'],
-  ['atlas-phone-05', 'Android 15', 'Online', 'Seen 14 min ago'],
+  ['prism-laptop-07', 'Aurora OS 15', 'Online', 'Seen 2 min ago'],
+  ['prism-laptop-12', 'Lumen OS 11', 'Online', 'Seen 9 min ago'],
+  ['spectra-db-02', 'Spectra OS 6.8', 'Offline', 'Seen 3 days ago'],
+  ['lumen-web-02', 'Spectra OS 6.8', 'Online', 'Seen 1 min ago'],
+  ['halo-kiosk-21', 'Lumen OS 10', 'Needs update', 'Seen 1 hour ago'],
+  ['halo-phone-05', 'Halo Mobile 15', 'Online', 'Seen 14 min ago'],
 ];
 
 /**
@@ -202,26 +205,26 @@ const SEVERITY_TONE: Record<string, string> = {
 const DETECTIONS: [string, string, string, string][] = [
   [
     'Critical',
-    'Credential dumping attempt',
-    'orion-laptop-07',
+    'Spectral Drift credential theft',
+    'prism-laptop-07',
     'Blocked a process reading protected memory.',
   ],
   [
     'High',
-    'Suspicious PowerShell download',
-    'atlas-kiosk-21',
+    'Prism Shard dropper download',
+    'halo-kiosk-21',
     'A script fetched a file from an unrecognized host.',
   ],
   [
     'Medium',
     'Unusual login location',
-    'Maya Ortiz',
+    'Iris Vale',
     'A sign-in came from a country not seen in 90 days.',
   ],
   [
     'Low',
-    'Unsigned installer launched',
-    'vega-web-11',
+    'Refraction-7 installer launched',
+    'lumen-web-02',
     'An installer with no publisher ran once.',
   ],
 ];
@@ -328,11 +331,11 @@ export const KpiDashboard: Story = {
     >
       <h2
         id="kpi-h"
-        style="grid-column:1/-1;margin:0;font:600 20px/28px Inter,sans-serif"
+        style="grid-column:1/-1;margin:0;font:600 20px/28px var(--prism-font-family-sans)"
       >
         Security overview
       </h2>
-      <label style="grid-column:1/-1;font:14px Inter,sans-serif"
+      <label style="grid-column:1/-1;font:14px var(--prism-font-family-sans)"
         >Time range
         <select
           @change=${(e: Event) =>
@@ -521,22 +524,23 @@ export const UserProfile: Story = {
       html`<prism-card>
         <prism-avatar
           slot="header"
-          name="Maya Ortiz"
+          name="Iris Vale"
           size="sm"
           decorative
         ></prism-avatar>
-        <prism-card-title slot="header" level="3">Maya Ortiz</prism-card-title>
+        <prism-card-title slot="header" level="3">Iris Vale</prism-card-title>
         <prism-tag slot="header" job="keyword">Admin</prism-tag>
         <prism-card-description slot="header"
-          >Security analyst, Lisbon</prism-card-description
+          >Security analyst, Halo Harbor</prism-card-description
         >
         ${facts(
           [
-            ['Email', 'maya.ortiz@example.com'],
+            ['Email', 'iris.vale@example.com'],
+            ['Tenant', 'Halo Corp'],
             ['Team', 'Threat response'],
             ['Joined', 'March 2024'],
           ],
-          'Maya Ortiz details',
+          'Iris Vale details',
         )}
         <prism-card-meta slot="footer">Active today</prism-card-meta>
         <prism-card-actions slot="footer">
@@ -554,7 +558,7 @@ export const UserProfile: Story = {
 
 const promo = (heading: string, text: string, later: string, go: string) =>
   html`<prism-card>
-    <h3 style="margin:0 0 4px;font:600 16px/24px Inter,sans-serif">
+    <h3 style="margin:0 0 4px;font:600 16px/24px var(--prism-font-family-sans)">
       ${heading}
     </h3>
     <p style="margin:0">${text}</p>
@@ -588,13 +592,15 @@ export const OnboardingAndMarketing: Story = {
           'Invite',
         )}
         ${promo(
-          'What is new in Nova 3.2',
+          'What is new in Lumen Console 3.2',
           'Faster search, a calmer dashboard and better keyboard support.',
           'Dismiss',
           'Read more',
         )}
         <prism-card>
-          <h3 style="margin:0 0 12px;font:600 16px/24px Inter,sans-serif">
+          <h3
+            style="margin:0 0 12px;font:600 16px/24px var(--prism-font-family-sans)"
+          >
             Finish setting up
           </h3>
           <prism-progress
@@ -631,7 +637,7 @@ export const SettingsGroups: Story = {
           <div style="display:grid;gap:16px">
             <prism-text-field
               label="Display name"
-              value="Maya Ortiz"
+              value="Iris Vale"
             ></prism-text-field>
             <prism-select label="Language" value="en">
               <prism-option value="en">English</prism-option>
@@ -681,15 +687,15 @@ export const SettingsGroups: Story = {
 
 const TASKS: Record<string, [string, string, string, string][]> = {
   'To do': [
-    ['Review firewall rules', 'Priya N.', 'High', 'Due Nov 4'],
-    ['Patch kiosk fleet', 'Tom R.', 'Medium', 'Due Nov 6'],
-    ['Update runbook', 'Maya O.', 'Low', 'Due Nov 12'],
+    ['Review firewall rules', 'Quill M.', 'High', 'Due Nov 4'],
+    ['Patch kiosk fleet', 'Rowan T.', 'Medium', 'Due Nov 6'],
+    ['Update runbook', 'Iris V.', 'Low', 'Due Nov 12'],
   ],
   'In progress': [
-    ['Investigate login spike', 'Maya O.', 'High', 'Due Nov 1'],
-    ['Rotate service keys', 'Tom R.', 'Medium', 'Due Nov 3'],
+    ['Investigate login spike', 'Iris V.', 'High', 'Due Nov 1'],
+    ['Rotate service keys', 'Rowan T.', 'Medium', 'Due Nov 3'],
   ],
-  Done: [['Enable two-step sign-in', 'Priya N.', 'Medium', 'Done Oct 27']],
+  Done: [['Enable two-step sign-in', 'Quill M.', 'Medium', 'Done Oct 27']],
 };
 
 /**
@@ -713,7 +719,8 @@ export const KanbanBoard: Story = {
       const h = document.createElement('h2');
       h.id = id;
       h.textContent = column;
-      h.style.cssText = 'margin:0 0 12px;font:600 16px/24px Inter,sans-serif';
+      h.style.cssText =
+        'margin:0 0 12px;font:600 16px/24px var(--prism-font-family-sans)';
       section.append(
         h,
         listOf(
@@ -795,7 +802,7 @@ export const EmptyState: Story = {
     const list = listOf(
       { label: 'Saved searches', state: 'empty', columns: '1' },
       `<prism-card slot="empty">
-        <h3 style="margin:0 0 4px;font:600 16px/24px Inter,sans-serif">No saved searches yet</h3>
+        <h3 style="margin:0 0 4px;font:600 16px/24px var(--prism-font-family-sans)">No saved searches yet</h3>
         <p style="margin:0">Save a search to run it again with one click.</p>
         <prism-card-actions><prism-button variant="secondary">New search</prism-button></prism-card-actions>
       </prism-card>`,
@@ -825,16 +832,16 @@ export const EmptyState: Story = {
 // ---------------------------------------------------------------------------
 
 const ACTIVITY: [string, string, string][] = [
-  ['2026-10-29T09:41', '9:41 AM', 'Maya Ortiz isolated orion-laptop-07.'],
+  ['2026-10-29T09:41', '9:41 AM', 'Iris Vale isolated prism-laptop-07.'],
   [
     '2026-10-29T09:12',
     '9:12 AM',
-    'Policy "Servers, standard" was updated by Tom Reyes.',
+    'Policy "Servers, standard" was updated by Rowan Thorne.',
   ],
   [
     '2026-10-29T08:55',
     '8:55 AM',
-    'A critical detection was opened on vega-db-03.',
+    'A critical detection was opened on spectra-db-02.',
   ],
   [
     '2026-10-28T17:30',
@@ -844,7 +851,7 @@ const ACTIVITY: [string, string, string][] = [
   [
     '2026-10-28T14:02',
     'Yesterday, 2:02 PM',
-    'Priya Nair signed in from Lisbon.',
+    'Quill Mercer signed in from Halo Harbor.',
   ],
 ];
 
@@ -898,13 +905,13 @@ export const IncidentTask: Story = {
       'Needs you',
       html`<prism-card standalone raised>
         <prism-card-title slot="header" level="3"
-          >Respond to the credential dumping alert</prism-card-title
+          >Respond to the Spectral Drift alert</prism-card-title
         >
         <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
           >Critical</prism-tag
         >
         <prism-card-description slot="header"
-          >orion-laptop-07</prism-card-description
+          >prism-laptop-07</prism-card-description
         >
         <p style="margin:0">
           The process was blocked. Confirm the host is clean before it rejoins

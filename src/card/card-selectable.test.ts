@@ -60,7 +60,7 @@ const HOSTS = (attrs = '') => `
         ) => `<prism-card id="${v}" type="selectable" kind="collection" value="${v}" style="width:320px;margin-block-end:8px">
         <prism-card-select slot="header"></prism-card-select>
         <prism-card-title slot="header" level="3" href="#host-${v}">Host ${v.toUpperCase()}</prism-card-title>
-        <prism-card-description slot="header">Windows server ${v}.</prism-card-description>
+        <prism-card-description slot="header">Lumen server ${v}.</prism-card-description>
         <prism-card-actions slot="header"><prism-menu label="More options for Host ${v.toUpperCase()}"><prism-menu-item>Isolate</prism-menu-item></prism-menu></prism-card-actions>
         <div>content ${v}</div>
       </prism-card>`,
@@ -88,7 +88,7 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
     expect(errors).toEqual([]);
     const cb = page.getByRole('checkbox', { name: 'Host A' });
     await expect(cb).toBeVisible();
-    await expect(cb).toHaveAccessibleDescription('Windows server a.');
+    await expect(cb).toHaveAccessibleDescription('Lumen server a.');
     // 24 by 24px target at least.
     const t = await page.locator('#a prism-card-select').evaluate((el) => {
       const r = el

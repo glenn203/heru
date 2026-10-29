@@ -60,7 +60,7 @@ export const Jobs: Story = {
       <prism-tag job="health" tone="warning">Needs update</prism-tag>
       <prism-tag job="policy" tone="success">Enabled</prism-tag>
       <prism-tag job="mitigation" tone="success">Process blocked</prism-tag>
-      <prism-tag job="keyword">APT29</prism-tag>
+      <prism-tag job="keyword">Refraction-7</prism-tag>
     </div>`,
 };
 
@@ -89,7 +89,9 @@ export const Dismissible: Story = {
       @prism-tag-remove=${(e: Event) => (e.target as HTMLElement).remove()}
     >
       <prism-tag dismissible job="keyword">Endpoint</prism-tag>
-      <prism-tag dismissible job="keyword" tone="danger">FANCY BEAR</prism-tag>
+      <prism-tag dismissible job="keyword" tone="danger"
+        >Spectral Drift</prism-tag
+      >
     </div>`,
 };
 
@@ -97,9 +99,9 @@ export const Dismissible: Story = {
 export const Selectable: Story = {
   render: () =>
     html`<div style="display:flex;gap:8px">
-      <prism-tag selectable selected>Windows</prism-tag>
-      <prism-tag selectable>Linux</prism-tag>
-      <prism-tag selectable disabled>macOS</prism-tag>
+      <prism-tag selectable selected>Lumen OS</prism-tag>
+      <prism-tag selectable>Spectra OS</prism-tag>
+      <prism-tag selectable disabled>Aurora OS</prism-tag>
     </div>`,
 };
 

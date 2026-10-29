@@ -67,7 +67,7 @@ To register under your own tag, import the class and define it yourself:
 
 ```js
 import { PrismButton } from 'prism/button';
-customElements.define('acme-button', class extends PrismButton {});
+customElements.define('lumen-button', class extends PrismButton {});
 ```
 
 ## Components
@@ -98,6 +98,8 @@ pnpm exec playwright install chromium
 | `pnpm storybook`       | Storybook on port 6006                  |
 | `pnpm build-storybook` | Static Storybook in `storybook-static/` |
 | `pnpm changeset`       | Records a change for the next release   |
+
+The Storybook toolbar has a preview-only **Font** switcher (Inter, Geist with Geist Mono, Figtree, Manrope, Plus Jakarta Sans, Onest). It sets `--prism-font-family-sans` on the preview root and loads the font from Google Fonts. Tokens and text styles do not change, and Inter stays the default.
 
 Add a changeset with every change that affects the published package.
 

@@ -24,7 +24,7 @@ const PIC =
 test('initials: first and last word, upper case, at most two', async ({
   page,
 }) => {
-  const names = ['Maya Ortiz', 'maya', 'Ana María de la Cruz'];
+  const names = ['Iris Vale', 'iris', 'Iris Mae de la Vale'];
   await setup(
     page,
     names
@@ -36,17 +36,17 @@ test('initials: first and last word, upper case, at most two', async ({
       (el) => el.shadowRoot!.querySelector('[part="initials"]')!.textContent,
     ),
   );
-  expect(got).toEqual(['MO', 'M', 'AC']);
+  expect(got).toEqual(['IV', 'I', 'IV']);
 });
 
 test.describe('prism-avatar', () => {
   test('role img named by `name`, with initials', async ({ page }) => {
     const errors = await setup(
       page,
-      '<prism-avatar name="Maya Ortiz"></prism-avatar>',
+      '<prism-avatar name="Iris Vale"></prism-avatar>',
     );
     expect(errors).toEqual([]);
-    await expect(page.getByRole('img', { name: 'Maya Ortiz' })).toHaveCount(1);
+    await expect(page.getByRole('img', { name: 'Iris Vale' })).toHaveCount(1);
     expect(
       await page
         .locator('prism-avatar')
@@ -54,7 +54,7 @@ test.describe('prism-avatar', () => {
           (el) =>
             el.shadowRoot!.querySelector('[part="initials"]')!.textContent,
         ),
-    ).toBe('MO');
+    ).toBe('IV');
   });
 
   test('sizes are 24 / 32 / 40 / 48 / 64px; circle by default, square on request', async ({
@@ -65,10 +65,10 @@ test.describe('prism-avatar', () => {
       ['xs', 'sm', 'md', 'lg', 'xl']
         .map(
           (s) =>
-            `<prism-avatar id="${s}" name="Tom Reyes" size="${s}"></prism-avatar>`,
+            `<prism-avatar id="${s}" name="Rowan Thorne" size="${s}"></prism-avatar>`,
         )
         .join('') +
-        '<prism-avatar id="sq" name="Tom Reyes" shape="square"></prism-avatar>',
+        '<prism-avatar id="sq" name="Rowan Thorne" shape="square"></prism-avatar>',
     );
     const px = async (id: string) =>
       Math.round(
@@ -100,7 +100,7 @@ test.describe('prism-avatar', () => {
   }) => {
     await setup(
       page,
-      `<prism-avatar id="ok" name="Priya Nair" src="${PIC}"></prism-avatar><prism-avatar id="bad" name="Priya Nair" src="/nope.png"></prism-avatar>`,
+      `<prism-avatar id="ok" name="Quill Mercer" src="${PIC}"></prism-avatar><prism-avatar id="bad" name="Quill Mercer" src="/nope.png"></prism-avatar>`,
     );
     await page.waitForTimeout(300);
     const has = (id: string, part: string) =>
@@ -118,9 +118,9 @@ test.describe('prism-avatar', () => {
   test('decorative hides it from assistive tech', async ({ page }) => {
     await setup(
       page,
-      '<prism-avatar name="Maya Ortiz" decorative></prism-avatar>',
+      '<prism-avatar name="Iris Vale" decorative></prism-avatar>',
     );
-    await expect(page.getByRole('img', { name: 'Maya Ortiz' })).toHaveCount(0);
+    await expect(page.getByRole('img', { name: 'Iris Vale' })).toHaveCount(0);
     expect(
       await page
         .locator('prism-avatar')

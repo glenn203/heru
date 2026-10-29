@@ -8,8 +8,8 @@ interface Args {
 }
 
 const meta: Meta<Args> = {
-  title: 'Components/Datalist',
-  component: 'prism-datalist',
+  title: 'Components/DescriptionList',
+  component: 'prism-description-list',
   args: { orientation: 'horizontal' },
   argTypes: {
     orientation: {
@@ -19,18 +19,22 @@ const meta: Meta<Args> = {
   },
   render: ({ orientation }) =>
     html`<div style="max-inline-size:360px">
-      <prism-datalist label="Host details" orientation=${orientation}>
-        <prism-datalist-item label="OS"
-          >Windows Server 2022</prism-datalist-item
+      <prism-description-list label="Host details" orientation=${orientation}>
+        <prism-description-list-item label="OS"
+          >Lumen Server 9</prism-description-list-item
         >
-        <prism-datalist-item label="Sensor">7.14.2</prism-datalist-item>
-        <prism-datalist-item label="IP address">192.0.2.42</prism-datalist-item>
-        <prism-datalist-item label="Health"
+        <prism-description-list-item label="Sensor"
+          >7.14.2</prism-description-list-item
+        >
+        <prism-description-list-item label="IP address"
+          >192.0.2.42</prism-description-list-item
+        >
+        <prism-description-list-item label="Health"
           ><prism-tag job="health" tone="success"
             >Online</prism-tag
-          ></prism-datalist-item
+          ></prism-description-list-item
         >
-      </prism-datalist>
+      </prism-description-list>
     </div>`,
 };
 export default meta;

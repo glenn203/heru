@@ -104,7 +104,7 @@ test.describe('prism-tag', () => {
   }) => {
     await setup(
       page,
-      '<prism-tag id="t" dismissible job="keyword">APT29</prism-tag>',
+      '<prism-tag id="t" dismissible job="keyword">Refraction-7</prism-tag>',
     );
     await page.evaluate(() => {
       (window as unknown as { n: number }).n = 0;
@@ -112,7 +112,7 @@ test.describe('prism-tag', () => {
         (window as unknown as { n: number }).n++;
       });
     });
-    const btn = page.getByRole('button', { name: 'Remove APT29' });
+    const btn = page.getByRole('button', { name: 'Remove Refraction-7' });
     await expect(btn).toHaveCount(1);
     const box = await btn.boundingBox();
     expect(box!.width).toBeGreaterThanOrEqual(24);
@@ -125,7 +125,7 @@ test.describe('prism-tag', () => {
   });
 
   test('dismissible by keyboard', async ({ page }) => {
-    await setup(page, '<prism-tag id="t" dismissible>APT29</prism-tag>');
+    await setup(page, '<prism-tag id="t" dismissible>Refraction-7</prism-tag>');
     await page.evaluate(() => {
       (window as unknown as { n: number }).n = 0;
       document.addEventListener('prism-tag-remove', () => {
@@ -142,7 +142,7 @@ test.describe('prism-tag', () => {
   test('selectable: a toggle button with aria-pressed, a non-colour cue, and an event', async ({
     page,
   }) => {
-    await setup(page, '<prism-tag id="t" selectable>Windows</prism-tag>');
+    await setup(page, '<prism-tag id="t" selectable>Lumen OS</prism-tag>');
     await page.evaluate(() => {
       (window as unknown as { seen: unknown[] }).seen = [];
       document.addEventListener('prism-tag-select', (e) =>
@@ -151,7 +151,7 @@ test.describe('prism-tag', () => {
         ),
       );
     });
-    const btn = page.getByRole('button', { name: 'Windows' });
+    const btn = page.getByRole('button', { name: 'Lumen OS' });
     await expect(btn).toHaveAttribute('aria-pressed', 'false');
     const before = await paint(page, '#t');
     await btn.click();
@@ -173,9 +173,11 @@ test.describe('prism-tag', () => {
   test('disabled interactive tags do not toggle or fire', async ({ page }) => {
     await setup(
       page,
-      '<prism-tag id="t" selectable disabled>Linux</prism-tag>',
+      '<prism-tag id="t" selectable disabled>Spectra OS</prism-tag>',
     );
-    await expect(page.getByRole('button', { name: 'Linux' })).toBeDisabled();
+    await expect(
+      page.getByRole('button', { name: 'Spectra OS' }),
+    ).toBeDisabled();
   });
 
   test('trigger: a button that opens a listbox, with a caret, and fires prism-tag-trigger', async ({

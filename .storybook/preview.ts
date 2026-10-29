@@ -3,8 +3,32 @@ import '../src/tokens/tokens.css';
 import '../src/theme/theme.css';
 import './preview.css';
 import '../src/define.js';
+import { DEFAULT_FONT, FONTS, applyFont } from './fonts.js';
 
 const preview: Preview = {
+  // Toolbar: preview-only font. Sets the font-family variable on the preview
+  // root; tokens and text styles are unchanged. Inter is the default.
+  globalTypes: {
+    font: {
+      description: 'Preview font (docs only; the package ships no fonts)',
+      toolbar: {
+        title: 'Font',
+        icon: 'paintbrush',
+        dynamicTitle: true,
+        items: FONTS.map((f) => ({ value: f.name, title: f.name })),
+      },
+    },
+  },
+  initialGlobals: { font: DEFAULT_FONT },
+  decorators: [
+    (story, context) => {
+      applyFont(
+        String(context.globals['font'] ?? DEFAULT_FONT),
+        document.documentElement,
+      );
+      return story();
+    },
+  ],
   tags: ['autodocs'],
   parameters: {
     a11y: { test: 'error' },

@@ -176,185 +176,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/badge/badge.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Alerts 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
-          "name": "PrismBadge",
-          "cssParts": [
-            {
-              "description": "The badge box.",
-              "name": "base"
-            },
-            {
-              "description": "The default status dot.",
-              "name": "dot"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Status only. Replaces the default dot. Decorative.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "attribute": "job",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "attribute": "count"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showZero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "attribute": "show-zero"
-            },
-            {
-              "kind": "field",
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "attribute": "status",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "effectiveTone",
-              "type": {
-                "text": "TagTone"
-              },
-              "description": "The tone in effect.",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "fieldName": "job"
-            },
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "fieldName": "count"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-zero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "fieldName": "showZero"
-            },
-            {
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "fieldName": "status"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "A zero count that is hidden.",
-              "name": "empty"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-badge",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismBadge",
-          "declaration": {
-            "name": "PrismBadge",
-            "module": "src/badge/badge.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/button/button.ts",
       "declarations": [
         {
@@ -4520,12 +4341,191 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/datalist/datalist-item.ts",
+      "path": "src/badge/badge.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "One label and value of a `prism-datalist`. The default slot is the value\n(text, a Tag, a link). NAME PROVISIONAL.",
-          "name": "PrismDatalistItem",
+          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Alerts 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
+          "name": "PrismBadge",
+          "cssParts": [
+            {
+              "description": "The badge box.",
+              "name": "base"
+            },
+            {
+              "description": "The default status dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Status only. Replaces the default dot. Decorative.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showZero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "attribute": "show-zero"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveTone",
+              "type": {
+                "text": "TagTone"
+              },
+              "description": "The tone in effect.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "fieldName": "job"
+            },
+            {
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "fieldName": "count"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-zero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "fieldName": "showZero"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "fieldName": "status"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A zero count that is hidden.",
+              "name": "empty"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismBadge",
+          "declaration": {
+            "name": "PrismBadge",
+            "module": "src/badge/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/description-list/description-list-item.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One label and value of a `prism-description-list`. The default slot is the value\n(text, a Tag, a link). NAME PROVISIONAL.",
+          "name": "PrismDescriptionListItem",
           "cssParts": [
             {
               "description": "The label (a `term`).",
@@ -4569,29 +4569,29 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "prism-datalist-item",
+          "tagName": "prism-description-list-item",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PrismDatalistItem",
+          "name": "PrismDescriptionListItem",
           "declaration": {
-            "name": "PrismDatalistItem",
-            "module": "src/datalist/datalist-item.ts"
+            "name": "PrismDescriptionListItem",
+            "module": "src/description-list/description-list-item.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/datalist/datalist.ts",
+      "path": "src/description-list/description-list.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "Label and value pairs about one thing: OS, Windows; Sensor, 7.14.2. The\nTag and Badge pages name this job **Datalist** (it is not a Tag).\n`prism-datalist` holds `prism-datalist-item`s. PROVISIONAL props:\n`orientation` and `label`.\n\n- `orientation=\"horizontal\"` (default): labels in one column, values in the\n  next, aligned across rows (a subgrid). `vertical` puts each label above\n  its value.\n- Semantics: the list is a `list` of `listitem`s; each label is a `term` and\n  each value a `definition`, so a screen reader says \"Sensor, 7.14.2\".\n  Give the list a `label` when it is not already named by a heading.",
-          "name": "PrismDatalist",
+          "description": "Label and value pairs about one thing: OS, Lumen OS; Sensor, 7.14.2. This\nis a description list (it is not a Tag).\n`prism-description-list` holds `prism-description-list-item`s. PROVISIONAL props:\n`orientation` and `label`.\n\n- `orientation=\"horizontal\"` (default): labels in one column, values in the\n  next, aligned across rows (a subgrid). `vertical` puts each label above\n  its value.\n- Semantics: the list is a `list` of `listitem`s; each label is a `term` and\n  each value a `definition`, so a screen reader says \"Sensor, 7.14.2\".\n  Give the list a `label` when it is not already named by a heading.",
+          "name": "PrismDescriptionList",
           "cssParts": [
             {
               "description": "The grid.",
@@ -4600,7 +4600,7 @@
           ],
           "slots": [
             {
-              "description": "The `prism-datalist-item`s.",
+              "description": "The `prism-description-list-item`s.",
               "name": ""
             }
           ],
@@ -4649,17 +4649,17 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "prism-datalist",
+          "tagName": "prism-description-list",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PrismDatalist",
+          "name": "PrismDescriptionList",
           "declaration": {
-            "name": "PrismDatalist",
-            "module": "src/datalist/datalist.ts"
+            "name": "PrismDescriptionList",
+            "module": "src/description-list/description-list.ts"
           }
         }
       ]
@@ -7291,7 +7291,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A one-time code input.\n\nOne real `<input>` (autocomplete=\"one-time-code\", inputmode=\"numeric\")\ndrawn as `length` visual boxes. A single input keeps one accessible name,\none tab stop and one value for screen readers, and is what iOS/Android\nSMS-code autofill and password managers target; N separate inputs break\nautofill, paste and screen-reader reading. The boxes are aria-hidden\ndecoration; the input sits invisibly on top of them.",
+          "description": "A one-time code input.\n\nOne real `<input>` (autocomplete=\"one-time-code\", inputmode=\"numeric\")\ndrawn as `length` visual boxes. A single input keeps one accessible name,\none tab stop and one value for screen readers, and is what mobile\nSMS-code autofill and password managers target; N separate inputs break\nautofill, paste and screen-reader reading. The boxes are aria-hidden\ndecoration; the input sits invisibly on top of them.",
           "name": "PrismOtpInput",
           "cssParts": [
             {

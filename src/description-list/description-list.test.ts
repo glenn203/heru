@@ -17,13 +17,13 @@ async function setup(page: Page, markup: string) {
 
 const LIST = (
   attrs = '',
-) => `<div style="width:360px"><prism-datalist id="d" label="Host details" ${attrs}>
-  <prism-datalist-item label="OS">Windows Server 2022</prism-datalist-item>
-  <prism-datalist-item label="Sensor">7.14.2</prism-datalist-item>
-  <prism-datalist-item label="IP address"><prism-tag>192.0.2.42</prism-tag></prism-datalist-item>
-</prism-datalist></div>`;
+) => `<div style="width:360px"><prism-description-list id="d" label="Host details" ${attrs}>
+  <prism-description-list-item label="OS">Lumen Server 9</prism-description-list-item>
+  <prism-description-list-item label="Sensor">7.14.2</prism-description-list-item>
+  <prism-description-list-item label="IP address"><prism-tag>192.0.2.42</prism-tag></prism-description-list-item>
+</prism-description-list></div>`;
 
-test.describe('prism-datalist', () => {
+test.describe('prism-description-list', () => {
   test('a named list of list items; each label is a term and each value a definition', async ({
     page,
   }) => {
@@ -43,7 +43,7 @@ test.describe('prism-datalist', () => {
   }) => {
     await setup(page, LIST());
     const xs = await page.evaluate(() =>
-      [...document.querySelectorAll('prism-datalist-item')].map(
+      [...document.querySelectorAll('prism-description-list-item')].map(
         (i) =>
           i.shadowRoot!.querySelector('[part="value"]')!.getBoundingClientRect()
             .left,
@@ -55,7 +55,7 @@ test.describe('prism-datalist', () => {
   test('vertical: the label sits above its value', async ({ page }) => {
     await setup(page, LIST('orientation="vertical"'));
     const r = await page.evaluate(() => {
-      const i = document.querySelector('prism-datalist-item')!;
+      const i = document.querySelector('prism-description-list-item')!;
       const l = i
         .shadowRoot!.querySelector('[part="label"]')!
         .getBoundingClientRect();
@@ -72,13 +72,15 @@ test.describe('prism-datalist', () => {
 
   test('a value can hold other components', async ({ page }) => {
     await setup(page, LIST());
-    await expect(page.locator('prism-datalist-item prism-tag')).toBeVisible();
+    await expect(
+      page.locator('prism-description-list-item prism-tag'),
+    ).toBeVisible();
   });
 
   test('an item with no label is a dev error', async ({ page }) => {
     const errors = await setup(
       page,
-      '<prism-datalist label="x"><prism-datalist-item>v</prism-datalist-item></prism-datalist>',
+      '<prism-description-list label="x"><prism-description-list-item>v</prism-description-list-item></prism-description-list>',
     );
     expect(errors.some((e) => e.includes('`label` is required'))).toBe(true);
   });
