@@ -66,6 +66,8 @@ const pairs = [
   ['focus-ring', 'bg', 3],
   ['error', 'bg', 3],
   ['border-strong', 'bg', 3], // outline button border (non-text)
+  ['border-strong', 'surface', 3], // interactive card edge on a surface page (M2)
+  ['text', 'surface', 4.5], // borderless card text
 ];
 for (const [fg, bg, min] of pairs) {
   test(`contrast: color-${fg} on color-${bg} >= ${min}:1`, () => {
@@ -152,13 +154,20 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     !/box-shadow:\s*var\(--prism-elevation-urgent/.test(theme),
     'elevation-urgent is reserved, unused',
   );
+  // elevation-hover is reserved for the raised card at rest (Card page, Chuck).
+  const cardAt = theme.indexOf('/* ---------- Card');
   assert.ok(
-    !/var\(--prism-elevation-hover/.test(theme),
-    'elevation-hover is reserved, unused',
+    !/var\(--prism-elevation-hover/.test(theme.slice(0, cardAt)),
+    'elevation-hover is reserved for the raised card, nowhere else',
+  );
+  assert.ok(
+    [...theme.slice(cardAt).matchAll(/var\(--prism-elevation-hover/g)]
+      .length === 1,
+    'only prism-card[raised] uses elevation-hover',
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--prism-elevation-default|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
+      /var\(--prism-elevation-(default|hover)|var\(--_(elev|sh-sel|sh-focus)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -521,6 +530,94 @@ const MATRIX = [
       ['color.text', 'icon'], // hover icon colour
     ],
   ],
+  // Card family (M1). Cards are not interactive yet, so these rows also stand
+  // in for the controls placed on them: the surface is the base the overlay of
+  // a ghost button or icon button composites over.
+  [
+    'card (bordered, raised)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // title, content
+      ['color.text-muted', 'text'], // description, footer meta
+      ['color.text-muted', 'icon'], // icon button resting icon
+    ],
+  ],
+  [
+    'card (borderless)',
+    'color.surface',
+    'color.text',
+    [
+      ['color.text', 'text'],
+      ['color.text-muted', 'text'],
+      ['color.text-muted', 'icon'],
+    ],
+  ],
+  // M2: clickable, choice and collection cards. The edge (strong border) and
+  // the selected ring (accent) are non-text and must hold 3:1 against the card
+  // fill in every state, and the text on the overlay 4.5:1.
+  [
+    'card (clickable, selectable)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // title
+      ['color.text-muted', 'text'], // description, meta
+      ['color.border-strong', 'border'], // the visible edge (1.4.11)
+      ['color.accent', 'border'], // selected ring
+      ['color.text', 'icon'], // check mark / radio dot
+    ],
+  ],
+  // M3: widget (metric number, label, range line and its "Overridden" flag),
+  // the collapsible toggle (title text, chevron over the hover and press tint),
+  // and the card list (selected count, pager text, page-size select edge).
+  // Skeleton lines are decorative (aria-hidden) and carry no information.
+  [
+    'widget (metric, range)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // metric number, "Overridden" flag
+      ['color.text-muted', 'text'], // metric label, range line, "Updated"
+      ['color.border-strong', 'border'], // the flag's edge
+    ],
+  ],
+  [
+    'collapsible toggle',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // title
+      ['color.text-muted', 'icon'], // chevron
+    ],
+  ],
+  [
+    'card list (count, pager)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // "3 selected", page status
+      ['color.text-muted', 'text'], // "Per page"
+      ['color.border-strong', 'border'], // page-size select edge
+    ],
+  ],
+  // M4: the drag handle (grip icon, tinted on hover and press), the drop line
+  // and its dot (accent), and the drag copy (text, strong edge). The original
+  // dims to 40% while it is dragged; that transient state is not measured.
+  [
+    'reorder (handle, drop line, copy)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text-muted', 'icon'], // grip icon
+      ['color.text', 'icon'], // grip icon on hover and focus
+      ['color.accent', 'border'], // drop line and dot
+      ['color.border-strong', 'border'], // the copy's edge
+      ['color.text', 'text'], // copy title
+      ['color.text-muted', 'text'], // copy description and meta
+    ],
+  ],
+  ['menu item', 'color.bg', 'color.text', [['color.text', 'text']]],
 ];
 export const MATRIX_RESULTS = [];
 for (const [surface, bgKey, onKey, pairs] of MATRIX)

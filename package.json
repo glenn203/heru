@@ -123,7 +123,31 @@
     "./tokens.json": "./tokens/prism.tokens.resolved.json",
     "./custom-elements.json": "./custom-elements.json",
     "./package.json": "./package.json",
-    "./internal/*": null
+    "./internal/*": null,
+    "./icon-button": {
+      "types": "./dist/icon-button/icon-button.d.ts",
+      "import": "./dist/icon-button/icon-button.js"
+    },
+    "./icon-button/define": {
+      "types": "./dist/icon-button/define.d.ts",
+      "import": "./dist/icon-button/define.js"
+    },
+    "./menu": {
+      "types": "./dist/menu/menu.d.ts",
+      "import": "./dist/menu/menu.js"
+    },
+    "./menu/define": {
+      "types": "./dist/menu/define.d.ts",
+      "import": "./dist/menu/define.js"
+    },
+    "./card": {
+      "types": "./dist/card/card.d.ts",
+      "import": "./dist/card/card.js"
+    },
+    "./card/define": {
+      "types": "./dist/card/define.d.ts",
+      "import": "./dist/card/define.js"
+    }
   },
   "customElements": "./custom-elements.json",
   "scripts": {

@@ -694,3 +694,449 @@ prism-otp-input:state(disabled)::part(cell) {
     animation: none !important; /* error appears instantly */
   }
 }
+
+/* ---------- Icon button (NAME PROVISIONAL — Technical Writer) ----------
+ * Always ghost: transparent fill, on-colour overlay on hover and press. The
+ * icon rests muted and takes the full text colour on hover. */
+prism-icon-button::part(base),
+prism-menu::part(trigger-base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  color: var(--prism-color-text-muted);
+  user-select: none;
+  transition:
+    background-color var(--prism-duration-fast) var(--prism-ease-standard),
+    color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+  /* Focus ring rests at zero spread so no sub-pixel fringe is drawn. */
+  box-shadow:
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
+}
+@media (hover: hover) {
+  prism-icon-button:not(:state(disabled))::part(base):hover,
+  prism-menu::part(trigger-base):hover {
+    color: var(--_on);
+  }
+}
+prism-icon-button::part(base):focus-visible,
+prism-menu::part(trigger-base):focus-visible {
+  color: var(--_on);
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+prism-icon-button:state(disabled)::part(base) {
+  color: var(--prism-color-text-muted);
+}
+
+/* ---------- Menu (NAME PROVISIONAL — Technical Writer) ----------
+ * Popup uses the shared elevation level, like the select listbox. */
+prism-menu::part(popup) {
+  background: var(--prism-color-bg);
+  color: var(--prism-color-text);
+  border: var(--prism-border-width) solid var(--prism-color-border-popup);
+  border-radius: var(--prism-radius-7);
+  box-shadow: var(--prism-elevation-default);
+}
+prism-menu-item::part(base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-5);
+  min-block-size: 24px;
+}
+prism-menu-item:state(disabled)::part(base) {
+  color: var(--prism-color-text-muted);
+}
+prism-menu-item:state(active)::part(base) {
+  outline: var(--prism-focus-ring-width) solid var(--prism-color-focus-ring);
+  outline-offset: -2px;
+}
+
+/* ---------- Card (names provisional except Card, CardTitle, CardDescription) ----------
+ * Colours, border, radius and elevation only; padding and layout live in the
+ * component. Elevation uses the predefined levels (hover = raised at rest,
+ * default = the dragged copy in a later milestone, urgent is never used).
+ * A card is either bordered or raised, never both; borderless has neither. */
+prism-card::part(base) {
+  /* Fill and text come through the shared state layer: a clickable or choice
+     card tints on hover and press, every selected card shows 14% / 18%. */
+  --_bg: var(--prism-color-bg);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  /* PROPOSED (not a token): selection ring width, same 2px as the focus ring. */
+  --_ring: var(--prism-focus-ring-width);
+  /* Selected ring: drawn inside the edge, so nothing shifts. */
+  --_sh-sel: inset 0 0 0 var(--_ring) var(--prism-color-accent);
+  /* Focus ring around the whole card (same layers as Button). */
+  --_sh-focus:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+  color: var(--prism-color-text);
+  border: var(--prism-border-width) solid var(--prism-color-border);
+  border-radius: var(--prism-radius-7);
+  box-shadow: var(--_elev, none);
+}
+/* Interactive cards are never flat and take the strong edge (>= 3:1, 1.4.11). */
+prism-card:is([type='clickable'], [type='selectable'])::part(base) {
+  border-color: var(--prism-color-border-strong);
+}
+prism-card[raised]::part(base) {
+  /* Elevation uses the predefined level. A transparent border keeps an edge in
+     forced-colors mode. */
+  --_elev: var(--prism-elevation-hover);
+  border-color: transparent;
+}
+prism-card[type='borderless']::part(base) {
+  --_bg: var(--prism-color-surface);
+  border: 0;
+  box-shadow: none;
+}
+/* Selected: the state layer (14%, 18% on hover) + a 2px ring + the control's
+   check or dot. A raised card keeps its shadow under the ring. */
+prism-card:state(selected)::part(base) {
+  box-shadow: var(--_sh-sel), var(--_elev, 0 0 0 0 transparent);
+}
+prism-card:state(focus-ring)::part(base) {
+  box-shadow: var(--_sh-focus), var(--_elev, 0 0 0 0 transparent);
+}
+prism-card:state(selected):state(focus-ring)::part(base) {
+  box-shadow:
+    var(--_sh-focus), var(--_sh-sel), var(--_elev, 0 0 0 0 transparent);
+}
+/* Disabled: inert, no state layer (the util skips it). The reason is text in
+   the description. */
+prism-card:state(disabled)::part(base) {
+  --_on: var(--prism-color-text-muted);
+}
+prism-card-description,
+prism-card-meta {
+  color: var(--prism-color-text-muted);
+}
+@media (forced-colors: active) {
+  prism-card:not([type='borderless'])::part(base) {
+    border-color: CanvasText;
+  }
+  /* Box shadows are dropped, so selection and focus use outlines. */
+  prism-card:state(selected)::part(base) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  prism-card:state(focus-ring) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- Widget, collapsible, metric, skeleton, card list (M3) ----------
+ * Names provisional. Colours, borders and radii only; layout is in the
+ * components. Skeleton lines are decorative (aria-hidden, the state is text). */
+/* Widget: the range line under the description. "Overridden" is text, so the
+   override never relies on colour alone. */
+prism-card::part(range) {
+  color: var(--prism-color-text-muted);
+}
+prism-card::part(range-flag) {
+  color: var(--prism-color-text);
+  font-weight: var(--prism-font-weight-semibold);
+  border: var(--prism-border-width) solid var(--prism-color-border-strong);
+  border-radius: var(--prism-radius-3);
+  padding-inline: var(--prism-space-1);
+}
+prism-card-metric::part(value) {
+  color: var(--prism-color-text);
+}
+prism-card-metric::part(label) {
+  color: var(--prism-color-text-muted);
+}
+/* In-card states (loading, error, empty) and list states. */
+[data-prism-card-state],
+[data-prism-list-state] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--prism-space-2);
+  color: var(--prism-color-text);
+}
+[data-prism-card-state] p,
+[data-prism-list-state] p {
+  margin: 0;
+}
+[data-prism-list-state] {
+  align-items: center;
+  text-align: center;
+  padding-block: var(--prism-space-8);
+}
+/* Collapsible: the title row is the toggle. A tint on hover and press, and the
+   same focus ring as the buttons. */
+prism-card-title::part(toggle) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-3);
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+}
+prism-card-title::part(chevron) {
+  color: var(--prism-color-text-muted);
+}
+prism-card-title::part(toggle):focus-visible {
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+/* Skeleton */
+prism-card-skeleton::part(line) {
+  background: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-3);
+  animation: prism-card-pulse 1.6s var(--prism-ease-standard) infinite;
+}
+prism-card-skeleton[variant='card']::part(base) {
+  border: var(--prism-border-width) solid var(--prism-color-border);
+  border-radius: var(--prism-radius-7);
+}
+@keyframes prism-card-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+/* Card list */
+[data-prism-selection-bar] {
+  display: flex;
+  align-items: center;
+  gap: var(--prism-space-3);
+  color: var(--prism-color-text);
+}
+[data-prism-count] {
+  font-weight: var(--prism-font-weight-semibold);
+  border-radius: var(--prism-radius-3);
+}
+[data-prism-count]:focus-visible {
+  outline: 2px solid var(--prism-color-focus-ring);
+  outline-offset: var(--prism-focus-ring-offset);
+}
+[data-prism-pager] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--prism-space-3);
+  color: var(--prism-color-text);
+}
+[data-prism-page-size] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--prism-space-2);
+  color: var(--prism-color-text-muted);
+}
+[data-prism-page-size] select {
+  min-block-size: 1.5rem;
+  padding-inline: var(--prism-space-2);
+  color: var(--prism-color-text);
+  background: var(--prism-color-bg);
+  border: var(--prism-border-width) solid var(--prism-color-border-strong);
+  border-radius: var(--prism-radius-5);
+  font: inherit;
+}
+[data-prism-page-size] select:focus-visible {
+  outline: 2px solid var(--prism-color-focus-ring);
+  outline-offset: var(--prism-focus-ring-offset);
+}
+prism-card-list::part(busy) {
+  background: var(--prism-color-accent);
+  animation: prism-card-pulse 1.2s var(--prism-ease-standard) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  prism-card-skeleton::part(line),
+  prism-card-list::part(busy) {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  prism-card-skeleton::part(line) {
+    background: GrayText;
+  }
+  prism-card-skeleton[variant='card']::part(base) {
+    border-color: CanvasText;
+  }
+  prism-card-list::part(busy) {
+    background: Highlight;
+  }
+  prism-card::part(range-flag) {
+    border-color: CanvasText;
+  }
+  prism-card-title::part(toggle):focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* ---------- Reorder: handle, dragging, drop line, copy (M4) ----------
+ * Names provisional. The handle is a ghost icon button with a grab cursor and a
+ * tint on hover. The original dims to 40% while its copy follows the pointer at
+ * the predefined default elevation (the copy is never rotated). The drop line
+ * is 2px in the accent colour with an 8px dot at the start. A moved card
+ * flashes once; reduced motion removes the flash. */
+prism-card-handle::part(base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  color: var(--prism-color-text-muted);
+  cursor: grab;
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+  box-shadow:
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
+}
+prism-card-handle::part(base):active,
+prism-card-handle prism-menu::part(trigger-base):active {
+  cursor: grabbing;
+}
+prism-card-handle prism-menu::part(trigger-base) {
+  cursor: grab;
+}
+@media (hover: hover) {
+  prism-card-handle::part(base):hover {
+    color: var(--_on);
+  }
+}
+prism-card-handle::part(base):focus-visible {
+  color: var(--_on);
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+/* A card with no other controls drags from anywhere, so its text is not selectable. */
+prism-card[data-prism-grabbable] {
+  cursor: grab;
+  user-select: none;
+}
+/* The original stays in place, dimmed to 40%. */
+prism-card[data-prism-dragging] {
+  opacity: 0.4;
+}
+[data-prism-drag-copy] {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--prism-space-1);
+  padding: var(--prism-space-4);
+  color: var(--prism-color-text);
+  background: var(--prism-color-bg);
+  border: var(--prism-border-width) solid var(--prism-color-border-strong);
+  border-radius: var(--prism-radius-7);
+  box-shadow: var(--prism-elevation-default);
+  font-family: var(--prism-font-family-sans);
+  font-size: var(--prism-font-size-12);
+  line-height: var(--prism-font-line-height-20);
+  overflow: hidden;
+}
+[data-prism-drag-copy] > * {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+[data-prism-drag-copy] [data-prism-drag-copy-line='title'] {
+  font-size: var(--prism-font-size-14);
+  font-weight: var(--prism-font-weight-semibold);
+}
+[data-prism-drag-copy] [data-prism-drag-copy-line='text'] {
+  color: var(--prism-color-text-muted);
+}
+prism-card-list::part(drop-line) {
+  background: var(--prism-color-accent);
+}
+prism-card-list::part(drop-dot) {
+  background: var(--prism-color-accent);
+}
+prism-card[data-prism-flash]::part(base) {
+  animation: prism-card-flash 900ms var(--prism-ease-standard) 1;
+}
+@keyframes prism-card-flash {
+  from {
+    background-color: var(--prism-color-surface-pressed);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  prism-card[data-prism-flash]::part(base) {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  prism-card-list::part(drop-line),
+  prism-card-list::part(drop-dot) {
+    background: Highlight;
+  }
+  [data-prism-drag-copy] {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+  prism-card-handle::part(base):focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* Stretched link (rule 3 and the layers): controls deeper than a direct child
+   still sit above the title's stretched click area. */
+prism-card[type='clickable']
+  :is(
+    a[href],
+    button,
+    input,
+    select,
+    textarea,
+    prism-button,
+    prism-icon-button,
+    prism-menu
+  ) {
+  position: relative;
+  z-index: 1;
+}
