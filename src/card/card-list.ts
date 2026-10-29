@@ -261,6 +261,7 @@ export class PrismCardList extends PrismCardGroup {
   @state() private line: DropIndicator | null = null;
 
   #hadCards = false;
+  #hasItems = false;
   #lastTotal?: number;
   #drag?: ReorderDrag;
   #resize?: ResizeObserver;
@@ -320,6 +321,10 @@ export class PrismCardList extends PrismCardGroup {
           '.',
       );
     this.#syncReorder();
+    if (cards.length > 0 !== this.#hasItems) {
+      this.#hasItems = cards.length > 0;
+      this.requestUpdate();
+    }
     const has = this.cards.length > 0;
     if (has !== this.#hadCards) {
       this.#hadCards = has;
@@ -726,6 +731,8 @@ export class PrismCardList extends PrismCardGroup {
 
   #onDragStart(card: PrismCard): void {
     card.setAttribute('data-prism-dragging', '');
+    // The dimmed original is a placeholder while its copy moves: inactive.
+    card.inert = true;
     // Close any open menu or tooltip when the drag starts.
     for (const m of document.querySelectorAll<HTMLElement & { open: boolean }>(
       'prism-menu[open]',
@@ -739,6 +746,7 @@ export class PrismCardList extends PrismCardGroup {
 
   #onDrop(card: PrismCard, to: DropPoint | null): void {
     card.removeAttribute('data-prism-dragging');
+    card.inert = false;
     const target = to?.list as PrismCardList | undefined;
     if (!to || !target) {
       this.#announceStay(card);
@@ -818,6 +826,30 @@ export class PrismCardList extends PrismCardGroup {
     );
     target.#flash(card);
     if (via === 'handle') target.#focusHandle(card);
+  }
+
+  /**
+   * Moves `card` into `target` (another list of the same `reorder-group`, or
+   * this one) at `index` among the target's other cards, or to the end. Meant
+   * for an app's own menu items such as "Move to row 2". It says what a drag
+   * says (the card, both list labels and the new position), fires
+   * `prism-card-reorder` and flashes the card. Focus goes back to the control
+   * the person used, the card's menu button, so they can press it again.
+   */
+  async moveCardTo(
+    card: PrismCard,
+    target: PrismCardList,
+    index?: number,
+  ): Promise<void> {
+    const at = index ?? target.cardItems.filter((c) => c !== card).length;
+    await this.#applyMove(card, target, at, 'menu');
+    await new Promise<void>((r) => requestAnimationFrame(() => r()));
+    const menu =
+      card.querySelector<HTMLElement>(
+        ':scope > prism-card-actions > prism-menu',
+      ) ??
+      card.querySelector<HTMLElement>(':scope > prism-card-handle prism-menu');
+    menu?.shadowRoot?.querySelector<HTMLElement>('[part="trigger"]')?.focus();
   }
 
   /** Flash the moved card once, unless reduced motion is on. */
@@ -902,6 +934,10 @@ export class PrismCardList extends PrismCardGroup {
     const state = this.state;
     const whole =
       state === 'empty' || state === 'no-matches' || state === 'error';
+    // An empty reorderable list is only a drop zone: a list with no items is
+    // not a list for assistive tech.
+    const listed =
+      state !== 'loading' && !(this.reorderable && !this.#hasItems);
     return html`<div part="toolbar"><slot name="toolbar"></slot></div>
       <div
         part="busy"
@@ -915,10 +951,8 @@ export class PrismCardList extends PrismCardGroup {
             </div>`
           : html`<div
               part="grid"
-              role=${ifDefined(state === 'loading' ? undefined : 'list')}
-              aria-label=${ifDefined(
-                state === 'loading' ? undefined : this.label || undefined,
-              )}
+              role=${ifDefined(listed ? 'list' : undefined)}
+              aria-label=${ifDefined(listed ? this.label || undefined : undefined)}
             >
               ${
                 state === 'loading'

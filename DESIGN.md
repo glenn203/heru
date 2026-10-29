@@ -352,6 +352,16 @@ matrix page says ghost was killed on 2026-09-06 and outline is deferred. All
 three are built. (2) Tag `size` and Badge `tone` are not in the specs.
 (3) Whether Avatar gets a presence `status`.
 
+- **Dashboard rows** (recipe, `src/card/dashboard-rows.recipe.ts`): three
+  `reorder-group` lists of widget cards. A row lays out its cards as equal
+  columns by item count (`grid-auto-flow: column`, `1fr`), so one card fills the
+  row and an empty row stays a dashed drop zone with a note (an empty reorderable
+  list has no `list` role). Keyboard: the card's menu adds "Move to row N" for
+  every other row through `list.moveCardTo(card, target, index?)`, which says
+  "{title} moved from Row 1 to Row 2, position 4 of 4.", fires
+  `prism-card-reorder` and returns focus to the card's menu button. While a
+  pointer drag runs, the dimmed original is `inert` (a placeholder).
+
 ### PROPOSED, not tokens yet
 
 These values live as component-private `--_*` custom properties built from
