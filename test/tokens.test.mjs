@@ -746,7 +746,7 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
       'warning',
     ]);
   });
-  test('Datalist label (text-muted) and value (text) pass on bg and surface', () => {
+  test('Description list label (text-muted) and value (text) pass on bg and surface', () => {
     for (const fg of ['text-muted', 'text'])
       for (const bg of ['bg', 'surface'])
         assert.ok(contrast(color(fg), color(bg)) >= 4.5, `${fg} on ${bg}`);

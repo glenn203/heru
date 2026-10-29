@@ -24,7 +24,7 @@ const WIDGET = (attrs = '', body = '') => `
   <section id="page" data-prism-time-range="Last 24 hours">
     <prism-card id="w" type="widget" ${attrs} style="width:360px">
       <prism-card-title slot="header" level="3">Detections over time</prism-card-title>
-      <prism-card-description slot="header">All tenants</prism-card-description>
+      <prism-card-description slot="header">Aperture Labs</prism-card-description>
       <prism-card-actions slot="header">
         <prism-icon-button label="Refresh Detections over time">R</prism-icon-button>
         <prism-menu label="More options for Detections over time">
@@ -95,7 +95,7 @@ test.describe('widget card', () => {
         name: 'More options for Detections over time',
       }),
     ).toBeVisible();
-    await expect(page.getByText('All tenants')).toBeVisible();
+    await expect(page.getByText('Aperture Labs')).toBeVisible();
     await expect(page.getByText('Updated 2 min ago')).toBeVisible();
     await expect(page.getByRole('button', { name: 'View all' })).toBeVisible();
   });

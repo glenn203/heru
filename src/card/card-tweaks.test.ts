@@ -45,10 +45,10 @@ const targets = (page: Page) =>
 
 const HEADER_CARD = (id = 'c', width = 420) => `
   <prism-card id="${id}" style="width:${width}px">
-    <prism-card-title slot="header" level="3">Host lyra-0142</prism-card-title>
+    <prism-card-title slot="header" level="3">Host lumen-web-01</prism-card-title>
     <prism-card-actions slot="header" id="${id}-act">
-      <prism-icon-button label="Refresh Host lyra-0142">R</prism-icon-button>
-      <prism-icon-button label="Export Host lyra-0142">E</prism-icon-button>
+      <prism-icon-button label="Refresh Host lumen-web-01">R</prism-icon-button>
+      <prism-icon-button label="Export Host lumen-web-01">E</prism-icon-button>
     </prism-card-actions>
     <p>Body</p>
   </prism-card>`;

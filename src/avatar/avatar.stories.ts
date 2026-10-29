@@ -18,7 +18,7 @@ const PHOTO =
 const meta: Meta<Args> = {
   title: 'Components/Avatar',
   component: 'prism-avatar',
-  args: { name: 'Maya Ortiz', size: 'md', shape: 'circle' },
+  args: { name: 'Iris Vale', size: 'md', shape: 'circle' },
   argTypes: {
     size: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
     shape: { control: 'inline-radio', options: ['circle', 'square'] },
@@ -40,7 +40,8 @@ export const Sizes: Story = {
   render: () =>
     html`<div style="display:flex;gap:8px;align-items:center">
       ${['xs', 'sm', 'md', 'lg', 'xl'].map(
-        (s) => html`<prism-avatar name="Tom Reyes" size=${s}></prism-avatar>`,
+        (s) =>
+          html`<prism-avatar name="Rowan Thorne" size=${s}></prism-avatar>`,
       )}
     </div>`,
 };
@@ -48,14 +49,14 @@ export const Sizes: Story = {
 export const WithPicture: Story = {
   render: () =>
     html`<div style="display:flex;gap:8px;align-items:center">
-      <prism-avatar name="Priya Nair" src=${PHOTO}></prism-avatar>
+      <prism-avatar name="Quill Mercer" src=${PHOTO}></prism-avatar>
       <prism-avatar
-        name="Priya Nair"
+        name="Quill Mercer"
         src=${PHOTO}
         shape="square"
       ></prism-avatar>
       <!-- a picture that fails falls back to initials -->
-      <prism-avatar name="Priya Nair" src="/missing.png"></prism-avatar>
+      <prism-avatar name="Quill Mercer" src="/missing.png"></prism-avatar>
     </div>`,
 };
 
@@ -63,7 +64,7 @@ export const WithPicture: Story = {
 export const BesideAName: Story = {
   render: () =>
     html`<div style="display:flex;gap:8px;align-items:center">
-      <prism-avatar name="Maya Ortiz" size="sm" decorative></prism-avatar>
-      <span>Maya Ortiz</span>
+      <prism-avatar name="Iris Vale" size="sm" decorative></prism-avatar>
+      <span>Iris Vale</span>
     </div>`,
 };

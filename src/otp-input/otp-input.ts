@@ -8,7 +8,7 @@ import { TextControl } from '../internal/text-control.js';
  *
  * One real `<input>` (autocomplete="one-time-code", inputmode="numeric")
  * drawn as `length` visual boxes. A single input keeps one accessible name,
- * one tab stop and one value for screen readers, and is what iOS/Android
+ * one tab stop and one value for screen readers, and is what mobile
  * SMS-code autofill and password managers target; N separate inputs break
  * autofill, paste and screen-reader reading. The boxes are aria-hidden
  * decoration; the input sits invisibly on top of them.

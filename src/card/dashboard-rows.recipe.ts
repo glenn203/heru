@@ -98,7 +98,7 @@ const ROWS: Widget[][] = [
 const STYLE = `
 .dash { display: grid; gap: 24px; }
 .dash-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.dash h2 { margin: 0 0 12px; font: 600 16px/24px Inter, sans-serif; color: var(--prism-color-text); }
+.dash h2 { margin: 0 0 12px; font: 600 16px/24px var(--prism-font-family-sans); color: var(--prism-color-text); }
 .dash-bar h2 { margin: 0; font-size: 20px; line-height: 28px; }
 .dash-zone { position: relative; }
 .dash-list { display: block; min-block-size: 112px; }
@@ -121,7 +121,7 @@ prism-card-list.dash-list::part(grid) {
   padding: 16px;
   text-align: center;
   color: var(--prism-color-text-muted, currentColor);
-  font: 400 14px/20px Inter, sans-serif;
+  font: 400 14px/20px var(--prism-font-family-sans);
   pointer-events: none;
 }
 .dash-sr {

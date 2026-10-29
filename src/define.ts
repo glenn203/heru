@@ -12,5 +12,5 @@ import './tag/define.js';
 import './badge/define.js';
 import './avatar/define.js';
 import './progress/define.js';
-import './datalist/define.js';
+import './description-list/define.js';
 import './card/define.js';

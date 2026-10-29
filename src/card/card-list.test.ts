@@ -25,7 +25,7 @@ const card = (id: string, extra = '') => `
   <prism-card type="selectable" kind="collection" value="${id}" ${extra}>
     <prism-card-select slot="header"></prism-card-select>
     <prism-card-title slot="header" level="3">Host ${id}</prism-card-title>
-    <prism-card-description slot="header">Windows Server</prism-card-description>
+    <prism-card-description slot="header">Lumen Server</prism-card-description>
     <p>Last seen 4 min ago</p>
   </prism-card>`;
 const cards = (ids: string[]) => ids.map((i) => card(i)).join('');

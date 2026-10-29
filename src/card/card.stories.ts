@@ -78,7 +78,7 @@ export const HeaderParts: StoryObj<Args> = {
           >Critical</prism-tag
         >
         <prism-card-description slot="header"
-          >Windows Server 2022, last seen 4 min ago</prism-card-description
+          >Lumen Server 9, last seen 4 min ago</prism-card-description
         >
         <prism-card-actions slot="header">
           <prism-icon-button label="Refresh host-eu-0042"
@@ -272,7 +272,7 @@ export const CollectionCards: StoryObj<Args> = {
               >Host ${v.toUpperCase()}</prism-card-title
             >
             <prism-card-description slot="header"
-              >Windows Server 2022</prism-card-description
+              >Lumen Server 9</prism-card-description
             >
             <prism-card-actions slot="header">
               <prism-menu label="More options for Host ${v.toUpperCase()}">
@@ -299,7 +299,7 @@ const widget = (
     state-message=${extra.message ?? ''}
   >
     <prism-card-title slot="header" level="3">${title}</prism-card-title>
-    <prism-card-description slot="header">All tenants</prism-card-description>
+    <prism-card-description slot="header">Aperture Labs</prism-card-description>
     <prism-card-actions slot="header">
       <prism-icon-button label="Refresh ${title}"
         >${iconRefresh()}</prism-icon-button
@@ -329,7 +329,7 @@ export const WidgetTimeRange: StoryObj<Args> = {
       data-prism-time-range="Last 24 hours"
       style="display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,340px))"
     >
-      <label style="grid-column:1/-1;font:14px Inter,sans-serif"
+      <label style="grid-column:1/-1;font:14px var(--prism-font-family-sans)"
         >Page time range
         <select
           @change=${(e: Event) =>
@@ -399,7 +399,7 @@ const hostCards = (page: number, size: number): string =>
     return `<prism-card type="selectable" kind="collection" value="${id}">
       <prism-card-select slot="header"></prism-card-select>
       <prism-card-title slot="header" level="3" href="#${id}">Host ${id.slice(5)}</prism-card-title>
-      <prism-card-description slot="header">Windows Server 2022</prism-card-description>
+      <prism-card-description slot="header">Lumen Server 9</prism-card-description>
       <div>Last seen ${i + 1} min ago</div>
       <prism-card-meta slot="footer">Page ${page}</prism-card-meta>
     </prism-card>`;

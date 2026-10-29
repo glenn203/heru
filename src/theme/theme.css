@@ -34,7 +34,7 @@ prism-button::part(base) {
     border-color var(--prism-duration-fast) var(--prism-ease-standard),
     box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
-  outline: 2px solid transparent; /* Windows High Contrast fallback */
+  outline: 2px solid transparent; /* forced-colors fallback */
   outline-offset: var(--prism-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--prism-color-bg),
@@ -164,7 +164,7 @@ prism-button[variant='ghost']:state(disabled)::part(base) {
     border-color var(--prism-duration-fast) var(--prism-ease-standard),
     box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
-  outline: 2px solid transparent; /* Windows High Contrast fallback */
+  outline: 2px solid transparent; /* forced-colors fallback */
   outline-offset: var(--prism-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--prism-color-bg),
@@ -302,7 +302,7 @@ prism-select::part(trigger) {
     border-color var(--prism-duration-fast) var(--prism-ease-standard),
     box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
-  outline: 2px solid transparent; /* Windows High Contrast fallback */
+  outline: 2px solid transparent; /* forced-colors fallback */
   outline-offset: var(--prism-focus-ring-offset);
   box-shadow:
     0 0 0 0 var(--prism-color-bg),
@@ -1210,11 +1210,11 @@ prism-progress::part(fill) {
   background-color: var(--_tone-high-bg);
 }
 
-/* ---------- Datalist ---------- */
-prism-datalist-item::part(label) {
+/* ---------- Description list ---------- */
+prism-description-list-item::part(label) {
   color: var(--prism-color-text-muted);
 }
-prism-datalist-item::part(value) {
+prism-description-list-item::part(value) {
   color: var(--prism-color-text);
 }
 

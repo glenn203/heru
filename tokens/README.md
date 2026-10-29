@@ -48,7 +48,7 @@ Odd-pixel ramp, value in the name: `radius-1, -3, -5, -7, -9, -11`, plus `radius
 
 ## Focus and motion
 
-`focus-ring-offset` (1px), `focus-ring-width` (2px), `focus-ring-blur` (0.5px), `focus-halo-width` (1px) and `focus-halo` (slate at 12%); total reach is 4px, so fields use `space-1` (4px) label→control and `space-2` (8px) control→description, and the attached error text starts 6px below the control; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 2px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for Windows High Contrast. With `prefers-reduced-motion: reduce` the ring appears instantly.
+`focus-ring-offset` (1px), `focus-ring-width` (2px), `focus-ring-blur` (0.5px), `focus-halo-width` (1px) and `focus-halo` (slate at 12%); total reach is 4px, so fields use `space-1` (4px) label→control and `space-2` (8px) control→description, and the attached error text starts 6px below the control; `motion-duration-fast` (160ms), `motion-ease-out`. The theme grows a 2px box-shadow ring in on `:focus-visible` (inputs on `:focus`) and keeps a transparent outline for forced-colors mode. With `prefers-reduced-motion: reduce` the ring appears instantly.
 
 ## Elevation (shared foundation)
 

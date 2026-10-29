@@ -2,15 +2,15 @@ import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 /**
- * One label and value of a `prism-datalist`. The default slot is the value
+ * One label and value of a `prism-description-list`. The default slot is the value
  * (text, a Tag, a link). NAME PROVISIONAL.
  *
- * @tag prism-datalist-item
+ * @tag prism-description-list-item
  * @slot - The value.
  * @csspart label - The label (a `term`).
  * @csspart value - The value (a `definition`).
  */
-export class PrismDatalistItem extends LitElement {
+export class PrismDescriptionListItem extends LitElement {
   static override styles = css`
     :host {
       display: grid;
@@ -38,7 +38,7 @@ export class PrismDatalistItem extends LitElement {
 
   override updated(): void {
     if (!this.label)
-      console.error('[prism-datalist-item] `label` is required.', this);
+      console.error('[prism-description-list-item] `label` is required.', this);
   }
 
   override render() {

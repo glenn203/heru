@@ -3,9 +3,9 @@ import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
- * Label and value pairs about one thing: OS, Windows; Sensor, 7.14.2. The
- * Tag and Badge pages name this job **Datalist** (it is not a Tag).
- * `prism-datalist` holds `prism-datalist-item`s. PROVISIONAL props:
+ * Label and value pairs about one thing: OS, Lumen OS; Sensor, 7.14.2. This
+ * is a description list (it is not a Tag).
+ * `prism-description-list` holds `prism-description-list-item`s. PROVISIONAL props:
  * `orientation` and `label`.
  *
  * - `orientation="horizontal"` (default): labels in one column, values in the
@@ -15,11 +15,11 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  *   each value a `definition`, so a screen reader says "Sensor, 7.14.2".
  *   Give the list a `label` when it is not already named by a heading.
  *
- * @tag prism-datalist
- * @slot - The `prism-datalist-item`s.
+ * @tag prism-description-list
+ * @slot - The `prism-description-list-item`s.
  * @csspart base - The grid.
  */
-export class PrismDatalist extends LitElement {
+export class PrismDescriptionList extends LitElement {
   static override styles = css`
     :host {
       display: block;
