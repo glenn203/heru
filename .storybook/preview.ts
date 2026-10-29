@@ -11,7 +11,9 @@ const preview: Preview = {
     controls: { expanded: true },
     layout: 'padded',
     options: {
-      storySort: { order: ['Introduction', 'Foundations', 'Components'] },
+      storySort: {
+        order: ['Introduction', 'Foundations', 'Components', 'Card recipes'],
+      },
     },
   },
 };
