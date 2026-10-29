@@ -10,7 +10,7 @@ const isItem = (el: Element): el is PrismMenuItem =>
 
 /**
  * A menu button with a popup of actions (WAI-ARIA APG "Menu Button"). NAME
- * PROVISIONAL (Technical Writer); a minimal stand-in until the full Menu
+ * PROVISIONAL; a minimal stand-in until the full Menu
  * component. Used for a card's overflow menu and its Move menu.
  *
  * Keys on the button: Enter, Space and ArrowDown open on the first item;

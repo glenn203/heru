@@ -1,7 +1,7 @@
 # Prism design rules (for agents building components)
 
 Read this before adding or changing a component. Variant names are
-**provisional** until the Technical Writer signs off.
+**provisional** until they are confirmed.
 
 ## Prefixes
 
@@ -113,9 +113,7 @@ inert disabled look.
 
 ## Card family (M1: shared Card, names provisional)
 
-Source: the Notion Card page. Names from the page: Card, CardTitle,
-CardDescription, TimeRangeInput. Everything else here is **provisional**
-(Technical Writer): `prism-card-actions`, `prism-card-meta`,
+Settled names: Card, CardTitle, CardDescription, TimeRangeInput. Everything else here is **provisional**: `prism-card-actions`, `prism-card-meta`,
 `prism-icon-button`, `prism-menu`, `prism-menu-item`, the `type`, `raised` and
 `standalone` attributes.
 
@@ -181,7 +179,7 @@ the bottom of cards in the same row. Never position it with absolute placement.
   handle, sit above it (`z-index: 1`). The theme adds the same for controls
   deeper in a clickable card. Never put a loose button in a card and make the
   whole card clickable any other way. A borderless card is never clickable.
-- **No cap on nested controls.** The page's "at most two" is unconfirmed (dagger), so
+- **No cap on nested controls.** The spec's "at most two" is unconfirmed (dagger), so
   it is not enforced.
 - **Edge.** Interactive cards use `color-border-strong` (about 4.8:1), never
   flat. Raised keeps a transparent border and its shadow.
@@ -218,8 +216,8 @@ the bottom of cards in the same row. Never position it with absolute placement.
   widget overrides the range (TimeRangeInput is not built here). Footer:
   `prism-card-meta` "Updated 2 min ago" and a ghost "View all". The card is a
   labelled `group`, never a landmark. **No resize** (needs Grid edit mode).
-  No header or footer dividers (dagger on the page).
-- **Time range contract.** The page (Toolbar) sets
+  No header or footer dividers (dagger in the spec).
+- **Time range contract.** The page Toolbar sets
   `data-prism-time-range="Last 24 hours"` on any ancestor; every widget below it
   follows it, including later changes. A widget with its own `range` overrides
   it, shows that range in its header with the word "Overridden" (text, a border,
@@ -290,9 +288,9 @@ Move menu is the keyboard and switch way (WCAG 2.5.7), so nobody has to drag.
   makes the handle the menu button (`menu`), so a card never has two menus. The
   menu button is named "Reorder {title}".
 - **Names.** Menu items read "Move up" and are named "Move up, {title}" so the
-  visible words are the start of the name (WCAG 2.5.3). The page's "Move 'X' up"
+  visible words are the start of the name (WCAG 2.5.3). The spec's "Move 'X' up"
   would not pass that, see open questions.
-- **Announcements.** One polite live region per list, exact wording from the page:
+- **Announcements.** One polite live region per list, exact wording from the spec:
   "Picked up {title}, position {n} of {total}." / "{title} moved from position
   {a} to position {b} of {total}." / "Move canceled. {title} is at position {n} of
   {total}." / "{title} moved from {list} to {list}, position {n} of {total}." /
@@ -315,10 +313,10 @@ fromList, toList }`, positions are 1-based) and `prism-card-reorder-failed`
 
 ### Primitives (card-primitives, names provisional unless noted)
 
-Extracted from the card stories and recipes. Names follow the Notion pages
-where they exist: **Tag** (`job`, `emphasis`, `tone`), **Badge** (`job`
+Extracted from the card stories and recipes. Names follow the settled spec
+where it exists: **Tag** (`job`, `emphasis`, `tone`), **Badge** (`job`
 count or status), **Description list** (label/value pairs). Avatar and Progress have no
-Notion page yet, so those names and props are provisional.
+settled spec yet, so those names and props are provisional.
 
 | Element                  | Role and props                                                                                                                                                            |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -334,7 +332,7 @@ a Live badge pulses its dot, and reduced motion stops it. Interactive Tags keep
 a 24px minimum target. The card's "Overridden" flag is a real `prism-tag`.
 
 Not built: a **status dot** (it would duplicate Tag `health` and `presence`,
-and Badge `status`; the Notion rules keep status as words) and **prism-icon**
+and Badge `status`; status stays as words) and **prism-icon**
 (the icon system is undecided; stories keep a placeholder svg).
 
 #### Tone palette (PROPOSED)
@@ -347,8 +345,8 @@ warning are **PROPOSED OKLCH literals** (hues 258, 150 and 60/90), not tokens;
 gamut, low text 4.5:1 on its tint, page and surface, white text on the high
 fill 4.5:1, and the fill 3:1 against the page.
 
-Open questions: (1) Tag `emphasis`: the Tag page lists high, low and ghost, the
-matrix page says ghost was killed on 2026-09-06 and outline is deferred. All
+Open questions: (1) Tag `emphasis`: the Tag spec lists high, low and ghost, the
+a second spec says ghost was dropped and outline is deferred. All
 three are built. (2) Tag `size` and Badge `tone` are not in the specs.
 (3) Whether Avatar gets a presence `status`.
 
@@ -371,11 +369,11 @@ untouched. They wait for approval.
 | Private property   | Value                                   | Where                                                                     |
 | ------------------ | --------------------------------------- | ------------------------------------------------------------------------- |
 | `--_title-*`       | 14px / 20px / 600 sans                  | `prism-card-title` (component title style)                                |
-| `--_supporting-*`  | 12px / 20px / 400 sans                  | description and meta (page says 12/20; token `caption` is 12/16)          |
+| `--_supporting-*`  | 12px / 20px / 400 sans                  | description and meta (spec says 12/20; token `caption` is 12/16)          |
 | `--_pad`           | density pad units + 2 (12 / 16 / 20px)  | `prism-card`                                                              |
-| `--_metric-*`      | 28px / 36px / 600 sans, tabular figures | `prism-card-metric` (metric text style; the page leaves it to Typography) |
-| `CARD_LIST_MIN_PX` | 280                                     | card list minimum card width (page: "at least 280px")                     |
-| `CARD_NARROW_PX`   | 280                                     | narrow rule (page marks it with a dagger)                                 |
+| `--_metric-*`      | 28px / 36px / 600 sans, tabular figures | `prism-card-metric` (metric text style; the spec leaves it to Typography) |
+| `CARD_LIST_MIN_PX` | 280                                     | card list minimum card width (spec: "at least 280px")                     |
+| `CARD_NARROW_PX`   | 280                                     | narrow rule (spec marks it with a dagger)                                 |
 
 ### Behavior notes
 
@@ -383,7 +381,7 @@ untouched. They wait for approval.
   `prism-card-list` = `listitem`; never a landmark. The name is the title text,
   copied to `aria-label` (ID references cannot cross shadow roots). An author
   `role` or `aria-label` wins.
-- Narrow (280px or less, dagger on the page): the card gets `:state(narrow)`,
+- Narrow (280px or less, dagger in the spec): the card gets `:state(narrow)`,
   the footer stacks and header icon buttons fold into one overflow menu.
 - Layout properties are logical, so cards mirror in right-to-left.
 

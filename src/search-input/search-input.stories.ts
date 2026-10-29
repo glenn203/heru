@@ -10,7 +10,7 @@ interface Args {
 
 /**
  * Search box (role searchbox) with a clear button. Escape clears; Enter fires
- * `search`. Name pending Technical Writer.
+ * `search`. Name pending.
  */
 const meta: Meta<Args> = {
   title: 'Components/Search input',

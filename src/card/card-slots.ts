@@ -1,8 +1,8 @@
 /**
- * What a Card's restricted slots accept. The Card page ("Header slot:
+ * What a Card's restricted slots accept. The card spec ("Header slot:
  * approved parts", "Footer slot: approved parts", "Content-only cards") is the
- * source; this file only encodes it. PART NAMES BEYOND THE PAGE ARE
- * PROVISIONAL (Technical Writer).
+ * source; this file only encodes it. Part names beyond the spec are
+ * provisional.
  *
  * An unapproved element is NOT rendered (`data-prism-invalid` + the card CSS
  * hides it) and one `console.error` explains why. The content slot is free.

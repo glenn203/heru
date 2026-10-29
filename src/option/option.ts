@@ -5,7 +5,7 @@ import { uniqueId } from '../internal/ids.js';
 
 /**
  * One choice inside `prism-select`. Light-DOM child, so the select's trigger
- * can point `aria-activedescendant` at it. NAME PENDING — Technical Writer.
+ * can point `aria-activedescendant` at it. NAME PENDING.
  *
  * @tag prism-option
  * @slot - The option label.

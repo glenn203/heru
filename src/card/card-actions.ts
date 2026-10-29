@@ -9,7 +9,7 @@ import {
 import { CARD_NARROW_PX, type PrismCard } from './card.js';
 
 /**
- * A group of card actions. NAME PROVISIONAL (Technical Writer).
+ * A group of card actions. NAME PROVISIONAL.
  *
  * Where it sits decides its rules (from its `slot`):
  * - `slot="header"`: up to two ghost `prism-icon-button`s, or one overflow

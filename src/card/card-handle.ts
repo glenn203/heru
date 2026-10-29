@@ -5,8 +5,7 @@ import { stateLayer } from '../internal/state-layer.js';
 import { iconGrip } from '../internal/icons.js';
 
 /**
- * The drag handle of a reorderable card, first in the header. NAME PROVISIONAL
- * (Technical Writer).
+ * The drag handle of a reorderable card, first in the header. NAME PROVISIONAL.
  *
  * A real `<button>` at least 24 by 24px, named "Reorder {title}" (the card
  * writes the label). It shows a grab cursor and a tint on hover. Dragging is

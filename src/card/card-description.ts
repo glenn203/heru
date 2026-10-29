@@ -1,8 +1,7 @@
 import { LitElement, css, html } from 'lit';
 
 /**
- * Supporting text under the title. NAME FROM THE NOTION CARD PAGE
- * (CardDescription). Two lines, then clamps with an ellipsis. Secondary
+ * Supporting text under the title. NAME SETTLED (CardDescription). Two lines, then clamps with an ellipsis. Secondary
  * colour comes from the theme.
  *
  * @tag prism-card-description
@@ -12,7 +11,7 @@ import { LitElement, css, html } from 'lit';
 export class PrismCardDescription extends LitElement {
   static override styles = css`
     :host {
-      /* Supporting style (decided 12/20) on the card (12/20/400, per the page).
+      /* Supporting style (decided 12/20) on the card (12/20/400, per the spec).
          The existing caption token is 12/16, so this is not a token yet. */
       --_supporting-font-family: var(
         --prism-font-family-sans,

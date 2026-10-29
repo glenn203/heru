@@ -7,8 +7,7 @@ import type { PrismCardSelect } from './card-select.js';
 import { uniqueId } from '../internal/ids.js';
 
 /**
- * Groups selectable cards and owns their selection. NAME PROVISIONAL
- * (Technical Writer).
+ * Groups selectable cards and owns their selection. NAME PROVISIONAL.
  *
  * - `selection="single"`: a radio group. Tab enters on the selected card (or
  *   the first), the arrow keys move **and** select, and wrap. Choosing one

@@ -86,7 +86,7 @@ test('theme: label and description sit outside the focus ring', async ({
       box('description').top - box('input').bottom,
     ];
   });
-  // Chuck's v2 mock: 2px label gap, 4px description gap.
+  // Mock spec: 2px label gap, 4px description gap.
   expect(gaps).toEqual([2, 4]);
   for (const gap of gaps) expect(gap).toBeGreaterThanOrEqual(2);
 });

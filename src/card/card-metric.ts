@@ -2,11 +2,10 @@ import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 /**
- * A big number for a widget, with an optional label. NAME PROVISIONAL
- * (Technical Writer).
+ * A big number for a widget, with an optional label. NAME PROVISIONAL.
  *
  * The number uses the PROPOSED metric text style: 28px / 36px, weight 600,
- * tabular figures, built from existing primitives. The Notion page leaves the
+ * tabular figures, built from existing primitives. The spec leaves the
  * real size, weight and line height to Typography, which has not been edited,
  * so this is a stand-in set in component-private `--_metric-*` properties
  * (never from outside). No Display style is used inside a card.

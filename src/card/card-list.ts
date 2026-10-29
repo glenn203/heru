@@ -27,7 +27,7 @@ interface MoveSpec {
 const OTHER_CONTROLS =
   'a[href], button, input, select, textarea, prism-button, prism-icon-button, prism-menu, prism-card-select, prism-card-title[href], prism-card-title[action]';
 
-/** The Move menu items. Wording from the Card page; a grid reads start/end. */
+/** The Move menu items. Wording from the card spec; a grid reads start/end. */
 export function moveSpecs(
   grid: boolean,
   title: string,
@@ -58,7 +58,7 @@ export function moveSpecs(
   }));
 }
 
-/** Page sizes the Card page names ("Common page sizes are 12, 24 and 48"). */
+/** Page sizes the card spec names ("Common page sizes are 12, 24 and 48"). */
 export const CARD_LIST_PAGE_SIZES = [12, 24, 48] as const;
 export type CardListPageSize = (typeof CARD_LIST_PAGE_SIZES)[number];
 /** PROPOSED (page: "Cards stay at least 280px wide"). */
@@ -68,8 +68,7 @@ type ListState = 'loading' | 'refreshing' | 'empty' | 'no-matches' | 'error';
 
 /**
  * A grid or single-column list of cards, with paging, selection that is kept
- * across pages, and the loading, empty and error states. NAME PROVISIONAL
- * (Technical Writer). Section owns these states on a real page; this element
+ * across pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element
  * gives them a default look and fires events so a Section can take over.
  *
  * ```html

@@ -43,7 +43,7 @@ const isOption = (el: Element): el is PrismOption =>
  * @cssstate placeholder - No value selected.
  * @fires input - User picked a different option.
  * @fires change - User picked a different option.
- * @fires toggle - Listbox opened or closed (NAME PENDING — Technical Writer).
+ * @fires toggle - Listbox opened or closed (NAME PENDING).
  */
 export class PrismSelect extends FormAssociated(LitElement) {
   static override shadowRootOptions: ShadowRootInit = {
@@ -149,7 +149,7 @@ export class PrismSelect extends FormAssociated(LitElement) {
   override focus(options?: FocusOptions): void {
     this.trigger?.focus(options);
   }
-  /** Mirrors native `showPicker()`. NAME PENDING — Technical Writer. */
+  /** Mirrors native `showPicker()`. NAME PENDING. */
   showPicker(): void {
     this.#setOpen(true);
   }

@@ -15,7 +15,7 @@ export function initialsOf(name: string): string {
 
 /**
  * A picture or initials that stands for a person or thing. Common props:
- * `name`, `src`, `size`, `shape`. NAMES PROVISIONAL (Technical Writer).
+ * `name`, `src`, `size`, `shape`. NAMES PROVISIONAL.
  *
  * - With `src` it shows the image, and falls back to initials if the image
  *   fails to load. With no `src` it shows the initials of `name`.

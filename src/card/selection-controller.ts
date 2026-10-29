@@ -5,7 +5,7 @@ export type SelectionMode = 'single' | 'multi';
 /**
  * Selection by item id, not by what is on screen. A paged list keeps ids that
  * are not in the page, so "3 selected" stays true when you change page. NAME
- * PROVISIONAL (Technical Writer).
+ * PROVISIONAL.
  *
  * Single mode holds at most one id and never clears itself (like radios).
  * Multi mode toggles. Works on its own or as a Lit ReactiveController.

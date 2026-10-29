@@ -5,9 +5,8 @@ import type { PrismCard } from './card.js';
 
 /**
  * The selection control of a selectable card: a real, always visible
- * `<input type="checkbox">` or `<input type="radio">`. NAME PROVISIONAL
- * (Technical Writer); the page calls it "Checkbox or Radio" and Prism has
- * neither component yet, so this is card-private and swappable.
+ * `<input type="checkbox">` or `<input type="radio">`. NAME PROVISIONAL.
+ * Prism has no Checkbox or Radio component yet, so this is card-private and swappable.
  *
  * It is labelled by the card's title and described by its description. ID
  * references cannot cross shadow roots, so the text is copied into

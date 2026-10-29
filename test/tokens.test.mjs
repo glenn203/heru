@@ -154,7 +154,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     !/box-shadow:\s*var\(--prism-elevation-urgent/.test(theme),
     'elevation-urgent is reserved, unused',
   );
-  // elevation-hover is reserved for the raised card at rest (Card page, Chuck).
+  // elevation-hover is reserved for the raised card at rest (card spec).
   const cardAt = theme.indexOf('/* ---------- Card');
   assert.ok(
     !/var\(--prism-elevation-hover/.test(theme.slice(0, cardAt)),
@@ -204,7 +204,7 @@ test('focus ring total reach (offset + ring + halo) is at most 4px', () => {
   assert.ok(reach <= 4, `reach ${reach}px`);
 });
 
-// ---------- Motion (token names provisional — Technical Writer) ----------
+// ---------- Motion (token names provisional) ----------
 const parseLinear = (css) => {
   const m = /^linear\(([^()]*)\)$/.exec(css);
   assert.ok(m, `not a linear(): ${css.slice(0, 40)}`);

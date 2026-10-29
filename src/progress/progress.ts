@@ -5,7 +5,7 @@ import type { TagTone } from '../tag/tag.js';
 
 /**
  * A bar that shows how far something has got. Common props: `value`, `max`,
- * `label`, `tone`. NAMES PROVISIONAL (Technical Writer).
+ * `label`, `tone`. NAMES PROVISIONAL.
  *
  * - Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and
  *   `aria-valuenow`, named by `label`.

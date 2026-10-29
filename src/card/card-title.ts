@@ -7,7 +7,7 @@ import { iconChevronDown } from '../internal/icons.js';
 
 /**
  * The card's name, and always a real heading (h2 to h6), in a list too.
- * NAME FROM THE NOTION CARD PAGE (CardTitle); `level` is provisional.
+ * NAME SETTLED (CardTitle); `level` is provisional.
  *
  * `level` is required and has no default: pick it from the surrounding
  * outline (one below the Section heading, never skipping a level). Without a

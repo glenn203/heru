@@ -72,7 +72,7 @@ export class PrismButton extends FormAssociated(LitElement) {
 
   /**
    * Visual emphasis. Unset = `primary`. Headless: only the opt-in theme
-   * paints variants. VARIANT NAMES PROVISIONAL — Technical Writer.
+   * paints variants. VARIANT NAMES PROVISIONAL.
    * - `primary` solid accent (default)
    * - `secondary` accent tint with accent text
    * - `ghost` transparent, no border
