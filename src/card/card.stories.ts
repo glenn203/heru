@@ -167,10 +167,10 @@ export const Narrow: StoryObj<Args> = {
       html`<prism-card>
         <prism-card-title slot="header" level="3">Playbook</prism-card-title>
         <prism-card-actions slot="header">
-          <prism-icon-button label="Refresh"
+          <prism-icon-button label="Refresh Playbook"
             >${iconRefresh()}</prism-icon-button
           >
-          <prism-icon-button label="Export">E</prism-icon-button>
+          <prism-icon-button label="Export Playbook">E</prism-icon-button>
         </prism-card-actions>
         <p style="margin:0">Body</p>
         <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
@@ -180,4 +180,117 @@ export const Narrow: StoryObj<Args> = {
       </prism-card>`,
       260,
     ),
+};
+
+const ROW = (v: string, title: string, desc: string) =>
+  html`<prism-card type="selectable" kind="choice" value=${v}>
+    <prism-card-select slot="header"></prism-card-select>
+    <prism-card-title slot="header" level="3">${title}</prism-card-title>
+    <prism-card-description slot="header">${desc}</prism-card-description>
+    <div>Choose it anywhere on the card.</div>
+  </prism-card>`;
+
+/**
+ * Clickable (link): the title is the one real link and its click area covers
+ * the card. Nested controls sit above it. Hover is the tint only.
+ */
+export const ClickableLink: StoryObj<Args> = {
+  render: () =>
+    frame(
+      html`<prism-card type="clickable">
+        <prism-card-title slot="header" level="3" href="#playbook"
+          >Phishing playbook</prism-card-title
+        >
+        <prism-card-description slot="header"
+          >Triage steps for reported email.</prism-card-description
+        >
+        <prism-card-actions slot="header">
+          <prism-menu label="More options for Phishing playbook">
+            <prism-menu-item>Duplicate</prism-menu-item>
+            <prism-menu-item>Archive</prism-menu-item>
+          </prism-menu>
+        </prism-card-actions>
+        <div>Updated 2 min ago by the SOC team.</div>
+      </prism-card>`,
+    ),
+};
+
+/** Clickable (action): the title is a button, for example to open a Drawer. */
+export const ClickableAction: StoryObj<Args> = {
+  render: () =>
+    frame(
+      html`<prism-card type="clickable" raised>
+        <prism-card-title slot="header" level="3" action
+          >host-eu-0042</prism-card-title
+        >
+        <div>Opens the details Drawer.</div>
+      </prism-card>`,
+    ),
+};
+
+/** Disabled: no tint, not a link, and the reason is written in the text. */
+export const ClickableDisabled: StoryObj<Args> = {
+  render: () =>
+    frame(
+      html`<prism-card type="clickable" disabled>
+        <prism-card-title slot="header" level="3" href="#x"
+          >Quarantine report</prism-card-title
+        >
+        <prism-card-description slot="header"
+          >Needs the Analyst role.</prism-card-description
+        >
+      </prism-card>`,
+    ),
+};
+
+/** Choice cards in a single-select group: a radio group. Arrows move and select. */
+export const ChoiceCards: StoryObj<Args> = {
+  render: () =>
+    html`<prism-card-group
+      selection="single"
+      label="Plan"
+      style="display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,280px))"
+    >
+      ${ROW('free', 'Free plan', 'For trying it out.')}
+      ${ROW('team', 'Team plan', 'Shared dashboards.')}
+      ${ROW('ent', 'Enterprise plan', 'Single sign-on and audit.')}
+    </prism-card-group>`,
+};
+
+/**
+ * Collection cards in a multi-select group: only the checkbox toggles, the
+ * title stays a link, and actions keep working. A polite message says how many
+ * are selected. Selection is by id and survives paging.
+ */
+export const CollectionCards: StoryObj<Args> = {
+  render: () =>
+    html`<prism-card-group
+      selection="multi"
+      label="Hosts"
+      style="display:grid;gap:16px;max-inline-size:360px"
+    >
+      ${['a', 'b', 'c'].map(
+        (v) =>
+          html`<prism-card
+            type="selectable"
+            kind="collection"
+            value=${v}
+            ?selected=${v === 'b'}
+          >
+            <prism-card-select slot="header"></prism-card-select>
+            <prism-card-title slot="header" level="3" href="#host-${v}"
+              >Host ${v.toUpperCase()}</prism-card-title
+            >
+            <prism-card-description slot="header"
+              >Windows Server 2022</prism-card-description
+            >
+            <prism-card-actions slot="header">
+              <prism-menu label="More options for Host ${v.toUpperCase()}">
+                <prism-menu-item>Isolate</prism-menu-item>
+              </prism-menu>
+            </prism-card-actions>
+            <div>Last seen 4 min ago</div>
+          </prism-card>`,
+      )}
+    </prism-card-group>`,
 };

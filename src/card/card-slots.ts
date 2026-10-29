@@ -77,7 +77,14 @@ export function validateHeader(
   card: Element,
 ): Violation[] {
   const out: Violation[] = [];
-  const count = { title: 0, desc: 0, icon: 0, status: 0, actions: 0 };
+  const count = {
+    title: 0,
+    desc: 0,
+    icon: 0,
+    status: 0,
+    actions: 0,
+    select: 0,
+  };
   const limit = (el: Element, key: keyof typeof count, what: string) => {
     if (++count[key] > 1)
       out.push({ element: el, message: `Header takes one ${what} at most.` });
@@ -102,6 +109,7 @@ export function validateHeader(
           element: el,
           message: 'A selection control is only for selectable cards.',
         });
+      else limit(el, 'select', 'selection control');
     } else
       out.push({
         element: el,

@@ -126,6 +126,8 @@ CardDescription, TimeRangeInput. Everything else here is **provisional**
 | `prism-card-description` | Supporting text, two lines then ellipsis.                             |
 | `prism-card-meta`        | Footer meta, one line.                                                |
 | `prism-card-actions`     | Header, footer or content-only button row. Enforces the action rules. |
+| `prism-card-select`      | Visible native checkbox or radio of a selectable card.                |
+| `prism-card-group`       | Selection group: single (radio) or multi (checkbox), by item id.      |
 | `prism-icon-button`      | Square ghost icon button. `label` is required (the accessible name).  |
 | `prism-menu` / `-item`   | Minimal menu button (APG). Used for overflow and the Move menu later. |
 
@@ -157,6 +159,50 @@ the bottom of cards in the same row. Never position it with absolute placement.
   `--prism-elevation-urgent` is never used on a card. A test guards both.
 - A dragged copy (later milestone) uses `--prism-elevation-default`.
 - Interactive cards (later) take `color-border-strong` so the edge meets 3:1.
+
+### Interactive cards (M2, names provisional)
+
+| Type                      | Whole-card click | Title                         | Control                                | Tab stops                                    |
+| ------------------------- | ---------------- | ----------------------------- | -------------------------------------- | -------------------------------------------- |
+| `clickable`               | Yes, stretched   | the one real `<a>`/`<button>` | none                                   | the title, then each nested control          |
+| `selectable` `choice`     | Yes, toggles     | plain heading                 | `prism-card-select`, no other controls | one per group (radio) or one each (checkbox) |
+| `selectable` `collection` | No               | link or button, not stretched | `prism-card-select`                    | control, title, then actions                 |
+
+- **Stretched link.** `prism-card-title` with `href` (goes somewhere) or
+  `action` (does something) renders the link or button inside the heading. Its
+  `::after` covers the card; the card host is the positioning context. Direct
+  children that are controls, plus `prism-card-actions`, the select and the
+  handle, sit above it (`z-index: 1`). The theme adds the same for controls
+  deeper in a clickable card. Never put a loose button in a card and make the
+  whole card clickable any other way. A borderless card is never clickable.
+- **No cap on nested controls.** The page's "at most two" is unconfirmed (dagger), so
+  it is not enforced.
+- **Edge.** Interactive cards use `color-border-strong` (about 4.8:1), never
+  flat. Raised keeps a transparent border and its shadow.
+- **State layer.** Clickable and choice cards tint 8% hover, 12% pressed. Other
+  cards only use the layer for selected (14%, 18% on hover). While the pointer
+  is over a nested control the card shows no tint (`data-nested` on the base).
+  Hover never lifts.
+- **Focus.** Focus on the title (or a choice card's control) draws the ring
+  around the whole card (`:state(focus-ring)`); the title and the choice radio
+  draw none of their own. A nested control shows only its own ring. In
+  forced-colors mode these become outlines.
+- **Selected look.** 14% overlay, 2px accent ring drawn inside the edge
+  (`inset` shadow, so nothing shifts, under a raised card's shadow), and the
+  control's check or dot. Colour is never the only cue.
+- **`prism-card-group`** owns selection by item id (`value` on each card):
+  `selection="single"` is a radio group (Tab enters on the selected or first
+  card, arrows move **and** select and wrap, flipped in right-to-left, disabled
+  cards skipped, `aria-posinset`/`aria-setsize` set), `selection="multi"` is
+  checkboxes (Tab visits each, Space toggles, polite "N selected"). Read and set
+  `group.selected` (ids), `clear()`, listen for `prism-selection-change`. Ids of
+  cards that are not on screen stay selected. `SelectionController` is the
+  plain, reusable store behind it. The visible count and "Clear selection"
+  button belong to the card list (M3).
+- **Control labels.** IDs cannot cross shadow roots, so the select's name and
+  description are copied from the title and description. A disabled card's
+  reason must be in its description (dev error otherwise). A nested control's
+  label must include the card title (dev error otherwise).
 
 ### PROPOSED, not tokens yet
 

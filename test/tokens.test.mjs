@@ -167,7 +167,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--prism-elevation-(default|hover)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
+      /var\(--prism-elevation-(default|hover)|var\(--_(elev|sh-sel|sh-focus)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -551,6 +551,21 @@ const MATRIX = [
       ['color.text', 'text'],
       ['color.text-muted', 'text'],
       ['color.text-muted', 'icon'],
+    ],
+  ],
+  // M2: clickable, choice and collection cards. The edge (strong border) and
+  // the selected ring (accent) are non-text and must hold 3:1 against the card
+  // fill in every state, and the text on the overlay 4.5:1.
+  [
+    'card (clickable, selectable)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // title
+      ['color.text-muted', 'text'], // description, meta
+      ['color.border-strong', 'border'], // the visible edge (1.4.11)
+      ['color.accent', 'border'], // selected ring
+      ['color.text', 'icon'], // check mark / radio dot
     ],
   ],
   ['menu item', 'color.bg', 'color.text', [['color.text', 'text']]],

@@ -23,6 +23,7 @@ const isItem = (el: Element): el is PrismMenuItem =>
  * @slot - `prism-menu-item` children.
  * @slot trigger - Replaces the default "more" icon in the button.
  * @csspart trigger - The icon button that opens the menu.
+ * @csspart trigger-base - The trigger's inner button element (re-exported from the icon button).
  * @csspart popup - The menu surface.
  * @cssstate open - The menu is open.
  * @fires prism-menu-select - An item was activated. `detail: { item, value }`.
@@ -235,6 +236,7 @@ export class PrismMenu extends LitElement {
   override render() {
     return html`<prism-icon-button
         part="trigger"
+        exportparts="base:trigger-base"
         .label=${this.label}
         haspopup="menu"
         .expanded=${this.open}

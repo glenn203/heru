@@ -3,6 +3,8 @@ import { PrismCardTitle } from './card-title.js';
 import { PrismCardDescription } from './card-description.js';
 import { PrismCardMeta } from './card-meta.js';
 import { PrismCardActions } from './card-actions.js';
+import { PrismCardSelect } from './card-select.js';
+import { PrismCardGroup } from './card-group.js';
 import '../icon-button/define.js';
 import '../menu/define.js';
 
@@ -12,6 +14,8 @@ const defs: [string, CustomElementConstructor][] = [
   ['prism-card-description', PrismCardDescription],
   ['prism-card-meta', PrismCardMeta],
   ['prism-card-actions', PrismCardActions],
+  ['prism-card-select', PrismCardSelect],
+  ['prism-card-group', PrismCardGroup],
 ];
 for (const [name, ctor] of defs)
   if (!customElements.get(name)) customElements.define(name, ctor);
@@ -23,5 +27,7 @@ declare global {
     'prism-card-description': PrismCardDescription;
     'prism-card-meta': PrismCardMeta;
     'prism-card-actions': PrismCardActions;
+    'prism-card-select': PrismCardSelect;
+    'prism-card-group': PrismCardGroup;
   }
 }

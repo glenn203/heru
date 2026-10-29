@@ -614,8 +614,8 @@ test.describe('narrow card (†)', () => {
     <prism-card id="c" style="width:${w}px">
       <prism-card-title slot="header" level="3">Playbook</prism-card-title>
       <prism-card-actions slot="header">
-        <prism-icon-button label="Refresh" id="i1">r</prism-icon-button>
-        <prism-icon-button label="Export" id="i2">e</prism-icon-button>
+        <prism-icon-button label="Refresh Playbook" id="i1">r</prism-icon-button>
+        <prism-icon-button label="Export Playbook" id="i2">e</prism-icon-button>
       </prism-card-actions>
       <p>Body</p>
       <prism-card-meta slot="footer">Updated</prism-card-meta>

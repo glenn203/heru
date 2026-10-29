@@ -17,3 +17,6 @@ export { PrismCardTitle } from './card/card-title.js';
 export { PrismCardDescription } from './card/card-description.js';
 export { PrismCardMeta } from './card/card-meta.js';
 export { PrismCardActions } from './card/card-actions.js';
+export { PrismCardSelect } from './card/card-select.js';
+export { PrismCardGroup } from './card/card-group.js';
+export { SelectionController } from './card/selection-controller.js';

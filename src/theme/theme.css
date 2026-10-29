@@ -698,7 +698,8 @@ prism-otp-input:state(disabled)::part(cell) {
 /* ---------- Icon button (NAME PROVISIONAL — Technical Writer) ----------
  * Always ghost: transparent fill, on-colour overlay on hover and press. The
  * icon rests muted and takes the full text colour on hover. */
-prism-icon-button::part(base) {
+prism-icon-button::part(base),
+prism-menu::part(trigger-base) {
   --_bg: transparent;
   --_on: var(--prism-color-text);
   --_bg-hover: var(--prism-color-surface-hover);
@@ -719,11 +720,13 @@ prism-icon-button::part(base) {
     0 0 0 0 var(--prism-focus-halo);
 }
 @media (hover: hover) {
-  prism-icon-button:not(:state(disabled))::part(base):hover {
+  prism-icon-button:not(:state(disabled))::part(base):hover,
+  prism-menu::part(trigger-base):hover {
     color: var(--_on);
   }
 }
-prism-icon-button::part(base):focus-visible {
+prism-icon-button::part(base):focus-visible,
+prism-menu::part(trigger-base):focus-visible {
   color: var(--_on);
   box-shadow:
     0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
@@ -773,20 +776,65 @@ prism-menu-item:state(active)::part(base) {
  * default = the dragged copy in a later milestone, urgent is never used).
  * A card is either bordered or raised, never both; borderless has neither. */
 prism-card::part(base) {
-  background-color: var(--prism-color-bg);
+  /* Fill and text come through the shared state layer: a clickable or choice
+     card tints on hover and press, every selected card shows 14% / 18%. */
+  --_bg: var(--prism-color-bg);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  /* PROPOSED (not a token): selection ring width, same 2px as the focus ring. */
+  --_ring: var(--prism-focus-ring-width);
+  /* Selected ring: drawn inside the edge, so nothing shifts. */
+  --_sh-sel: inset 0 0 0 var(--_ring) var(--prism-color-accent);
+  /* Focus ring around the whole card (same layers as Button). */
+  --_sh-focus:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
   color: var(--prism-color-text);
   border: var(--prism-border-width) solid var(--prism-color-border);
   border-radius: var(--prism-radius-7);
+  box-shadow: var(--_elev, none);
+}
+/* Interactive cards are never flat and take the strong edge (>= 3:1, 1.4.11). */
+prism-card:is([type='clickable'], [type='selectable'])::part(base) {
+  border-color: var(--prism-color-border-strong);
 }
 prism-card[raised]::part(base) {
-  /* Transparent border keeps an edge in forced-colors mode. */
+  /* Elevation uses the predefined level. A transparent border keeps an edge in
+     forced-colors mode. */
+  --_elev: var(--prism-elevation-hover);
   border-color: transparent;
-  box-shadow: var(--prism-elevation-hover);
 }
 prism-card[type='borderless']::part(base) {
-  background-color: var(--prism-color-surface);
+  --_bg: var(--prism-color-surface);
   border: 0;
   box-shadow: none;
+}
+/* Selected: the state layer (14%, 18% on hover) + a 2px ring + the control's
+   check or dot. A raised card keeps its shadow under the ring. */
+prism-card:state(selected)::part(base) {
+  box-shadow: var(--_sh-sel), var(--_elev, 0 0 0 0 transparent);
+}
+prism-card:state(focus-ring)::part(base) {
+  box-shadow: var(--_sh-focus), var(--_elev, 0 0 0 0 transparent);
+}
+prism-card:state(selected):state(focus-ring)::part(base) {
+  box-shadow:
+    var(--_sh-focus), var(--_sh-sel), var(--_elev, 0 0 0 0 transparent);
+}
+/* Disabled: inert, no state layer (the util skips it). The reason is text in
+   the description. */
+prism-card:state(disabled)::part(base) {
+  --_on: var(--prism-color-text-muted);
 }
 prism-card-description,
 prism-card-meta {
@@ -796,4 +844,30 @@ prism-card-meta {
   prism-card:not([type='borderless'])::part(base) {
     border-color: CanvasText;
   }
+  /* Box shadows are dropped, so selection and focus use outlines. */
+  prism-card:state(selected)::part(base) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  prism-card:state(focus-ring) {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+/* Stretched link (rule 3 and the layers): controls deeper than a direct child
+   still sit above the title's stretched click area. */
+prism-card[type='clickable']
+  :is(
+    a[href],
+    button,
+    input,
+    select,
+    textarea,
+    prism-button,
+    prism-icon-button,
+    prism-menu
+  ) {
+  position: relative;
+  z-index: 1;
 }
