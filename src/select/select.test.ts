@@ -325,7 +325,7 @@ for (const tag of ['prism-select', 'prism-text-field']) {
     expect(r.right).toBeCloseTo(8, 0);
     expect(r.tuck).toBeGreaterThan(0);
     expect(r.helperHidden).toBe(true);
-    // Astryx FieldStatus attached values.
+    // Attached error box values.
     expect(r.letterSpacing).toBe('normal');
     expect(r.weight).toBe('400');
     expect(r.lineHeight).toBe('16px');
@@ -439,7 +439,7 @@ for (const tag of ['prism-select', 'prism-text-field']) {
     expect(g.reach).toBeLessThanOrEqual(4);
     expect(g.labelGap).toBeCloseTo(2, 0);
     expect(g.descGap).toBeCloseTo(4, 0);
-    // Chuck's v2 mock: 2px label gap, so the 4px ring overlaps 2px into the
+    // Mock spec: 2px label gap, so the 4px ring overlaps 2px into the
     // label's line box (accepted; glyphs sit lower in the 20px line).
     expect(g.descGap).toBeGreaterThanOrEqual(g.reach);
     expect(g.errGap).toBeGreaterThan(g.reach);

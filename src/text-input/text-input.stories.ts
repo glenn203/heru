@@ -15,7 +15,7 @@ interface Args {
 
 /**
  * Single-line input for text, email, url and tel. `<prism-text-field>` is a
- * deprecated alias. Tag names are pending Technical Writer review.
+ * deprecated alias. Tag names are pending.
  */
 const meta: Meta<Args> = {
   title: 'Components/Text input',

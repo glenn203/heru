@@ -33,12 +33,12 @@ const CARD_TYPES: CardType[] = [
 ];
 /** Page-level time range contract: set this on the Toolbar or the page. */
 export const TIME_RANGE_ATTR = 'data-prism-time-range';
-/** Collapsible cards nest at most two levels deep (Card page). */
+/** Collapsible cards nest at most two levels deep (card spec). */
 export const COLLAPSIBLE_MAX_DEPTH = 2;
 
 /**
  * One self-contained item with its own surface. NAMES PROVISIONAL except
- * Card, CardTitle and CardDescription (Notion Card page).
+ * Card, CardTitle and CardDescription (settled names).
  *
  * Three slots: `header`, `content` and `footer`. Header and footer accept only
  * the approved parts (see card-slots.ts); anything else is hidden with a dev
@@ -309,7 +309,7 @@ export class PrismCard extends LitElement {
       }
       /* Only a clickable or choice card tints on hover or press. Every other
        card keeps the shared state layer for its selected look only (a selected
-       card still goes 14% to 18% on hover, as the Card page says). */
+       card still goes 14% to 18% on hover, as the card spec says). */
       :host(:not([type='clickable'], [type='selectable'][kind='choice']))
         [part='base'] {
         --_prism-ov-hover: transparent;

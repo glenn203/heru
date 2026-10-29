@@ -5,7 +5,7 @@ import { controlSize } from '../internal/control-styles.js';
 import { stateLayer } from '../internal/state-layer.js';
 
 /**
- * A square, icon-only button. NAME PROVISIONAL (Technical Writer).
+ * A square, icon-only button. NAME PROVISIONAL.
  *
  * Always ghost in the theme: transparent fill, text-colour overlay on hover and
  * press. Not form-associated: it never submits. `label` is required because

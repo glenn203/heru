@@ -41,10 +41,8 @@ prism-button::part(base) {
     0 0 0 0 var(--prism-color-focus-ring),
     0 0 0 0 var(--prism-focus-halo);
 }
-/* Variants (NAMES PROVISIONAL — Technical Writer). Each only names its
- * colours; hover/pressed/selected/disabled come from the shared state layer.
- * Reference: Astryx Button (facebook/astryx@b7ea471,
- * packages/core/src/Button/Button.tsx). */
+/* Variants (NAMES PROVISIONAL). Each only names its
+ * colours; hover/pressed/selected/disabled come from the shared state layer. */
 /* Secondary: opaque 8% accent tint over the page bg, accent text. */
 prism-button[variant='secondary']::part(base) {
   --_bg: color-mix(
@@ -146,7 +144,7 @@ prism-button[variant='ghost']:state(disabled)::part(base) {
 )::part(label) {
   margin-block-end: calc(
     var(--prism-space-1) / 2
-  ); /* 2px: half a grid unit, per Chuck's mock */
+  ); /* 2px: half a grid unit, per the mock */
 }
 :is(
   prism-text-input,
@@ -365,9 +363,7 @@ prism-select:state(invalid)::part(trigger):focus {
       var(--prism-focus-halo);
 }
 /* ---------- Shared attached error box (text field + select) ----------
- * Copied from Astryx FieldStatus "attached" (facebook/astryx @ d8d8fde,
- * packages/core/src/FieldStatus/FieldStatus.tsx + theme/tokens.stylex.ts).
- * Prism deviations: 8px side margins and Prism's font family. No shadow;
+ * Attached to the field: 8px side margins and Prism's font family. No shadow;
  * --prism-elevation-urgent is reserved, unused. Replaces helper text. */
 :is(
   prism-text-input,
@@ -402,7 +398,7 @@ prism-select::part(error) {
   margin-inline: var(--prism-space-2);
   padding-block: calc(var(--_prism-status-overlap) + 5px) 3px;
   padding-inline: var(--prism-space-2);
-  border-radius: 0 0 8px 8px; /* Astryx --radius-element; not on Prism's odd ramp */
+  border-radius: 0 0 8px 8px; /* element radius; not on Prism's odd ramp */
   background: var(--prism-color-error-surface);
   color: var(--prism-color-on-error-surface);
   font-size: var(--prism-font-size-12);
@@ -411,7 +407,7 @@ prism-select::part(error) {
   letter-spacing: normal;
   text-transform: none;
   box-shadow: none;
-  pointer-events: none; /* Astryx: overlap is visual only */
+  pointer-events: none; /* overlap is visual only */
 }
 /* Tuck cue: concave fillets (radius-5) flare the box's top corners into the
  * control's flat bottom edge, so it reads as growing out from under the input
@@ -503,7 +499,7 @@ prism-select:state(disabled)::part(trigger) {
   cursor: not-allowed;
 }
 
-/* ---------- Option (NAME PENDING — Technical Writer) ---------- */
+/* ---------- Option (NAME PENDING) ---------- */
 prism-option::part(base) {
   --_bg: var(--prism-color-bg);
   --_on: var(--prism-color-text);
@@ -559,7 +555,7 @@ prism-text-area:state(at-limit)::part(counter) {
   color: var(--prism-color-error-text);
 }
 
-/* ---------- OTP error: red text only (Chuck, pt92u) ----------
+/* ---------- OTP error: red text only ----------
  * No fill, inset, tuck, flares or box. Sits where the description sits, but
  * 5px below the boxes: the active box's focus ring reaches 4px, and a 4px gap
  * would leave 0px clearance; 5px clears it by 1px. */
@@ -695,7 +691,7 @@ prism-otp-input:state(disabled)::part(cell) {
   }
 }
 
-/* ---------- Icon button (NAME PROVISIONAL — Technical Writer) ----------
+/* ---------- Icon button (NAME PROVISIONAL) ----------
  * Always ghost: transparent fill, on-colour overlay on hover and press. The
  * icon rests muted and takes the full text colour on hover. */
 prism-icon-button::part(base),
@@ -744,7 +740,7 @@ prism-icon-button:state(disabled)::part(base) {
   color: var(--prism-color-text-muted);
 }
 
-/* ---------- Menu (NAME PROVISIONAL — Technical Writer) ----------
+/* ---------- Menu (NAME PROVISIONAL) ----------
  * Popup uses the shared elevation level, like the select listbox. */
 prism-menu::part(popup) {
   background: var(--prism-color-bg);

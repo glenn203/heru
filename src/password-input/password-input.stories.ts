@@ -9,7 +9,7 @@ interface Args {
   disabled: boolean;
 }
 
-/** Password with a show/hide toggle (aria-pressed). Name pending Technical Writer. */
+/** Password with a show/hide toggle (aria-pressed). Name pending. */
 const meta: Meta<Args> = {
   title: 'Components/Password input',
   component: 'prism-password-input',

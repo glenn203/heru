@@ -1,5 +1,5 @@
 /**
- * The reorder announcements, word for word from the Card page ("Announcements").
+ * The reorder announcements, word for word from the card spec ("Announcements").
  * One visually hidden polite live region per list says each of these once.
  * Positions are 1-based and come from the data (`total` when the list pages).
  */

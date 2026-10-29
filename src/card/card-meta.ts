@@ -2,7 +2,7 @@ import { LitElement, css, html } from 'lit';
 
 /**
  * Footer meta: a timestamp, a count, an owner, or a Tag or Badge. One line,
- * supporting style, ellipsis. NAME PROVISIONAL (Technical Writer).
+ * supporting style, ellipsis. NAME PROVISIONAL.
  *
  * @tag prism-card-meta
  * @slot - The meta text.

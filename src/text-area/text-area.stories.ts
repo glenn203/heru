@@ -14,8 +14,7 @@ interface Args {
 
 /**
  * Multi-line input. `autosize` grows with content; `counter` + `maxlength`
- * shows "n / max" and announces politely only near the limit. Name pending
- * Technical Writer.
+ * shows "n / max" and announces politely only near the limit. Name pending.
  */
 const meta: Meta<Args> = {
   title: 'Components/Text area',

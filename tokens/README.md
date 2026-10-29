@@ -56,7 +56,7 @@ Three semantic levels, defined once in `prism.tokens.json` and emitted as
 `--prism-elevation-*` box-shadow values. Any raised surface uses them: select
 menus, popovers, dialogs, toasts, field status boxes. Components never
 hard-code shadows; the theme applies these tokens through `::part()`.
-Names: NAME PENDING — Technical Writer (semantic `default/hover/urgent` chosen
+Names: NAME PENDING (semantic `default/hover/urgent` chosen
 over numeric `1/2/3`).
 
 | Token                       | Use                                                          | Built from                            |

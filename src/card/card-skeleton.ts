@@ -2,9 +2,8 @@ import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 /**
- * A loading placeholder: grey lines where text will be. NAME PROVISIONAL
- * (Technical Writer; the Skeleton component is not built yet, so this is
- * card-private and swappable).
+ * A loading placeholder: grey lines where text will be. NAME PROVISIONAL (the Skeleton component is not
+ * built yet, so this is card-private and swappable).
  *
  * It is decorative: `aria-hidden`, never focusable. The loading state is
  * announced as text by whatever owns it (a card or a card list), so the

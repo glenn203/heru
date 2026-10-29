@@ -10,7 +10,7 @@ import { css, unsafeCSS, type CSSResult } from 'lit';
  *   --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used
  *           ONLY when color-mix() is unsupported (Safari < 16.2 etc.)
  *
- * Alpha overlay (Astryx-style): background-color stays var(--_bg); each state
+ * Alpha overlay: background-color stays var(--_bg); each state
  * paints background-image: linear-gradient(X, X) with
  *   X = color-mix(in srgb, var(--_on) N%, transparent)
  * i.e. the element's own text colour at N% alpha composited over its fill.

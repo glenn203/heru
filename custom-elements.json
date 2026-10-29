@@ -26,7 +26,7 @@
         },
         {
           "kind": "class",
-          "description": "A picture or initials that stands for a person or thing. Common props:\n`name`, `src`, `size`, `shape`. NAMES PROVISIONAL (Technical Writer).\n\n- With `src` it shows the image, and falls back to initials if the image\n  fails to load. With no `src` it shows the initials of `name`.\n- The accessible name is `name` (role `img`). When the name is already\n  written next to the avatar (a card title, a list row), set `decorative`\n  so it is hidden from assistive tech instead of read twice.\n- Sizes are 24 / 32 / 40 / 48 / 64px: `xs`, `sm`, `md` (default), `lg`, `xl`.\n- Initials sit on a neutral fill; the picture or letters carry the meaning,\n  never a colour per person.",
+          "description": "A picture or initials that stands for a person or thing. Common props:\n`name`, `src`, `size`, `shape`. NAMES PROVISIONAL.\n\n- With `src` it shows the image, and falls back to initials if the image\n  fails to load. With no `src` it shows the initials of `name`.\n- The accessible name is `name` (role `img`). When the name is already\n  written next to the avatar (a card title, a list row), set `decorative`\n  so it is hidden from assistive tech instead of read twice.\n- Sizes are 24 / 32 / 40 / 48 / 64px: `xs`, `sm`, `md` (default), `lg`, `xl`.\n- Initials sit on a neutral fill; the picture or letters carry the meaning,\n  never a colour per person.",
           "name": "PrismAvatar",
           "cssParts": [
             {
@@ -269,7 +269,7 @@
               "type": {
                 "text": "'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive' | undefined"
               },
-              "description": "Visual emphasis. Unset = `primary`. Headless: only the opt-in theme\npaints variants. VARIANT NAMES PROVISIONAL — Technical Writer.\n- `primary` solid accent (default)\n- `secondary` accent tint with accent text\n- `ghost` transparent, no border\n- `outline` transparent with a border\n- `destructive` error-box tint with dark red text",
+              "description": "Visual emphasis. Unset = `primary`. Headless: only the opt-in theme\npaints variants. VARIANT NAMES PROVISIONAL.\n- `primary` solid accent (default)\n- `secondary` accent tint with accent text\n- `ghost` transparent, no border\n- `outline` transparent with a border\n- `destructive` error-box tint with dark red text",
               "attribute": "variant",
               "reflects": true
             },
@@ -503,7 +503,7 @@
               "type": {
                 "text": "'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive' | undefined"
               },
-              "description": "Visual emphasis. Unset = `primary`. Headless: only the opt-in theme\npaints variants. VARIANT NAMES PROVISIONAL — Technical Writer.\n- `primary` solid accent (default)\n- `secondary` accent tint with accent text\n- `ghost` transparent, no border\n- `outline` transparent with a border\n- `destructive` error-box tint with dark red text",
+              "description": "Visual emphasis. Unset = `primary`. Headless: only the opt-in theme\npaints variants. VARIANT NAMES PROVISIONAL.\n- `primary` solid accent (default)\n- `secondary` accent tint with accent text\n- `ghost` transparent, no border\n- `outline` transparent with a border\n- `destructive` error-box tint with dark red text",
               "fieldName": "variant"
             },
             {
@@ -600,7 +600,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A group of card actions. NAME PROVISIONAL (Technical Writer).\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu († narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
+          "description": "A group of card actions. NAME PROVISIONAL.\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu († narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
           "name": "PrismCardActions",
           "slots": [
             {
@@ -776,7 +776,7 @@
             "text": "object"
           },
           "default": "{ pickedUp: (title: string, position: number, total: number): string => `Picked up ${title}, position ${String(position)} of ${String(total)}.`, moved: (title: string, from: number, to: number, total: number): string => `${title} moved from position ${String(from)} to position ${String(to)} of ${String(total)}.`, canceled: (title: string, position: number, total: number): string => `Move canceled. ${title} is at position ${String(position)} of ${String(total)}.`, betweenLists: ( title: string, fromList: string, toList: string, position: number, total: number, ): string => `${title} moved from ${fromList} to ${toList}, position ${String(position)} of ${String(total)}.`, saveFailed: (title: string, position: number, total: number): string => `Couldn't save the new order. ${title} is back at position ${String(position)} of ${String(total)}.`, }",
-          "description": "The reorder announcements, word for word from the Card page (\"Announcements\").\nOne visually hidden polite live region per list says each of these once.\nPositions are 1-based and come from the data (`total` when the list pages)."
+          "description": "The reorder announcements, word for word from the card spec (\"Announcements\").\nOne visually hidden polite live region per list says each of these once.\nPositions are 1-based and come from the data (`total` when the list pages)."
         }
       ],
       "exports": [
@@ -796,7 +796,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Supporting text under the title. NAME FROM THE NOTION CARD PAGE\n(CardDescription). Two lines, then clamps with an ellipsis. Secondary\ncolour comes from the theme.",
+          "description": "Supporting text under the title. NAME SETTLED (CardDescription). Two lines, then clamps with an ellipsis. Secondary\ncolour comes from the theme.",
           "name": "PrismCardDescription",
           "cssParts": [
             {
@@ -836,7 +836,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Groups selectable cards and owns their selection. NAME PROVISIONAL\n(Technical Writer).\n\n- `selection=\"single\"`: a radio group. Tab enters on the selected card (or\n  the first), the arrow keys move **and** select, and wrap. Choosing one\n  clears the others.\n- `selection=\"multi\"` (default): a set of checkboxes. Tab visits each one,\n  Space toggles. A polite message says how many are selected.\n\nSelection is by item id (`value` on each card), so it survives paging: ids\nof cards that are not on screen stay selected. Read and set it with\n`selected` (an array of ids), `clear()` and the `prism-selection-change`\nevent. Initial `selected` attributes on the cards are read once.",
+          "description": "Groups selectable cards and owns their selection. NAME PROVISIONAL.\n\n- `selection=\"single\"`: a radio group. Tab enters on the selected card (or\n  the first), the arrow keys move **and** select, and wrap. Choosing one\n  clears the others.\n- `selection=\"multi\"` (default): a set of checkboxes. Tab visits each one,\n  Space toggles. A polite message says how many are selected.\n\nSelection is by item id (`value` on each card), so it survives paging: ids\nof cards that are not on screen stay selected. Read and set it with\n`selected` (an array of ids), `clear()` and the `prism-selection-change`\nevent. Initial `selected` attributes on the cards are read once.",
           "name": "PrismCardGroup",
           "cssParts": [
             {
@@ -1100,7 +1100,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "The drag handle of a reorderable card, first in the header. NAME PROVISIONAL\n(Technical Writer).\n\nA real `<button>` at least 24 by 24px, named \"Reorder {title}\" (the card\nwrites the label). It shows a grab cursor and a tint on hover. Dragging is\ndone by the list's pointer controller; on touch it starts with a press and\nhold, so scrolling still works. A drag is never the only way to move a card:\nthe list adds Move items to the card's overflow menu.\n\nIf the card has no overflow menu and moving is its only action, the handle\nis the menu button itself (`menu`): the list puts a menu in it, named\n\"Reorder {title}\". A card never has both.",
+          "description": "The drag handle of a reorderable card, first in the header. NAME PROVISIONAL.\n\nA real `<button>` at least 24 by 24px, named \"Reorder {title}\" (the card\nwrites the label). It shows a grab cursor and a tint on hover. Dragging is\ndone by the list's pointer controller; on touch it starts with a press and\nhold, so scrolling still works. A drag is never the only way to move a card:\nthe list adds Move items to the card's overflow menu.\n\nIf the card has no overflow menu and moving is its only action, the handle\nis the menu button itself (`menu`): the list puts a menu in it, named\n\"Reorder {title}\". A card never has both.",
           "name": "PrismCardHandle",
           "cssParts": [
             {
@@ -1213,7 +1213,7 @@
               }
             }
           ],
-          "description": "The Move menu items. Wording from the Card page; a grid reads start/end."
+          "description": "The Move menu items. Wording from the card spec; a grid reads start/end."
         },
         {
           "kind": "variable",
@@ -1222,7 +1222,7 @@
             "text": "[12, 24, 48]"
           },
           "default": "[12, 24, 48]",
-          "description": "Page sizes the Card page names (\"Common page sizes are 12, 24 and 48\")."
+          "description": "Page sizes the card spec names (\"Common page sizes are 12, 24 and 48\")."
         },
         {
           "kind": "variable",
@@ -1235,7 +1235,7 @@
         },
         {
           "kind": "class",
-          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL\n(Technical Writer). Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Hosts\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
+          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Hosts\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
           "name": "PrismCardList",
           "cssParts": [
             {
@@ -2438,7 +2438,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Footer meta: a timestamp, a count, an owner, or a Tag or Badge. One line,\nsupporting style, ellipsis. NAME PROVISIONAL (Technical Writer).",
+          "description": "Footer meta: a timestamp, a count, an owner, or a Tag or Badge. One line,\nsupporting style, ellipsis. NAME PROVISIONAL.",
           "name": "PrismCardMeta",
           "slots": [
             {
@@ -2472,7 +2472,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A big number for a widget, with an optional label. NAME PROVISIONAL\n(Technical Writer).\n\nThe number uses the PROPOSED metric text style: 28px / 36px, weight 600,\ntabular figures, built from existing primitives. The Notion page leaves the\nreal size, weight and line height to Typography, which has not been edited,\nso this is a stand-in set in component-private `--_metric-*` properties\n(never from outside). No Display style is used inside a card.\n\nReading order is number first, then the label, so a screen reader says\n\"1,284 detections\". Put a time range in the label only if the number is\nspecific to it; the widget header already shows an overridden range.",
+          "description": "A big number for a widget, with an optional label. NAME PROVISIONAL.\n\nThe number uses the PROPOSED metric text style: 28px / 36px, weight 600,\ntabular figures, built from existing primitives. The spec leaves the\nreal size, weight and line height to Typography, which has not been edited,\nso this is a stand-in set in component-private `--_metric-*` properties\n(never from outside). No Display style is used inside a card.\n\nReading order is number first, then the label, so a screen reader says\n\"1,284 detections\". Put a time range in the label only if the number is\nspecific to it; the widget header already shows an overridden range.",
           "name": "PrismCardMetric",
           "cssParts": [
             {
@@ -2538,7 +2538,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "The selection control of a selectable card: a real, always visible\n`<input type=\"checkbox\">` or `<input type=\"radio\">`. NAME PROVISIONAL\n(Technical Writer); the page calls it \"Checkbox or Radio\" and Prism has\nneither component yet, so this is card-private and swappable.\n\nIt is labelled by the card's title and described by its description. ID\nreferences cannot cross shadow roots, so the text is copied into\n`aria-label` and `aria-description` and kept in sync by the card. The\n`control` comes from the group (`single` is radio, `multi` is checkbox); a\ncard on its own is a checkbox.\n\nRadios in separate shadow roots do not form a native group, so\n`prism-card-group` moves focus and selection with the arrow keys and sets\n`aria-posinset` and `aria-setsize` itself.\n\nThe target is at least 24 by 24px. The selected mark is the native check or\ndot, so selection never relies on colour alone.",
+          "description": "The selection control of a selectable card: a real, always visible\n`<input type=\"checkbox\">` or `<input type=\"radio\">`. NAME PROVISIONAL.\nPrism has no Checkbox or Radio component yet, so this is card-private and swappable.\n\nIt is labelled by the card's title and described by its description. ID\nreferences cannot cross shadow roots, so the text is copied into\n`aria-label` and `aria-description` and kept in sync by the card. The\n`control` comes from the group (`single` is radio, `multi` is checkbox); a\ncard on its own is a checkbox.\n\nRadios in separate shadow roots do not form a native group, so\n`prism-card-group` moves focus and selection with the arrow keys and sets\n`aria-posinset` and `aria-setsize` itself.\n\nThe target is at least 24 by 24px. The selected mark is the native check or\ndot, so selection never relies on colour alone.",
           "name": "PrismCardSelect",
           "cssParts": [
             {
@@ -2770,7 +2770,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A loading placeholder: grey lines where text will be. NAME PROVISIONAL\n(Technical Writer; the Skeleton component is not built yet, so this is\ncard-private and swappable).\n\nIt is decorative: `aria-hidden`, never focusable. The loading state is\nannounced as text by whatever owns it (a card or a card list), so the\nskeleton never carries information on its own.\n\n- `variant=\"text\"` (default): `lines` lines of text.\n- `variant=\"card\"`: a whole card the same size as a real one (title line,\n  description line, two content lines, a footer line).\n\nColour and the shimmer live in the opt-in theme (reduced motion removes the\nshimmer there).",
+          "description": "A loading placeholder: grey lines where text will be. NAME PROVISIONAL (the Skeleton component is not built yet, so this is\ncard-private and swappable).\n\nIt is decorative: `aria-hidden`, never focusable. The loading state is\nannounced as text by whatever owns it (a card or a card list), so the\nskeleton never carries information on its own.\n\n- `variant=\"text\"` (default): `lines` lines of text.\n- `variant=\"card\"`: a whole card the same size as a real one (title line,\n  description line, two content lines, a footer line).\n\nColour and the shimmer live in the opt-in theme (reduced motion removes the\nshimmer there).",
           "name": "PrismCardSkeleton",
           "cssParts": [
             {
@@ -2853,7 +2853,7 @@
             "text": "string"
           },
           "default": "'data-prism-invalid'",
-          "description": "What a Card's restricted slots accept. The Card page (\"Header slot:\napproved parts\", \"Footer slot: approved parts\", \"Content-only cards\") is the\nsource; this file only encodes it. PART NAMES BEYOND THE PAGE ARE\nPROVISIONAL (Technical Writer).\n\nAn unapproved element is NOT rendered (`data-prism-invalid` + the card CSS\nhides it) and one `console.error` explains why. The content slot is free."
+          "description": "What a Card's restricted slots accept. The card spec (\"Header slot:\napproved parts\", \"Footer slot: approved parts\", \"Content-only cards\") is the\nsource; this file only encodes it. Part names beyond the spec are\nprovisional.\n\nAn unapproved element is NOT rendered (`data-prism-invalid` + the card CSS\nhides it) and one `console.error` explains why. The content slot is free."
         },
         {
           "kind": "variable",
@@ -3056,7 +3056,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "The card's name, and always a real heading (h2 to h6), in a list too.\nNAME FROM THE NOTION CARD PAGE (CardTitle); `level` is provisional.\n\n`level` is required and has no default: pick it from the surrounding\noutline (one below the Section heading, never skipping a level). Without a\nvalid level the text renders as plain text and a dev error is logged,\nbecause a wrong default heading would break the page outline.\n\nLook: the PROPOSED component title text style (14px / 20px / 600). It is not\na heading style; the level only sets the semantics. Wraps to two lines, then\nclamps with an ellipsis.\n\nInteraction: give it `href` (the card goes somewhere) or `action` (the card\ndoes something) and the heading holds a real `<a>` or `<button>`. Its name is\nthe title text only, never the whole card's text. On a `clickable` card its\nclick area is stretched with a pseudo-element over the whole card; the card\nis the positioning context. Other controls in the card sit above that layer.\nOn a collection card the link or button is just the title (not stretched).\nA borderless card is never clickable, so there the title stays plain text.\nOn a collapsible card the title row is the toggle button (chevron first, then\nthe text) with `aria-expanded`; header actions sit beside it, never inside.",
+          "description": "The card's name, and always a real heading (h2 to h6), in a list too.\nNAME SETTLED (CardTitle); `level` is provisional.\n\n`level` is required and has no default: pick it from the surrounding\noutline (one below the Section heading, never skipping a level). Without a\nvalid level the text renders as plain text and a dev error is logged,\nbecause a wrong default heading would break the page outline.\n\nLook: the PROPOSED component title text style (14px / 20px / 600). It is not\na heading style; the level only sets the semantics. Wraps to two lines, then\nclamps with an ellipsis.\n\nInteraction: give it `href` (the card goes somewhere) or `action` (the card\ndoes something) and the heading holds a real `<a>` or `<button>`. Its name is\nthe title text only, never the whole card's text. On a `clickable` card its\nclick area is stretched with a pseudo-element over the whole card; the card\nis the positioning context. Other controls in the card sit above that layer.\nOn a collection card the link or button is just the title (not stretched).\nA borderless card is never clickable, so there the title stays plain text.\nOn a collapsible card the title row is the toggle button (chevron first, then\nthe text) with `aria-expanded`; header actions sit beside it, never inside.",
           "name": "PrismCardTitle",
           "cssParts": [
             {
@@ -3247,11 +3247,11 @@
             "text": "number"
           },
           "default": "2",
-          "description": "Collapsible cards nest at most two levels deep (Card page)."
+          "description": "Collapsible cards nest at most two levels deep (card spec)."
         },
         {
           "kind": "class",
-          "description": "One self-contained item with its own surface. NAMES PROVISIONAL except\nCard, CardTitle and CardDescription (Notion Card page).\n\nThree slots: `header`, `content` and `footer`. Header and footer accept only\nthe approved parts (see card-slots.ts); anything else is hidden with a dev\nerror. Unslotted children go to `content`, which is free.\n\n```html\n<prism-card>\n  <prism-card-title slot=\"header\" level=\"3\">Phishing playbook</prism-card-title>\n  <prism-card-description slot=\"header\">Owner: SOC</prism-card-description>\n  <p>Free content.</p>\n  <prism-card-meta slot=\"footer\">Updated 2 min ago</prism-card-meta>\n  <prism-card-actions slot=\"footer\">\n    <prism-button variant=\"ghost\">View all</prism-button>\n  </prism-card-actions>\n</prism-card>\n```\n\nAccessibility: the card has no role of its own beyond `group` (standalone),\n`listitem` (inside `prism-card-list`) or none (inside an `li`). Its name is\nthe CardTitle text, copied to `aria-label` because ID references cannot cross\nshadow roots. It is never a landmark. An author `role` or `aria-label` wins.\n\nTypes: `default`, `borderless`, `clickable`, `selectable` (`kind`),\n`widget` and `collapsible`. Draggable cards come later.\n\nWidget (a Card in a Grid; there is no Widget component): the header holds\nthe title, a scope description and up to two actions (plus a compact\nTimeRangeInput only when the widget overrides the page range). The time range\nis set at page level: put `data-prism-time-range=\"Last 24 hours\"` on the\nToolbar or page element; every widget below it follows it. A widget with its\nown `range` overrides it, shows that range in its header and is marked\n\"Overridden\" (text, not colour only). The card fires `prism-card-range` when\nits effective range changes. `state=\"loading|error|empty\"` replaces the\ncontent only; header and footer stay. There is no resize here.\n\nCollapsible: the title row is the toggle button (`aria-expanded`, and\n`aria-controls` pointing at the content), `open` is the state, and\n`storage-key` remembers it for the session. Header actions sit beside the\ntoggle. Nest at most two levels.",
+          "description": "One self-contained item with its own surface. NAMES PROVISIONAL except\nCard, CardTitle and CardDescription (settled names).\n\nThree slots: `header`, `content` and `footer`. Header and footer accept only\nthe approved parts (see card-slots.ts); anything else is hidden with a dev\nerror. Unslotted children go to `content`, which is free.\n\n```html\n<prism-card>\n  <prism-card-title slot=\"header\" level=\"3\">Phishing playbook</prism-card-title>\n  <prism-card-description slot=\"header\">Owner: SOC</prism-card-description>\n  <p>Free content.</p>\n  <prism-card-meta slot=\"footer\">Updated 2 min ago</prism-card-meta>\n  <prism-card-actions slot=\"footer\">\n    <prism-button variant=\"ghost\">View all</prism-button>\n  </prism-card-actions>\n</prism-card>\n```\n\nAccessibility: the card has no role of its own beyond `group` (standalone),\n`listitem` (inside `prism-card-list`) or none (inside an `li`). Its name is\nthe CardTitle text, copied to `aria-label` because ID references cannot cross\nshadow roots. It is never a landmark. An author `role` or `aria-label` wins.\n\nTypes: `default`, `borderless`, `clickable`, `selectable` (`kind`),\n`widget` and `collapsible`. Draggable cards come later.\n\nWidget (a Card in a Grid; there is no Widget component): the header holds\nthe title, a scope description and up to two actions (plus a compact\nTimeRangeInput only when the widget overrides the page range). The time range\nis set at page level: put `data-prism-time-range=\"Last 24 hours\"` on the\nToolbar or page element; every widget below it follows it. A widget with its\nown `range` overrides it, shows that range in its header and is marked\n\"Overridden\" (text, not colour only). The card fires `prism-card-range` when\nits effective range changes. `state=\"loading|error|empty\"` replaces the\ncontent only; header and footer stay. There is no resize here.\n\nCollapsible: the title row is the toggle button (`aria-expanded`, and\n`aria-controls` pointing at the content), `open` is the state, and\n`storage-key` remembers it for the session. Header actions sit beside the\ntoggle. Nest at most two levels.",
           "name": "PrismCard",
           "cssParts": [
             {
@@ -4164,7 +4164,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Selection by item id, not by what is on screen. A paged list keeps ids that\nare not in the page, so \"3 selected\" stays true when you change page. NAME\nPROVISIONAL (Technical Writer).\n\nSingle mode holds at most one id and never clears itself (like radios).\nMulti mode toggles. Works on its own or as a Lit ReactiveController.",
+          "description": "Selection by item id, not by what is on screen. A paged list keeps ids that\nare not in the page, so \"3 selected\" stays true when you change page. NAME\nPROVISIONAL.\n\nSingle mode holds at most one id and never clears itself (like radios).\nMulti mode toggles. Works on its own or as a Lit ReactiveController.",
           "name": "SelectionController",
           "members": [
             {
@@ -4670,7 +4670,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A square, icon-only button. NAME PROVISIONAL (Technical Writer).\n\nAlways ghost in the theme: transparent fill, text-colour overlay on hover and\npress. Not form-associated: it never submits. `label` is required because\nthere is no visible text; it becomes the accessible name. When the button\nlives in a card, put the card's title in the label (\"More options for\nPhishing playbook\").",
+          "description": "A square, icon-only button. NAME PROVISIONAL.\n\nAlways ghost in the theme: transparent fill, text-colour overlay on hover and\npress. Not form-associated: it never submits. `label` is required because\nthere is no visible text; it becomes the accessible name. When the button\nlives in a card, put the card's title in the label (\"More options for\nPhishing playbook\").",
           "name": "PrismIconButton",
           "cssParts": [
             {
@@ -5567,7 +5567,7 @@
             "text": "number"
           },
           "default": "280",
-          "description": "The copy never exceeds about this width (Card page)."
+          "description": "The copy never exceeds about this width (card spec)."
         },
         {
           "kind": "class",
@@ -6672,7 +6672,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One action in a `prism-menu`. NAME PROVISIONAL (Technical Writer).\nLight-DOM child of the menu so the menu can roving-focus it.",
+          "description": "One action in a `prism-menu`. NAME PROVISIONAL.\nLight-DOM child of the menu so the menu can roving-focus it.",
           "name": "PrismMenuItem",
           "cssParts": [
             {
@@ -6818,7 +6818,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A menu button with a popup of actions (WAI-ARIA APG \"Menu Button\"). NAME\nPROVISIONAL (Technical Writer); a minimal stand-in until the full Menu\ncomponent. Used for a card's overflow menu and its Move menu.\n\nKeys on the button: Enter, Space and ArrowDown open on the first item;\nArrowUp opens on the last. In the menu: ArrowDown/ArrowUp (wrap), Home, End,\ntype-ahead, Enter/Space activate, Esc closes and returns focus to the\nbutton, Tab closes. The popup is in the top layer, so no card or scroll\ncontainer clips it.",
+          "description": "A menu button with a popup of actions (WAI-ARIA APG \"Menu Button\"). NAME\nPROVISIONAL; a minimal stand-in until the full Menu\ncomponent. Used for a card's overflow menu and its Move menu.\n\nKeys on the button: Enter, Space and ArrowDown open on the first item;\nArrowUp opens on the last. In the menu: ArrowDown/ArrowUp (wrap), Home, End,\ntype-ahead, Enter/Space activate, Esc closes and returns focus to the\nbutton, Tab closes. The popup is in the top layer, so no card or scroll\ncontainer clips it.",
           "name": "PrismMenu",
           "cssParts": [
             {
@@ -7132,7 +7132,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING — Technical Writer.",
+          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING.",
           "name": "PrismOption",
           "cssParts": [
             {
@@ -9106,7 +9106,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL (Technical Writer).\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
+          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL.\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
           "name": "PrismProgress",
           "cssParts": [
             {
@@ -10458,7 +10458,7 @@
                   "text": "void"
                 }
               },
-              "description": "Mirrors native `showPicker()`. NAME PENDING — Technical Writer."
+              "description": "Mirrors native `showPicker()`. NAME PENDING."
             },
             {
               "kind": "method",
@@ -10788,7 +10788,7 @@
               "type": {
                 "text": "ToggleEvent"
               },
-              "description": "Listbox opened or closed (NAME PENDING — Technical Writer)."
+              "description": "Listbox opened or closed (NAME PENDING)."
             },
             {
               "name": "input",

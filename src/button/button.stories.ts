@@ -42,7 +42,7 @@ export const Sizes: StoryObj<Args> = {
     </div>`,
 };
 
-/** Outline variant (name provisional, pending Technical Writer). */
+/** Outline variant (name provisional). */
 export const Outline: StoryObj = {
   render: () =>
     html`<div style="display: flex; gap: 12px">
@@ -68,7 +68,7 @@ const variantStory = (v: (typeof VARIANTS)[number]): StoryObj => ({
       <prism-button variant=${v} type="button" disabled>Disabled</prism-button>
     </div>`,
 });
-/** Variant names provisional, pending Technical Writer. */
+/** Variant names provisional, pending. */
 export const Primary = variantStory('primary');
 export const Secondary = variantStory('secondary');
 export const Ghost = variantStory('ghost');

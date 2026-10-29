@@ -4,7 +4,7 @@ import { stateLayer } from '../internal/state-layer.js';
 import { textRole } from '../internal/control-styles.js';
 
 /**
- * One action in a `prism-menu`. NAME PROVISIONAL (Technical Writer).
+ * One action in a `prism-menu`. NAME PROVISIONAL.
  * Light-DOM child of the menu so the menu can roving-focus it.
  *
  * @tag prism-menu-item

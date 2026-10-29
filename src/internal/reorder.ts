@@ -55,7 +55,7 @@ export const REORDER_EDGE_PX = 48;
 export const REORDER_MAX_SCROLL_PX = 18;
 /** Gap used for the indicator when an item has no neighbour to measure. */
 export const REORDER_FALLBACK_GAP_PX = 16;
-/** The copy never exceeds about this width (Card page). */
+/** The copy never exceeds about this width (card spec). */
 export const REORDER_COPY_MAX_PX = 280;
 
 const rectOf = (el: Element): DOMRect => el.getBoundingClientRect();
