@@ -5,6 +5,7 @@ import { PrismCardMeta } from './card-meta.js';
 import { PrismCardActions } from './card-actions.js';
 import { PrismCardSelect } from './card-select.js';
 import { PrismCardGroup } from './card-group.js';
+import { PrismCardHandle } from './card-handle.js';
 import { PrismCardList } from './card-list.js';
 import { PrismCardMetric } from './card-metric.js';
 import { PrismCardSkeleton } from './card-skeleton.js';
@@ -20,6 +21,7 @@ const defs: [string, CustomElementConstructor][] = [
   ['prism-card-actions', PrismCardActions],
   ['prism-card-select', PrismCardSelect],
   ['prism-card-group', PrismCardGroup],
+  ['prism-card-handle', PrismCardHandle],
   ['prism-card-list', PrismCardList],
   ['prism-card-metric', PrismCardMetric],
   ['prism-card-skeleton', PrismCardSkeleton],
@@ -36,6 +38,7 @@ declare global {
     'prism-card-actions': PrismCardActions;
     'prism-card-select': PrismCardSelect;
     'prism-card-group': PrismCardGroup;
+    'prism-card-handle': PrismCardHandle;
     'prism-card-list': PrismCardList;
     'prism-card-metric': PrismCardMetric;
     'prism-card-skeleton': PrismCardSkeleton;

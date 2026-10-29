@@ -601,6 +601,22 @@ const MATRIX = [
       ['color.border-strong', 'border'], // page-size select edge
     ],
   ],
+  // M4: the drag handle (grip icon, tinted on hover and press), the drop line
+  // and its dot (accent), and the drag copy (text, strong edge). The original
+  // dims to 40% while it is dragged; that transient state is not measured.
+  [
+    'reorder (handle, drop line, copy)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text-muted', 'icon'], // grip icon
+      ['color.text', 'icon'], // grip icon on hover and focus
+      ['color.accent', 'border'], // drop line and dot
+      ['color.border-strong', 'border'], // the copy's edge
+      ['color.text', 'text'], // copy title
+      ['color.text-muted', 'text'], // copy description and meta
+    ],
+  ],
   ['menu item', 'color.bg', 'color.text', [['color.text', 'text']]],
 ];
 export const MATRIX_RESULTS = [];

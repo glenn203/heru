@@ -3,6 +3,7 @@ import { property, state } from 'lit/decorators.js';
 import { stateLayer } from '../internal/state-layer.js';
 import type { PrismCardTitle } from './card-title.js';
 import type { PrismCardSelect } from './card-select.js';
+import type { PrismCardHandle } from './card-handle.js';
 import { renderLight } from './light-dom.js';
 import {
   applyViolations,
@@ -140,6 +141,23 @@ export class PrismCard extends LitElement {
         grid-column: 1;
         grid-row: 1;
         margin-inline-end: var(--prism-space-2, 0.5rem);
+      }
+      /* Centre the 32px handle on the title's first line. */
+      [part='header'] ::slotted(prism-card-handle) {
+        margin-block: calc(
+          (var(--prism-font-line-height-20, 1.25rem) - 2rem) / 2
+        );
+      }
+      [part='header'] ::slotted(prism-card-handle[menu]) {
+        margin-block: calc(
+          (
+              var(--prism-font-line-height-20, 1.25rem) - var(
+                  --prism-control-height-md,
+                  2.25rem
+                )
+            ) /
+            2
+        );
       }
       [part='header'] ::slotted(prism-card-select) {
         grid-column: 2;
@@ -370,6 +388,13 @@ export class PrismCard extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) standalone = false;
 
+  /**
+   * A reorderable card (set by `prism-card-list[reorderable]`): its header takes
+   * a drag handle first. NAME PROVISIONAL (not `draggable`: that is a native
+   * attribute with its own meaning).
+   */
+  @property({ type: Boolean, reflect: true }) reorderable = false;
+
   @state() private hasHeader = false;
   @state() private hasFooter = false;
   @state() private nested = false;
@@ -384,7 +409,7 @@ export class PrismCard extends LitElement {
     return {
       standalone: this.standalone,
       selectable: this.type === 'selectable',
-      draggable: false,
+      draggable: this.reorderable,
       widget: this.type === 'widget',
     };
   }
@@ -536,7 +561,8 @@ export class PrismCard extends LitElement {
       changed.has('kind') ||
       changed.has('disabled') ||
       changed.has('selected') ||
-      changed.has('open')
+      changed.has('open') ||
+      changed.has('reorderable')
     )
       this.#schedule();
     if (
@@ -721,6 +747,15 @@ export class PrismCard extends LitElement {
           this,
           'A clickable card needs a link or button: give its CardTitle `href` (goes somewhere) or `action` (does something).',
         );
+    }
+    const handle = this.querySelector<PrismCardHandle>(
+      ':scope > prism-card-handle[slot="header"]',
+    );
+    if (handle) {
+      handle.label = this.titleText ? `Reorder ${this.titleText}` : 'Reorder';
+      handle.hint = handle.menu
+        ? ''
+        : 'Drag to reorder. To move it with the keyboard, use the card menu.';
     }
     if (title) {
       const collapsible = this.type === 'collapsible';

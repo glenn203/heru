@@ -1,9 +1,61 @@
 import { css, html, type TemplateResult } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { PrismCardGroup } from './card-group.js';
 import { devError } from './card-slots.js';
 import { authored, renderLight } from './light-dom.js';
 import type { PrismCard } from './card.js';
+import type { PrismCardHandle } from './card-handle.js';
+import { reorderMessages } from './card-announcer.js';
+import { iconGrip } from '../internal/icons.js';
+import {
+  ReorderDrag,
+  REORDER_COPY_MAX_PX,
+  type DropIndicator,
+  type DropPoint,
+  type ReorderTarget,
+} from '../internal/reorder.js';
+
+type MoveDir = 'top' | 'up' | 'down' | 'bottom';
+interface MoveSpec {
+  dir: MoveDir;
+  text: string;
+  name: string;
+  disabled: boolean;
+}
+/** Controls that make a card "have other controls" (so it drags by handle only). */
+const OTHER_CONTROLS =
+  'a[href], button, input, select, textarea, prism-button, prism-icon-button, prism-menu, prism-card-select, prism-card-title[href], prism-card-title[action]';
+
+/** The Move menu items. Wording from the Card page; a grid reads start/end. */
+export function moveSpecs(
+  grid: boolean,
+  title: string,
+  index: number,
+  count: number,
+): MoveSpec[] {
+  const first = index <= 0;
+  const last = index >= count - 1;
+  const words: [MoveDir, string, boolean][] = grid
+    ? [
+        ['top', 'Move to start', first],
+        ['up', 'Move earlier', first],
+        ['down', 'Move later', last],
+        ['bottom', 'Move to end', last],
+      ]
+    : [
+        ['top', 'Move to top', first],
+        ['up', 'Move up', first],
+        ['down', 'Move down', last],
+        ['bottom', 'Move to bottom', last],
+      ];
+  // The visible text stays the start of the name (WCAG 2.5.3); the card follows.
+  return words.map(([dir, text, disabled]) => ({
+    dir,
+    text,
+    name: `${text}, ${title}`,
+    disabled,
+  }));
+}
 
 /** Page sizes the Card page names ("Common page sizes are 12, 24 and 48"). */
 export const CARD_LIST_PAGE_SIZES = [12, 24, 48] as const;
@@ -51,6 +103,15 @@ type ListState = 'loading' | 'refreshing' | 'empty' | 'no-matches' | 'error';
  *   card itself.
  *
  * @tag prism-card-list
+ * - **Reordering** (`reorderable`): cards get a drag handle first in the header
+ *   (`prism-card-handle`). Drag with the pointer (touch: press and hold the
+ *   handle); the original dims, a copy follows, a line shows the drop point.
+ *   Every card also gets Move items (top, up, down, bottom; start, earlier,
+ *   later, end in a grid) in its overflow menu, or in the handle itself when it
+ *   has no overflow menu, so nothing needs a drag (WCAG 2.5.7). The list
+ *   announces moves in one polite live region and fires `prism-card-reorder`;
+ *   call `rollback()` if saving fails. `reorder-group` lets cards cross lists.
+ *
  * @slot - The cards, all of one type with the same slots.
  * @slot toolbar - Replaces the selected count and Clear selection.
  * @slot pagination - Replaces the built-in pager.
@@ -58,10 +119,14 @@ type ListState = 'loading' | 'refreshing' | 'empty' | 'no-matches' | 'error';
  * @csspart grid - The grid of cards.
  * @csspart status - The visually hidden live region.
  * @csspart busy - The quiet busy line while refreshing.
+ * @csspart drop-line - The drop indicator (a line between cards).
+ * @csspart drop-dot - The dot at the start of the drop line.
  * @fires prism-card-list-page - Pager used. `detail: { page, pageSize }`.
  * @fires prism-card-list-load-more - Load more pressed.
  * @fires prism-card-list-retry - Retry pressed in the error state.
  * @fires prism-card-list-clear-filters - Clear filters pressed in no-matches.
+ * @fires prism-card-reorder - A card moved. `detail: { value, card, from, to, fromList, toList }` (1-based positions).
+ * @fires prism-card-reorder-failed - `rollback()` put a card back; show a Toast.
  */
 export class PrismCardList extends PrismCardGroup {
   static override styles = [
@@ -123,6 +188,46 @@ export class PrismCardList extends PrismCardGroup {
       [part='busy'][hidden] {
         display: none;
       }
+      :host {
+        position: relative;
+      }
+      /* PROPOSED (page: a 2px line with an 8px dot): private sizes. */
+      [part='drop-line'] {
+        --_drop-line-width: 2px;
+        --_drop-dot-size: 8px;
+        position: absolute;
+        pointer-events: none;
+        z-index: 2;
+      }
+      [part='drop-line'][hidden] {
+        display: none;
+      }
+      [part='drop-line']:not([data-vertical]) {
+        block-size: var(--_drop-line-width);
+        margin-block-start: calc(var(--_drop-line-width) / -2);
+      }
+      [part='drop-line'][data-vertical] {
+        inline-size: var(--_drop-line-width);
+        margin-inline-start: calc(var(--_drop-line-width) / -2);
+      }
+      [part='drop-dot'] {
+        position: absolute;
+        inline-size: var(--_drop-dot-size);
+        block-size: var(--_drop-dot-size);
+        border-radius: 50%;
+      }
+      [part='drop-line']:not([data-vertical]) [part='drop-dot'] {
+        inset-inline-start: 0;
+        inset-block-start: calc(
+          (var(--_drop-line-width) - var(--_drop-dot-size)) / 2
+        );
+      }
+      [part='drop-line'][data-vertical] [part='drop-dot'] {
+        inset-block-start: 0;
+        inset-inline-start: calc(
+          (var(--_drop-line-width) - var(--_drop-dot-size)) / 2
+        );
+      }
     `,
   ];
 
@@ -147,8 +252,33 @@ export class PrismCardList extends PrismCardGroup {
   @property({ type: Boolean, attribute: 'hide-selection-bar' })
   hideSelectionBar = false;
 
+  /** Cards can be reordered (handle, drag, Move menu). NAME PROVISIONAL. */
+  @property({ type: Boolean, reflect: true }) reorderable = false;
+  /** Lists with the same group let a card move between them. */
+  @property({ attribute: 'reorder-group' }) reorderGroup = '';
+  @state() private line: DropIndicator | null = null;
+
   #hadCards = false;
   #lastTotal?: number;
+  #drag?: ReorderDrag;
+  #resize?: ResizeObserver;
+  #history?: { card: PrismCard; source: PrismCardList; index: number };
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.addEventListener('prism-menu-select', this.#onMenuSelect);
+    this.#resize = new ResizeObserver(() => {
+      if (this.reorderable) this.#syncReorder();
+    });
+    this.#resize.observe(this);
+  }
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener('prism-menu-select', this.#onMenuSelect);
+    this.#resize?.disconnect();
+    this.#drag?.detach();
+    this.#drag = undefined;
+  }
 
   protected override hostRole(): string {
     return 'list';
@@ -161,7 +291,10 @@ export class PrismCardList extends PrismCardGroup {
       ? 0
       : (Math.max(1, this.page) - 1) * this.pageSize;
     cards.forEach((card, i) => {
-      if (this.total === undefined) {
+      if (this.total === undefined && this.reorderable) {
+        card.setAttribute('aria-setsize', String(cards.length));
+        card.setAttribute('aria-posinset', String(i + 1));
+      } else if (this.total === undefined) {
         card.removeAttribute('aria-setsize');
         card.removeAttribute('aria-posinset');
       } else {
@@ -183,11 +316,17 @@ export class PrismCardList extends PrismCardGroup {
           [...levels].join(', ') +
           '.',
       );
+    this.#syncReorder();
     const has = this.cards.length > 0;
     if (has !== this.#hadCards) {
       this.#hadCards = has;
       this.requestUpdate();
     }
+  }
+
+  /** The cards, in order (also the reorder items). */
+  get cardItems(): PrismCard[] {
+    return this.#items;
   }
 
   get #items(): PrismCard[] {
@@ -227,6 +366,7 @@ export class PrismCardList extends PrismCardGroup {
     this.toggleAttribute('aria-busy', false);
     if (this.state === 'loading' || this.state === 'refreshing')
       this.setAttribute('aria-busy', 'true');
+    if (changed.has('reorderable')) this.#setupDrag();
     this.synced();
     this.#renderBars();
   }
@@ -377,6 +517,384 @@ export class PrismCardList extends PrismCardGroup {
     this.querySelector<HTMLElement>('[data-prism-count]')?.focus();
   };
 
+  // ---- Reordering ----------------------------------------------------------
+
+  get #offset(): number {
+    return this.total !== undefined && !this.loadMore
+      ? (Math.max(1, this.page) - 1) * this.pageSize
+      : 0;
+  }
+  /** 1-based position of the card at in-page index `i`, from the data. */
+  #position(i: number): number {
+    return this.#offset + i + 1;
+  }
+  get #count(): number {
+    return this.total ?? this.#items.length;
+  }
+
+  #isGrid(cards: PrismCard[]): boolean {
+    const first = cards[0];
+    return (
+      !!first &&
+      cards.some((c) => Math.abs(c.offsetLeft - first.offsetLeft) > 2)
+    );
+  }
+
+  #hasOtherControls(card: PrismCard): boolean {
+    return [...card.querySelectorAll(OTHER_CONTROLS)].some(
+      (el) => !el.closest('prism-card-handle'),
+    );
+  }
+
+  /** Handles, Move items and the drag-anywhere flag, kept in step with the cards. */
+  #syncReorder(): void {
+    const cards = this.#items;
+    const grid = this.#isGrid(cards);
+    cards.forEach((card, i) => {
+      if (card.reorderable !== this.reorderable)
+        card.reorderable = this.reorderable;
+      card.toggleAttribute(
+        'data-prism-grabbable',
+        this.reorderable && !this.#hasOtherControls(card),
+      );
+      const handle = card.querySelector<PrismCardHandle>(
+        ':scope > prism-card-handle',
+      );
+      const own = card.querySelector<HTMLElement>(
+        ':scope > prism-card-actions > prism-menu',
+      );
+      const title = card.titleText;
+      const specs = this.reorderable
+        ? moveSpecs(grid, title, i, cards.length)
+        : [];
+      if (this.reorderable && !handle)
+        devError(
+          card,
+          'A reorderable card needs a <prism-card-handle slot="header"> first in its header.',
+        );
+      if (own) {
+        // The card's overflow menu carries the Move items; the handle is a
+        // plain drag button. Never both.
+        if (handle && handle.menu) handle.menu = false;
+        if (handle) renderLight(handle, '', null);
+        this.#syncMoveItems(own, specs);
+      } else if (handle) {
+        // No overflow menu: the handle is the menu button.
+        if (handle.menu !== this.reorderable) handle.menu = this.reorderable;
+        renderLight(
+          handle,
+          '',
+          this.reorderable
+            ? html`<prism-menu label=${`Reorder ${title}`}>
+                <span slot="trigger">${iconGrip()}</span>
+                ${specs.map(
+                  (s) =>
+                    html`<prism-menu-item
+                      data-prism-move=${s.dir}
+                      aria-label=${s.name}
+                      ?disabled=${s.disabled}
+                      >${s.text}</prism-menu-item
+                    >`,
+                )}
+              </prism-menu>`
+            : null,
+        );
+      }
+    });
+  }
+
+  /** Adds, updates or removes the Move items of an author's menu in place. */
+  #syncMoveItems(menu: HTMLElement, specs: MoveSpec[]): void {
+    const have = [
+      ...menu.querySelectorAll<HTMLElement & { disabled: boolean }>(
+        ':scope > prism-menu-item[data-prism-move]',
+      ),
+    ];
+    specs.forEach((spec, k) => {
+      let item = have[k];
+      if (!item) {
+        item = document.createElement('prism-menu-item');
+        menu.append(item);
+      }
+      if (item.dataset['prismMove'] !== spec.dir)
+        item.dataset['prismMove'] = spec.dir;
+      if (item.textContent !== spec.text) item.textContent = spec.text;
+      if (item.getAttribute('aria-label') !== spec.name)
+        item.setAttribute('aria-label', spec.name);
+      if (item.disabled !== spec.disabled) item.disabled = spec.disabled;
+    });
+    for (const extra of have.slice(specs.length)) extra.remove();
+  }
+
+  #setupDrag(): void {
+    this.#drag?.detach();
+    this.#drag = undefined;
+    if (!this.reorderable) return;
+    this.#drag = new ReorderDrag(this, {
+      grab: (path) => this.#grab(path),
+      targets: () => this.#dropTargets(),
+      makeCopy: (item) => this.#makeCopy(item as PrismCard),
+      indicator: (info) => this.#showLine(info),
+      start: (item) => this.#onDragStart(item as PrismCard),
+      drop: (item, to) => this.#onDrop(item as PrismCard, to),
+    });
+    this.#drag.attach();
+  }
+
+  /** From the handle, or from anywhere on a card with no other controls. */
+  #grab(path: EventTarget[]): PrismCard | null {
+    const card = path.find(
+      (n): n is PrismCard =>
+        n instanceof HTMLElement &&
+        n.localName === 'prism-card' &&
+        n.parentElement === this,
+    );
+    if (!card) return null;
+    const handle = card.querySelector(':scope > prism-card-handle');
+    if (handle && path.includes(handle)) return card;
+    if (this.#hasOtherControls(card)) return null;
+    // A press on a control of the card (it has none) or its text starts a drag.
+    return card;
+  }
+
+  #dropTargets(): ReorderTarget[] {
+    const lists = [this as PrismCardList];
+    if (this.reorderGroup)
+      for (const l of document.querySelectorAll<PrismCardList>(
+        'prism-card-list[reorderable]',
+      ))
+        if (l !== this && l.reorderGroup === this.reorderGroup) lists.push(l);
+    return lists.map((list) => ({ list, items: list.cardItems }));
+  }
+
+  /** The simplified copy: at most three pieces of information, about 280px. */
+  #makeCopy(card: PrismCard): HTMLElement {
+    const copy = document.createElement('div');
+    copy.setAttribute('data-prism-drag-copy', '');
+    copy.setAttribute('aria-hidden', 'true');
+    const r = card.getBoundingClientRect();
+    copy.style.width = `${String(Math.min(r.width, REORDER_COPY_MAX_PX))}px`;
+    const pieces = [
+      card.titleText,
+      card.descriptionText,
+      card
+        .querySelector(':scope > prism-card-meta[slot="footer"]')
+        ?.textContent?.replace(/\s+/g, ' ')
+        .trim() ?? '',
+    ].filter(Boolean);
+    pieces.forEach((text, i) => {
+      const line = document.createElement('div');
+      line.setAttribute(
+        'data-prism-drag-copy-line',
+        i === 0 ? 'title' : 'text',
+      );
+      line.textContent = text;
+      copy.append(line);
+    });
+    return copy;
+  }
+
+  #showLine(info: DropIndicator | null): void {
+    for (const l of document.querySelectorAll<PrismCardList>(
+      'prism-card-list[reorderable]',
+    ))
+      l.#setLine(info && info.list === l ? info : null);
+    this.#setLine(info && info.list === this ? info : null);
+  }
+  #setLine(info: DropIndicator | null): void {
+    this.line = info;
+  }
+
+  #renderLine() {
+    const info = this.line;
+    if (!info) return html`<div part="drop-line" hidden></div>`;
+    const host = this.getBoundingClientRect();
+    const style = info.vertical
+      ? `left:${String(info.x - host.left)}px;top:${String(info.y - host.top)}px;block-size:${String(info.length)}px`
+      : `left:${String(info.x - host.left)}px;top:${String(info.y - host.top)}px;inline-size:${String(info.length)}px`;
+    return html`<div
+      part="drop-line"
+      ?data-vertical=${info.vertical}
+      style=${style}
+    >
+      <span part="drop-dot"></span>
+    </div>`;
+  }
+
+  #onDragStart(card: PrismCard): void {
+    card.setAttribute('data-prism-dragging', '');
+    // Close any open menu or tooltip when the drag starts.
+    for (const m of document.querySelectorAll<HTMLElement & { open: boolean }>(
+      'prism-menu[open]',
+    ))
+      m.open = false;
+    const i = this.#items.indexOf(card);
+    this.announce(
+      reorderMessages.pickedUp(card.titleText, this.#position(i), this.#count),
+    );
+  }
+
+  #onDrop(card: PrismCard, to: DropPoint | null): void {
+    card.removeAttribute('data-prism-dragging');
+    const target = to?.list as PrismCardList | undefined;
+    if (!to || !target) {
+      this.#announceStay(card);
+      this.#focusHandle(card);
+      return;
+    }
+    void this.#applyMove(card, target, to.index, 'handle');
+  }
+
+  #announceStay(card: PrismCard): void {
+    const i = this.#items.indexOf(card);
+    this.announce(
+      reorderMessages.canceled(card.titleText, this.#position(i), this.#count),
+    );
+  }
+
+  /** Visually hidden polite live region; clears first so a repeat is heard. */
+  announce(text: string): void {
+    this.message = '';
+    void this.updateComplete.then(() => {
+      this.message = text;
+    });
+  }
+
+  /** Moves `card` so it ends at `index` among `target`'s other cards. */
+  async #applyMove(
+    card: PrismCard,
+    target: PrismCardList,
+    index: number,
+    via: 'handle' | 'menu',
+  ): Promise<void> {
+    const source = (card.parentElement as PrismCardList | null) ?? this;
+    const from = source.cardItems.indexOf(card);
+    const fromPos = source.#position(from);
+    if (target === source && index === from) {
+      this.#announceStay(card);
+      if (via === 'handle') this.#focusHandle(card);
+      return;
+    }
+    const others = target.cardItems.filter((c) => c !== card);
+    const before = others[index];
+    if (before) before.before(card);
+    else if (others.length)
+      (others[others.length - 1] as PrismCard).after(card);
+    else target.prepend(card);
+    this.#history = undefined;
+    target.#history = { card, source, index: from };
+    await Promise.all([card.updateComplete, target.updateComplete]);
+    target.#syncReorder();
+    const now = target.cardItems.indexOf(card);
+    const pos = target.#position(now);
+    const total = target.#count;
+    target.announce(
+      target === source
+        ? reorderMessages.moved(card.titleText, fromPos, pos, total)
+        : reorderMessages.betweenLists(
+            card.titleText,
+            source.label || 'the list',
+            target.label || 'the list',
+            pos,
+            total,
+          ),
+    );
+    target.dispatchEvent(
+      new CustomEvent('prism-card-reorder', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: card.value,
+          card,
+          from: fromPos,
+          to: pos,
+          fromList: source,
+          toList: target,
+        },
+      }),
+    );
+    target.#flash(card);
+    if (via === 'handle') target.#focusHandle(card);
+  }
+
+  /** Flash the moved card once, unless reduced motion is on. */
+  #flash(card: PrismCard): void {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    card.removeAttribute('data-prism-flash');
+    void card.offsetWidth;
+    card.setAttribute('data-prism-flash', '');
+    const clear = (): void => card.removeAttribute('data-prism-flash');
+    card.addEventListener('animationend', clear, { once: true });
+    setTimeout(clear, 1200);
+  }
+
+  /** Focus stays on the control that was used (the handle after a drag). */
+  #focusHandle(card: PrismCard): void {
+    const handle = card.querySelector<PrismCardHandle>(
+      ':scope > prism-card-handle',
+    );
+    handle?.focusControl();
+  }
+
+  readonly #onMenuSelect = (event: Event): void => {
+    const { item } = (event as CustomEvent<{ item: HTMLElement }>).detail;
+    const dir = item.dataset['prismMove'] as MoveDir | undefined;
+    if (!dir) return;
+    const card = item.closest<PrismCard>('prism-card');
+    if (!card || card.parentElement !== this) return;
+    const menu = event.target as HTMLElement;
+    const cards = this.#items;
+    const i = cards.indexOf(card);
+    const j =
+      dir === 'top'
+        ? 0
+        : dir === 'bottom'
+          ? cards.length - 1
+          : dir === 'up'
+            ? Math.max(0, i - 1)
+            : Math.min(cards.length - 1, i + 1);
+    void this.#applyMove(card, this, j, 'menu').then(() => {
+      // After a move, focus returns to the control you used, so you can press
+      // it again (the menu button of this card).
+      requestAnimationFrame(() =>
+        menu.shadowRoot
+          ?.querySelector<HTMLElement>('[part="trigger"]')
+          ?.focus(),
+      );
+    });
+  };
+
+  /**
+   * Saving the new order failed: put the card back and say so. Show a Toast
+   * from `prism-card-reorder-failed`. Undoes the latest move of this list.
+   */
+  rollback(): void {
+    const h = this.#history;
+    if (!h) return;
+    this.#history = undefined;
+    const { card, source, index } = h;
+    const others = source.cardItems.filter((c) => c !== card);
+    const before = others[index];
+    if (before) before.before(card);
+    else if (others.length)
+      (others[others.length - 1] as PrismCard).after(card);
+    else source.prepend(card);
+    void card.updateComplete.then(() => {
+      source.#syncReorder();
+      const pos = source.#position(source.cardItems.indexOf(card));
+      source.announce(
+        reorderMessages.saveFailed(card.titleText, pos, source.#count),
+      );
+      source.dispatchEvent(
+        new CustomEvent('prism-card-reorder-failed', {
+          bubbles: true,
+          composed: true,
+          detail: { value: card.value, card },
+        }),
+      );
+    });
+  }
+
   override render() {
     const state = this.state;
     const whole =
@@ -401,6 +919,7 @@ export class PrismCardList extends PrismCardGroup {
             </div>`
       }
       <div part="pager"><slot name="pagination"></slot></div>
+      ${this.#renderLine()}
       <div part="status" role="status" aria-live="polite">
         ${this.message}
       </div>`;

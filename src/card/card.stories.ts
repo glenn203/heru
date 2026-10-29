@@ -467,3 +467,82 @@ export const CardListOneColumn: StoryObj<Args> = {
     return list;
   },
 };
+
+// ---- M4: reorderable lists (names provisional) ----
+
+const REORDER_NAMES = [
+  'Phishing playbook',
+  'Malware triage',
+  'Account takeover',
+  'Data exposure',
+];
+const reorderCard = (name: string, menu = true) => `
+  <prism-card value="${name}">
+    <prism-card-handle slot="header"></prism-card-handle>
+    <prism-card-title slot="header" level="3">${name}</prism-card-title>
+    <prism-card-description slot="header">Runs on report</prism-card-description>
+    ${
+      menu
+        ? `<prism-card-actions slot="header"><prism-menu label="More options for ${name}"><prism-menu-item>Rename</prism-menu-item></prism-menu></prism-card-actions>`
+        : ''
+    }
+    <p style="margin:0">Steps for ${name.toLowerCase()}.</p>
+    <prism-card-meta slot="footer">Updated 2 min ago</prism-card-meta>
+  </prism-card>`;
+
+/**
+ * Drag a card by its handle (touch: press and hold). Or open the card's menu
+ * and use Move to top, up, down, bottom: no drag needed. A polite message says
+ * what moved. Escape cancels a drag.
+ */
+export const ReorderableList: StoryObj<Args> = {
+  render: () => {
+    const list = document.createElement('prism-card-list');
+    list.setAttribute('label', 'Playbooks');
+    list.setAttribute('reorderable', '');
+    list.setAttribute('columns', '1');
+    list.style.maxInlineSize = '420px';
+    list.innerHTML = REORDER_NAMES.map((n) => reorderCard(n)).join('');
+    return list;
+  },
+};
+
+/** In a grid the line is vertical and the Move items read start, earlier, later, end. */
+export const ReorderableGrid: StoryObj<Args> = {
+  render: () => {
+    const list = document.createElement('prism-card-list');
+    list.setAttribute('label', 'Playbooks');
+    list.setAttribute('reorderable', '');
+    list.style.maxInlineSize = '760px';
+    list.innerHTML = REORDER_NAMES.map((n) => reorderCard(n)).join('');
+    return list;
+  },
+};
+
+/** No overflow menu: the handle is the menu button, named "Reorder {title}". */
+export const ReorderableHandleMenu: StoryObj<Args> = {
+  render: () => {
+    const list = document.createElement('prism-card-list');
+    list.setAttribute('label', 'Playbooks');
+    list.setAttribute('reorderable', '');
+    list.setAttribute('columns', '1');
+    list.style.maxInlineSize = '420px';
+    list.innerHTML = REORDER_NAMES.map((n) => reorderCard(n, false)).join('');
+    return list;
+  },
+};
+
+/** Two lists in one group: drag a card from Draft to Active. */
+export const ReorderBetweenLists: StoryObj<Args> = {
+  render: () => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText =
+      'display:grid;grid-template-columns:repeat(2,minmax(0,320px));gap:32px';
+    const mk = (label: string, names: string[]) =>
+      `<prism-card-list label="${label}" reorderable columns="1" reorder-group="playbooks">${names.map((n) => reorderCard(n)).join('')}</prism-card-list>`;
+    wrap.innerHTML =
+      mk('Draft', REORDER_NAMES.slice(0, 2)) +
+      mk('Active', REORDER_NAMES.slice(2));
+    return wrap;
+  },
+};

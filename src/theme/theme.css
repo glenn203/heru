@@ -1007,6 +1007,123 @@ prism-card-list::part(busy) {
   }
 }
 
+/* ---------- Reorder: handle, dragging, drop line, copy (M4) ----------
+ * Names provisional. The handle is a ghost icon button with a grab cursor and a
+ * tint on hover. The original dims to 40% while its copy follows the pointer at
+ * the predefined default elevation (the copy is never rotated). The drop line
+ * is 2px in the accent colour with an 8px dot at the start. A moved card
+ * flashes once; reduced motion removes the flash. */
+prism-card-handle::part(base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  color: var(--prism-color-text-muted);
+  cursor: grab;
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+  box-shadow:
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
+}
+prism-card-handle::part(base):active,
+prism-card-handle prism-menu::part(trigger-base):active {
+  cursor: grabbing;
+}
+prism-card-handle prism-menu::part(trigger-base) {
+  cursor: grab;
+}
+@media (hover: hover) {
+  prism-card-handle::part(base):hover {
+    color: var(--_on);
+  }
+}
+prism-card-handle::part(base):focus-visible {
+  color: var(--_on);
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+/* A card with no other controls drags from anywhere, so its text is not selectable. */
+prism-card[data-prism-grabbable] {
+  cursor: grab;
+  user-select: none;
+}
+/* The original stays in place, dimmed to 40%. */
+prism-card[data-prism-dragging] {
+  opacity: 0.4;
+}
+[data-prism-drag-copy] {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--prism-space-1);
+  padding: var(--prism-space-4);
+  color: var(--prism-color-text);
+  background: var(--prism-color-bg);
+  border: var(--prism-border-width) solid var(--prism-color-border-strong);
+  border-radius: var(--prism-radius-7);
+  box-shadow: var(--prism-elevation-default);
+  font-family: var(--prism-font-family-sans);
+  font-size: var(--prism-font-size-12);
+  line-height: var(--prism-font-line-height-20);
+  overflow: hidden;
+}
+[data-prism-drag-copy] > * {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+[data-prism-drag-copy] [data-prism-drag-copy-line='title'] {
+  font-size: var(--prism-font-size-14);
+  font-weight: var(--prism-font-weight-semibold);
+}
+[data-prism-drag-copy] [data-prism-drag-copy-line='text'] {
+  color: var(--prism-color-text-muted);
+}
+prism-card-list::part(drop-line) {
+  background: var(--prism-color-accent);
+}
+prism-card-list::part(drop-dot) {
+  background: var(--prism-color-accent);
+}
+prism-card[data-prism-flash]::part(base) {
+  animation: prism-card-flash 900ms var(--prism-ease-standard) 1;
+}
+@keyframes prism-card-flash {
+  from {
+    background-color: var(--prism-color-surface-pressed);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  prism-card[data-prism-flash]::part(base) {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  prism-card-list::part(drop-line),
+  prism-card-list::part(drop-dot) {
+    background: Highlight;
+  }
+  [data-prism-drag-copy] {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+  prism-card-handle::part(base):focus-visible {
+    outline-color: Highlight;
+  }
+}
+
 /* Stretched link (rule 3 and the layers): controls deeper than a direct child
    still sit above the title's stretched click area. */
 prism-card[type='clickable']

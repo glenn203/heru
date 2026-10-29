@@ -119,20 +119,21 @@ CardDescription, TimeRangeInput. Everything else here is **provisional**
 `prism-icon-button`, `prism-menu`, `prism-menu-item`, the `type`, `raised` and
 `standalone` attributes.
 
-| Element                  | Job                                                                     |
-| ------------------------ | ----------------------------------------------------------------------- |
-| `prism-card`             | Surface with three slots: `header`, `content` (default) and `footer`.   |
-| `prism-card-title`       | The card's name, always a real h2 to h6. `level` is **required**.       |
-| `prism-card-description` | Supporting text, two lines then ellipsis.                               |
-| `prism-card-meta`        | Footer meta, one line.                                                  |
-| `prism-card-actions`     | Header, footer or content-only button row. Enforces the action rules.   |
-| `prism-card-select`      | Visible native checkbox or radio of a selectable card.                  |
-| `prism-card-group`       | Selection group: single (radio) or multi (checkbox), by item id.        |
-| `prism-card-list`        | Grid or list of cards: columns 1/2/3/4, paging, selection across pages. |
-| `prism-card-metric`      | A big number for a widget, with a label (PROPOSED metric style).        |
-| `prism-card-skeleton`    | Decorative loading placeholder (`text` lines or a whole `card`).        |
-| `prism-icon-button`      | Square ghost icon button. `label` is required (the accessible name).    |
-| `prism-menu` / `-item`   | Minimal menu button (APG). Used for overflow and the Move menu later.   |
+| Element                  | Job                                                                             |
+| ------------------------ | ------------------------------------------------------------------------------- |
+| `prism-card`             | Surface with three slots: `header`, `content` (default) and `footer`.           |
+| `prism-card-title`       | The card's name, always a real h2 to h6. `level` is **required**.               |
+| `prism-card-description` | Supporting text, two lines then ellipsis.                                       |
+| `prism-card-meta`        | Footer meta, one line.                                                          |
+| `prism-card-actions`     | Header, footer or content-only button row. Enforces the action rules.           |
+| `prism-card-select`      | Visible native checkbox or radio of a selectable card.                          |
+| `prism-card-group`       | Selection group: single (radio) or multi (checkbox), by item id.                |
+| `prism-card-list`        | Grid or list of cards: columns 1/2/3/4, paging, selection across pages.         |
+| `prism-card-metric`      | A big number for a widget, with a label (PROPOSED metric style).                |
+| `prism-card-skeleton`    | Decorative loading placeholder (`text` lines or a whole `card`).                |
+| `prism-card-handle`      | Drag handle of a reorderable card (grip). `menu` makes it the Move menu button. |
+| `prism-icon-button`      | Square ghost icon button. `label` is required (the accessible name).            |
+| `prism-menu` / `-item`   | Minimal menu button (APG). Used for overflow and the Move menu later.           |
 
 ### Restricted slots
 
@@ -264,6 +265,48 @@ the bottom of cards in the same row. Never position it with absolute placement.
   `refreshing` (cards stay, quiet busy line), `empty` (your `empty` slot),
   `no-matches` ("No matches", Clear filters), `error` (what failed, Retry). One
   failed card uses `state="error"` on that card.
+
+### Reorder (M4, names provisional)
+
+`prism-card-list[reorderable]` lets people reorder cards. Every card gets a
+`prism-card-handle` in its header (the grip). The handle is the pointer way; the
+Move menu is the keyboard and switch way (WCAG 2.5.7), so nobody has to drag.
+
+- **Drag.** Press the handle and drag (touch: press and hold about 350 ms, so a
+  scroll still scrolls). A card with no other controls can also be dragged from
+  anywhere. The original dims to 40%, one copy follows the pointer (existing
+  `elevation-default`, no new elevation), and a 2px accent line with a dot shows
+  where it will land. The line is horizontal in a list and vertical in a grid
+  (flips in RTL). The list scrolls itself near an edge. Escape or dropping outside
+  cancels. A click right after a drag is ignored.
+- **Move menu.** Move to top, Move up, Move down, Move to bottom (a grid reads
+  Move to start, earlier, later, end). Items that would do nothing are disabled.
+  They are added to the card's existing overflow menu. A card with no overflow menu
+  makes the handle the menu button (`menu`), so a card never has two menus. The
+  menu button is named "Reorder {title}".
+- **Names.** Menu items read "Move up" and are named "Move up, {title}" so the
+  visible words are the start of the name (WCAG 2.5.3). The page's "Move 'X' up"
+  would not pass that, see open questions.
+- **Announcements.** One polite live region per list, exact wording from the page:
+  "Picked up {title}, position {n} of {total}." / "{title} moved from position
+  {a} to position {b} of {total}." / "Move canceled. {title} is at position {n} of
+  {total}." / "{title} moved from {list} to {list}, position {n} of {total}." /
+  "Couldn't save the new order. {title} is back at position {n} of {total}."
+  Exported as `reorderMessages`.
+- **Focus.** After a menu move, focus returns to the same card's menu button. After
+  a drag it goes to the handle.
+- **Events.** `prism-card-reorder` (after a move; `{ value, card, from, to,
+fromList, toList }`, positions are 1-based) and `prism-card-reorder-failed`
+  (`{ value, card }`). Save the new order from the first. If saving fails, call
+  `list.rollback()` (undoes the latest move, announces "Couldn't save...") and show
+  a Toast from the second. `reorder-group="name"` lets cards move between lists
+  with the same name.
+- **Reduced motion.** With `prefers-reduced-motion: reduce` the moved card does not
+  flash. Nothing else animates: the drop line jumps, the copy tracks the pointer
+  and edge scrolling is instant, not smooth. A move is never conveyed by motion
+  alone: it is announced.
+- **Not built (dagger items).** Alt+Arrow shortcuts, "Move to position" form,
+  stacked copy for a multi-selection drag.
 
 ### PROPOSED, not tokens yet
 

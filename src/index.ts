@@ -19,6 +19,8 @@ export { PrismCardMeta } from './card/card-meta.js';
 export { PrismCardActions } from './card/card-actions.js';
 export { PrismCardSelect } from './card/card-select.js';
 export { PrismCardGroup } from './card/card-group.js';
+export { PrismCardHandle } from './card/card-handle.js';
+export { reorderMessages } from './card/card-announcer.js';
 export { PrismCardList } from './card/card-list.js';
 export { PrismCardMetric } from './card/card-metric.js';
 export { PrismCardSkeleton } from './card/card-skeleton.js';
