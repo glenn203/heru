@@ -66,6 +66,8 @@ const pairs = [
   ['focus-ring', 'bg', 3],
   ['error', 'bg', 3],
   ['border-strong', 'bg', 3], // outline button border (non-text)
+  ['border-strong', 'surface', 3], // interactive card edge on a surface page (M2)
+  ['text', 'surface', 4.5], // borderless card text
 ];
 for (const [fg, bg, min] of pairs) {
   test(`contrast: color-${fg} on color-${bg} >= ${min}:1`, () => {
@@ -152,13 +154,20 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
     !/box-shadow:\s*var\(--prism-elevation-urgent/.test(theme),
     'elevation-urgent is reserved, unused',
   );
+  // elevation-hover is reserved for the raised card at rest (Card page, Chuck).
+  const cardAt = theme.indexOf('/* ---------- Card');
   assert.ok(
-    !/var\(--prism-elevation-hover/.test(theme),
-    'elevation-hover is reserved, unused',
+    !/var\(--prism-elevation-hover/.test(theme.slice(0, cardAt)),
+    'elevation-hover is reserved for the raised card, nowhere else',
+  );
+  assert.ok(
+    [...theme.slice(cardAt).matchAll(/var\(--prism-elevation-hover/g)]
+      .length === 1,
+    'only prism-card[raised] uses elevation-hover',
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--prism-elevation-default|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
+      /var\(--prism-elevation-(default|hover)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -521,6 +530,30 @@ const MATRIX = [
       ['color.text', 'icon'], // hover icon colour
     ],
   ],
+  // Card family (M1). Cards are not interactive yet, so these rows also stand
+  // in for the controls placed on them: the surface is the base the overlay of
+  // a ghost button or icon button composites over.
+  [
+    'card (bordered, raised)',
+    'color.bg',
+    'color.text',
+    [
+      ['color.text', 'text'], // title, content
+      ['color.text-muted', 'text'], // description, footer meta
+      ['color.text-muted', 'icon'], // icon button resting icon
+    ],
+  ],
+  [
+    'card (borderless)',
+    'color.surface',
+    'color.text',
+    [
+      ['color.text', 'text'],
+      ['color.text-muted', 'text'],
+      ['color.text-muted', 'icon'],
+    ],
+  ],
+  ['menu item', 'color.bg', 'color.text', [['color.text', 'text']]],
 ];
 export const MATRIX_RESULTS = [];
 for (const [surface, bgKey, onKey, pairs] of MATRIX)

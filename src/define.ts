@@ -6,3 +6,6 @@ import './otp-input/define.js';
 import './text-area/define.js';
 import './text-field/define.js';
 import './select/define.js';
+import './icon-button/define.js';
+import './menu/define.js';
+import './card/define.js';

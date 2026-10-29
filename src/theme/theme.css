@@ -694,3 +694,106 @@ prism-otp-input:state(disabled)::part(cell) {
     animation: none !important; /* error appears instantly */
   }
 }
+
+/* ---------- Icon button (NAME PROVISIONAL — Technical Writer) ----------
+ * Always ghost: transparent fill, on-colour overlay on hover and press. The
+ * icon rests muted and takes the full text colour on hover. */
+prism-icon-button::part(base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  color: var(--prism-color-text-muted);
+  user-select: none;
+  transition:
+    background-color var(--prism-duration-fast) var(--prism-ease-standard),
+    color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+  /* Focus ring rests at zero spread so no sub-pixel fringe is drawn. */
+  box-shadow:
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
+}
+@media (hover: hover) {
+  prism-icon-button:not(:state(disabled))::part(base):hover {
+    color: var(--_on);
+  }
+}
+prism-icon-button::part(base):focus-visible {
+  color: var(--_on);
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+prism-icon-button:state(disabled)::part(base) {
+  color: var(--prism-color-text-muted);
+}
+
+/* ---------- Menu (NAME PROVISIONAL — Technical Writer) ----------
+ * Popup uses the shared elevation level, like the select listbox. */
+prism-menu::part(popup) {
+  background: var(--prism-color-bg);
+  color: var(--prism-color-text);
+  border: var(--prism-border-width) solid var(--prism-color-border-popup);
+  border-radius: var(--prism-radius-7);
+  box-shadow: var(--prism-elevation-default);
+}
+prism-menu-item::part(base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  border-radius: var(--prism-radius-5);
+  min-block-size: 24px;
+}
+prism-menu-item:state(disabled)::part(base) {
+  color: var(--prism-color-text-muted);
+}
+prism-menu-item:state(active)::part(base) {
+  outline: var(--prism-focus-ring-width) solid var(--prism-color-focus-ring);
+  outline-offset: -2px;
+}
+
+/* ---------- Card (names provisional except Card, CardTitle, CardDescription) ----------
+ * Colours, border, radius and elevation only; padding and layout live in the
+ * component. Elevation uses the predefined levels (hover = raised at rest,
+ * default = the dragged copy in a later milestone, urgent is never used).
+ * A card is either bordered or raised, never both; borderless has neither. */
+prism-card::part(base) {
+  background-color: var(--prism-color-bg);
+  color: var(--prism-color-text);
+  border: var(--prism-border-width) solid var(--prism-color-border);
+  border-radius: var(--prism-radius-7);
+}
+prism-card[raised]::part(base) {
+  /* Transparent border keeps an edge in forced-colors mode. */
+  border-color: transparent;
+  box-shadow: var(--prism-elevation-hover);
+}
+prism-card[type='borderless']::part(base) {
+  background-color: var(--prism-color-surface);
+  border: 0;
+  box-shadow: none;
+}
+prism-card-description,
+prism-card-meta {
+  color: var(--prism-color-text-muted);
+}
+@media (forced-colors: active) {
+  prism-card:not([type='borderless'])::part(base) {
+    border-color: CanvasText;
+  }
+}

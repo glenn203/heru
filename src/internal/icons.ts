@@ -33,3 +33,18 @@ export const iconEyeOff = () =>
 export const iconX = () => icon(svg`<path d="M4 4l8 8M12 4l-8 8"/>`);
 export const iconSearch = () =>
   icon(svg`<circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/>`);
+
+// Card family (placeholder set, swap with the icon-system decision).
+export const iconChevronDown = () => icon(svg`<path d="M4 6l4 4 4-4"/>`);
+export const iconGrip = () =>
+  icon(
+    svg`<circle cx="6" cy="4" r=".75"/><circle cx="10" cy="4" r=".75"/><circle cx="6" cy="8" r=".75"/><circle cx="10" cy="8" r=".75"/><circle cx="6" cy="12" r=".75"/><circle cx="10" cy="12" r=".75"/>`,
+  );
+export const iconMore = () =>
+  icon(
+    svg`<circle cx="3.5" cy="8" r=".75"/><circle cx="8" cy="8" r=".75"/><circle cx="12.5" cy="8" r=".75"/>`,
+  );
+export const iconArrowUp = () => icon(svg`<path d="M8 13V3M4 7l4-4 4 4"/>`);
+export const iconArrowDown = () => icon(svg`<path d="M8 3v10M4 9l4 4 4-4"/>`);
+export const iconRefresh = () =>
+  icon(svg`<path d="M13 8a5 5 0 1 1-1.5-3.5M13 2.5v3h-3"/>`);

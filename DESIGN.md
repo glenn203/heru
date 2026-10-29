@@ -111,6 +111,76 @@ prism-tab::part(base) {
 All variants use the shared state layer, the same focus ring and the same
 inert disabled look.
 
+## Card family (M1: shared Card, names provisional)
+
+Source: the Notion Card page. Names from the page: Card, CardTitle,
+CardDescription, TimeRangeInput. Everything else here is **provisional**
+(Technical Writer): `prism-card-actions`, `prism-card-meta`,
+`prism-icon-button`, `prism-menu`, `prism-menu-item`, the `type`, `raised` and
+`standalone` attributes.
+
+| Element                  | Job                                                                   |
+| ------------------------ | --------------------------------------------------------------------- |
+| `prism-card`             | Surface with three slots: `header`, `content` (default) and `footer`. |
+| `prism-card-title`       | The card's name, always a real h2 to h6. `level` is **required**.     |
+| `prism-card-description` | Supporting text, two lines then ellipsis.                             |
+| `prism-card-meta`        | Footer meta, one line.                                                |
+| `prism-card-actions`     | Header, footer or content-only button row. Enforces the action rules. |
+| `prism-icon-button`      | Square ghost icon button. `label` is required (the accessible name).  |
+| `prism-menu` / `-item`   | Minimal menu button (APG). Used for overflow and the Move menu later. |
+
+### Restricted slots
+
+`header` and `footer` accept only approved parts (`card-slots.ts` is the one
+place that lists them). An unapproved element is **not rendered**
+(`data-prism-invalid` + `display: none`) and one `console.error` says why.
+`content` is free. Header: one CardTitle (required), one CardDescription, one
+icon or avatar, one Tag or Badge, a drag handle and a selection control (later
+milestones), and one CardActions with at most two ghost icon buttons or an
+overflow menu. **No text buttons in the header.** Footer: one CardMeta and one
+CardActions with at most two actions: ghost and secondary (soft), plus **one
+primary only on a `standalone` card**. Outline and destructive are never
+allowed. A "View all" link counts as one action.
+
+Content-only cards put `prism-card-actions` (no slot) last in the content:
+end side, 8px apart, medium, ghost to the left of secondary, no primary,
+outline or destructive. It wraps onto the next line on the end side and sits at
+the bottom of cards in the same row. Never position it with absolute placement.
+
+### Elevation, hover, borders
+
+- Bordered (default): 1px `color-border`, no shadow. Raised: a transparent
+  border plus `--prism-elevation-hover`. Borderless: flat `color-surface`, no
+  border, no shadow. A card is never both bordered and raised.
+- **Hover is the state layer only.** No lift, no transform, no shadow change.
+  `--prism-elevation-hover` is used by `prism-card[raised]` and nowhere else;
+  `--prism-elevation-urgent` is never used on a card. A test guards both.
+- A dragged copy (later milestone) uses `--prism-elevation-default`.
+- Interactive cards (later) take `color-border-strong` so the edge meets 3:1.
+
+### PROPOSED, not tokens yet
+
+These values live as component-private `--_*` custom properties built from
+existing primitives. They are **not** in `tokens/*.json` and Typography is
+untouched. They wait for approval.
+
+| Private property  | Value                                  | Where                                                            |
+| ----------------- | -------------------------------------- | ---------------------------------------------------------------- |
+| `--_title-*`      | 14px / 20px / 600 sans                 | `prism-card-title` (component title style)                       |
+| `--_supporting-*` | 12px / 20px / 400 sans                 | description and meta (page says 12/20; token `caption` is 12/16) |
+| `--_pad`          | density pad units + 2 (12 / 16 / 20px) | `prism-card`                                                     |
+| `CARD_NARROW_PX`  | 280                                    | narrow rule (page marks it with a dagger)                        |
+
+### Behavior notes
+
+- Role and name: standalone card = `group`, inside an `li` = none, inside
+  `prism-card-list` = `listitem`; never a landmark. The name is the title text,
+  copied to `aria-label` (ID references cannot cross shadow roots). An author
+  `role` or `aria-label` wins.
+- Narrow (280px or less, dagger on the page): the card gets `:state(narrow)`,
+  the footer stacks and header icon buttons fold into one overflow menu.
+- Layout properties are logical, so cards mirror in right-to-left.
+
 ## Figma mapping
 
 - States: add a **fill layer** above the resting fill using the element's
