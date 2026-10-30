@@ -93,7 +93,13 @@ const ramps = {
     '900',
     '950',
   ],
-  red: ['50', '500', '600', '700', '800'],
+  red: ['50', '100', '300', '500', '600', '700', '800', '900'],
+  ...Object.fromEntries(
+    ['violet', 'blue', 'cyan', 'green', 'amber', 'magenta'].map((h) => [
+      h,
+      ['50', '100', '300', '500', '600', '700', '900'],
+    ]),
+  ),
 };
 const semantic = [
   'bg',
@@ -105,6 +111,22 @@ const semantic = [
   'border-popup',
   'accent',
   'on-accent',
+  'accent-text',
+  'accent-surface',
+  'on-solid',
+  'neutral',
+  'info',
+  'info-text',
+  'info-surface',
+  'success',
+  'success-text',
+  'success-surface',
+  'warning',
+  'warning-text',
+  'warning-surface',
+  'danger',
+  'danger-text',
+  'danger-surface',
   'focus-ring',
   'focus-halo',
   'error',
@@ -126,7 +148,8 @@ export const Color: StoryObj = {
       <div class="f-grid">
         <p class="f-muted">
           Use the semantic names in components and themes. Ramps exist to feed
-          them.
+          them. See Foundations / Color for the full palette, the light and dark
+          themes and the contrast table.
         </p>
         <h3 class="f-h">Semantic</h3>
         <div class="f-ramp">${semantic.map(swatch)}</div>

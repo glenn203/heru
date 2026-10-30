@@ -43,14 +43,15 @@ prism-button::part(base) {
 }
 /* Variants (NAMES PROVISIONAL). Each only names its
  * colours; hover/pressed/selected/disabled come from the shared state layer. */
-/* Secondary: opaque 8% accent tint over the page bg, accent text. */
+/* Secondary: opaque 8% accent tint over the page bg, accent text (the
+ * accent-text role, which is AA on the tint in both themes). */
 prism-button[variant='secondary']::part(base) {
   --_bg: color-mix(
     in oklch,
     var(--prism-color-bg),
     var(--prism-color-accent) 8%
   );
-  --_on: var(--prism-color-accent);
+  --_on: var(--prism-color-accent-text);
   --_bg-hover: var(--prism-color-surface-hover);
   --_bg-pressed: var(--prism-color-surface-pressed);
   --_bg-selected: var(--prism-color-surface-pressed);
@@ -1128,8 +1129,8 @@ prism-card[type='clickable']
 }
 
 /* Tag, Badge and Progress read --_tone-low-bg, --_tone-low-fg, --_tone-high-bg
- * and --_tone-high-fg from their host. The PROPOSED palette that sets them is
- * component-private (src/internal/tones.ts), not in this file or the tokens. */
+ * and --_tone-high-fg from their host. src/internal/tones.ts sets them from the
+ * tone colour roles in the tokens, so they follow the theme. */
 /* ---------- Tag (job, emphasis, tone) ---------- */
 prism-tag::part(base) {
   --_bg: var(--_tone-low-bg);
