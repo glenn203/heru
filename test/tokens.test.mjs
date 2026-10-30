@@ -51,36 +51,163 @@ test('control.height.sm is 24/32/40 across compact/default/comfortable', () => {
 });
 
 // ---------- Color ----------
-const { contrast, inSrgb } = await import('../scripts/oklch.mjs');
-const color = (k) => resolved.modes.default[`color.${k}`].value;
+const { contrast, contrastP3, inSrgb, inP3 } =
+  await import('../scripts/oklch.mjs');
+const THEMES = ['light', 'dark'];
+const tokIn = (theme, k) =>
+  theme === 'dark' && resolved.themes.dark[k]
+    ? resolved.themes.dark[k].value
+    : resolved.modes.default[k].value;
+const colorIn = (theme, k) => tokIn(theme, `color.${k}`);
+// [fg, bg, min ratio]. Text 4.5:1; borders, focus and solid fills 3:1.
 const pairs = [
   ['text', 'bg', 4.5],
   ['text', 'surface', 4.5],
   ['text-muted', 'bg', 4.5],
   ['text-muted', 'surface', 4.5],
+  ['text', 'surface-pressed', 4.5], // avatar initials
   ['on-accent', 'accent', 4.5],
   ['on-accent', 'accent-hover', 4.5],
   ['on-accent', 'accent-active', 4.5],
+  ['accent-text', 'bg', 4.5],
+  ['accent-text', 'surface', 4.5],
+  ['accent-text', 'accent-surface', 4.5],
+  ['accent', 'bg', 3],
+  ['accent', 'surface-pressed', 3], // progress fill on its track
   ['error-text', 'bg', 4.5],
   ['border-strong', 'bg', 3],
+  ['border-strong', 'surface', 3], // interactive card edge on a surface page
   ['focus-ring', 'bg', 3],
+  ['focus-ring', 'surface', 3],
   ['error', 'bg', 3],
-  ['border-strong', 'bg', 3], // outline button border (non-text)
-  ['border-strong', 'surface', 3], // interactive card edge on a surface page (M2)
-  ['text', 'surface', 4.5], // borderless card text
+  ['neutral', 'bg', 3],
+  ['neutral', 'surface-pressed', 3],
+  ['on-solid', 'neutral', 4.5],
+  ...['info', 'success', 'warning', 'danger'].flatMap((t) => [
+    [`${t}-text`, `${t}-surface`, 4.5],
+    [`${t}-text`, 'bg', 4.5],
+    [`${t}-text`, 'surface', 4.5],
+    ['on-solid', t, 4.5],
+    [t, 'bg', 3],
+    [t, 'surface-pressed', 3],
+  ]),
 ];
-for (const [fg, bg, min] of pairs) {
-  test(`contrast: color-${fg} on color-${bg} >= ${min}:1`, () => {
-    const ratio = contrast(color(fg), color(bg));
-    assert.ok(ratio >= min, `${ratio.toFixed(2)}:1`);
-  });
-}
+for (const theme of THEMES)
+  for (const [fg, bg, min] of pairs) {
+    test(`contrast [${theme}]: color-${fg} on color-${bg} >= ${min}:1 (sRGB and P3)`, () => {
+      const [a, b] = [colorIn(theme, fg), colorIn(theme, bg)];
+      const srgb = contrast(a, b);
+      const p3 = contrastP3(a, b);
+      assert.ok(srgb >= min, `sRGB ${srgb.toFixed(2)}:1`);
+      assert.ok(p3 >= min, `P3 ${p3.toFixed(2)}:1`);
+    });
+  }
 
-test('every color is inside the sRGB gamut and has a hex fallback', () => {
-  for (const [key, t] of Object.entries(resolved.modes.default)) {
+test('every color is inside Display P3 and has an sRGB hex fallback; colours outside sRGB are flagged p3', () => {
+  const all = [
+    ...Object.entries(resolved.modes.default),
+    ...Object.entries(resolved.themes.dark),
+  ];
+  for (const [key, t] of all) {
     if (t.type !== 'color') continue;
-    assert.ok(inSrgb(t.value), `${key} ${t.value} is out of sRGB`);
+    assert.ok(inP3(t.value), `${key} ${t.value} is out of Display P3`);
     assert.match(t.hex, /^#[0-9a-f]{6}([0-9a-f]{2})?$/);
+    assert.equal(t.gamut === 'p3', !inSrgb(t.value), `${key} gamut flag`);
+  }
+});
+
+test('the palette has a real Display P3 range: at least 12 colours sit outside sRGB', () => {
+  const vivid = Object.values(resolved.modes.default).filter(
+    (t) => t.gamut === 'p3',
+  );
+  assert.ok(vivid.length >= 12, `${vivid.length} P3 colours`);
+});
+
+test('tokens.css: P3 colours are gated by color-gamut, with a mapped sRGB base and a hex tier', () => {
+  const css = readFileSync(
+    new URL('../src/tokens/tokens.css', import.meta.url),
+    'utf8',
+  );
+  const at = css.indexOf('@media (color-gamut: p3)');
+  assert.ok(at > 0, 'p3 media block exists');
+  const p3 = css.slice(at, css.indexOf('\n}\n', at));
+  const base = css.slice(0, at);
+  const vivid = Object.entries(resolved.modes.default).filter(
+    ([key, t]) => t.gamut === 'p3' && /^color\.[a-z]+\.\d+$/.test(key),
+  );
+  assert.ok(vivid.length >= 12);
+  for (const [key, t] of vivid) {
+    const name = t.cssVar;
+    assert.ok(p3.includes(`${name}: ${t.value};`), `${name} full chroma in p3`);
+    const m = new RegExp(`${name}: (oklch\\([^)]*\\));`).exec(base);
+    assert.ok(m && inSrgb(m[1]), `${key} base ${m?.[1]} must be inside sRGB`);
+    const hex = new RegExp(
+      `@supports not \\(color: oklch\\(0 0 0\\)\\) \\{[^]*?${name}: ${t.hex};`,
+    );
+    assert.match(css, hex, `${name} hex fallback`);
+  }
+});
+
+test('dark theme: scopes exist and re-declare roles, elevation and halo', () => {
+  const css = readFileSync(
+    new URL('../src/tokens/tokens.css', import.meta.url),
+    'utf8',
+  );
+  assert.match(css, /\[data-prism-theme='dark'\] \{\s*color-scheme: dark;/);
+  assert.match(
+    css,
+    /@media \(prefers-color-scheme: dark\) \{\s*\[data-prism-theme='auto'\] \{\s*color-scheme: dark;/,
+  );
+  const dark = css.slice(css.indexOf(`[data-prism-theme='dark'] {`));
+  const scope = dark.slice(0, dark.indexOf('\n}\n'));
+  for (const k of [
+    'color-bg',
+    'color-text',
+    'color-accent',
+    'color-focus-halo',
+    'focus-halo',
+    'elevation-default',
+    'elevation-hover',
+    'gradient-mist',
+  ])
+    assert.match(scope, new RegExp(`--prism-${k}:`), `${k} in dark scope`);
+  assert.doesNotMatch(
+    css.slice(0, css.indexOf(`[data-prism-theme='dark'] {`)),
+    /prefers-color-scheme/,
+    'dark never applies unless a scope opts in',
+  );
+});
+
+test('gradients: spectrum, refract and mist, with a non-interpolated base', () => {
+  const css = readFileSync(
+    new URL('../src/tokens/tokens.css', import.meta.url),
+    'utf8',
+  );
+  for (const g of ['spectrum', 'refract', 'mist']) {
+    assert.match(
+      css,
+      new RegExp(`--prism-gradient-${g}: linear-gradient\\(\\d+deg,`),
+    );
+    assert.match(
+      css,
+      new RegExp(`--prism-gradient-${g}: linear-gradient\\(in oklch \\d+deg,`),
+    );
+  }
+});
+
+test('mist gradient: text on every stop >= 4.5:1 in both themes', () => {
+  for (const theme of THEMES) {
+    const stops = resolved[theme === 'dark' ? 'themes' : 'modes'];
+    const g = (theme === 'dark' ? stops.dark : stops.default)['gradient.mist'];
+    const found = [...g.value.matchAll(/oklch\([^)]*\)/g)].map((m) => m[0]);
+    assert.equal(found.length, 4);
+    for (const stop of found)
+      for (const fg of ['text', 'text-muted'])
+        assert.ok(
+          contrast(colorIn(theme, fg), stop) >= 4.5 &&
+            contrastP3(colorIn(theme, fg), stop) >= 4.5,
+          `${theme} ${fg} on ${stop}`,
+        );
   }
 });
 
@@ -97,13 +224,22 @@ test('radius ramp is odd px (plus none and full)', () => {
   }
 });
 
-test('only slate and red ramps exist', () => {
+test('the ramps are the neutral, the spectrum and red', () => {
   const ramps = new Set(
     Object.keys(resolved.modes.default)
       .filter((k) => /^color\.[a-z]+\.\d+$/.test(k))
       .map((k) => k.split('.')[1]),
   );
-  assert.deepEqual([...ramps].sort(), ['red', 'slate']);
+  assert.deepEqual([...ramps].sort(), [
+    'amber',
+    'blue',
+    'cyan',
+    'green',
+    'magenta',
+    'red',
+    'slate',
+    'violet',
+  ]);
 });
 
 test('focus ring: 1px gap + 2px ring + 1px halo; reach fits the space-1 label gap', () => {
@@ -297,7 +433,8 @@ test('theme: reduced motion zeroes durations and flattens springs', () => {
 // ---------- Semantic layer + shared state layer ----------
 import { readFileSync as rf } from 'node:fs';
 const { parseOklch, oklchToHex } = await import('../scripts/oklch.mjs');
-const tok = (k) => resolved.modes.default[k].value;
+let THEME = 'light'; // the theme the tests being defined read their tokens from
+const tok = (k) => tokIn(THEME, k);
 const srgb = (str) => {
   const h = oklchToHex(str);
   return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
@@ -351,33 +488,40 @@ const SURFACES = [
   ['outline button', null, 'color.text', 'veil'],
   ['icon button', null, 'color.text', 'veil'],
 ];
-for (const [name, bgKey, onKey, mode] of SURFACES)
-  for (const [state, p] of Object.entries(STATES))
-    test(`state contrast: ${name} ${state} — text on fill >= 4.5:1`, () => {
-      const on = tok(onKey);
-      const fill =
-        mode === 'oklch'
-          ? srgb(mixOklch(tok(bgKey), on, p))
-          : veil(on, tok('color.bg'), p);
-      const r = ratio(srgb(on), fill);
-      console.log(`  ${name} ${state}: ${r.toFixed(2)}:1`);
-      assert.ok(r >= 4.5, `${r.toFixed(2)}:1`);
-    });
+for (const theme of THEMES)
+  for (const [name, bgKey, onKey, mode] of SURFACES)
+    for (const [state, p] of Object.entries(STATES))
+      test(`state contrast [${theme}]: ${name} ${state} — text on fill >= 4.5:1`, () => {
+        THEME = theme;
+        const on = tok(onKey);
+        const fill =
+          mode === 'oklch'
+            ? srgb(mixOklch(tok(bgKey), on, p))
+            : veil(on, tok('color.bg'), p);
+        const r = ratio(srgb(on), fill);
+        THEME = 'light';
+        console.log(`  [${theme}] ${name} ${state}: ${r.toFixed(2)}:1`);
+        assert.ok(r >= 4.5, `${r.toFixed(2)}:1`);
+      });
 
-test('outline button: border >= 3:1 and label >= 4.5:1 on bg', () => {
-  const bg = srgb(tok('color.bg'));
-  const border = ratio(srgb(tok('color.border-strong')), bg);
-  const label = ratio(srgb(tok('color.text')), bg);
-  console.log(
-    `  outline border ${border.toFixed(2)}:1, label ${label.toFixed(2)}:1`,
-  );
-  assert.ok(border >= 3);
-  assert.ok(label >= 4.5);
-});
+for (const theme of THEMES)
+  test(`outline button [${theme}]: border >= 3:1 and label >= 4.5:1 on bg`, () => {
+    const bg = srgb(tokIn(theme, 'color.bg'));
+    const border = ratio(srgb(tokIn(theme, 'color.border-strong')), bg);
+    const label = ratio(srgb(tokIn(theme, 'color.text')), bg);
+    console.log(
+      `  [${theme}] outline border ${border.toFixed(2)}:1, label ${label.toFixed(2)}:1`,
+    );
+    assert.ok(border >= 3);
+    assert.ok(label >= 4.5);
+  });
 
 test('on-error-surface pairs with error-surface; error-status-text is its alias', () => {
   assert.equal(tok('color.error-status-text'), tok('color.on-error-surface'));
-  assert.equal(tok('color.error-surface'), 'oklch(0.586 0.226 21.3 / 0.08)');
+  assert.equal(
+    tok('color.error-surface'),
+    tok('color.red.500').replace(/\)$/, ' / 0.08)'),
+  );
   assert.equal(tok('color.on-error-surface'), 'oklch(0.368 0.148 25)');
   const r = ratio(
     srgb(tok('color.on-error-surface')),
@@ -389,7 +533,11 @@ test('on-error-surface pairs with error-surface; error-status-text is its alias'
 test('elevation and focus halo are built from roles with exact former values', () => {
   assert.equal(tok('color.shadow'), tok('color.slate.950'));
   assert.equal(tok('color.shadow-urgent'), tok('color.red.600'));
-  assert.equal(tok('focus.halo'), 'oklch(0.554 0.035 260 / 0.12)');
+  assert.equal(
+    tok('focus.halo'),
+    tok('color.focus-ring').replace(/\)$/, ' / 0.12)'),
+    'halo = the focus ring at 12%',
+  );
   assert.equal(
     tok('elevation.default'),
     '0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12)',
@@ -483,8 +631,8 @@ const MATRIX = [
   [
     'secondary',
     ['color.bg', 'color.accent', 0.08],
-    'color.accent',
-    [['color.accent', 'text']],
+    'color.accent-text',
+    [['color.accent-text', 'text']],
   ],
   [
     'ghost',
@@ -620,16 +768,23 @@ const MATRIX = [
   ['menu item', 'color.bg', 'color.text', [['color.text', 'text']]],
 ];
 export const MATRIX_RESULTS = [];
-for (const [surface, bgKey, onKey, pairs] of MATRIX)
-  for (const [state, p] of Object.entries(MATRIX_STATES))
-    for (const [fg, kind] of pairs) {
-      const min = kind === 'text' ? 4.5 : 3;
-      const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
-      MATRIX_RESULTS.push({ surface, state, fg, kind, r });
-      test(`matrix: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`, () => {
-        assert.ok(r >= min, `${surface} ${state} ${fg}: ${r.toFixed(2)}:1`);
-      });
-    }
+for (const theme of THEMES) {
+  THEME = theme;
+  for (const [surface, bgKey, onKey, pairs] of MATRIX)
+    for (const [state, p] of Object.entries(MATRIX_STATES))
+      for (const [fg, kind] of pairs) {
+        const min = kind === 'text' ? 4.5 : 3;
+        const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
+        MATRIX_RESULTS.push({ theme, surface, state, fg, kind, r });
+        test(`matrix [${theme}]: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`, () => {
+          assert.ok(
+            r >= min,
+            `${theme} ${surface} ${state} ${fg}: ${r.toFixed(2)}:1`,
+          );
+        });
+      }
+}
+THEME = 'light';
 
 test('matrix report: disabled (exempt) numbers', () => {
   const surf = srgb(tok('color.surface'));
@@ -682,8 +837,9 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
 });
 
 // ---------- Tone palette (Tag, Badge, Progress) ----------
-// Tones neutral/accent/danger come from tokens; info/success/warning are
-// PROPOSED private --_tone-* values in theme.css. All pairs are measured here.
+// Every tone reads colour roles (so it follows the theme). The light hex
+// fallback inside each var() must equal the role's light value. All pairs are
+// measured in both themes, on sRGB and P3 screens.
 {
   const src = readFileSync(
     new URL('../src/internal/tones.ts', import.meta.url),
@@ -693,51 +849,66 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
     src.indexOf('/* TONES-START */'),
     src.indexOf('/* TONES-END */'),
   );
-  const resolve = (v) => {
-    const m = /^var\(--prism-color-([a-z0-9-]+)/.exec(v);
-    if (!m) return v;
-    const name = m[1].replace(/^([a-z]+)-(\d+)$/, '$1.$2');
-    return color(name);
+  const refs = {}; // tone -> prop -> role name
+  const fallbacks = {}; // tone -> prop -> hex
+  const read = (tone, chunk) => {
+    refs[tone] = { ...refs.neutral };
+    fallbacks[tone] = { ...fallbacks.neutral };
+    for (const m of chunk.matchAll(
+      /--_tone-([a-z-]+): var\(--prism-color-([a-z-]+), (#[0-9a-f]{6})\);/g,
+    )) {
+      refs[tone][m[1]] = m[2];
+      fallbacks[tone][m[1]] = m[3];
+    }
   };
-  const tones = { neutral: {} };
-  // Defaults (neutral): the first rule has no [tone] selector.
-  const base = block.slice(0, block.indexOf(":host([${a}='accent'])"));
-  for (const m of base.matchAll(/--_tone-([a-z-]+): ([^;]+);/g))
-    tones.neutral[m[1]] = resolve(m[2].trim());
-  for (const t of ['accent', 'danger', 'info', 'success', 'warning']) {
-    const start = block.indexOf(`:host([\${a}='${t}'])`);
-    tones[t] = {};
-    for (const m of block
-      .slice(start)
-      .split(/\n\s*\}/)[0]
-      .matchAll(/--_tone-([a-z-]+): ([^;]+);/g))
-      tones[t][m[1]] = resolve(m[2].trim());
-    tones[t]['high-fg'] = tones.neutral['high-fg']; // white, set once on :host
+  const idx = (t) => block.indexOf(`:host([\${a}='${t}'])`);
+  refs.neutral = {};
+  fallbacks.neutral = {};
+  read('neutral', block.slice(0, idx('accent')));
+  for (const t of ['accent', 'danger', 'info', 'success', 'warning'])
+    read(t, block.slice(idx(t)).split(/\n\s*\}/)[0]);
+  for (const theme of THEMES) {
+    const page = colorIn(theme, 'bg');
+    const surface = colorIn(theme, 'surface');
+    const track = colorIn(theme, 'surface-pressed');
+    for (const [tone, r] of Object.entries(refs)) {
+      const v = Object.fromEntries(
+        Object.entries(r).map(([k, role]) => [k, colorIn(theme, role)]),
+      );
+      const both = (fg, bg, min, what) => {
+        assert.ok(contrast(fg, bg) >= min, `${what} sRGB`);
+        assert.ok(contrastP3(fg, bg) >= min, `${what} P3`);
+      };
+      test(`tone ${tone} [${theme}]: all four values are present, inside P3`, () => {
+        for (const k of ['low-bg', 'low-fg', 'high-bg', 'high-fg']) {
+          assert.ok(v[k], `${k} missing`);
+          assert.ok(inP3(v[k]), `${k} ${v[k]} out of P3`);
+        }
+      });
+      test(`tone ${tone} [${theme}]: low text >= 4.5:1 on its tint, on the page and on a surface`, () => {
+        both(v['low-fg'], v['low-bg'], 4.5, 'on tint');
+        both(v['low-fg'], page, 4.5, 'on page (ghost)');
+        both(v['low-fg'], surface, 4.5, 'on surface (ghost)');
+      });
+      test(`tone ${tone} [${theme}]: high text >= 4.5:1 on its fill; fill >= 3:1 on the page`, () => {
+        both(v['high-fg'], v['high-bg'], 4.5, 'text on fill');
+        both(v['high-bg'], page, 3, 'fill on page');
+      });
+      test(`tone ${tone} [${theme}]: progress fill >= 3:1 on its track (surface-pressed)`, () => {
+        both(v['high-bg'], track, 3, 'fill on track');
+      });
+    }
   }
-  const page = color('bg');
-  const surface = color('surface');
-  for (const [tone, v] of Object.entries(tones)) {
-    test(`tone ${tone}: all four values are present and inside sRGB`, () => {
-      for (const k of ['low-bg', 'low-fg', 'high-bg', 'high-fg'])
-        assert.ok(v[k], `${k} missing`);
-      for (const k of ['low-bg', 'low-fg', 'high-bg'])
-        assert.ok(inSrgb(v[k]), `${k} ${v[k]} out of sRGB`);
-    });
-    test(`tone ${tone}: low text >= 4.5:1 on its tint, on the page and on a surface`, () => {
-      assert.ok(contrast(v['low-fg'], v['low-bg']) >= 4.5, 'on tint');
-      assert.ok(contrast(v['low-fg'], page) >= 4.5, 'on page (ghost)');
-      assert.ok(contrast(v['low-fg'], surface) >= 4.5, 'on surface (ghost)');
-    });
-    test(`tone ${tone}: high text (white) >= 4.5:1 on its fill; fill >= 3:1 on the page`, () => {
-      assert.ok(contrast(v['high-fg'], v['high-bg']) >= 4.5, 'text on fill');
-      assert.ok(contrast(v['high-bg'], page) >= 3, 'fill on page');
-    });
-    test(`tone ${tone}: progress fill >= 3:1 on its track (surface-pressed)`, () => {
-      assert.ok(contrast(v['high-bg'], color('surface-pressed')) >= 3);
-    });
-  }
+  test('tone fallbacks are the light role values (sRGB hex)', () => {
+    for (const [tone, f] of Object.entries(fallbacks))
+      for (const [k, hex] of Object.entries(f)) {
+        const role = refs[tone][k];
+        const want = resolved.modes.default[`color.${role}`].hex;
+        assert.equal(hex, want, `${tone} ${k} (${role})`);
+      }
+  });
   test('the Tag page lists exactly six tones', () => {
-    assert.deepEqual(Object.keys(tones).sort(), [
+    assert.deepEqual(Object.keys(refs).sort(), [
       'accent',
       'danger',
       'info',
@@ -747,12 +918,18 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
     ]);
   });
   test('Description list label (text-muted) and value (text) pass on bg and surface', () => {
-    for (const fg of ['text-muted', 'text'])
-      for (const bg of ['bg', 'surface'])
-        assert.ok(contrast(color(fg), color(bg)) >= 4.5, `${fg} on ${bg}`);
+    for (const theme of THEMES)
+      for (const fg of ['text-muted', 'text'])
+        for (const bg of ['bg', 'surface'])
+          assert.ok(
+            contrast(colorIn(theme, fg), colorIn(theme, bg)) >= 4.5,
+            `${theme} ${fg} on ${bg}`,
+          );
   });
-  test('Avatar initials (text) on its surface-pressed fill >= 4.5:1; Progress track edge >= 3:1', () => {
-    assert.ok(contrast(color('text'), color('surface-pressed')) >= 4.5);
-    assert.ok(contrast(color('border-strong'), page) >= 3);
+  test('Progress track edge >= 3:1 on the page', () => {
+    for (const theme of THEMES)
+      assert.ok(
+        contrast(colorIn(theme, 'border-strong'), colorIn(theme, 'bg')) >= 3,
+      );
   });
 }

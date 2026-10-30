@@ -94,11 +94,6 @@
     "$description": "Page and layout spacing. space-N = N × unit (N × 4px). Fixed across density modes."
   },
   "radius": {
-    "$type": "dimension",
-    "$description": "Corner radius, odd-pixel ramp. radius-N = N px. Exempt from the 4px grid. Controls use radius-5.",
-    "none": {
-      "$value": "0"
-    },
     "1": {
       "$value": "1px"
     },
@@ -116,6 +111,11 @@
     },
     "11": {
       "$value": "11px"
+    },
+    "$type": "dimension",
+    "$description": "Corner radius, odd-pixel ramp. radius-N = N px. Exempt from the 4px grid. Controls use radius-5.",
+    "none": {
+      "$value": "0"
     },
     "full": {
       "$value": "9999px",
@@ -354,9 +354,8 @@
   },
   "color": {
     "$type": "color",
-    "$description": "Minimal palette in OKLCH: one dark slate ramp and one error red. Use the semantic names (color-bg, color-text, …), not the ramps.",
+    "$description": "Prism palette in OKLCH. One cool slate neutral ramp, a refraction spectrum (violet, blue, cyan, green, amber, red, magenta) and roles on top. Vivid steps sit in Display P3; each has an sRGB fallback (tokens.css, resolved JSON). Use the role names (color-bg, color-text, color-accent …), not the ramps.",
     "slate": {
-      "$description": "Dark slate ramp (hue 260, low chroma). The only non-error ramp. 0 = white, 950 = near-black with a blue tint.",
       "0": {
         "$value": "oklch(1 0 260)",
         "$description": " Hue 260 (not 0) so color-mix() in oklch never swings through red; chroma 0 = pure white."
@@ -393,103 +392,426 @@
       },
       "950": {
         "$value": "oklch(0.129 0.03 260)"
-      }
+      },
+      "$description": "Dark slate ramp (hue 260, low chroma). The only non-error ramp. 0 = white, 950 = near-black with a blue tint."
     },
     "red": {
-      "$description": "Error ramp (hue 27). 50 subtle fill, 600 borders/icons, 700 text.",
       "50": {
-        "$value": "oklch(0.971 0.013 27)"
+        "$value": "oklch(0.975 0.01 27)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.027 27)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.091 27)"
       },
       "500": {
-        "$value": "oklch(0.586 0.226 21.3)",
-        "$description": "Base of the error surface tint (exact former error-surface hue/chroma)."
+        "$value": "oklch(0.7 0.233 27)"
       },
       "600": {
-        "$value": "oklch(0.56 0.19 27)"
+        "$value": "oklch(0.5 0.218 27)"
       },
       "700": {
-        "$value": "oklch(0.48 0.17 27)"
+        "$value": "oklch(0.42 0.177 27)"
       },
       "800": {
         "$value": "oklch(0.368 0.148 25)",
         "$description": "Status text on the error surface (exact former error-status-text)."
-      }
+      },
+      "900": {
+        "$value": "oklch(0.28 0.077 27)"
+      },
+      "$description": "Red (hue 27). Danger and errors. 50/100 tint, 600 solid and borders, 700 text, 300 text on dark. 800 is the dark text on the error box."
+    },
+    "violet": {
+      "50": {
+        "$value": "oklch(0.975 0.011 288)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.027 288)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.073 288)"
+      },
+      "500": {
+        "$value": "oklch(0.7 0.174 288)"
+      },
+      "600": {
+        "$value": "oklch(0.5 0.278 288)"
+      },
+      "700": {
+        "$value": "oklch(0.42 0.226 288)"
+      },
+      "900": {
+        "$value": "oklch(0.28 0.098 288)"
+      },
+      "$description": "Violet (hue 288). Brand accent. 600 is the AA fill (white text), 700 is text on light, 500 is the vivid signature, 300 is text on dark."
+    },
+    "blue": {
+      "50": {
+        "$value": "oklch(0.975 0.011 250)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.026 250)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.071 250)"
+      },
+      "500": {
+        "$value": "oklch(0.7 0.169 250)"
+      },
+      "600": {
+        "$value": "oklch(0.5 0.173 250)"
+      },
+      "700": {
+        "$value": "oklch(0.42 0.141 250)"
+      },
+      "900": {
+        "$value": "oklch(0.28 0.061 250)"
+      },
+      "$description": "Blue (hue 250). Info."
+    },
+    "cyan": {
+      "50": {
+        "$value": "oklch(0.975 0.019 210)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.045 210)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.125 210)"
+      },
+      "500": {
+        "$value": "oklch(0.7 0.154 210)"
+      },
+      "600": {
+        "$value": "oklch(0.5 0.109 210)"
+      },
+      "700": {
+        "$value": "oklch(0.42 0.089 210)"
+      },
+      "900": {
+        "$value": "oklch(0.28 0.038 210)"
+      },
+      "$description": "Cyan (hue 210). Spectrum only; no role uses it yet."
+    },
+    "green": {
+      "50": {
+        "$value": "oklch(0.975 0.02 152)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.045 152)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.21 152)"
+      },
+      "500": {
+        "$value": "oklch(0.7 0.245 152)"
+      },
+      "600": {
+        "$value": "oklch(0.5 0.173 152)"
+      },
+      "700": {
+        "$value": "oklch(0.42 0.141 152)"
+      },
+      "900": {
+        "$value": "oklch(0.28 0.061 152)"
+      },
+      "$description": "Green (hue 152). Success."
+    },
+    "amber": {
+      "50": {
+        "$value": "oklch(0.975 0.02 80)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.045 80)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.135 84)"
+      },
+      "500": {
+        "$value": "oklch(0.8 0.183 80)"
+      },
+      "600": {
+        "$value": "oklch(0.5 0.125 62)"
+      },
+      "700": {
+        "$value": "oklch(0.42 0.113 52)"
+      },
+      "900": {
+        "$value": "oklch(0.28 0.047 55)"
+      },
+      "$description": "Amber (hue 80 to 52, warming as it darkens). Warning."
+    },
+    "magenta": {
+      "50": {
+        "$value": "oklch(0.975 0.015 338)"
+      },
+      "100": {
+        "$value": "oklch(0.94 0.037 338)"
+      },
+      "300": {
+        "$value": "oklch(0.82 0.132 338)"
+      },
+      "500": {
+        "$value": "oklch(0.7 0.326 338)"
+      },
+      "600": {
+        "$value": "oklch(0.5 0.23 338)"
+      },
+      "700": {
+        "$value": "oklch(0.42 0.187 338)"
+      },
+      "900": {
+        "$value": "oklch(0.28 0.081 338)"
+      },
+      "$description": "Magenta (hue 338). Spectrum only; no role uses it yet."
     },
     "bg": {
       "$value": "{color.slate.0}",
-      "$description": "Page background."
+      "$description": "Page background.",
+      "$extensions": {
+        "prism.dark": "{color.slate.950}"
+      }
     },
     "surface": {
       "$value": "{color.slate.50}",
-      "$description": "Raised or inset surface (cards, wells)."
+      "$description": "Raised or inset surface (cards, wells).",
+      "$extensions": {
+        "prism.dark": "{color.slate.900}"
+      }
     },
     "text": {
       "$value": "{color.slate.900}",
-      "$description": "Primary text."
+      "$description": "Primary text.",
+      "$extensions": {
+        "prism.dark": "{color.slate.50}"
+      }
     },
     "text-muted": {
       "$value": "{color.slate.600}",
-      "$description": "Secondary text: descriptions, placeholders. AA on bg and surface."
+      "$description": "Secondary text: descriptions, placeholders. AA on bg and surface.",
+      "$extensions": {
+        "prism.dark": "{color.slate.300}"
+      }
     },
     "border": {
       "$value": "{color.slate.300}",
-      "$description": "Default control/divider border (decorative)."
+      "$description": "Default control/divider border (decorative).",
+      "$extensions": {
+        "prism.dark": "{color.slate.700}"
+      }
     },
     "border-strong": {
       "$value": "{color.slate.500}",
-      "$description": "Border that must be visible (hover, inputs needing 3:1)."
+      "$description": "Border that must be visible (hover, inputs needing 3:1).",
+      "$extensions": {
+        "prism.dark": "{color.slate.400}"
+      }
     },
     "border-popup": {
       "$value": "{color.slate.400}",
-      "$description": "Popup/listbox outline: a step darker than border (2.64:1 on bg; decorative, the elevation carries the edge)."
+      "$description": "Popup/listbox outline: a step darker than border (decorative, the elevation carries the edge).",
+      "$extensions": {
+        "prism.dark": "{color.slate.600}"
+      }
     },
     "accent": {
-      "$value": "{color.slate.950}",
-      "$description": "Primary action fill: near-black slate."
+      "$value": "{color.violet.600}",
+      "$description": "Primary action fill: vivid violet. White text in light, ink text in dark.",
+      "$extensions": {
+        "prism.dark": "{color.violet.500}"
+      }
     },
     "accent-hover": {
-      "$value": "{color.slate.800}",
-      "$description": "DEPRECATED for direct use: fallback for browsers without color-mix(); states now come from the shared state layer."
+      "$value": "{color.violet.700}",
+      "$description": "DEPRECATED for direct use: fallback for browsers without color-mix(); states now come from the shared state layer.",
+      "$extensions": {
+        "prism.dark": "{color.violet.300}"
+      }
     },
     "accent-active": {
-      "$value": "{color.slate.900}",
-      "$description": "DEPRECATED for direct use: fallback for browsers without color-mix() (pressed)."
+      "$value": "{color.violet.900}",
+      "$description": "DEPRECATED for direct use: fallback for browsers without color-mix() (pressed).",
+      "$extensions": {
+        "prism.dark": "{color.violet.300}"
+      }
     },
     "on-accent": {
       "$value": "{color.slate.0}",
-      "$description": "Text/icons on accent fills."
+      "$description": "Text/icons on accent fills.",
+      "$extensions": {
+        "prism.dark": "{color.slate.950}"
+      }
+    },
+    "accent-text": {
+      "$value": "{color.violet.700}",
+      "$description": "Accent-coloured text and icons on the page. AA on bg, surface and accent-surface.",
+      "$extensions": {
+        "prism.dark": "{color.violet.300}"
+      }
+    },
+    "accent-surface": {
+      "$value": "{color.violet.50}",
+      "$description": "Airy accent tint fill. Text on it: accent-text.",
+      "$extensions": {
+        "prism.dark": "{color.violet.900}"
+      }
     },
     "surface-hover": {
       "$value": "{color.slate.100}",
-      "$description": "Fallback only (no color-mix): hovered item on bg. Prefer the state layer."
+      "$description": "Fallback only (no color-mix): hovered item on bg. Prefer the state layer.",
+      "$extensions": {
+        "prism.dark": "{color.slate.800}"
+      }
     },
     "surface-pressed": {
       "$value": "{color.slate.200}",
-      "$description": "Fallback only (no color-mix): pressed item on bg. Prefer the state layer."
+      "$description": "Fallback only (no color-mix): pressed item on bg. Also tracks and avatar fills. Prefer the state layer.",
+      "$extensions": {
+        "prism.dark": "{color.slate.800}"
+      }
     },
     "focus-ring": {
-      "$value": "{color.slate.600}",
-      "$description": "Focus ring. ≥3:1 on bg."
+      "$value": "{color.violet.600}",
+      "$description": "Focus ring. At least 3:1 on bg and surface.",
+      "$extensions": {
+        "prism.dark": "{color.violet.300}"
+      }
     },
     "focus-halo": {
-      "$value": "color-mix(in oklch, {color.slate.500} 12%, transparent)",
-      "$description": "Focus halo band: slate-500 at 12%."
+      "$value": "color-mix(in oklch, {color.focus-ring} 12%, transparent)",
+      "$description": "Focus halo band: the focus ring at 12%."
     },
     "shadow": {
       "$value": "{color.slate.950}",
-      "$description": "Base colour of elevation shadows."
+      "$description": "Base colour of elevation shadows.",
+      "$extensions": {
+        "prism.dark": "oklch(0 0 260)"
+      }
     },
     "shadow-urgent": {
       "$value": "{color.red.600}",
       "$description": "Base colour of the urgent (error) elevation."
     },
+    "on-solid": {
+      "$value": "{color.slate.0}",
+      "$description": "Text on solid tone fills (neutral, info, success, warning, danger). White in light, ink in dark.",
+      "$extensions": {
+        "prism.dark": "{color.slate.950}"
+      }
+    },
+    "neutral": {
+      "$value": "{color.slate.700}",
+      "$description": "Neutral tone solid fill.",
+      "$extensions": {
+        "prism.dark": "{color.slate.300}"
+      }
+    },
+    "neutral-surface": {
+      "$value": "{color.slate.100}",
+      "$description": "Neutral tone tint fill. Text on it: color-text.",
+      "$extensions": {
+        "prism.dark": "{color.slate.800}"
+      }
+    },
+    "info": {
+      "$value": "{color.blue.600}",
+      "$description": "Info tone solid fill and icons.",
+      "$extensions": {
+        "prism.dark": "{color.blue.500}"
+      }
+    },
+    "info-text": {
+      "$value": "{color.blue.700}",
+      "$description": "Info text on the page or on info-surface.",
+      "$extensions": {
+        "prism.dark": "{color.blue.300}"
+      }
+    },
+    "info-surface": {
+      "$value": "{color.blue.50}",
+      "$description": "Info tone tint fill.",
+      "$extensions": {
+        "prism.dark": "{color.blue.900}"
+      }
+    },
+    "success": {
+      "$value": "{color.green.600}",
+      "$description": "Success tone solid fill and icons.",
+      "$extensions": {
+        "prism.dark": "{color.green.500}"
+      }
+    },
+    "success-text": {
+      "$value": "{color.green.700}",
+      "$description": "Success text on the page or on success-surface.",
+      "$extensions": {
+        "prism.dark": "{color.green.300}"
+      }
+    },
+    "success-surface": {
+      "$value": "{color.green.50}",
+      "$description": "Success tone tint fill.",
+      "$extensions": {
+        "prism.dark": "{color.green.900}"
+      }
+    },
+    "warning": {
+      "$value": "{color.amber.600}",
+      "$description": "Warning tone solid fill and icons.",
+      "$extensions": {
+        "prism.dark": "{color.amber.500}"
+      }
+    },
+    "warning-text": {
+      "$value": "{color.amber.700}",
+      "$description": "Warning text on the page or on warning-surface.",
+      "$extensions": {
+        "prism.dark": "{color.amber.300}"
+      }
+    },
+    "warning-surface": {
+      "$value": "{color.amber.50}",
+      "$description": "Warning tone tint fill.",
+      "$extensions": {
+        "prism.dark": "{color.amber.900}"
+      }
+    },
+    "danger": {
+      "$value": "{color.red.600}",
+      "$description": "Danger tone solid fill.",
+      "$extensions": {
+        "prism.dark": "{color.red.500}"
+      }
+    },
+    "danger-text": {
+      "$value": "{color.red.700}",
+      "$description": "Danger text on the page or on danger-surface.",
+      "$extensions": {
+        "prism.dark": "{color.red.300}"
+      }
+    },
+    "danger-surface": {
+      "$value": "{color.red.50}",
+      "$description": "Danger tone tint fill.",
+      "$extensions": {
+        "prism.dark": "{color.red.900}"
+      }
+    },
     "error": {
       "$value": "{color.red.600}",
-      "$description": "Error borders and icons."
+      "$description": "Error borders and icons.",
+      "$extensions": {
+        "prism.dark": "{color.red.500}"
+      }
     },
     "error-text": {
       "$value": "{color.red.700}",
-      "$description": "Error message text. AA on bg."
+      "$description": "Error message text. AA on bg.",
+      "$extensions": {
+        "prism.dark": "{color.red.300}"
+      }
     },
     "error-surface-base": {
       "$value": "{color.red.500}",
@@ -497,11 +819,14 @@
     },
     "error-surface": {
       "$value": "color-mix(in oklch, {color.error-surface-base} 8%, transparent)",
-      "$description": "Error box fill: red-500 at 8% (== oklch(0.586 0.226 21.3 / 0.08))."
+      "$description": "Error box fill: red-500 at 8%."
     },
     "on-error-surface": {
       "$value": "{color.red.800}",
-      "$description": "Text/icons on color-error-surface (>= 4.5:1)."
+      "$description": "Text/icons on color-error-surface (>= 4.5:1).",
+      "$extensions": {
+        "prism.dark": "{color.red.100}"
+      }
     },
     "error-status-text": {
       "$value": "{color.on-error-surface}",
@@ -613,6 +938,25 @@
     "urgent": {
       "$value": "0 1px 2px color-mix(in oklch, {color.shadow-urgent} 12%, transparent), 0 4px 12px -2px color-mix(in oklch, {color.shadow-urgent} 24%, transparent)",
       "$description": "Error-urgent: attached error/status box. Tinted from red-600."
+    }
+  },
+  "gradient": {
+    "$type": "gradient",
+    "$description": "Prism light. Interpolated in oklch where supported; a plain linear-gradient elsewhere. Backgrounds only: never put text on spectrum or refract without checking contrast.",
+    "spectrum": {
+      "$value": "linear-gradient(in oklch 90deg, {color.violet.500}, {color.blue.500}, {color.cyan.500}, {color.green.500}, {color.amber.500}, {color.red.500}, {color.magenta.500})",
+      "$description": "The full refraction spectrum, violet to magenta."
+    },
+    "refract": {
+      "$value": "linear-gradient(in oklch 135deg, {color.violet.600}, {color.blue.500} 55%, {color.cyan.500})",
+      "$description": "Brand sweep: violet through blue into cyan."
+    },
+    "mist": {
+      "$value": "linear-gradient(in oklch 120deg, {color.violet.100}, {color.blue.50} 40%, {color.cyan.100} 70%, {color.magenta.50})",
+      "$description": "Airy wash of pale tints. Safe behind color-text (>= 4.5:1).",
+      "$extensions": {
+        "prism.dark": "linear-gradient(in oklch 120deg, {color.violet.900}, {color.blue.900} 40%, {color.cyan.900} 70%, {color.magenta.900})"
+      }
     }
   }
 }

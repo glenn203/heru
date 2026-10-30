@@ -38,9 +38,27 @@ Density only changes unit counts (leading 4/5/6, block padding 1/2/3, inline pad
 
 ## Color
 
-Minimal on purpose: one dark slate ramp (`color-slate-0…950`, hue 260, low chroma) and one error red (`color-red-*`), in OKLCH. The resolved JSON adds an sRGB `hex` for Figma.
+The palette is small and built around light: one cool **slate** neutral (`color-slate-0…950`, hue 260, almost no chroma) and a refraction **spectrum** of seven hues, each with seven steps (`50 100 300 500 600 700 900`): `violet` (288), `blue` (250), `cyan` (210), `green` (152), `amber` (80 warming to 52), `red` (27, plus 800) and `magenta` (338). All values are OKLCH.
 
-Use the semantic names, not the ramps: `color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-border-strong`, `-accent` (near-black slate-950), `-accent-hover` (one step lighter), `-accent-active`, `-on-accent`, `-focus-ring`, `-error`, `-error-text`. Contrast is checked in `test/tokens.test.mjs` (text pairs ≥ 4.5:1, borders/focus ≥ 3:1). No dark mode yet.
+| Step | Use                                                   |
+| ---- | ----------------------------------------------------- |
+| 50   | Airy tint fill (text on it: 700)                      |
+| 100  | Soft tint, hover wash                                 |
+| 300  | Text and icons on dark                                |
+| 500  | The vivid signature, gradients, solid fills in dark   |
+| 600  | Solid fill with white text, borders, the light accent |
+| 700  | Text on light                                         |
+| 900  | Deep tint fill for dark surfaces                      |
+
+**Display P3.** The 500, 600 and 700 steps are written beyond sRGB. `tokens.css` declares the gamut-mapped sRGB value (same lightness and hue, less chroma), then the full value in `@media (color-gamut: p3)`, then hex for engines without `oklch()`. The resolved JSON marks these colours `"gamut": "p3"` and always carries the sRGB `hex`.
+
+**Roles.** Use these, not the ramps: `color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-border-strong`, `-border-popup`, `-accent` (vivid violet), `-on-accent`, `-accent-text`, `-accent-surface`, `-focus-ring`, and the tone families `-info`, `-success`, `-warning`, `-danger` (each with `-text` and `-surface`), `-neutral` and `-neutral-surface`, `-on-solid` (text on solid tone fills), plus the error roles (`-error`, `-error-text`, `-error-surface`, `-on-error-surface`).
+
+**Gradients.** `--prism-gradient-spectrum` (violet to magenta), `--prism-gradient-refract` (violet through blue into cyan) and `--prism-gradient-mist` (pale tints, safe behind `color-text`). They interpolate in OKLCH where supported and fall back to a plain gradient.
+
+**Dark theme.** Light is the default. Set `data-prism-theme="dark"` on any element, or `data-prism-theme="auto"` to follow `prefers-color-scheme`. Every role and everything built from one (focus halo, elevation, mist) is re-declared in that scope; the resolved JSON lists them under `themes.dark`. In dark the solid fills lighten and their text switches to ink.
+
+**Contrast.** `test/tokens.test.mjs` measures every text, border, focus and fill pair in both themes, on the sRGB fallback and on the full Display P3 values (text 4.5:1, borders, focus and fills 3:1), plus every state-layer overlay. See Foundations / Color in Storybook.
 
 ## Radius
 

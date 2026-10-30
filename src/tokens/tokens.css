@@ -23,6 +23,7 @@
 }
 
 :root {
+  color-scheme: light;
   --prism-unit: 0.25rem;
   --prism-space-0: 0;
   --prism-space-1: calc(var(--prism-unit) * 1);
@@ -107,11 +108,56 @@
   --prism-color-slate-800: oklch(0.279 0.033 260);
   --prism-color-slate-900: oklch(0.208 0.03 260);
   --prism-color-slate-950: oklch(0.129 0.03 260);
-  --prism-color-red-50: oklch(0.971 0.013 27);
-  --prism-color-red-500: oklch(0.586 0.226 21.3);
-  --prism-color-red-600: oklch(0.56 0.19 27);
-  --prism-color-red-700: oklch(0.48 0.17 27);
+  --prism-color-red-50: oklch(0.975 0.01 27);
+  --prism-color-red-100: oklch(0.94 0.027 27);
+  --prism-color-red-300: oklch(0.82 0.091 27);
+  --prism-color-red-500: oklch(0.7 0.1909 27);
+  --prism-color-red-600: oklch(0.5 0.2039 27);
+  --prism-color-red-700: oklch(0.42 0.1713 27);
   --prism-color-red-800: oklch(0.368 0.148 25);
+  --prism-color-red-900: oklch(0.28 0.077 27);
+  --prism-color-violet-50: oklch(0.975 0.011 288);
+  --prism-color-violet-100: oklch(0.94 0.027 288);
+  --prism-color-violet-300: oklch(0.82 0.073 288);
+  --prism-color-violet-500: oklch(0.7 0.1671 288);
+  --prism-color-violet-600: oklch(0.5 0.278 288);
+  --prism-color-violet-700: oklch(0.42 0.226 288);
+  --prism-color-violet-900: oklch(0.28 0.098 288);
+  --prism-color-blue-50: oklch(0.975 0.011 250);
+  --prism-color-blue-100: oklch(0.94 0.026 250);
+  --prism-color-blue-300: oklch(0.82 0.071 250);
+  --prism-color-blue-500: oklch(0.7 0.1634 250);
+  --prism-color-blue-600: oklch(0.5 0.1416 250);
+  --prism-color-blue-700: oklch(0.42 0.119 250);
+  --prism-color-blue-900: oklch(0.28 0.061 250);
+  --prism-color-cyan-50: oklch(0.975 0.019 210);
+  --prism-color-cyan-100: oklch(0.94 0.045 210);
+  --prism-color-cyan-300: oklch(0.82 0.125 210);
+  --prism-color-cyan-500: oklch(0.7 0.1211 210);
+  --prism-color-cyan-600: oklch(0.5 0.0865 210);
+  --prism-color-cyan-700: oklch(0.42 0.0727 210);
+  --prism-color-cyan-900: oklch(0.28 0.038 210);
+  --prism-color-green-50: oklch(0.975 0.02 152);
+  --prism-color-green-100: oklch(0.94 0.045 152);
+  --prism-color-green-300: oklch(0.82 0.21 152);
+  --prism-color-green-500: oklch(0.7 0.1842 152);
+  --prism-color-green-600: oklch(0.5 0.1316 152);
+  --prism-color-green-700: oklch(0.42 0.1106 152);
+  --prism-color-green-900: oklch(0.28 0.061 152);
+  --prism-color-amber-50: oklch(0.975 0.02 80);
+  --prism-color-amber-100: oklch(0.94 0.045 80);
+  --prism-color-amber-300: oklch(0.82 0.135 84);
+  --prism-color-amber-500: oklch(0.8 0.1657 80);
+  --prism-color-amber-600: oklch(0.5 0.1151 62);
+  --prism-color-amber-700: oklch(0.42 0.1082 52);
+  --prism-color-amber-900: oklch(0.28 0.047 55);
+  --prism-color-magenta-50: oklch(0.975 0.015 338);
+  --prism-color-magenta-100: oklch(0.94 0.037 338);
+  --prism-color-magenta-300: oklch(0.82 0.132 338);
+  --prism-color-magenta-500: oklch(0.7 0.2711 338);
+  --prism-color-magenta-600: oklch(0.5 0.2193 338);
+  --prism-color-magenta-700: oklch(0.42 0.1843 338);
+  --prism-color-magenta-900: oklch(0.28 0.081 338);
   --prism-color-bg: var(--prism-color-slate-0);
   --prism-color-surface: var(--prism-color-slate-50);
   --prism-color-text: var(--prism-color-slate-900);
@@ -119,16 +165,33 @@
   --prism-color-border: var(--prism-color-slate-300);
   --prism-color-border-strong: var(--prism-color-slate-500);
   --prism-color-border-popup: var(--prism-color-slate-400);
-  --prism-color-accent: var(--prism-color-slate-950);
-  --prism-color-accent-hover: var(--prism-color-slate-800);
-  --prism-color-accent-active: var(--prism-color-slate-900);
+  --prism-color-accent: var(--prism-color-violet-600);
+  --prism-color-accent-hover: var(--prism-color-violet-700);
+  --prism-color-accent-active: var(--prism-color-violet-900);
   --prism-color-on-accent: var(--prism-color-slate-0);
+  --prism-color-accent-text: var(--prism-color-violet-700);
+  --prism-color-accent-surface: var(--prism-color-violet-50);
   --prism-color-surface-hover: var(--prism-color-slate-100);
   --prism-color-surface-pressed: var(--prism-color-slate-200);
-  --prism-color-focus-ring: var(--prism-color-slate-600);
-  --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-slate-500) 12%, transparent);
+  --prism-color-focus-ring: var(--prism-color-violet-600);
+  --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
   --prism-color-shadow: var(--prism-color-slate-950);
   --prism-color-shadow-urgent: var(--prism-color-red-600);
+  --prism-color-on-solid: var(--prism-color-slate-0);
+  --prism-color-neutral: var(--prism-color-slate-700);
+  --prism-color-neutral-surface: var(--prism-color-slate-100);
+  --prism-color-info: var(--prism-color-blue-600);
+  --prism-color-info-text: var(--prism-color-blue-700);
+  --prism-color-info-surface: var(--prism-color-blue-50);
+  --prism-color-success: var(--prism-color-green-600);
+  --prism-color-success-text: var(--prism-color-green-700);
+  --prism-color-success-surface: var(--prism-color-green-50);
+  --prism-color-warning: var(--prism-color-amber-600);
+  --prism-color-warning-text: var(--prism-color-amber-700);
+  --prism-color-warning-surface: var(--prism-color-amber-50);
+  --prism-color-danger: var(--prism-color-red-600);
+  --prism-color-danger-text: var(--prism-color-red-700);
+  --prism-color-danger-surface: var(--prism-color-red-50);
   --prism-color-error: var(--prism-color-red-600);
   --prism-color-error-text: var(--prism-color-red-700);
   --prism-color-error-surface-base: var(--prism-color-red-500);
@@ -152,16 +215,53 @@
   --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
   --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
   --prism-elevation-urgent: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow-urgent) 12%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow-urgent) 24%, transparent);
+  --prism-gradient-spectrum: linear-gradient(90deg, var(--prism-color-violet-500), var(--prism-color-blue-500), var(--prism-color-cyan-500), var(--prism-color-green-500), var(--prism-color-amber-500), var(--prism-color-red-500), var(--prism-color-magenta-500));
+  --prism-gradient-refract: linear-gradient(135deg, var(--prism-color-violet-600), var(--prism-color-blue-500) 55%, var(--prism-color-cyan-500));
+  --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-100), var(--prism-color-blue-50) 40%, var(--prism-color-cyan-100) 70%, var(--prism-color-magenta-50));
+}
+
+/* Display P3 screens: the full-chroma colours. */
+@media (color-gamut: p3) {
+  :root {
+    --prism-color-red-500: oklch(0.7 0.233 27);
+    --prism-color-red-600: oklch(0.5 0.218 27);
+    --prism-color-red-700: oklch(0.42 0.177 27);
+    --prism-color-violet-500: oklch(0.7 0.174 288);
+    --prism-color-blue-500: oklch(0.7 0.169 250);
+    --prism-color-blue-600: oklch(0.5 0.173 250);
+    --prism-color-blue-700: oklch(0.42 0.141 250);
+    --prism-color-cyan-500: oklch(0.7 0.154 210);
+    --prism-color-cyan-600: oklch(0.5 0.109 210);
+    --prism-color-cyan-700: oklch(0.42 0.089 210);
+    --prism-color-green-500: oklch(0.7 0.245 152);
+    --prism-color-green-600: oklch(0.5 0.173 152);
+    --prism-color-green-700: oklch(0.42 0.141 152);
+    --prism-color-amber-500: oklch(0.8 0.183 80);
+    --prism-color-amber-600: oklch(0.5 0.125 62);
+    --prism-color-amber-700: oklch(0.42 0.113 52);
+    --prism-color-magenta-500: oklch(0.7 0.326 338);
+    --prism-color-magenta-600: oklch(0.5 0.23 338);
+    --prism-color-magenta-700: oklch(0.42 0.187 338);
+  }
+}
+
+/* Interpolate gradients in oklch where supported. */
+@supports (background-image: linear-gradient(in oklch, red, blue)) {
+  :root {
+    --prism-gradient-spectrum: linear-gradient(in oklch 90deg, var(--prism-color-violet-500), var(--prism-color-blue-500), var(--prism-color-cyan-500), var(--prism-color-green-500), var(--prism-color-amber-500), var(--prism-color-red-500), var(--prism-color-magenta-500));
+    --prism-gradient-refract: linear-gradient(in oklch 135deg, var(--prism-color-violet-600), var(--prism-color-blue-500) 55%, var(--prism-color-cyan-500));
+    --prism-gradient-mist: linear-gradient(in oklch 120deg, var(--prism-color-violet-100), var(--prism-color-blue-50) 40%, var(--prism-color-cyan-100) 70%, var(--prism-color-magenta-50));
+  }
 }
 
 /* Fallback for engines without color-mix(): resolved literals. */
 @supports not (color: color-mix(in oklch, red, blue)) {
   :root {
-    --prism-color-focus-halo: oklch(0.554 0.035 260 / 0.12);
-    --prism-color-error-surface: oklch(0.586 0.226 21.3 / 0.08);
+    --prism-color-focus-halo: oklch(0.5 0.278 288 / 0.12);
+    --prism-color-error-surface: oklch(0.7 0.233 27 / 0.08);
     --prism-elevation-default: 0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12);
     --prism-elevation-hover: 0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16);
-    --prism-elevation-urgent: 0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24);
+    --prism-elevation-urgent: 0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24);
   }
 }
 
@@ -181,4 +281,266 @@
   --prism-control-height-lg: calc(var(--prism-leading-body) + var(--prism-unit) * (var(--prism-density-pad-units) + 1) * 2);
   --prism-control-padding-inline: calc(var(--prism-unit) * var(--prism-density-pad-inline-units));
   --prism-control-padding-block: calc(var(--prism-unit) * var(--prism-density-pad-units));
+}
+
+/* Theme scopes: every token built from a themed role is re-declared. */
+[data-prism-theme='dark'] {
+  color-scheme: dark;
+  --prism-color-bg: var(--prism-color-slate-950);
+  --prism-color-surface: var(--prism-color-slate-900);
+  --prism-color-text: var(--prism-color-slate-50);
+  --prism-color-text-muted: var(--prism-color-slate-300);
+  --prism-color-border: var(--prism-color-slate-700);
+  --prism-color-border-strong: var(--prism-color-slate-400);
+  --prism-color-border-popup: var(--prism-color-slate-600);
+  --prism-color-accent: var(--prism-color-violet-500);
+  --prism-color-accent-hover: var(--prism-color-violet-300);
+  --prism-color-accent-active: var(--prism-color-violet-300);
+  --prism-color-on-accent: var(--prism-color-slate-950);
+  --prism-color-accent-text: var(--prism-color-violet-300);
+  --prism-color-accent-surface: var(--prism-color-violet-900);
+  --prism-color-surface-hover: var(--prism-color-slate-800);
+  --prism-color-surface-pressed: var(--prism-color-slate-800);
+  --prism-color-focus-ring: var(--prism-color-violet-300);
+  --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
+  --prism-color-shadow: oklch(0 0 260);
+  --prism-color-on-solid: var(--prism-color-slate-950);
+  --prism-color-neutral: var(--prism-color-slate-300);
+  --prism-color-neutral-surface: var(--prism-color-slate-800);
+  --prism-color-info: var(--prism-color-blue-500);
+  --prism-color-info-text: var(--prism-color-blue-300);
+  --prism-color-info-surface: var(--prism-color-blue-900);
+  --prism-color-success: var(--prism-color-green-500);
+  --prism-color-success-text: var(--prism-color-green-300);
+  --prism-color-success-surface: var(--prism-color-green-900);
+  --prism-color-warning: var(--prism-color-amber-500);
+  --prism-color-warning-text: var(--prism-color-amber-300);
+  --prism-color-warning-surface: var(--prism-color-amber-900);
+  --prism-color-danger: var(--prism-color-red-500);
+  --prism-color-danger-text: var(--prism-color-red-300);
+  --prism-color-danger-surface: var(--prism-color-red-900);
+  --prism-color-error: var(--prism-color-red-500);
+  --prism-color-error-text: var(--prism-color-red-300);
+  --prism-color-on-error-surface: var(--prism-color-red-100);
+  --prism-color-error-status-text: var(--prism-color-on-error-surface);
+  --prism-focus-halo: var(--prism-color-focus-halo);
+  --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
+  --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
+  --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-900), var(--prism-color-blue-900) 40%, var(--prism-color-cyan-900) 70%, var(--prism-color-magenta-900));
+}
+@media (prefers-color-scheme: dark) {
+  [data-prism-theme='auto'] {
+    color-scheme: dark;
+    --prism-color-bg: var(--prism-color-slate-950);
+    --prism-color-surface: var(--prism-color-slate-900);
+    --prism-color-text: var(--prism-color-slate-50);
+    --prism-color-text-muted: var(--prism-color-slate-300);
+    --prism-color-border: var(--prism-color-slate-700);
+    --prism-color-border-strong: var(--prism-color-slate-400);
+    --prism-color-border-popup: var(--prism-color-slate-600);
+    --prism-color-accent: var(--prism-color-violet-500);
+    --prism-color-accent-hover: var(--prism-color-violet-300);
+    --prism-color-accent-active: var(--prism-color-violet-300);
+    --prism-color-on-accent: var(--prism-color-slate-950);
+    --prism-color-accent-text: var(--prism-color-violet-300);
+    --prism-color-accent-surface: var(--prism-color-violet-900);
+    --prism-color-surface-hover: var(--prism-color-slate-800);
+    --prism-color-surface-pressed: var(--prism-color-slate-800);
+    --prism-color-focus-ring: var(--prism-color-violet-300);
+    --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
+    --prism-color-shadow: oklch(0 0 260);
+    --prism-color-on-solid: var(--prism-color-slate-950);
+    --prism-color-neutral: var(--prism-color-slate-300);
+    --prism-color-neutral-surface: var(--prism-color-slate-800);
+    --prism-color-info: var(--prism-color-blue-500);
+    --prism-color-info-text: var(--prism-color-blue-300);
+    --prism-color-info-surface: var(--prism-color-blue-900);
+    --prism-color-success: var(--prism-color-green-500);
+    --prism-color-success-text: var(--prism-color-green-300);
+    --prism-color-success-surface: var(--prism-color-green-900);
+    --prism-color-warning: var(--prism-color-amber-500);
+    --prism-color-warning-text: var(--prism-color-amber-300);
+    --prism-color-warning-surface: var(--prism-color-amber-900);
+    --prism-color-danger: var(--prism-color-red-500);
+    --prism-color-danger-text: var(--prism-color-red-300);
+    --prism-color-danger-surface: var(--prism-color-red-900);
+    --prism-color-error: var(--prism-color-red-500);
+    --prism-color-error-text: var(--prism-color-red-300);
+    --prism-color-on-error-surface: var(--prism-color-red-100);
+    --prism-color-error-status-text: var(--prism-color-on-error-surface);
+    --prism-focus-halo: var(--prism-color-focus-halo);
+    --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
+    --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
+    --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-900), var(--prism-color-blue-900) 40%, var(--prism-color-cyan-900) 70%, var(--prism-color-magenta-900));
+  }
+}
+[data-prism-theme='light'] {
+  color-scheme: light;
+  --prism-color-bg: var(--prism-color-slate-0);
+  --prism-color-surface: var(--prism-color-slate-50);
+  --prism-color-text: var(--prism-color-slate-900);
+  --prism-color-text-muted: var(--prism-color-slate-600);
+  --prism-color-border: var(--prism-color-slate-300);
+  --prism-color-border-strong: var(--prism-color-slate-500);
+  --prism-color-border-popup: var(--prism-color-slate-400);
+  --prism-color-accent: var(--prism-color-violet-600);
+  --prism-color-accent-hover: var(--prism-color-violet-700);
+  --prism-color-accent-active: var(--prism-color-violet-900);
+  --prism-color-on-accent: var(--prism-color-slate-0);
+  --prism-color-accent-text: var(--prism-color-violet-700);
+  --prism-color-accent-surface: var(--prism-color-violet-50);
+  --prism-color-surface-hover: var(--prism-color-slate-100);
+  --prism-color-surface-pressed: var(--prism-color-slate-200);
+  --prism-color-focus-ring: var(--prism-color-violet-600);
+  --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
+  --prism-color-shadow: var(--prism-color-slate-950);
+  --prism-color-on-solid: var(--prism-color-slate-0);
+  --prism-color-neutral: var(--prism-color-slate-700);
+  --prism-color-neutral-surface: var(--prism-color-slate-100);
+  --prism-color-info: var(--prism-color-blue-600);
+  --prism-color-info-text: var(--prism-color-blue-700);
+  --prism-color-info-surface: var(--prism-color-blue-50);
+  --prism-color-success: var(--prism-color-green-600);
+  --prism-color-success-text: var(--prism-color-green-700);
+  --prism-color-success-surface: var(--prism-color-green-50);
+  --prism-color-warning: var(--prism-color-amber-600);
+  --prism-color-warning-text: var(--prism-color-amber-700);
+  --prism-color-warning-surface: var(--prism-color-amber-50);
+  --prism-color-danger: var(--prism-color-red-600);
+  --prism-color-danger-text: var(--prism-color-red-700);
+  --prism-color-danger-surface: var(--prism-color-red-50);
+  --prism-color-error: var(--prism-color-red-600);
+  --prism-color-error-text: var(--prism-color-red-700);
+  --prism-color-on-error-surface: var(--prism-color-red-800);
+  --prism-color-error-status-text: var(--prism-color-on-error-surface);
+  --prism-focus-halo: var(--prism-color-focus-halo);
+  --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
+  --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
+  --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-100), var(--prism-color-blue-50) 40%, var(--prism-color-cyan-100) 70%, var(--prism-color-magenta-50));
+}
+
+@supports (background-image: linear-gradient(in oklch, red, blue)) {
+  [data-prism-theme='dark'] {
+    --prism-gradient-mist: linear-gradient(in oklch 120deg, var(--prism-color-violet-900), var(--prism-color-blue-900) 40%, var(--prism-color-cyan-900) 70%, var(--prism-color-magenta-900));
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-prism-theme='auto'] {
+      --prism-gradient-mist: linear-gradient(in oklch 120deg, var(--prism-color-violet-900), var(--prism-color-blue-900) 40%, var(--prism-color-cyan-900) 70%, var(--prism-color-magenta-900));
+    }
+  }
+  [data-prism-theme='light'] {
+    --prism-gradient-mist: linear-gradient(in oklch 120deg, var(--prism-color-violet-100), var(--prism-color-blue-50) 40%, var(--prism-color-cyan-100) 70%, var(--prism-color-magenta-50));
+  }
+}
+
+@supports not (color: color-mix(in oklch, red, blue)) {
+  [data-prism-theme='dark'] {
+    --prism-color-focus-halo: oklch(0.82 0.073 288 / 0.12);
+    --prism-elevation-default: 0 1px 2px oklch(0 0 260 / 0.06), 0 4px 12px -2px oklch(0 0 260 / 0.12);
+    --prism-elevation-hover: 0 1px 2px oklch(0 0 260 / 0.08), 0 2px 6px -1px oklch(0 0 260 / 0.16);
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-prism-theme='auto'] {
+      --prism-color-focus-halo: oklch(0.82 0.073 288 / 0.12);
+      --prism-elevation-default: 0 1px 2px oklch(0 0 260 / 0.06), 0 4px 12px -2px oklch(0 0 260 / 0.12);
+      --prism-elevation-hover: 0 1px 2px oklch(0 0 260 / 0.08), 0 2px 6px -1px oklch(0 0 260 / 0.16);
+    }
+  }
+  [data-prism-theme='light'] {
+    --prism-color-focus-halo: oklch(0.5 0.278 288 / 0.12);
+    --prism-elevation-default: 0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12);
+    --prism-elevation-hover: 0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16);
+  }
+}
+
+/* Fallback for engines without oklch(): sRGB hex. */
+@supports not (color: oklch(0 0 0)) {
+  :root {
+    --prism-color-slate-0: #ffffff;
+    --prism-color-slate-50: #f9fafc;
+    --prism-color-slate-100: #f2f5f9;
+    --prism-color-slate-200: #e3e8f0;
+    --prism-color-slate-300: #ccd4e1;
+    --prism-color-slate-400: #95a0b3;
+    --prism-color-slate-500: #677388;
+    --prism-color-slate-600: #495568;
+    --prism-color-slate-700: #354153;
+    --prism-color-slate-800: #1f2939;
+    --prism-color-slate-900: #101826;
+    --prism-color-slate-950: #020713;
+    --prism-color-red-50: #fef4f3;
+    --prism-color-red-100: #fde5e2;
+    --prism-color-red-300: #faaea4;
+    --prism-color-red-500: #ff645a;
+    --prism-color-red-600: #bc0012;
+    --prism-color-red-700: #94000c;
+    --prism-color-red-800: #7b0210;
+    --prism-color-red-900: #481613;
+    --prism-color-violet-50: #f6f6fe;
+    --prism-color-violet-100: #eae9fd;
+    --prism-color-violet-300: #c1bdf2;
+    --prism-color-violet-500: #9b8aff;
+    --prism-color-violet-600: #6a12f3;
+    --prism-color-violet-700: #5215bd;
+    --prism-color-violet-900: #281d55;
+    --prism-color-blue-50: #f1f8fe;
+    --prism-color-blue-100: #dfedfc;
+    --prism-color-blue-300: #a2c8f1;
+    --prism-color-blue-500: #3fa3ff;
+    --prism-color-blue-600: #0065b0;
+    --prism-color-blue-700: #004f8b;
+    --prism-color-blue-900: #0e2a46;
+    --prism-color-cyan-50: #e9fbfe;
+    --prism-color-cyan-100: #caf4fc;
+    --prism-color-cyan-300: #46daf1;
+    --prism-color-cyan-500: #00b2c8;
+    --prism-color-cyan-600: #00707e;
+    --prism-color-cyan-700: #005763;
+    --prism-color-cyan-900: #0e2e33;
+    --prism-color-green-50: #edfbf0;
+    --prism-color-green-100: #d6f4dd;
+    --prism-color-green-300: #1fe97c;
+    --prism-color-green-500: #00bd61;
+    --prism-color-green-600: #00773b;
+    --prism-color-green-700: #005d2d;
+    --prism-color-green-900: #0c3119;
+    --prism-color-amber-50: #fef6e8;
+    --prism-color-amber-100: #fbe9ca;
+    --prism-color-amber-300: #edbc51;
+    --prism-color-amber-500: #f5af00;
+    --prism-color-amber-600: #915100;
+    --prism-color-amber-700: #793800;
+    --prism-color-amber-900: #3b2211;
+    --prism-color-magenta-50: #fef3fa;
+    --prism-color-magenta-100: #fde2f4;
+    --prism-color-magenta-300: #fba2e2;
+    --prism-color-magenta-500: #ff3bd7;
+    --prism-color-magenta-600: #aa008d;
+    --prism-color-magenta-700: #86006f;
+    --prism-color-magenta-900: #411636;
+    --prism-color-focus-halo: #6a12f31f;
+    --prism-color-error-surface: #ff645a14;
+    --prism-elevation-default: 0 1px 2px #0207130f, 0 4px 12px -2px #0207131f;
+    --prism-elevation-hover: 0 1px 2px #02071314, 0 2px 6px -1px #02071329;
+    --prism-elevation-urgent: 0 1px 2px #bc00121f, 0 4px 12px -2px #bc00123d;
+  }
+  [data-prism-theme='dark'] {
+    --prism-color-focus-halo: #c1bdf21f;
+    --prism-color-shadow: #000000;
+    --prism-elevation-default: 0 1px 2px #0000000f, 0 4px 12px -2px #0000001f;
+    --prism-elevation-hover: 0 1px 2px #00000014, 0 2px 6px -1px #00000029;
+  }
+  @media (prefers-color-scheme: dark) {
+    [data-prism-theme='auto'] {
+      --prism-color-focus-halo: #c1bdf21f;
+      --prism-color-shadow: #000000;
+      --prism-elevation-default: 0 1px 2px #0000000f, 0 4px 12px -2px #0000001f;
+      --prism-elevation-hover: 0 1px 2px #00000014, 0 2px 6px -1px #00000029;
+    }
+  }
+  [data-prism-theme='light'] {
+    --prism-color-focus-halo: #6a12f31f;
+    --prism-elevation-default: 0 1px 2px #0207130f, 0 4px 12px -2px #0207131f;
+    --prism-elevation-hover: 0 1px 2px #02071314, 0 2px 6px -1px #02071329;
+  }
 }

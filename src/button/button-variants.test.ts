@@ -7,7 +7,7 @@ const BG: Record<(typeof V)[number], [string, string]> = {
   primary: ['var(--prism-color-accent)', 'var(--prism-color-on-accent)'],
   secondary: [
     'color-mix(in oklch, var(--prism-color-bg), var(--prism-color-accent) 8%)',
-    'var(--prism-color-accent)',
+    'var(--prism-color-accent-text)',
   ],
   ghost: ['transparent', 'var(--prism-color-text)'],
   outline: ['transparent', 'var(--prism-color-text)'],

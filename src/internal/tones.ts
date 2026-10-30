@@ -1,19 +1,17 @@
 import { css, unsafeCSS, type CSSResult } from 'lit';
 
 /**
- * PROPOSED tone palette for Tag, Badge and Progress. Component-private
- * `--_tone-*` properties; NOT tokens and nothing is added to tokens/*.json.
- *
- * The Tag page names six tones: neutral, info, success, warning, danger and
- * accent. The tokens have no success, warning or info colour yet, so those
- * three are stand-in OKLCH values here. Neutral, accent and danger reuse the
- * existing slate, accent and red values. Every pair is contrast-tested by
- * test/tokens.test.mjs ("tone palette"), which reads this file:
+ * Tone palette for Tag, Badge and Progress. Component-private `--_tone-*`
+ * properties that read the colour roles in tokens (neutral, accent, info,
+ * success, warning, danger), so every tone follows the active theme, light or
+ * dark. The hex after each role is its light sRGB value, used when the token
+ * stylesheet is not loaded. test/tokens.test.mjs reads this file and checks
+ * the fallbacks and every pair, in both themes, on sRGB and Display P3:
  * low text >= 4.5:1 on its tint and on the page, high text >= 4.5:1 on its
  * fill, fills >= 3:1 on the page and on the progress track.
  *
- *   low  = light tint fill with coloured text (the default emphasis)
- *   high = solid fill with white text
+ *   low  = tint fill with coloured text (the default emphasis)
+ *   high = solid fill with its on-colour text
  *
  * `attr` is the host attribute that carries the tone. The theme reads the four
  * properties (`--_tone-low-bg`, `--_tone-low-fg`, `--_tone-high-bg`,
@@ -24,35 +22,36 @@ export function tonePalette(attr: string): CSSResult {
   return css`
     /* TONES-START */
     :host {
-      --_tone-low-bg: var(--prism-color-slate-100, oklch(0.968 0.007 260));
-      --_tone-low-fg: var(--prism-color-text, oklch(0.208 0.03 260));
-      --_tone-high-bg: var(--prism-color-slate-700, oklch(0.372 0.035 260));
-      --_tone-high-fg: var(--prism-color-on-accent, oklch(1 0 260));
+      --_tone-low-bg: var(--prism-color-neutral-surface, #f2f5f9);
+      --_tone-low-fg: var(--prism-color-text, #101826);
+      --_tone-high-bg: var(--prism-color-neutral, #354153);
+      --_tone-high-fg: var(--prism-color-on-solid, #ffffff);
     }
     :host([${a}='accent']) {
-      --_tone-low-bg: oklch(0.94 0.015 260);
-      --_tone-low-fg: var(--prism-color-accent, oklch(0.129 0.03 260));
-      --_tone-high-bg: var(--prism-color-accent, oklch(0.129 0.03 260));
+      --_tone-low-bg: var(--prism-color-accent-surface, #f6f6fe);
+      --_tone-low-fg: var(--prism-color-accent-text, #5215bd);
+      --_tone-high-bg: var(--prism-color-accent, #6a12f3);
+      --_tone-high-fg: var(--prism-color-on-accent, #ffffff);
     }
     :host([${a}='danger']) {
-      --_tone-low-bg: var(--prism-color-red-50, oklch(0.971 0.013 27));
-      --_tone-low-fg: var(--prism-color-red-700, oklch(0.48 0.17 27));
-      --_tone-high-bg: var(--prism-color-red-700, oklch(0.48 0.17 27));
+      --_tone-low-bg: var(--prism-color-danger-surface, #fef4f3);
+      --_tone-low-fg: var(--prism-color-danger-text, #94000c);
+      --_tone-high-bg: var(--prism-color-danger, #bc0012);
     }
     :host([${a}='info']) {
-      --_tone-low-bg: oklch(0.965 0.016 250);
-      --_tone-low-fg: oklch(0.42 0.14 258);
-      --_tone-high-bg: oklch(0.48 0.17 258);
+      --_tone-low-bg: var(--prism-color-info-surface, #f1f8fe);
+      --_tone-low-fg: var(--prism-color-info-text, #004f8b);
+      --_tone-high-bg: var(--prism-color-info, #0065b0);
     }
     :host([${a}='success']) {
-      --_tone-low-bg: oklch(0.965 0.03 150);
-      --_tone-low-fg: oklch(0.4 0.1 150);
-      --_tone-high-bg: oklch(0.47 0.11 150);
+      --_tone-low-bg: var(--prism-color-success-surface, #edfbf0);
+      --_tone-low-fg: var(--prism-color-success-text, #005d2d);
+      --_tone-high-bg: var(--prism-color-success, #00773b);
     }
     :host([${a}='warning']) {
-      --_tone-low-bg: oklch(0.97 0.036 90);
-      --_tone-low-fg: oklch(0.42 0.09 65);
-      --_tone-high-bg: oklch(0.48 0.1 60);
+      --_tone-low-bg: var(--prism-color-warning-surface, #fef6e8);
+      --_tone-low-fg: var(--prism-color-warning-text, #793800);
+      --_tone-high-bg: var(--prism-color-warning, #915100);
     }
     /* TONES-END */
   `;

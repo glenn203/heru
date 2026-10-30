@@ -1,5 +1,5 @@
 {
-  "$description": "Resolved Prism tokens per density mode (dimensions in px; colors as oklch() with an sRGB hex fallback). Generated; do not edit.",
+  "$description": "Resolved Prism tokens per density mode (dimensions in px; colors as oklch() with an sRGB hex fallback; gamut p3 marks colours outside sRGB, whose hex is the gamut-mapped fallback). `themes.dark` holds the dark values of every themed token. Generated; do not edit.",
   "unit": "px",
   "modes": {
     "compact": {
@@ -538,32 +538,321 @@
       "color.red.50": {
         "cssVar": "--prism-color-red-50",
         "type": "color",
-        "value": "oklch(0.971 0.013 27)",
-        "hex": "#fef2f1"
+        "value": "oklch(0.975 0.01 27)",
+        "hex": "#fef4f3"
+      },
+      "color.red.100": {
+        "cssVar": "--prism-color-red-100",
+        "type": "color",
+        "value": "oklch(0.94 0.027 27)",
+        "hex": "#fde5e2"
+      },
+      "color.red.300": {
+        "cssVar": "--prism-color-red-300",
+        "type": "color",
+        "value": "oklch(0.82 0.091 27)",
+        "hex": "#faaea4"
       },
       "color.red.500": {
         "cssVar": "--prism-color-red-500",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3)",
-        "hex": "#e3193b"
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
       },
       "color.red.600": {
         "cssVar": "--prism-color-red-600",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
       },
       "color.red.700": {
         "cssVar": "--prism-color-red-700",
         "type": "color",
-        "value": "oklch(0.48 0.17 27)",
-        "hex": "#a92321"
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
       },
       "color.red.800": {
         "cssVar": "--prism-color-red-800",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
+      },
+      "color.red.900": {
+        "cssVar": "--prism-color-red-900",
+        "type": "color",
+        "value": "oklch(0.28 0.077 27)",
+        "hex": "#481613"
+      },
+      "color.violet.50": {
+        "cssVar": "--prism-color-violet-50",
+        "type": "color",
+        "value": "oklch(0.975 0.011 288)",
+        "hex": "#f6f6fe"
+      },
+      "color.violet.100": {
+        "cssVar": "--prism-color-violet-100",
+        "type": "color",
+        "value": "oklch(0.94 0.027 288)",
+        "hex": "#eae9fd"
+      },
+      "color.violet.300": {
+        "cssVar": "--prism-color-violet-300",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.violet.500": {
+        "cssVar": "--prism-color-violet-500",
+        "type": "color",
+        "value": "oklch(0.7 0.174 288)",
+        "hex": "#9b8aff",
+        "gamut": "p3"
+      },
+      "color.violet.600": {
+        "cssVar": "--prism-color-violet-600",
+        "type": "color",
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
+      },
+      "color.violet.700": {
+        "cssVar": "--prism-color-violet-700",
+        "type": "color",
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
+      },
+      "color.violet.900": {
+        "cssVar": "--prism-color-violet-900",
+        "type": "color",
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
+      },
+      "color.blue.50": {
+        "cssVar": "--prism-color-blue-50",
+        "type": "color",
+        "value": "oklch(0.975 0.011 250)",
+        "hex": "#f1f8fe"
+      },
+      "color.blue.100": {
+        "cssVar": "--prism-color-blue-100",
+        "type": "color",
+        "value": "oklch(0.94 0.026 250)",
+        "hex": "#dfedfc"
+      },
+      "color.blue.300": {
+        "cssVar": "--prism-color-blue-300",
+        "type": "color",
+        "value": "oklch(0.82 0.071 250)",
+        "hex": "#a2c8f1"
+      },
+      "color.blue.500": {
+        "cssVar": "--prism-color-blue-500",
+        "type": "color",
+        "value": "oklch(0.7 0.169 250)",
+        "hex": "#3fa3ff",
+        "gamut": "p3"
+      },
+      "color.blue.600": {
+        "cssVar": "--prism-color-blue-600",
+        "type": "color",
+        "value": "oklch(0.5 0.173 250)",
+        "hex": "#0065b0",
+        "gamut": "p3"
+      },
+      "color.blue.700": {
+        "cssVar": "--prism-color-blue-700",
+        "type": "color",
+        "value": "oklch(0.42 0.141 250)",
+        "hex": "#004f8b",
+        "gamut": "p3"
+      },
+      "color.blue.900": {
+        "cssVar": "--prism-color-blue-900",
+        "type": "color",
+        "value": "oklch(0.28 0.061 250)",
+        "hex": "#0e2a46"
+      },
+      "color.cyan.50": {
+        "cssVar": "--prism-color-cyan-50",
+        "type": "color",
+        "value": "oklch(0.975 0.019 210)",
+        "hex": "#e9fbfe"
+      },
+      "color.cyan.100": {
+        "cssVar": "--prism-color-cyan-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 210)",
+        "hex": "#caf4fc"
+      },
+      "color.cyan.300": {
+        "cssVar": "--prism-color-cyan-300",
+        "type": "color",
+        "value": "oklch(0.82 0.125 210)",
+        "hex": "#46daf1"
+      },
+      "color.cyan.500": {
+        "cssVar": "--prism-color-cyan-500",
+        "type": "color",
+        "value": "oklch(0.7 0.154 210)",
+        "hex": "#00b2c8",
+        "gamut": "p3"
+      },
+      "color.cyan.600": {
+        "cssVar": "--prism-color-cyan-600",
+        "type": "color",
+        "value": "oklch(0.5 0.109 210)",
+        "hex": "#00707e",
+        "gamut": "p3"
+      },
+      "color.cyan.700": {
+        "cssVar": "--prism-color-cyan-700",
+        "type": "color",
+        "value": "oklch(0.42 0.089 210)",
+        "hex": "#005763",
+        "gamut": "p3"
+      },
+      "color.cyan.900": {
+        "cssVar": "--prism-color-cyan-900",
+        "type": "color",
+        "value": "oklch(0.28 0.038 210)",
+        "hex": "#0e2e33"
+      },
+      "color.green.50": {
+        "cssVar": "--prism-color-green-50",
+        "type": "color",
+        "value": "oklch(0.975 0.02 152)",
+        "hex": "#edfbf0"
+      },
+      "color.green.100": {
+        "cssVar": "--prism-color-green-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 152)",
+        "hex": "#d6f4dd"
+      },
+      "color.green.300": {
+        "cssVar": "--prism-color-green-300",
+        "type": "color",
+        "value": "oklch(0.82 0.21 152)",
+        "hex": "#1fe97c"
+      },
+      "color.green.500": {
+        "cssVar": "--prism-color-green-500",
+        "type": "color",
+        "value": "oklch(0.7 0.245 152)",
+        "hex": "#00bd61",
+        "gamut": "p3"
+      },
+      "color.green.600": {
+        "cssVar": "--prism-color-green-600",
+        "type": "color",
+        "value": "oklch(0.5 0.173 152)",
+        "hex": "#00773b",
+        "gamut": "p3"
+      },
+      "color.green.700": {
+        "cssVar": "--prism-color-green-700",
+        "type": "color",
+        "value": "oklch(0.42 0.141 152)",
+        "hex": "#005d2d",
+        "gamut": "p3"
+      },
+      "color.green.900": {
+        "cssVar": "--prism-color-green-900",
+        "type": "color",
+        "value": "oklch(0.28 0.061 152)",
+        "hex": "#0c3119"
+      },
+      "color.amber.50": {
+        "cssVar": "--prism-color-amber-50",
+        "type": "color",
+        "value": "oklch(0.975 0.02 80)",
+        "hex": "#fef6e8"
+      },
+      "color.amber.100": {
+        "cssVar": "--prism-color-amber-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 80)",
+        "hex": "#fbe9ca"
+      },
+      "color.amber.300": {
+        "cssVar": "--prism-color-amber-300",
+        "type": "color",
+        "value": "oklch(0.82 0.135 84)",
+        "hex": "#edbc51"
+      },
+      "color.amber.500": {
+        "cssVar": "--prism-color-amber-500",
+        "type": "color",
+        "value": "oklch(0.8 0.183 80)",
+        "hex": "#f5af00",
+        "gamut": "p3"
+      },
+      "color.amber.600": {
+        "cssVar": "--prism-color-amber-600",
+        "type": "color",
+        "value": "oklch(0.5 0.125 62)",
+        "hex": "#915100",
+        "gamut": "p3"
+      },
+      "color.amber.700": {
+        "cssVar": "--prism-color-amber-700",
+        "type": "color",
+        "value": "oklch(0.42 0.113 52)",
+        "hex": "#793800",
+        "gamut": "p3"
+      },
+      "color.amber.900": {
+        "cssVar": "--prism-color-amber-900",
+        "type": "color",
+        "value": "oklch(0.28 0.047 55)",
+        "hex": "#3b2211"
+      },
+      "color.magenta.50": {
+        "cssVar": "--prism-color-magenta-50",
+        "type": "color",
+        "value": "oklch(0.975 0.015 338)",
+        "hex": "#fef3fa"
+      },
+      "color.magenta.100": {
+        "cssVar": "--prism-color-magenta-100",
+        "type": "color",
+        "value": "oklch(0.94 0.037 338)",
+        "hex": "#fde2f4"
+      },
+      "color.magenta.300": {
+        "cssVar": "--prism-color-magenta-300",
+        "type": "color",
+        "value": "oklch(0.82 0.132 338)",
+        "hex": "#fba2e2"
+      },
+      "color.magenta.500": {
+        "cssVar": "--prism-color-magenta-500",
+        "type": "color",
+        "value": "oklch(0.7 0.326 338)",
+        "hex": "#ff3bd7",
+        "gamut": "p3"
+      },
+      "color.magenta.600": {
+        "cssVar": "--prism-color-magenta-600",
+        "type": "color",
+        "value": "oklch(0.5 0.23 338)",
+        "hex": "#aa008d",
+        "gamut": "p3"
+      },
+      "color.magenta.700": {
+        "cssVar": "--prism-color-magenta-700",
+        "type": "color",
+        "value": "oklch(0.42 0.187 338)",
+        "hex": "#86006f",
+        "gamut": "p3"
+      },
+      "color.magenta.900": {
+        "cssVar": "--prism-color-magenta-900",
+        "type": "color",
+        "value": "oklch(0.28 0.081 338)",
+        "hex": "#411636"
       },
       "color.bg": {
         "cssVar": "--prism-color-bg",
@@ -610,26 +899,38 @@
       "color.accent": {
         "cssVar": "--prism-color-accent",
         "type": "color",
-        "value": "oklch(0.129 0.03 260)",
-        "hex": "#020713"
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
       },
       "color.accent-hover": {
         "cssVar": "--prism-color-accent-hover",
         "type": "color",
-        "value": "oklch(0.279 0.033 260)",
-        "hex": "#1f2939"
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
       },
       "color.accent-active": {
         "cssVar": "--prism-color-accent-active",
         "type": "color",
-        "value": "oklch(0.208 0.03 260)",
-        "hex": "#101826"
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
       },
       "color.on-accent": {
         "cssVar": "--prism-color-on-accent",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
+      },
+      "color.accent-text": {
+        "cssVar": "--prism-color-accent-text",
+        "type": "color",
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
+      },
+      "color.accent-surface": {
+        "cssVar": "--prism-color-accent-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.011 288)",
+        "hex": "#f6f6fe"
       },
       "color.surface-hover": {
         "cssVar": "--prism-color-surface-hover",
@@ -646,14 +947,14 @@
       "color.focus-ring": {
         "cssVar": "--prism-color-focus-ring",
         "type": "color",
-        "value": "oklch(0.446 0.035 260)",
-        "hex": "#495568"
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
       },
       "color.focus-halo": {
         "cssVar": "--prism-color-focus-halo",
         "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": "oklch(0.5 0.278 288 / 0.12)",
+        "hex": "#6a12f31f"
       },
       "color.shadow": {
         "cssVar": "--prism-color-shadow",
@@ -664,32 +965,135 @@
       "color.shadow-urgent": {
         "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
+      },
+      "color.on-solid": {
+        "cssVar": "--prism-color-on-solid",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
+      "color.neutral": {
+        "cssVar": "--prism-color-neutral",
+        "type": "color",
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
+      },
+      "color.neutral-surface": {
+        "cssVar": "--prism-color-neutral-surface",
+        "type": "color",
+        "value": "oklch(0.968 0.007 260)",
+        "hex": "#f2f5f9"
+      },
+      "color.info": {
+        "cssVar": "--prism-color-info",
+        "type": "color",
+        "value": "oklch(0.5 0.173 250)",
+        "hex": "#0065b0",
+        "gamut": "p3"
+      },
+      "color.info-text": {
+        "cssVar": "--prism-color-info-text",
+        "type": "color",
+        "value": "oklch(0.42 0.141 250)",
+        "hex": "#004f8b",
+        "gamut": "p3"
+      },
+      "color.info-surface": {
+        "cssVar": "--prism-color-info-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.011 250)",
+        "hex": "#f1f8fe"
+      },
+      "color.success": {
+        "cssVar": "--prism-color-success",
+        "type": "color",
+        "value": "oklch(0.5 0.173 152)",
+        "hex": "#00773b",
+        "gamut": "p3"
+      },
+      "color.success-text": {
+        "cssVar": "--prism-color-success-text",
+        "type": "color",
+        "value": "oklch(0.42 0.141 152)",
+        "hex": "#005d2d",
+        "gamut": "p3"
+      },
+      "color.success-surface": {
+        "cssVar": "--prism-color-success-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.02 152)",
+        "hex": "#edfbf0"
+      },
+      "color.warning": {
+        "cssVar": "--prism-color-warning",
+        "type": "color",
+        "value": "oklch(0.5 0.125 62)",
+        "hex": "#915100",
+        "gamut": "p3"
+      },
+      "color.warning-text": {
+        "cssVar": "--prism-color-warning-text",
+        "type": "color",
+        "value": "oklch(0.42 0.113 52)",
+        "hex": "#793800",
+        "gamut": "p3"
+      },
+      "color.warning-surface": {
+        "cssVar": "--prism-color-warning-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.02 80)",
+        "hex": "#fef6e8"
+      },
+      "color.danger": {
+        "cssVar": "--prism-color-danger",
+        "type": "color",
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
+      },
+      "color.danger-text": {
+        "cssVar": "--prism-color-danger-text",
+        "type": "color",
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
+      },
+      "color.danger-surface": {
+        "cssVar": "--prism-color-danger-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.01 27)",
+        "hex": "#fef4f3"
       },
       "color.error": {
         "cssVar": "--prism-color-error",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
       },
       "color.error-text": {
         "cssVar": "--prism-color-error-text",
         "type": "color",
-        "value": "oklch(0.48 0.17 27)",
-        "hex": "#a92321"
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
       },
       "color.error-surface-base": {
         "cssVar": "--prism-color-error-surface-base",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3)",
-        "hex": "#e3193b"
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
       },
       "color.error-surface": {
         "cssVar": "--prism-color-error-surface",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3 / 0.08)",
-        "hex": "#e3193b14"
+        "value": "oklch(0.7 0.233 27 / 0.08)",
+        "hex": "#ff645a14",
+        "gamut": "p3"
       },
       "color.on-error-surface": {
         "cssVar": "--prism-color-on-error-surface",
@@ -741,8 +1145,8 @@
       "focus.halo": {
         "cssVar": "--prism-focus-halo",
         "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": "oklch(0.5 0.278 288 / 0.12)",
+        "hex": "#6a12f31f"
       },
       "duration.fast": {
         "cssVar": "--prism-duration-fast",
@@ -812,7 +1216,22 @@
       "elevation.urgent": {
         "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
-        "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
+        "value": "0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24)"
+      },
+      "gradient.spectrum": {
+        "cssVar": "--prism-gradient-spectrum",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 90deg, oklch(0.7 0.174 288), oklch(0.7 0.169 250), oklch(0.7 0.154 210), oklch(0.7 0.245 152), oklch(0.8 0.183 80), oklch(0.7 0.233 27), oklch(0.7 0.326 338))"
+      },
+      "gradient.refract": {
+        "cssVar": "--prism-gradient-refract",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 135deg, oklch(0.5 0.278 288), oklch(0.7 0.169 250) 55%, oklch(0.7 0.154 210))"
+      },
+      "gradient.mist": {
+        "cssVar": "--prism-gradient-mist",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 120deg, oklch(0.94 0.027 288), oklch(0.975 0.011 250) 40%, oklch(0.94 0.045 210) 70%, oklch(0.975 0.015 338))"
       }
     },
     "default": {
@@ -1351,32 +1770,321 @@
       "color.red.50": {
         "cssVar": "--prism-color-red-50",
         "type": "color",
-        "value": "oklch(0.971 0.013 27)",
-        "hex": "#fef2f1"
+        "value": "oklch(0.975 0.01 27)",
+        "hex": "#fef4f3"
+      },
+      "color.red.100": {
+        "cssVar": "--prism-color-red-100",
+        "type": "color",
+        "value": "oklch(0.94 0.027 27)",
+        "hex": "#fde5e2"
+      },
+      "color.red.300": {
+        "cssVar": "--prism-color-red-300",
+        "type": "color",
+        "value": "oklch(0.82 0.091 27)",
+        "hex": "#faaea4"
       },
       "color.red.500": {
         "cssVar": "--prism-color-red-500",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3)",
-        "hex": "#e3193b"
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
       },
       "color.red.600": {
         "cssVar": "--prism-color-red-600",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
       },
       "color.red.700": {
         "cssVar": "--prism-color-red-700",
         "type": "color",
-        "value": "oklch(0.48 0.17 27)",
-        "hex": "#a92321"
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
       },
       "color.red.800": {
         "cssVar": "--prism-color-red-800",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
+      },
+      "color.red.900": {
+        "cssVar": "--prism-color-red-900",
+        "type": "color",
+        "value": "oklch(0.28 0.077 27)",
+        "hex": "#481613"
+      },
+      "color.violet.50": {
+        "cssVar": "--prism-color-violet-50",
+        "type": "color",
+        "value": "oklch(0.975 0.011 288)",
+        "hex": "#f6f6fe"
+      },
+      "color.violet.100": {
+        "cssVar": "--prism-color-violet-100",
+        "type": "color",
+        "value": "oklch(0.94 0.027 288)",
+        "hex": "#eae9fd"
+      },
+      "color.violet.300": {
+        "cssVar": "--prism-color-violet-300",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.violet.500": {
+        "cssVar": "--prism-color-violet-500",
+        "type": "color",
+        "value": "oklch(0.7 0.174 288)",
+        "hex": "#9b8aff",
+        "gamut": "p3"
+      },
+      "color.violet.600": {
+        "cssVar": "--prism-color-violet-600",
+        "type": "color",
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
+      },
+      "color.violet.700": {
+        "cssVar": "--prism-color-violet-700",
+        "type": "color",
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
+      },
+      "color.violet.900": {
+        "cssVar": "--prism-color-violet-900",
+        "type": "color",
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
+      },
+      "color.blue.50": {
+        "cssVar": "--prism-color-blue-50",
+        "type": "color",
+        "value": "oklch(0.975 0.011 250)",
+        "hex": "#f1f8fe"
+      },
+      "color.blue.100": {
+        "cssVar": "--prism-color-blue-100",
+        "type": "color",
+        "value": "oklch(0.94 0.026 250)",
+        "hex": "#dfedfc"
+      },
+      "color.blue.300": {
+        "cssVar": "--prism-color-blue-300",
+        "type": "color",
+        "value": "oklch(0.82 0.071 250)",
+        "hex": "#a2c8f1"
+      },
+      "color.blue.500": {
+        "cssVar": "--prism-color-blue-500",
+        "type": "color",
+        "value": "oklch(0.7 0.169 250)",
+        "hex": "#3fa3ff",
+        "gamut": "p3"
+      },
+      "color.blue.600": {
+        "cssVar": "--prism-color-blue-600",
+        "type": "color",
+        "value": "oklch(0.5 0.173 250)",
+        "hex": "#0065b0",
+        "gamut": "p3"
+      },
+      "color.blue.700": {
+        "cssVar": "--prism-color-blue-700",
+        "type": "color",
+        "value": "oklch(0.42 0.141 250)",
+        "hex": "#004f8b",
+        "gamut": "p3"
+      },
+      "color.blue.900": {
+        "cssVar": "--prism-color-blue-900",
+        "type": "color",
+        "value": "oklch(0.28 0.061 250)",
+        "hex": "#0e2a46"
+      },
+      "color.cyan.50": {
+        "cssVar": "--prism-color-cyan-50",
+        "type": "color",
+        "value": "oklch(0.975 0.019 210)",
+        "hex": "#e9fbfe"
+      },
+      "color.cyan.100": {
+        "cssVar": "--prism-color-cyan-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 210)",
+        "hex": "#caf4fc"
+      },
+      "color.cyan.300": {
+        "cssVar": "--prism-color-cyan-300",
+        "type": "color",
+        "value": "oklch(0.82 0.125 210)",
+        "hex": "#46daf1"
+      },
+      "color.cyan.500": {
+        "cssVar": "--prism-color-cyan-500",
+        "type": "color",
+        "value": "oklch(0.7 0.154 210)",
+        "hex": "#00b2c8",
+        "gamut": "p3"
+      },
+      "color.cyan.600": {
+        "cssVar": "--prism-color-cyan-600",
+        "type": "color",
+        "value": "oklch(0.5 0.109 210)",
+        "hex": "#00707e",
+        "gamut": "p3"
+      },
+      "color.cyan.700": {
+        "cssVar": "--prism-color-cyan-700",
+        "type": "color",
+        "value": "oklch(0.42 0.089 210)",
+        "hex": "#005763",
+        "gamut": "p3"
+      },
+      "color.cyan.900": {
+        "cssVar": "--prism-color-cyan-900",
+        "type": "color",
+        "value": "oklch(0.28 0.038 210)",
+        "hex": "#0e2e33"
+      },
+      "color.green.50": {
+        "cssVar": "--prism-color-green-50",
+        "type": "color",
+        "value": "oklch(0.975 0.02 152)",
+        "hex": "#edfbf0"
+      },
+      "color.green.100": {
+        "cssVar": "--prism-color-green-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 152)",
+        "hex": "#d6f4dd"
+      },
+      "color.green.300": {
+        "cssVar": "--prism-color-green-300",
+        "type": "color",
+        "value": "oklch(0.82 0.21 152)",
+        "hex": "#1fe97c"
+      },
+      "color.green.500": {
+        "cssVar": "--prism-color-green-500",
+        "type": "color",
+        "value": "oklch(0.7 0.245 152)",
+        "hex": "#00bd61",
+        "gamut": "p3"
+      },
+      "color.green.600": {
+        "cssVar": "--prism-color-green-600",
+        "type": "color",
+        "value": "oklch(0.5 0.173 152)",
+        "hex": "#00773b",
+        "gamut": "p3"
+      },
+      "color.green.700": {
+        "cssVar": "--prism-color-green-700",
+        "type": "color",
+        "value": "oklch(0.42 0.141 152)",
+        "hex": "#005d2d",
+        "gamut": "p3"
+      },
+      "color.green.900": {
+        "cssVar": "--prism-color-green-900",
+        "type": "color",
+        "value": "oklch(0.28 0.061 152)",
+        "hex": "#0c3119"
+      },
+      "color.amber.50": {
+        "cssVar": "--prism-color-amber-50",
+        "type": "color",
+        "value": "oklch(0.975 0.02 80)",
+        "hex": "#fef6e8"
+      },
+      "color.amber.100": {
+        "cssVar": "--prism-color-amber-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 80)",
+        "hex": "#fbe9ca"
+      },
+      "color.amber.300": {
+        "cssVar": "--prism-color-amber-300",
+        "type": "color",
+        "value": "oklch(0.82 0.135 84)",
+        "hex": "#edbc51"
+      },
+      "color.amber.500": {
+        "cssVar": "--prism-color-amber-500",
+        "type": "color",
+        "value": "oklch(0.8 0.183 80)",
+        "hex": "#f5af00",
+        "gamut": "p3"
+      },
+      "color.amber.600": {
+        "cssVar": "--prism-color-amber-600",
+        "type": "color",
+        "value": "oklch(0.5 0.125 62)",
+        "hex": "#915100",
+        "gamut": "p3"
+      },
+      "color.amber.700": {
+        "cssVar": "--prism-color-amber-700",
+        "type": "color",
+        "value": "oklch(0.42 0.113 52)",
+        "hex": "#793800",
+        "gamut": "p3"
+      },
+      "color.amber.900": {
+        "cssVar": "--prism-color-amber-900",
+        "type": "color",
+        "value": "oklch(0.28 0.047 55)",
+        "hex": "#3b2211"
+      },
+      "color.magenta.50": {
+        "cssVar": "--prism-color-magenta-50",
+        "type": "color",
+        "value": "oklch(0.975 0.015 338)",
+        "hex": "#fef3fa"
+      },
+      "color.magenta.100": {
+        "cssVar": "--prism-color-magenta-100",
+        "type": "color",
+        "value": "oklch(0.94 0.037 338)",
+        "hex": "#fde2f4"
+      },
+      "color.magenta.300": {
+        "cssVar": "--prism-color-magenta-300",
+        "type": "color",
+        "value": "oklch(0.82 0.132 338)",
+        "hex": "#fba2e2"
+      },
+      "color.magenta.500": {
+        "cssVar": "--prism-color-magenta-500",
+        "type": "color",
+        "value": "oklch(0.7 0.326 338)",
+        "hex": "#ff3bd7",
+        "gamut": "p3"
+      },
+      "color.magenta.600": {
+        "cssVar": "--prism-color-magenta-600",
+        "type": "color",
+        "value": "oklch(0.5 0.23 338)",
+        "hex": "#aa008d",
+        "gamut": "p3"
+      },
+      "color.magenta.700": {
+        "cssVar": "--prism-color-magenta-700",
+        "type": "color",
+        "value": "oklch(0.42 0.187 338)",
+        "hex": "#86006f",
+        "gamut": "p3"
+      },
+      "color.magenta.900": {
+        "cssVar": "--prism-color-magenta-900",
+        "type": "color",
+        "value": "oklch(0.28 0.081 338)",
+        "hex": "#411636"
       },
       "color.bg": {
         "cssVar": "--prism-color-bg",
@@ -1423,26 +2131,38 @@
       "color.accent": {
         "cssVar": "--prism-color-accent",
         "type": "color",
-        "value": "oklch(0.129 0.03 260)",
-        "hex": "#020713"
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
       },
       "color.accent-hover": {
         "cssVar": "--prism-color-accent-hover",
         "type": "color",
-        "value": "oklch(0.279 0.033 260)",
-        "hex": "#1f2939"
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
       },
       "color.accent-active": {
         "cssVar": "--prism-color-accent-active",
         "type": "color",
-        "value": "oklch(0.208 0.03 260)",
-        "hex": "#101826"
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
       },
       "color.on-accent": {
         "cssVar": "--prism-color-on-accent",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
+      },
+      "color.accent-text": {
+        "cssVar": "--prism-color-accent-text",
+        "type": "color",
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
+      },
+      "color.accent-surface": {
+        "cssVar": "--prism-color-accent-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.011 288)",
+        "hex": "#f6f6fe"
       },
       "color.surface-hover": {
         "cssVar": "--prism-color-surface-hover",
@@ -1459,14 +2179,14 @@
       "color.focus-ring": {
         "cssVar": "--prism-color-focus-ring",
         "type": "color",
-        "value": "oklch(0.446 0.035 260)",
-        "hex": "#495568"
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
       },
       "color.focus-halo": {
         "cssVar": "--prism-color-focus-halo",
         "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": "oklch(0.5 0.278 288 / 0.12)",
+        "hex": "#6a12f31f"
       },
       "color.shadow": {
         "cssVar": "--prism-color-shadow",
@@ -1477,32 +2197,135 @@
       "color.shadow-urgent": {
         "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
+      },
+      "color.on-solid": {
+        "cssVar": "--prism-color-on-solid",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
+      "color.neutral": {
+        "cssVar": "--prism-color-neutral",
+        "type": "color",
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
+      },
+      "color.neutral-surface": {
+        "cssVar": "--prism-color-neutral-surface",
+        "type": "color",
+        "value": "oklch(0.968 0.007 260)",
+        "hex": "#f2f5f9"
+      },
+      "color.info": {
+        "cssVar": "--prism-color-info",
+        "type": "color",
+        "value": "oklch(0.5 0.173 250)",
+        "hex": "#0065b0",
+        "gamut": "p3"
+      },
+      "color.info-text": {
+        "cssVar": "--prism-color-info-text",
+        "type": "color",
+        "value": "oklch(0.42 0.141 250)",
+        "hex": "#004f8b",
+        "gamut": "p3"
+      },
+      "color.info-surface": {
+        "cssVar": "--prism-color-info-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.011 250)",
+        "hex": "#f1f8fe"
+      },
+      "color.success": {
+        "cssVar": "--prism-color-success",
+        "type": "color",
+        "value": "oklch(0.5 0.173 152)",
+        "hex": "#00773b",
+        "gamut": "p3"
+      },
+      "color.success-text": {
+        "cssVar": "--prism-color-success-text",
+        "type": "color",
+        "value": "oklch(0.42 0.141 152)",
+        "hex": "#005d2d",
+        "gamut": "p3"
+      },
+      "color.success-surface": {
+        "cssVar": "--prism-color-success-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.02 152)",
+        "hex": "#edfbf0"
+      },
+      "color.warning": {
+        "cssVar": "--prism-color-warning",
+        "type": "color",
+        "value": "oklch(0.5 0.125 62)",
+        "hex": "#915100",
+        "gamut": "p3"
+      },
+      "color.warning-text": {
+        "cssVar": "--prism-color-warning-text",
+        "type": "color",
+        "value": "oklch(0.42 0.113 52)",
+        "hex": "#793800",
+        "gamut": "p3"
+      },
+      "color.warning-surface": {
+        "cssVar": "--prism-color-warning-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.02 80)",
+        "hex": "#fef6e8"
+      },
+      "color.danger": {
+        "cssVar": "--prism-color-danger",
+        "type": "color",
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
+      },
+      "color.danger-text": {
+        "cssVar": "--prism-color-danger-text",
+        "type": "color",
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
+      },
+      "color.danger-surface": {
+        "cssVar": "--prism-color-danger-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.01 27)",
+        "hex": "#fef4f3"
       },
       "color.error": {
         "cssVar": "--prism-color-error",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
       },
       "color.error-text": {
         "cssVar": "--prism-color-error-text",
         "type": "color",
-        "value": "oklch(0.48 0.17 27)",
-        "hex": "#a92321"
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
       },
       "color.error-surface-base": {
         "cssVar": "--prism-color-error-surface-base",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3)",
-        "hex": "#e3193b"
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
       },
       "color.error-surface": {
         "cssVar": "--prism-color-error-surface",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3 / 0.08)",
-        "hex": "#e3193b14"
+        "value": "oklch(0.7 0.233 27 / 0.08)",
+        "hex": "#ff645a14",
+        "gamut": "p3"
       },
       "color.on-error-surface": {
         "cssVar": "--prism-color-on-error-surface",
@@ -1554,8 +2377,8 @@
       "focus.halo": {
         "cssVar": "--prism-focus-halo",
         "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": "oklch(0.5 0.278 288 / 0.12)",
+        "hex": "#6a12f31f"
       },
       "duration.fast": {
         "cssVar": "--prism-duration-fast",
@@ -1625,7 +2448,22 @@
       "elevation.urgent": {
         "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
-        "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
+        "value": "0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24)"
+      },
+      "gradient.spectrum": {
+        "cssVar": "--prism-gradient-spectrum",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 90deg, oklch(0.7 0.174 288), oklch(0.7 0.169 250), oklch(0.7 0.154 210), oklch(0.7 0.245 152), oklch(0.8 0.183 80), oklch(0.7 0.233 27), oklch(0.7 0.326 338))"
+      },
+      "gradient.refract": {
+        "cssVar": "--prism-gradient-refract",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 135deg, oklch(0.5 0.278 288), oklch(0.7 0.169 250) 55%, oklch(0.7 0.154 210))"
+      },
+      "gradient.mist": {
+        "cssVar": "--prism-gradient-mist",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 120deg, oklch(0.94 0.027 288), oklch(0.975 0.011 250) 40%, oklch(0.94 0.045 210) 70%, oklch(0.975 0.015 338))"
       }
     },
     "comfortable": {
@@ -2164,32 +3002,321 @@
       "color.red.50": {
         "cssVar": "--prism-color-red-50",
         "type": "color",
-        "value": "oklch(0.971 0.013 27)",
-        "hex": "#fef2f1"
+        "value": "oklch(0.975 0.01 27)",
+        "hex": "#fef4f3"
+      },
+      "color.red.100": {
+        "cssVar": "--prism-color-red-100",
+        "type": "color",
+        "value": "oklch(0.94 0.027 27)",
+        "hex": "#fde5e2"
+      },
+      "color.red.300": {
+        "cssVar": "--prism-color-red-300",
+        "type": "color",
+        "value": "oklch(0.82 0.091 27)",
+        "hex": "#faaea4"
       },
       "color.red.500": {
         "cssVar": "--prism-color-red-500",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3)",
-        "hex": "#e3193b"
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
       },
       "color.red.600": {
         "cssVar": "--prism-color-red-600",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
       },
       "color.red.700": {
         "cssVar": "--prism-color-red-700",
         "type": "color",
-        "value": "oklch(0.48 0.17 27)",
-        "hex": "#a92321"
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
       },
       "color.red.800": {
         "cssVar": "--prism-color-red-800",
         "type": "color",
         "value": "oklch(0.368 0.148 25)",
         "hex": "#7b0210"
+      },
+      "color.red.900": {
+        "cssVar": "--prism-color-red-900",
+        "type": "color",
+        "value": "oklch(0.28 0.077 27)",
+        "hex": "#481613"
+      },
+      "color.violet.50": {
+        "cssVar": "--prism-color-violet-50",
+        "type": "color",
+        "value": "oklch(0.975 0.011 288)",
+        "hex": "#f6f6fe"
+      },
+      "color.violet.100": {
+        "cssVar": "--prism-color-violet-100",
+        "type": "color",
+        "value": "oklch(0.94 0.027 288)",
+        "hex": "#eae9fd"
+      },
+      "color.violet.300": {
+        "cssVar": "--prism-color-violet-300",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.violet.500": {
+        "cssVar": "--prism-color-violet-500",
+        "type": "color",
+        "value": "oklch(0.7 0.174 288)",
+        "hex": "#9b8aff",
+        "gamut": "p3"
+      },
+      "color.violet.600": {
+        "cssVar": "--prism-color-violet-600",
+        "type": "color",
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
+      },
+      "color.violet.700": {
+        "cssVar": "--prism-color-violet-700",
+        "type": "color",
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
+      },
+      "color.violet.900": {
+        "cssVar": "--prism-color-violet-900",
+        "type": "color",
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
+      },
+      "color.blue.50": {
+        "cssVar": "--prism-color-blue-50",
+        "type": "color",
+        "value": "oklch(0.975 0.011 250)",
+        "hex": "#f1f8fe"
+      },
+      "color.blue.100": {
+        "cssVar": "--prism-color-blue-100",
+        "type": "color",
+        "value": "oklch(0.94 0.026 250)",
+        "hex": "#dfedfc"
+      },
+      "color.blue.300": {
+        "cssVar": "--prism-color-blue-300",
+        "type": "color",
+        "value": "oklch(0.82 0.071 250)",
+        "hex": "#a2c8f1"
+      },
+      "color.blue.500": {
+        "cssVar": "--prism-color-blue-500",
+        "type": "color",
+        "value": "oklch(0.7 0.169 250)",
+        "hex": "#3fa3ff",
+        "gamut": "p3"
+      },
+      "color.blue.600": {
+        "cssVar": "--prism-color-blue-600",
+        "type": "color",
+        "value": "oklch(0.5 0.173 250)",
+        "hex": "#0065b0",
+        "gamut": "p3"
+      },
+      "color.blue.700": {
+        "cssVar": "--prism-color-blue-700",
+        "type": "color",
+        "value": "oklch(0.42 0.141 250)",
+        "hex": "#004f8b",
+        "gamut": "p3"
+      },
+      "color.blue.900": {
+        "cssVar": "--prism-color-blue-900",
+        "type": "color",
+        "value": "oklch(0.28 0.061 250)",
+        "hex": "#0e2a46"
+      },
+      "color.cyan.50": {
+        "cssVar": "--prism-color-cyan-50",
+        "type": "color",
+        "value": "oklch(0.975 0.019 210)",
+        "hex": "#e9fbfe"
+      },
+      "color.cyan.100": {
+        "cssVar": "--prism-color-cyan-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 210)",
+        "hex": "#caf4fc"
+      },
+      "color.cyan.300": {
+        "cssVar": "--prism-color-cyan-300",
+        "type": "color",
+        "value": "oklch(0.82 0.125 210)",
+        "hex": "#46daf1"
+      },
+      "color.cyan.500": {
+        "cssVar": "--prism-color-cyan-500",
+        "type": "color",
+        "value": "oklch(0.7 0.154 210)",
+        "hex": "#00b2c8",
+        "gamut": "p3"
+      },
+      "color.cyan.600": {
+        "cssVar": "--prism-color-cyan-600",
+        "type": "color",
+        "value": "oklch(0.5 0.109 210)",
+        "hex": "#00707e",
+        "gamut": "p3"
+      },
+      "color.cyan.700": {
+        "cssVar": "--prism-color-cyan-700",
+        "type": "color",
+        "value": "oklch(0.42 0.089 210)",
+        "hex": "#005763",
+        "gamut": "p3"
+      },
+      "color.cyan.900": {
+        "cssVar": "--prism-color-cyan-900",
+        "type": "color",
+        "value": "oklch(0.28 0.038 210)",
+        "hex": "#0e2e33"
+      },
+      "color.green.50": {
+        "cssVar": "--prism-color-green-50",
+        "type": "color",
+        "value": "oklch(0.975 0.02 152)",
+        "hex": "#edfbf0"
+      },
+      "color.green.100": {
+        "cssVar": "--prism-color-green-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 152)",
+        "hex": "#d6f4dd"
+      },
+      "color.green.300": {
+        "cssVar": "--prism-color-green-300",
+        "type": "color",
+        "value": "oklch(0.82 0.21 152)",
+        "hex": "#1fe97c"
+      },
+      "color.green.500": {
+        "cssVar": "--prism-color-green-500",
+        "type": "color",
+        "value": "oklch(0.7 0.245 152)",
+        "hex": "#00bd61",
+        "gamut": "p3"
+      },
+      "color.green.600": {
+        "cssVar": "--prism-color-green-600",
+        "type": "color",
+        "value": "oklch(0.5 0.173 152)",
+        "hex": "#00773b",
+        "gamut": "p3"
+      },
+      "color.green.700": {
+        "cssVar": "--prism-color-green-700",
+        "type": "color",
+        "value": "oklch(0.42 0.141 152)",
+        "hex": "#005d2d",
+        "gamut": "p3"
+      },
+      "color.green.900": {
+        "cssVar": "--prism-color-green-900",
+        "type": "color",
+        "value": "oklch(0.28 0.061 152)",
+        "hex": "#0c3119"
+      },
+      "color.amber.50": {
+        "cssVar": "--prism-color-amber-50",
+        "type": "color",
+        "value": "oklch(0.975 0.02 80)",
+        "hex": "#fef6e8"
+      },
+      "color.amber.100": {
+        "cssVar": "--prism-color-amber-100",
+        "type": "color",
+        "value": "oklch(0.94 0.045 80)",
+        "hex": "#fbe9ca"
+      },
+      "color.amber.300": {
+        "cssVar": "--prism-color-amber-300",
+        "type": "color",
+        "value": "oklch(0.82 0.135 84)",
+        "hex": "#edbc51"
+      },
+      "color.amber.500": {
+        "cssVar": "--prism-color-amber-500",
+        "type": "color",
+        "value": "oklch(0.8 0.183 80)",
+        "hex": "#f5af00",
+        "gamut": "p3"
+      },
+      "color.amber.600": {
+        "cssVar": "--prism-color-amber-600",
+        "type": "color",
+        "value": "oklch(0.5 0.125 62)",
+        "hex": "#915100",
+        "gamut": "p3"
+      },
+      "color.amber.700": {
+        "cssVar": "--prism-color-amber-700",
+        "type": "color",
+        "value": "oklch(0.42 0.113 52)",
+        "hex": "#793800",
+        "gamut": "p3"
+      },
+      "color.amber.900": {
+        "cssVar": "--prism-color-amber-900",
+        "type": "color",
+        "value": "oklch(0.28 0.047 55)",
+        "hex": "#3b2211"
+      },
+      "color.magenta.50": {
+        "cssVar": "--prism-color-magenta-50",
+        "type": "color",
+        "value": "oklch(0.975 0.015 338)",
+        "hex": "#fef3fa"
+      },
+      "color.magenta.100": {
+        "cssVar": "--prism-color-magenta-100",
+        "type": "color",
+        "value": "oklch(0.94 0.037 338)",
+        "hex": "#fde2f4"
+      },
+      "color.magenta.300": {
+        "cssVar": "--prism-color-magenta-300",
+        "type": "color",
+        "value": "oklch(0.82 0.132 338)",
+        "hex": "#fba2e2"
+      },
+      "color.magenta.500": {
+        "cssVar": "--prism-color-magenta-500",
+        "type": "color",
+        "value": "oklch(0.7 0.326 338)",
+        "hex": "#ff3bd7",
+        "gamut": "p3"
+      },
+      "color.magenta.600": {
+        "cssVar": "--prism-color-magenta-600",
+        "type": "color",
+        "value": "oklch(0.5 0.23 338)",
+        "hex": "#aa008d",
+        "gamut": "p3"
+      },
+      "color.magenta.700": {
+        "cssVar": "--prism-color-magenta-700",
+        "type": "color",
+        "value": "oklch(0.42 0.187 338)",
+        "hex": "#86006f",
+        "gamut": "p3"
+      },
+      "color.magenta.900": {
+        "cssVar": "--prism-color-magenta-900",
+        "type": "color",
+        "value": "oklch(0.28 0.081 338)",
+        "hex": "#411636"
       },
       "color.bg": {
         "cssVar": "--prism-color-bg",
@@ -2236,26 +3363,38 @@
       "color.accent": {
         "cssVar": "--prism-color-accent",
         "type": "color",
-        "value": "oklch(0.129 0.03 260)",
-        "hex": "#020713"
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
       },
       "color.accent-hover": {
         "cssVar": "--prism-color-accent-hover",
         "type": "color",
-        "value": "oklch(0.279 0.033 260)",
-        "hex": "#1f2939"
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
       },
       "color.accent-active": {
         "cssVar": "--prism-color-accent-active",
         "type": "color",
-        "value": "oklch(0.208 0.03 260)",
-        "hex": "#101826"
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
       },
       "color.on-accent": {
         "cssVar": "--prism-color-on-accent",
         "type": "color",
         "value": "oklch(1 0 260)",
         "hex": "#ffffff"
+      },
+      "color.accent-text": {
+        "cssVar": "--prism-color-accent-text",
+        "type": "color",
+        "value": "oklch(0.42 0.226 288)",
+        "hex": "#5215bd"
+      },
+      "color.accent-surface": {
+        "cssVar": "--prism-color-accent-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.011 288)",
+        "hex": "#f6f6fe"
       },
       "color.surface-hover": {
         "cssVar": "--prism-color-surface-hover",
@@ -2272,14 +3411,14 @@
       "color.focus-ring": {
         "cssVar": "--prism-color-focus-ring",
         "type": "color",
-        "value": "oklch(0.446 0.035 260)",
-        "hex": "#495568"
+        "value": "oklch(0.5 0.278 288)",
+        "hex": "#6a12f3"
       },
       "color.focus-halo": {
         "cssVar": "--prism-color-focus-halo",
         "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": "oklch(0.5 0.278 288 / 0.12)",
+        "hex": "#6a12f31f"
       },
       "color.shadow": {
         "cssVar": "--prism-color-shadow",
@@ -2290,32 +3429,135 @@
       "color.shadow-urgent": {
         "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
+      },
+      "color.on-solid": {
+        "cssVar": "--prism-color-on-solid",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
+      "color.neutral": {
+        "cssVar": "--prism-color-neutral",
+        "type": "color",
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
+      },
+      "color.neutral-surface": {
+        "cssVar": "--prism-color-neutral-surface",
+        "type": "color",
+        "value": "oklch(0.968 0.007 260)",
+        "hex": "#f2f5f9"
+      },
+      "color.info": {
+        "cssVar": "--prism-color-info",
+        "type": "color",
+        "value": "oklch(0.5 0.173 250)",
+        "hex": "#0065b0",
+        "gamut": "p3"
+      },
+      "color.info-text": {
+        "cssVar": "--prism-color-info-text",
+        "type": "color",
+        "value": "oklch(0.42 0.141 250)",
+        "hex": "#004f8b",
+        "gamut": "p3"
+      },
+      "color.info-surface": {
+        "cssVar": "--prism-color-info-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.011 250)",
+        "hex": "#f1f8fe"
+      },
+      "color.success": {
+        "cssVar": "--prism-color-success",
+        "type": "color",
+        "value": "oklch(0.5 0.173 152)",
+        "hex": "#00773b",
+        "gamut": "p3"
+      },
+      "color.success-text": {
+        "cssVar": "--prism-color-success-text",
+        "type": "color",
+        "value": "oklch(0.42 0.141 152)",
+        "hex": "#005d2d",
+        "gamut": "p3"
+      },
+      "color.success-surface": {
+        "cssVar": "--prism-color-success-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.02 152)",
+        "hex": "#edfbf0"
+      },
+      "color.warning": {
+        "cssVar": "--prism-color-warning",
+        "type": "color",
+        "value": "oklch(0.5 0.125 62)",
+        "hex": "#915100",
+        "gamut": "p3"
+      },
+      "color.warning-text": {
+        "cssVar": "--prism-color-warning-text",
+        "type": "color",
+        "value": "oklch(0.42 0.113 52)",
+        "hex": "#793800",
+        "gamut": "p3"
+      },
+      "color.warning-surface": {
+        "cssVar": "--prism-color-warning-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.02 80)",
+        "hex": "#fef6e8"
+      },
+      "color.danger": {
+        "cssVar": "--prism-color-danger",
+        "type": "color",
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
+      },
+      "color.danger-text": {
+        "cssVar": "--prism-color-danger-text",
+        "type": "color",
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
+      },
+      "color.danger-surface": {
+        "cssVar": "--prism-color-danger-surface",
+        "type": "color",
+        "value": "oklch(0.975 0.01 27)",
+        "hex": "#fef4f3"
       },
       "color.error": {
         "cssVar": "--prism-color-error",
         "type": "color",
-        "value": "oklch(0.56 0.19 27)",
-        "hex": "#cc3430"
+        "value": "oklch(0.5 0.218 27)",
+        "hex": "#bc0012",
+        "gamut": "p3"
       },
       "color.error-text": {
         "cssVar": "--prism-color-error-text",
         "type": "color",
-        "value": "oklch(0.48 0.17 27)",
-        "hex": "#a92321"
+        "value": "oklch(0.42 0.177 27)",
+        "hex": "#94000c",
+        "gamut": "p3"
       },
       "color.error-surface-base": {
         "cssVar": "--prism-color-error-surface-base",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3)",
-        "hex": "#e3193b"
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
       },
       "color.error-surface": {
         "cssVar": "--prism-color-error-surface",
         "type": "color",
-        "value": "oklch(0.586 0.226 21.3 / 0.08)",
-        "hex": "#e3193b14"
+        "value": "oklch(0.7 0.233 27 / 0.08)",
+        "hex": "#ff645a14",
+        "gamut": "p3"
       },
       "color.on-error-surface": {
         "cssVar": "--prism-color-on-error-surface",
@@ -2367,8 +3609,8 @@
       "focus.halo": {
         "cssVar": "--prism-focus-halo",
         "type": "color",
-        "value": "oklch(0.554 0.035 260 / 0.12)",
-        "hex": "#6773881f"
+        "value": "oklch(0.5 0.278 288 / 0.12)",
+        "hex": "#6a12f31f"
       },
       "duration.fast": {
         "cssVar": "--prism-duration-fast",
@@ -2438,7 +3680,275 @@
       "elevation.urgent": {
         "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
-        "value": "0 1px 2px oklch(0.56 0.19 27 / 0.12), 0 4px 12px -2px oklch(0.56 0.19 27 / 0.24)"
+        "value": "0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24)"
+      },
+      "gradient.spectrum": {
+        "cssVar": "--prism-gradient-spectrum",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 90deg, oklch(0.7 0.174 288), oklch(0.7 0.169 250), oklch(0.7 0.154 210), oklch(0.7 0.245 152), oklch(0.8 0.183 80), oklch(0.7 0.233 27), oklch(0.7 0.326 338))"
+      },
+      "gradient.refract": {
+        "cssVar": "--prism-gradient-refract",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 135deg, oklch(0.5 0.278 288), oklch(0.7 0.169 250) 55%, oklch(0.7 0.154 210))"
+      },
+      "gradient.mist": {
+        "cssVar": "--prism-gradient-mist",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 120deg, oklch(0.94 0.027 288), oklch(0.975 0.011 250) 40%, oklch(0.94 0.045 210) 70%, oklch(0.975 0.015 338))"
+      }
+    }
+  },
+  "themes": {
+    "dark": {
+      "color.bg": {
+        "cssVar": "--prism-color-bg",
+        "type": "color",
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
+      },
+      "color.surface": {
+        "cssVar": "--prism-color-surface",
+        "type": "color",
+        "value": "oklch(0.208 0.03 260)",
+        "hex": "#101826"
+      },
+      "color.text": {
+        "cssVar": "--prism-color-text",
+        "type": "color",
+        "value": "oklch(0.984 0.003 260)",
+        "hex": "#f9fafc"
+      },
+      "color.text-muted": {
+        "cssVar": "--prism-color-text-muted",
+        "type": "color",
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
+      },
+      "color.border": {
+        "cssVar": "--prism-color-border",
+        "type": "color",
+        "value": "oklch(0.372 0.035 260)",
+        "hex": "#354153"
+      },
+      "color.border-strong": {
+        "cssVar": "--prism-color-border-strong",
+        "type": "color",
+        "value": "oklch(0.704 0.03 260)",
+        "hex": "#95a0b3"
+      },
+      "color.border-popup": {
+        "cssVar": "--prism-color-border-popup",
+        "type": "color",
+        "value": "oklch(0.446 0.035 260)",
+        "hex": "#495568"
+      },
+      "color.accent": {
+        "cssVar": "--prism-color-accent",
+        "type": "color",
+        "value": "oklch(0.7 0.174 288)",
+        "hex": "#9b8aff",
+        "gamut": "p3"
+      },
+      "color.accent-hover": {
+        "cssVar": "--prism-color-accent-hover",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.accent-active": {
+        "cssVar": "--prism-color-accent-active",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.on-accent": {
+        "cssVar": "--prism-color-on-accent",
+        "type": "color",
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
+      },
+      "color.accent-text": {
+        "cssVar": "--prism-color-accent-text",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.accent-surface": {
+        "cssVar": "--prism-color-accent-surface",
+        "type": "color",
+        "value": "oklch(0.28 0.098 288)",
+        "hex": "#281d55"
+      },
+      "color.surface-hover": {
+        "cssVar": "--prism-color-surface-hover",
+        "type": "color",
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
+      },
+      "color.surface-pressed": {
+        "cssVar": "--prism-color-surface-pressed",
+        "type": "color",
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
+      },
+      "color.focus-ring": {
+        "cssVar": "--prism-color-focus-ring",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288)",
+        "hex": "#c1bdf2"
+      },
+      "color.focus-halo": {
+        "cssVar": "--prism-color-focus-halo",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288 / 0.12)",
+        "hex": "#c1bdf21f"
+      },
+      "color.shadow": {
+        "cssVar": "--prism-color-shadow",
+        "type": "color",
+        "value": "oklch(0 0 260)",
+        "hex": "#000000"
+      },
+      "color.on-solid": {
+        "cssVar": "--prism-color-on-solid",
+        "type": "color",
+        "value": "oklch(0.129 0.03 260)",
+        "hex": "#020713"
+      },
+      "color.neutral": {
+        "cssVar": "--prism-color-neutral",
+        "type": "color",
+        "value": "oklch(0.869 0.02 260)",
+        "hex": "#ccd4e1"
+      },
+      "color.neutral-surface": {
+        "cssVar": "--prism-color-neutral-surface",
+        "type": "color",
+        "value": "oklch(0.279 0.033 260)",
+        "hex": "#1f2939"
+      },
+      "color.info": {
+        "cssVar": "--prism-color-info",
+        "type": "color",
+        "value": "oklch(0.7 0.169 250)",
+        "hex": "#3fa3ff",
+        "gamut": "p3"
+      },
+      "color.info-text": {
+        "cssVar": "--prism-color-info-text",
+        "type": "color",
+        "value": "oklch(0.82 0.071 250)",
+        "hex": "#a2c8f1"
+      },
+      "color.info-surface": {
+        "cssVar": "--prism-color-info-surface",
+        "type": "color",
+        "value": "oklch(0.28 0.061 250)",
+        "hex": "#0e2a46"
+      },
+      "color.success": {
+        "cssVar": "--prism-color-success",
+        "type": "color",
+        "value": "oklch(0.7 0.245 152)",
+        "hex": "#00bd61",
+        "gamut": "p3"
+      },
+      "color.success-text": {
+        "cssVar": "--prism-color-success-text",
+        "type": "color",
+        "value": "oklch(0.82 0.21 152)",
+        "hex": "#1fe97c"
+      },
+      "color.success-surface": {
+        "cssVar": "--prism-color-success-surface",
+        "type": "color",
+        "value": "oklch(0.28 0.061 152)",
+        "hex": "#0c3119"
+      },
+      "color.warning": {
+        "cssVar": "--prism-color-warning",
+        "type": "color",
+        "value": "oklch(0.8 0.183 80)",
+        "hex": "#f5af00",
+        "gamut": "p3"
+      },
+      "color.warning-text": {
+        "cssVar": "--prism-color-warning-text",
+        "type": "color",
+        "value": "oklch(0.82 0.135 84)",
+        "hex": "#edbc51"
+      },
+      "color.warning-surface": {
+        "cssVar": "--prism-color-warning-surface",
+        "type": "color",
+        "value": "oklch(0.28 0.047 55)",
+        "hex": "#3b2211"
+      },
+      "color.danger": {
+        "cssVar": "--prism-color-danger",
+        "type": "color",
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
+      },
+      "color.danger-text": {
+        "cssVar": "--prism-color-danger-text",
+        "type": "color",
+        "value": "oklch(0.82 0.091 27)",
+        "hex": "#faaea4"
+      },
+      "color.danger-surface": {
+        "cssVar": "--prism-color-danger-surface",
+        "type": "color",
+        "value": "oklch(0.28 0.077 27)",
+        "hex": "#481613"
+      },
+      "color.error": {
+        "cssVar": "--prism-color-error",
+        "type": "color",
+        "value": "oklch(0.7 0.233 27)",
+        "hex": "#ff645a",
+        "gamut": "p3"
+      },
+      "color.error-text": {
+        "cssVar": "--prism-color-error-text",
+        "type": "color",
+        "value": "oklch(0.82 0.091 27)",
+        "hex": "#faaea4"
+      },
+      "color.on-error-surface": {
+        "cssVar": "--prism-color-on-error-surface",
+        "type": "color",
+        "value": "oklch(0.94 0.027 27)",
+        "hex": "#fde5e2"
+      },
+      "color.error-status-text": {
+        "cssVar": "--prism-color-error-status-text",
+        "type": "color",
+        "value": "oklch(0.94 0.027 27)",
+        "hex": "#fde5e2"
+      },
+      "focus.halo": {
+        "cssVar": "--prism-focus-halo",
+        "type": "color",
+        "value": "oklch(0.82 0.073 288 / 0.12)",
+        "hex": "#c1bdf21f"
+      },
+      "elevation.default": {
+        "cssVar": "--prism-elevation-default",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0 0 260 / 0.06), 0 4px 12px -2px oklch(0 0 260 / 0.12)"
+      },
+      "elevation.hover": {
+        "cssVar": "--prism-elevation-hover",
+        "type": "shadow",
+        "value": "0 1px 2px oklch(0 0 260 / 0.08), 0 2px 6px -1px oklch(0 0 260 / 0.16)"
+      },
+      "gradient.mist": {
+        "cssVar": "--prism-gradient-mist",
+        "type": "gradient",
+        "value": "linear-gradient(in oklch 120deg, oklch(0.28 0.098 288), oklch(0.28 0.061 250) 40%, oklch(0.28 0.038 210) 70%, oklch(0.28 0.081 338))"
       }
     }
   }

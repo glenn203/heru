@@ -22,6 +22,13 @@ Read this before adding or changing a component. Variant names are
 - Colours are OKLCH. Components and the theme use **roles only**
   (`--prism-color-text`, `--prism-color-accent` …), never palette primitives
   or literals. A test enforces this.
+- Vivid colours are written for Display P3. `tokens.css` declares the
+  gamut-mapped sRGB value first, the full-chroma value inside
+  `@media (color-gamut: p3)`, and a hex value inside
+  `@supports not (color: oklch(0 0 0))`.
+- Light is the default theme. `data-prism-theme="dark"` (or `"auto"`, which
+  follows the system) on any element re-declares the roles. Never branch on
+  the theme in a component: read a role.
 - Density modes are `compact`, `default` and `comfortable`, set with
   `data-prism-density` on any element. Density changes unit counts only.
 - Components are headless. Visuals live only in the opt-in theme
@@ -100,13 +107,13 @@ prism-tab::part(base) {
 
 ## Button variants (names provisional)
 
-| Variant                 | Fill (`--_bg`)                                                 | Text (`--_on`)     | Border          |
-| ----------------------- | -------------------------------------------------------------- | ------------------ | --------------- |
-| `primary` (**default**) | `color-accent` (solid)                                         | `color-on-accent`  | transparent     |
-| `secondary`             | `color-mix(in oklch, bg, accent 8%)`, about an 8% primary tint | `color-accent`     | transparent     |
-| `ghost`                 | transparent                                                    | `color-text`       | none            |
-| `outline`               | transparent                                                    | `color-text`       | `border-strong` |
-| `destructive`           | soft red tint, identical to the error box over `bg`            | `on-error-surface` | transparent     |
+| Variant                 | Fill (`--_bg`)                                                 | Text (`--_on`)      | Border          |
+| ----------------------- | -------------------------------------------------------------- | ------------------- | --------------- |
+| `primary` (**default**) | `color-accent` (solid)                                         | `color-on-accent`   | transparent     |
+| `secondary`             | `color-mix(in oklch, bg, accent 8%)`, about an 8% primary tint | `color-accent-text` | transparent     |
+| `ghost`                 | transparent                                                    | `color-text`        | none            |
+| `outline`               | transparent                                                    | `color-text`        | `border-strong` |
+| `destructive`           | soft red tint, identical to the error box over `bg`            | `on-error-surface`  | transparent     |
 
 All variants use the shared state layer, the same focus ring and the same
 inert disabled look.
@@ -335,15 +342,19 @@ Not built: a **status dot** (it would duplicate Tag `health` and `presence`,
 and Badge `status`; status stays as words) and **prism-icon**
 (the icon system is undecided; stories keep a placeholder svg).
 
-#### Tone palette (PROPOSED)
+#### Tone palette
 
 Six tones: neutral, info, success, warning, danger, accent. They live in
 `src/internal/tones.ts` as private `--_tone-low-bg/fg` and `--_tone-high-bg/fg`
-(neutral, accent and danger come from existing tokens). Info, success and
-warning are **PROPOSED OKLCH literals** (hues 258, 150 and 60/90), not tokens;
-`tokens/*.json` is untouched. `test/tokens.test.mjs` checks every tone: sRGB
-gamut, low text 4.5:1 on its tint, page and surface, white text on the high
-fill 4.5:1, and the fill 3:1 against the page.
+and read colour roles (`color-info`, `color-info-text`, `color-info-surface`
+and the same for success, warning and danger; `color-accent`,
+`color-accent-text`, `color-accent-surface`; `color-neutral`,
+`color-neutral-surface`), so every tone follows the theme. Solid fills use
+`color-on-solid` for their text (white in light, ink in dark). A hex fallback
+sits in each `var()`. `test/tokens.test.mjs` checks every tone in both themes,
+on sRGB and on Display P3: low text 4.5:1 on its tint, page and surface, high
+text 4.5:1 on its fill, and the fill 3:1 against the page and the progress
+track.
 
 Open questions: (1) Tag `emphasis`: the Tag spec lists high, low and ghost, the
 a second spec says ghost was dropped and outline is deferred. All
