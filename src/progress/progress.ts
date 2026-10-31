@@ -15,6 +15,10 @@ import type { TagTone } from '../tag/tag.js';
  *   `show-value` writes the number beside it ("60%", or `value-text` such as
  *   "3 of 5 steps", which is also the `aria-valuetext`). Colour is never the
  *   only signal: the fill length and the written value both say it.
+ * - Look: no track border; a faint inset edge shadow on the track. The fill is
+ *   a gradient over its filled width, lighter at the left and the full tone at
+ *   the leading edge (tokens `--prism-progress-fill-lift`,
+ *   `--prism-elevation-track`). Both ends stay 3:1 on the track.
  * - Use it for a task with a known end. For "loading, no idea how long" use
  *   a skeleton or an indeterminate bar.
  *
@@ -74,7 +78,6 @@ export class PrismProgress extends LitElement {
         position: relative;
         block-size: 0.5rem;
         overflow: hidden;
-        border: var(--prism-border-width, 1px) solid transparent;
         border-radius: var(--prism-radius-full, 9999px);
       }
       [part='fill'] {

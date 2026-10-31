@@ -80,6 +80,36 @@ export const Tones: Story = {
     </div>`,
 };
 
+/** The fill stretches its colour: the full tone at the leading edge, lighter toward the left, across whatever width is filled. Every tone, and short, middle and full bars. */
+export const Gradient: Story = {
+  render: () =>
+    html`<div style="display:grid;gap:14px;max-inline-size:360px">
+      ${['accent', 'info', 'success', 'warning', 'danger', 'neutral'].map(
+        (t) =>
+          html`<div style="display:grid;gap:6px">
+            <prism-progress
+              label="${t} 20%"
+              value="20"
+              tone=${t}
+              show-value
+            ></prism-progress>
+            <prism-progress
+              label="${t} 55%"
+              value="55"
+              tone=${t}
+              show-value
+            ></prism-progress>
+            <prism-progress
+              label="${t} 100%"
+              value="100"
+              tone=${t}
+              show-value
+            ></prism-progress>
+          </div>`,
+      )}
+    </div>`,
+};
+
 /** Label hidden from sight when a heading already says it. It still names the bar. */
 export const HiddenLabel: Story = {
   render: () =>

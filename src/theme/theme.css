@@ -1207,10 +1207,35 @@ prism-progress::part(row) {
 }
 prism-progress::part(track) {
   background-color: var(--prism-color-surface-pressed);
-  border-color: var(--prism-color-border-strong);
+}
+/* A faint inset edge all round. It sits on an overlay so it also shows over
+   the fill (the track's own inset shadow would hide under it). */
+prism-progress::part(track)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--prism-elevation-track);
+  pointer-events: none;
 }
 prism-progress::part(fill) {
   background-color: var(--_tone-high-bg);
+}
+/* The fill's gradient spans only the filled width: the full tone at the
+   leading (right) edge, lifted toward white at the left, so it lightens as it
+   fills. Plain tone colour where color-mix() is missing. */
+@supports (color: color-mix(in oklch, red, blue)) {
+  prism-progress::part(fill) {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(
+        in oklch,
+        var(--prism-color-lift) var(--prism-progress-fill-lift, 18%),
+        var(--_tone-high-bg)
+      ),
+      var(--_tone-high-bg)
+    );
+  }
 }
 
 /* ---------- Description list ---------- */
@@ -1224,12 +1249,18 @@ prism-description-list-item::part(value) {
 @media (forced-colors: active) {
   prism-tag::part(base),
   prism-badge::part(base),
-  prism-avatar::part(base),
-  prism-progress::part(track) {
+  prism-avatar::part(base) {
     border-color: CanvasText;
+  }
+  prism-progress::part(track) {
+    border: var(--prism-border-width, 1px) solid CanvasText;
+  }
+  prism-progress::part(track)::after {
+    box-shadow: none;
   }
   prism-progress::part(fill) {
     background-color: Highlight;
+    background-image: none;
   }
   prism-tag::part(base):focus-visible,
   prism-tag::part(remove):focus-visible {
