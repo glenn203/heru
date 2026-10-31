@@ -193,21 +193,21 @@ test('option: selected uses the stronger selected mix and keeps the check mark',
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await mount(
     page,
-    `<prism-select label="Fruit" value="apple"><prism-option value="apple">Apple</prism-option><prism-option value="pear">Pear</prism-option></prism-select>`,
+    `<prism-select label="Fruit" value="apricot"><prism-option value="apricot">Apricot</prism-option><prism-option value="pear">Pear</prism-option></prism-select>`,
   );
   await withTheme(page);
   await page.getByRole('combobox').click();
   await page.mouse.move(0, 0);
   await page.getByRole('combobox').press('ArrowDown'); // active → pear
-  const apple = page.locator('prism-option[value="apple"]');
+  const apricot = page.locator('prism-option[value="apricot"]');
   await expectPaint(
     page,
-    apple,
+    apricot,
     'base',
     ['var(--prism-color-bg)', 'var(--prism-color-text)'],
     'selected',
   );
-  expect(await partStyle(apple, 'check', 'visibility')).toBe('visible');
+  expect(await partStyle(apricot, 'check', 'visibility')).toBe('visible');
 });
 
 test('hover is gated by @media (hover: hover): touch devices get no sticky hover', async ({

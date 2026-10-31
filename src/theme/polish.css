@@ -168,6 +168,118 @@ prism-card[type='borderless']::part(base)::after {
   }
 }
 
+/* ---------- 2b. Light-following border on fields ----------
+ * The same ring on a text input's control and a select's trigger, on hover and
+ * while focus is inside. It sits over the field's own border and under the
+ * floating label, so contrast and the focus ring are unchanged. */
+:is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-field
+  )::part(control)::after,
+prism-select::part(trigger)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  border: var(--prism-border-width, 1px) solid transparent;
+  border-radius: var(--prism-radius-5);
+  background: radial-gradient(
+    var(--prism-polish-radius, 9rem) circle at var(--x, 50%) var(--y, 0%),
+    light-dark(var(--prism-color-violet-600), var(--prism-color-violet-300)),
+    light-dark(var(--prism-color-blue-600), var(--prism-color-blue-300)) 38%,
+    light-dark(var(--prism-color-cyan-600), var(--prism-color-cyan-300)) 66%,
+    transparent 100%
+  );
+  background-origin: border-box;
+  mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0) border-box;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--prism-duration-fast, 120ms)
+    var(--prism-ease-standard, ease);
+}
+:is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-field
+  ):is(:hover, :focus-within)::part(control)::after,
+prism-select:is(:hover, :focus-within, :state(open))::part(trigger)::after {
+  opacity: var(--prism-polish-light);
+}
+:is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-field,
+    prism-select
+  ):state(disabled)::part(control)::after,
+prism-select:state(disabled)::part(trigger)::after,
+prism-select:state(invalid)::part(trigger)::after,
+:is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-field
+  ):state(invalid)::part(control)::after {
+  display: none;
+}
+@media (hover: none), (pointer: coarse) {
+  :is(
+      prism-text-input,
+      prism-password-input,
+      prism-search-input,
+      prism-text-field
+    )::part(control)::after,
+  prism-select::part(trigger)::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(
+      prism-text-input,
+      prism-password-input,
+      prism-search-input,
+      prism-text-field
+    )::part(control)::after,
+  prism-select::part(trigger)::after {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  :is(
+      prism-text-input,
+      prism-password-input,
+      prism-search-input,
+      prism-text-field
+    )::part(control)::after,
+  prism-select::part(trigger)::after {
+    display: none;
+  }
+}
+
+/* The fields' ring and glow follow the squircle setting like the input does. */
+:is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-field
+  )::part(control)::before,
+:is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-field
+  )::part(control)::after {
+  corner-shape: var(--prism-corner-shape);
+  border-radius: calc(var(--prism-radius-5) * var(--prism-corner-scale));
+}
+
 /* ---------- 3. Card tilt ----------
  * Cards only, never buttons. enablePolish() sets data-prism-tilting on the card
  * under the pointer and writes --prism-polish-nx and --prism-polish-ny (-1 to 1,

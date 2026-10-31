@@ -31,6 +31,7 @@ interface Run<K extends string> {
   ms: number;
   master: Animation;
   anims: Animation[];
+  done?: () => void;
 }
 
 /** Keyframe spacing (ms). */
@@ -72,12 +73,25 @@ export class SpringMotion<K extends string, L extends string> {
     this.#run = undefined;
   }
 
-  /** Moves to `to`, from wherever (and however fast) the pose is now. */
-  go(to: Pose<K>, tune: (key: K) => Tune): void {
+  /**
+   * Moves to `to`, from wherever (and however fast) the pose is now. `done`
+   * runs when this move comes to rest (never if another move takes it over).
+   * A tune with a `kick` always moves, even to the pose it is already at.
+   */
+  go(to: Pose<K>, tune: (key: K) => Tune, done?: () => void): void {
     const from = this.#now();
-    if (!from) return this.snap(to);
+    if (!from) {
+      this.snap(to);
+      return done?.();
+    }
     const run = this.#run;
-    if (this.#same(run?.to ?? from.x, to)) return;
+    const kicked = this.keys.some((k) => tune(k).kick);
+    if (!kicked && this.#same(run?.to ?? from.x, to)) {
+      // Already there, or on the way: only the callback changes hands.
+      if (run) run.done = done;
+      else done?.();
+      return;
+    }
 
     const springs = {} as Record<K, Spring>;
     for (const k of this.keys) {
@@ -115,12 +129,18 @@ export class SpringMotion<K extends string, L extends string> {
       );
     }
     const master = anims[0];
-    if (!master) return this.snap(to);
+    if (!master) {
+      this.snap(to);
+      return done?.();
+    }
     this.#to = to;
-    this.#run = { springs, to, ms, master, anims };
+    this.#run = { springs, to, ms, master, anims, done };
     master.onfinish = () => {
       // At rest the stylesheet draws exactly this pose: hand over to it.
-      if (this.#run?.master === master) this.stop();
+      const run = this.#run;
+      if (run?.master !== master) return;
+      this.stop();
+      run.done?.();
     };
   }
 

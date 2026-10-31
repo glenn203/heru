@@ -78,3 +78,79 @@ export const Invalid: S = {
     </form>
   `,
 };
+
+/** The label rests inside the field and floats onto its top edge on focus or with a value. Click in, type, clear and click out to watch it move; it follows a value set from code the same way. */
+export const FloatingLabel: S = {
+  args: { label: 'Email', description: 'We only use this for receipts.' },
+  render: (a) => html`
+    <div style="display: grid; gap: 28px; max-inline-size: 320px">
+      <prism-text-input
+        label=${a.label}
+        type="email"
+        floating
+        clearable
+        autocomplete="email"
+      >
+        <span slot="description">${a.description}</span>
+      </prism-text-input>
+      <prism-text-input
+        label="Starts with a value"
+        floating
+        value="lumen@example.com"
+      ></prism-text-input>
+      <prism-text-input
+        label="With a placeholder"
+        floating
+        placeholder="name@example.com"
+      ></prism-text-input>
+      <prism-password-input label="Password" floating></prism-password-input>
+    </div>
+  `,
+};
+
+/** A short prefix or suffix sits inside the field; the text keeps clear of both and of the clear button. */
+export const PrefixSuffixClear: S = {
+  render: () => html`
+    <div style="display: grid; gap: 28px; max-inline-size: 320px">
+      <prism-text-input label="Amount" floating clearable value="42">
+        <span slot="prefix">$</span>
+        <span slot="suffix">USD</span>
+        <span slot="description">Before tax.</span>
+      </prism-text-input>
+      <prism-text-input label="Website" clearable value="lumen.example">
+        <span slot="prefix">https://</span>
+      </prism-text-input>
+      <prism-text-input label="Weight" size="sm" value="12">
+        <span slot="suffix">kg</span>
+      </prism-text-input>
+    </div>
+  `,
+};
+
+/** Submit the empty form: the field gives one small sideways nudge as the error appears, then the attached error box. */
+export const FloatingInvalid: S = {
+  render: () => html`
+    <form
+      @submit=${(e: Event) => e.preventDefault()}
+      style="display: grid; gap: 12px; max-inline-size: 320px"
+    >
+      <prism-text-input label="Name" name="name" floating required>
+        <span slot="description">As shown on your card.</span>
+        <span slot="error">Enter a name.</span>
+      </prism-text-input>
+      <prism-button>Submit</prism-button>
+    </form>
+  `,
+};
+
+/** Read-only keeps focus and selection with the surface fill; disabled is inert. */
+export const ReadonlyAndDisabled: S = {
+  render: () => html`
+    <div style="display: grid; gap: 28px; max-inline-size: 320px">
+      <prism-text-input label="Plan" floating readonly value="Team">
+      </prism-text-input>
+      <prism-text-input label="Seat" floating disabled value="Window">
+      </prism-text-input>
+    </div>
+  `,
+};

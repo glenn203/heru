@@ -12,7 +12,7 @@ interface Args {
 }
 
 const options = html`
-  <prism-option value="apple">Apple</prism-option>
+  <prism-option value="apricot">Apricot</prism-option>
   <prism-option value="banana">Banana</prism-option>
   <prism-option value="cherry">Cherry</prism-option>
   <prism-option value="durian" disabled>Durian (sold out)</prism-option>
@@ -62,7 +62,7 @@ export const Sizes: Story = {
     <div style="display: grid; gap: 24px; max-inline-size: 320px">
       ${(['sm', 'md', 'lg'] as const).map(
         (s) =>
-          html`<prism-select label="Size ${s}" size=${s} value="apple"
+          html`<prism-select label="Size ${s}" size=${s} value="apricot"
             >${options}</prism-select
           >`,
       )}
@@ -109,4 +109,38 @@ export const OpenMenuWithHelper: Story = {
     await el.updateComplete;
     el.showPicker();
   },
+};
+
+/**
+ * The list grows out of the trigger on a spring and the chevron turns over.
+ * Arrow keys, hover and type-ahead move one marker that slides between options;
+ * picking draws the new check in and the old one out. Close it to see it shrink
+ * back (it can be closed and reopened mid-move).
+ */
+export const Motion: Story = {
+  args: { label: 'Fruit' },
+  render: ({ label }) => html`
+    <div style="max-inline-size: 320px; min-block-size: 320px">
+      <prism-select label=${label} value="banana" placeholder="Select a fruit">
+        ${options}
+      </prism-select>
+    </div>
+  `,
+};
+
+/** Many options: the marker stays on the active one while the list scrolls. */
+export const LongList: Story = {
+  render: () => html`
+    <div style="max-inline-size: 320px; min-block-size: 360px">
+      <prism-select label="Colour" value="c07">
+        ${Array.from(
+          { length: 40 },
+          (_, i) =>
+            html`<prism-option value="c${String(i).padStart(2, '0')}"
+              >Colour ${i + 1}</prism-option
+            >`,
+        )}
+      </prism-select>
+    </div>
+  `,
 };

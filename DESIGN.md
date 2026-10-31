@@ -529,6 +529,58 @@ three are built. (2) Tag `size` and Badge `tone` are not in the specs.
   Both start on the same frame, so a pick, an arrow-key move and a change from code all
   look the same.
 
+### Text input and Select motion (names provisional)
+
+Same rules as the switch, checkbox and radio: transform and opacity only, one spring driver
+(`SpringMotion`), every move can be taken over from its exact position and speed, nothing
+moves on first paint (the first frame after the first render still counts as first paint),
+a change from code moves like a user's, and reduced motion changes state at once.
+
+- **Floating label** (`floating` on `prism-text-input`, its `prism-text-field` alias and
+  `prism-password-input`; search, text area and OTP ignore it). The label rests inside the
+  field like a placeholder (the placeholder stays hidden) and floats onto the top edge, at
+  12px from 14px, when the field has focus, a value, or a prefix. The edge is cut with a
+  patch in the field's own fill, so the control keeps its height and the 4px grid. One pose
+  number, `l` (spring 34 and 0.8, about 250ms, a hair of overshoot), drives the label's
+  transform and the patch's opacity together. It is the label of the input (`for`), so a
+  click on it focuses the field. Off by default; with it off the label sits above the field
+  as before.
+- **Prefix and suffix** slots hold short decorative text or an icon. The input pads for
+  them (measured, so any width works) and for the clear button. An affix is not part of the
+  input's name: put what a person needs in the label or description.
+- **Clear button** (`clearable`, name set with `clear-label`) shows while there is an
+  editable value, pops in on a spring, clears, fires `input` and `change`, and returns
+  focus to the input. Not shown when read-only, disabled or empty.
+- **Focus glow.** A soft bloom of the focus colour (error colour when invalid) around the
+  field, fading in on the same spring as the ring. Opacity only. The polish layer adds the
+  light-following ring to the field's control and the select's trigger on hover and focus.
+- **Error.** On the change to invalid the field makes one small sideways nudge (`n`, spring
+  46 and 0.3, up to 5px, about two swings, transform only). Not on focus, and not again
+  while it stays invalid. The attached error box, `aria-invalid` and `aria-describedby`
+  work as before; the error text is on the error surface at AA.
+- **Read-only** uses the surface fill and keeps its ring and focus; disabled is inert.
+- **Select popup.** The list grows out of the trigger on one pose number `p` (spring 38 and
+  0.72 opening, 46 and 1 closing): scale from 96% by 88% to full, a 6px rise and a fade,
+  with the chevron turning over on the same clock. Closing keeps the list on screen while
+  it shrinks (it ignores the pointer and is inert), then hides it; reopening mid-close
+  takes over. `aria-expanded` follows `open` at once.
+- **Option marker.** One translucent tint (the 6% hover tint, over the options) slides to the
+  active option for keyboard, type-ahead and pointer alike (spring 42 and 0.82). It appears
+  in place when the list opens. The option's own hover tint is off in a select (pressed and
+  selected stay); in forced colours the marker is a 2px Highlight box.
+- **Selected check** is a stroke drawn with `stroke-dashoffset` (paint only, no layout; the
+  one exception to transform and opacity, as in the checkbox) with a small pop on its box.
+  The new one draws in as the old one draws out. Not animated on first paint, from code
+  while the list is hidden, or with reduced motion.
+- **Keyboard** is the select-only combobox pattern: Arrow keys, Home, End, PageUp and
+  PageDown, Enter, Space, Escape, Tab, Alt+Up, type-ahead (several letters match a prefix;
+  the same letter again cycles).
+- **Forced colours.** A transparent outline is painted in the text colour in this mode, so
+  controls that rest with one wear a stray second border. The theme ends with one block
+  that turns the resting outline off and draws a Highlight outline while focused (box
+  shadows are dropped in this mode, so the outline is the focus indicator). Any new control
+  that rests with a transparent outline must be added to that block; a test walks the list.
+
 ### PROPOSED, not tokens yet
 
 These values live as component-private `--_*` custom properties built from
@@ -562,6 +614,7 @@ An optional layer for demos and products that want a slightly more finished feel
 - **Squircle corners.** `--prism-corner-shape` becomes `squircle`, and radii on buttons, icon buttons, tags, text fields, checkbox boxes, cards, menus and menu items are multiplied by `--prism-corner-scale` (1.5). Both are gated by `@supports (corner-shape: squircle)`; where it is not supported nothing changes, so the normal radius stays. The scale is there because a squircle at the same radius reads tighter than a round corner. Pills and the switch track are left alone.
 - **Light-following border.** On hover and keyboard focus, buttons and clickable, selectable or raised cards draw a 1px gradient ring (the spectrum hues at their 600 level in light, 300 in dark) whose highlight follows the pointer through `--x` and `--y`. It is a mask over the border box, so it sits on top of the existing border and focus ring and never replaces them; the border keeps its 3:1 contrast. Disabled and borderless cards, touch (`hover: none`, `pointer: coarse`) and forced colours get no ring.
 - **Card tilt.** Cards only, at most `--prism-tilt-max` (2.5 degrees) under `--prism-tilt-perspective`, easing back on leave. Transform only. Never on buttons, on a dragged card, on touch, or when motion is reduced.
+- **Fields.** Text inputs and the select trigger get the same ring on hover and while focus is inside (measured on the control or trigger, not on the label above). It sits under the floating label and is not drawn on disabled or invalid fields.
 - **Reduced motion.** Corners still apply. The ring has no fade, the pointer is not tracked, nothing tilts.
 - **Support.** `corner-shape` is new and not in every browser yet; where it is missing the corners stay round. The ring needs `mask-composite` and `light-dark()`.
 

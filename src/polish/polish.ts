@@ -2,7 +2,7 @@
  * Pointer handler for the opt-in polish layer (`prism/polish.css`).
  *
  * Call `enablePolish()` once. It listens for the pointer on the document and,
- * for the Prism buttons and cards under it:
+ * for the Prism buttons, cards, text fields and selects under it:
  *
  * - writes the pointer's place inside the element as `--x` and `--y` (pixels
  *   from its top-left), which the light-following border reads;
@@ -16,7 +16,8 @@
  * `prefers-reduced-motion: reduce`. It returns a function that turns it off and
  * clears what it wrote.
  */
-const TARGETS = 'prism-button, prism-card';
+const TARGETS =
+  'prism-button, prism-card, prism-text-input, prism-password-input, prism-search-input, prism-text-field, prism-select';
 
 const hasTilt = (el: Element): boolean => {
   const scope = el.closest('[data-prism-polish]');
@@ -56,7 +57,11 @@ export function enablePolish(doc: Document = document): () => void {
     const next = new Set<HTMLElement>(targets);
     for (const el of active) if (!next.has(el)) clear(el);
     for (const el of targets) {
-      const r = el.getBoundingClientRect();
+      // A field's light sits on its control (or trigger), not the label above.
+      const box =
+        el.shadowRoot?.querySelector('[part="control"], [part="trigger"]') ??
+        el;
+      const r = box.getBoundingClientRect();
       if (r.width === 0 || r.height === 0) continue;
       const px = x - r.left;
       const py = y - r.top;

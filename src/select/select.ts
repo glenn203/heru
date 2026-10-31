@@ -1,5 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
+import { canAnimate } from '../internal/choice-motion.js';
 import { FormAssociated } from '../internal/form-associated.js';
 import { uniqueId } from '../internal/ids.js';
 import {
@@ -15,6 +17,20 @@ import {
   syncFieldA11y,
 } from '../internal/field-parts.js';
 import { FieldValidityController } from '../internal/field-validity.js';
+import {
+  CLOSE_TUNE,
+  HIGHLIGHT_FADE_TUNE,
+  HIGHLIGHT_TUNE,
+  NUDGE_TUNE,
+  OPEN_TUNE,
+  highlightLook,
+  nudgeLook,
+  popupLook,
+  type HighlightPose,
+  type PopupPose,
+} from '../internal/field-motion.js';
+import { iconChevronDown } from '../internal/icons.js';
+import { SpringMotion } from '../internal/spring-motion.js';
 import type { PrismOption } from '../option/option.js';
 
 const isOption = (el: Element): el is PrismOption =>
@@ -31,10 +47,12 @@ const isOption = (el: Element): el is PrismOption =>
  * @slot error - Error text, shown in the attached status box when invalid.
  * @csspart label - The label.
  * @csspart field - Wrapper around trigger, listbox and attached error.
+ * @csspart anchor - Wrapper around trigger and listbox only.
  * @csspart trigger - The combobox (focus target).
  * @csspart value - Selected label or placeholder.
- * @csspart indicator - Chevron.
- * @csspart listbox - The popup list.
+ * @csspart indicator - Chevron; turns over while open.
+ * @csspart listbox - The popup list. It grows out of the trigger on springs.
+ * @csspart highlight - The marker behind the active option; it slides.
  * @csspart description - Helper text wrapper.
  * @csspart error - Attached error status box.
  * @cssstate open - The listbox is shown.
@@ -93,8 +111,13 @@ export class PrismSelect extends FormAssociated(LitElement) {
       :host([open]) [part='description'] {
         visibility: hidden;
       }
+      [part='indicator'] {
+        display: inline-grid;
+        place-items: center;
+      }
       [part='listbox'] {
         position: absolute;
+        transform-origin: 50% 0;
         /* Sits UNDER the trigger (trigger z-index 2): starts 3px beneath it,
          * inset 6px each side. In-page, not top layer, so it can tuck. */
         z-index: 1;
@@ -108,6 +131,20 @@ export class PrismSelect extends FormAssociated(LitElement) {
       [part='listbox'][hidden] {
         display: none;
       }
+      /* Closing keeps the list on screen while it shrinks away: no input. */
+      :host(:not([open])) [part='listbox'] {
+        pointer-events: none;
+      }
+      /* The active option's marker. It sits over the options (a translucent
+         tint, so text stays readable) and moves by transform only. */
+      [part='highlight'] {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
+      }
     `,
   ];
 
@@ -120,12 +157,42 @@ export class PrismSelect extends FormAssociated(LitElement) {
 
   @query('[part="trigger"]') private readonly trigger!: HTMLElement;
   @state() private activeIndex = -1;
+  /** The list is on screen: open, or still shrinking away after a close. */
+  @state() private shown = false;
 
   readonly #validity = new FieldValidityController(this);
   readonly #id = uniqueId('prism-select');
   #defaultValue: string | null = null;
   #typeahead = '';
   #typeaheadTimer?: ReturnType<typeof setTimeout>;
+  #wasOpen = false;
+  #wasInvalid = false;
+  #painted = false;
+
+  readonly #popup = new SpringMotion<'p', 'listbox' | 'indicator'>(
+    ['p'],
+    {
+      listbox: { el: () => this.renderRoot?.querySelector('[part="listbox"]') },
+      indicator: {
+        el: () => this.renderRoot?.querySelector('[part="indicator"]'),
+      },
+    },
+    popupLook,
+  );
+  readonly #highlight = new SpringMotion<'y' | 'o', 'marker'>(
+    ['y', 'o'],
+    {
+      marker: {
+        el: () => this.renderRoot?.querySelector('[part="highlight"]'),
+      },
+    },
+    (pose) => ({ marker: highlightLook(pose) }),
+  );
+  readonly #nudge = new SpringMotion<'n', 'anchor'>(
+    ['n'],
+    { anchor: { el: () => this.renderRoot?.querySelector('[part="anchor"]') } },
+    (pose) => ({ anchor: { transform: nudgeLook(pose) } }),
+  );
 
   get options(): PrismOption[] {
     return [...this.children].filter(isOption);
@@ -174,6 +241,9 @@ export class PrismSelect extends FormAssociated(LitElement) {
 
   override firstUpdated(): void {
     if (this.#defaultValue === null) this.value = this.#initialValue();
+    this.#popup.snap({ p: this.open ? 1 : 0 });
+    this.#nudge.snap({ n: 0 });
+    requestAnimationFrame(() => (this.#painted = true));
   }
 
   formResetCallback(): void {
@@ -195,6 +265,19 @@ export class PrismSelect extends FormAssociated(LitElement) {
       this.value,
     );
     if (this.isDisabled && this.open) this.open = false;
+    if (this.open) this.shown = true;
+    // No motion to wait for: closing is instant.
+    else if (this.shown && !this.#canMove()) this.shown = false;
+  }
+
+  #canMove(): boolean {
+    return (
+      this.#painted &&
+      canAnimate(
+        this,
+        this.renderRoot?.querySelector('[part="listbox"]') ?? null,
+      )
+    );
   }
 
   override updated(): void {
@@ -227,6 +310,67 @@ export class PrismSelect extends FormAssociated(LitElement) {
       }
     ).ariaActiveDescendantElement = active;
     active?.scrollIntoView?.({ block: 'nearest' });
+    this.#movePopup();
+    this.#moveHighlight(active);
+    if (invalid && !this.#wasInvalid && this.#canMove())
+      this.#nudge.go({ n: 0 }, () => NUDGE_TUNE);
+    this.#wasInvalid = invalid;
+    this.#wasOpen = this.open;
+  }
+
+  /** Grows the list out of the trigger, or shrinks it back; from where it is. */
+  #movePopup(): void {
+    const to: PopupPose = { p: this.open ? 1 : 0 };
+    if (!this.#canMove()) {
+      this.#popup.snap(to);
+      return;
+    }
+    this.#popup.go(
+      to,
+      () => (this.open ? OPEN_TUNE : CLOSE_TUNE),
+      () => {
+        if (this.open) return;
+        // Hide in the same frame the move ends, then let Lit catch up.
+        this.renderRoot
+          .querySelector('[part="listbox"]')
+          ?.setAttribute('hidden', '');
+        this.shown = false;
+      },
+    );
+  }
+
+  /** The marker slides to the active option; it appears in place on open. */
+  #moveHighlight(active: PrismOption | null): void {
+    const marker =
+      this.renderRoot.querySelector<HTMLElement>('[part="highlight"]');
+    const list = this.renderRoot.querySelector<HTMLElement>('[part="listbox"]');
+    if (!marker || !list) return;
+    let to: HighlightPose = { y: this.#highlight.target?.y ?? 0, o: 0 };
+    if (active && this.open) {
+      // Rects include the list's own grow-in scale: undo it to get list px.
+      const lb = list.getBoundingClientRect();
+      const sx = lb.width / list.offsetWidth || 1;
+      const sy = lb.height / list.offsetHeight || 1;
+      const r = active.getBoundingClientRect();
+      const y = (r.top - lb.top) / sy - list.clientTop + list.scrollTop;
+      marker.style.left = `${(r.left - lb.left) / sx - list.clientLeft}px`;
+      marker.style.width = `${r.width / sx}px`;
+      marker.style.height = `${r.height / sy}px`;
+      to = { y, o: 1 };
+    }
+    const opened = this.open && !this.#wasOpen;
+    if (opened || !this.#highlight.target || !this.#canMove()) {
+      this.#highlight.snap(to);
+    } else {
+      // Appearing and fading are plain settles; moving between options is the
+      // springy slide.
+      const fades = this.#highlight.target.o !== to.o;
+      this.#highlight.go(to, (k) =>
+        k === 'o' || fades ? HIGHLIGHT_FADE_TUNE : HIGHLIGHT_TUNE,
+      );
+    }
+    // At rest the inline style is the pose; a move plays over it.
+    Object.assign(marker.style, highlightLook(to));
   }
 
   #enabledIndexes(): number[] {
@@ -395,7 +539,7 @@ export class PrismSelect extends FormAssociated(LitElement) {
       <div part="field">
         <!-- Anchor: the listbox positions against the trigger only, so the
              error box (a later sibling in field) can't push it down. -->
-        <div class="anchor">
+        <div class="anchor" part="anchor">
           <div
             part="trigger"
             role="combobox"
@@ -414,18 +558,28 @@ export class PrismSelect extends FormAssociated(LitElement) {
             }}
           >
             <span part="value">${sel ? sel.text : this.placeholder}</span>
-            <span part="indicator" aria-hidden="true">▾</span>
+            <span
+              part="indicator"
+              aria-hidden="true"
+              style=${styleMap({
+                transform: popupLook({ p: this.open ? 1 : 0 }).indicator
+                  .transform,
+              })}
+              >${iconChevronDown()}</span
+            >
           </div>
           <div
             part="listbox"
             id="${id}-listbox"
             role="listbox"
             aria-labelledby="${id}-label"
-            ?hidden=${!this.open}
+            ?hidden=${!this.shown}
+            ?inert=${!this.open}
             @pointerdown=${(e: Event) => e.preventDefault()}
             @pointerup=${(e: Event) => this.#onListPointer(e, true)}
             @pointerover=${(e: Event) => this.#onListPointer(e, false)}
           >
+            <div part="highlight" aria-hidden="true"></div>
             <slot @slotchange=${() => this.requestUpdate()}></slot>
           </div>
         </div>
