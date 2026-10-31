@@ -397,173 +397,173 @@
     },
     "red": {
       "50": {
-        "$value": "oklch(0.975 0.01 27)"
+        "$value": "oklch(0.975 0.015 12)"
       },
       "100": {
-        "$value": "oklch(0.94 0.027 27)"
+        "$value": "oklch(0.94 0.038 12)"
       },
       "300": {
-        "$value": "oklch(0.82 0.091 27)"
+        "$value": "oklch(0.82 0.1 12)"
       },
       "500": {
-        "$value": "oklch(0.7 0.233 27)"
+        "$value": "oklch(0.7 0.24 12)"
       },
       "600": {
-        "$value": "oklch(0.5 0.218 27)"
+        "$value": "oklch(0.5 0.218 12)"
       },
       "700": {
-        "$value": "oklch(0.42 0.177 27)"
+        "$value": "oklch(0.42 0.183 12)"
       },
       "800": {
-        "$value": "oklch(0.368 0.148 25)",
+        "$value": "oklch(0.368 0.147 12)",
         "$description": "Status text on the error surface (exact former error-status-text)."
       },
       "900": {
-        "$value": "oklch(0.28 0.077 27)"
+        "$value": "oklch(0.28 0.08 12)"
       },
       "$description": "Red (hue 27). Danger and errors. 50/100 tint, 600 solid and borders, 700 text, 300 text on dark. 800 is the dark text on the error box."
     },
     "violet": {
       "50": {
-        "$value": "oklch(0.975 0.011 288)"
+        "$value": "oklch(0.975 0.014 300)"
       },
       "100": {
-        "$value": "oklch(0.94 0.027 288)"
+        "$value": "oklch(0.94 0.036 300)"
       },
       "300": {
-        "$value": "oklch(0.82 0.073 288)"
+        "$value": "oklch(0.82 0.1 300)"
       },
       "500": {
-        "$value": "oklch(0.7 0.174 288)"
+        "$value": "oklch(0.7 0.196 300)"
       },
       "600": {
-        "$value": "oklch(0.5 0.278 288)"
+        "$value": "oklch(0.5 0.24 300)"
       },
       "700": {
-        "$value": "oklch(0.42 0.226 288)"
+        "$value": "oklch(0.42 0.22 300)"
       },
       "900": {
-        "$value": "oklch(0.28 0.098 288)"
+        "$value": "oklch(0.28 0.08 300)"
       },
       "$description": "Violet (hue 288). Brand accent. 600 is the AA fill (white text), 700 is text on light, 500 is the vivid signature, 300 is text on dark."
     },
     "blue": {
       "50": {
-        "$value": "oklch(0.975 0.011 250)"
+        "$value": "oklch(0.975 0.014 235)"
       },
       "100": {
-        "$value": "oklch(0.94 0.026 250)"
+        "$value": "oklch(0.94 0.035 235)"
       },
       "300": {
-        "$value": "oklch(0.82 0.071 250)"
+        "$value": "oklch(0.82 0.1 235)"
       },
       "500": {
-        "$value": "oklch(0.7 0.169 250)"
+        "$value": "oklch(0.7 0.189 235)"
       },
       "600": {
-        "$value": "oklch(0.5 0.173 250)"
+        "$value": "oklch(0.5 0.135 235)"
       },
       "700": {
-        "$value": "oklch(0.42 0.141 250)"
+        "$value": "oklch(0.42 0.113 235)"
       },
       "900": {
-        "$value": "oklch(0.28 0.061 250)"
+        "$value": "oklch(0.28 0.076 235)"
       },
       "$description": "Blue (hue 250). Info."
     },
     "cyan": {
       "50": {
-        "$value": "oklch(0.975 0.019 210)"
+        "$value": "oklch(0.975 0.03 192)"
       },
       "100": {
-        "$value": "oklch(0.94 0.045 210)"
+        "$value": "oklch(0.94 0.045 192)"
       },
       "300": {
-        "$value": "oklch(0.82 0.125 210)"
+        "$value": "oklch(0.82 0.1 192)"
       },
       "500": {
-        "$value": "oklch(0.7 0.154 210)"
+        "$value": "oklch(0.7 0.156 192)"
       },
       "600": {
-        "$value": "oklch(0.5 0.109 210)"
+        "$value": "oklch(0.5 0.112 192)"
       },
       "700": {
-        "$value": "oklch(0.42 0.089 210)"
+        "$value": "oklch(0.42 0.094 192)"
       },
       "900": {
-        "$value": "oklch(0.28 0.038 210)"
+        "$value": "oklch(0.28 0.063 192)"
       },
       "$description": "Cyan (hue 210). Spectrum only; no role uses it yet."
     },
     "green": {
       "50": {
-        "$value": "oklch(0.975 0.02 152)"
+        "$value": "oklch(0.975 0.03 160)"
       },
       "100": {
-        "$value": "oklch(0.94 0.045 152)"
+        "$value": "oklch(0.94 0.045 160)"
       },
       "300": {
-        "$value": "oklch(0.82 0.21 152)"
+        "$value": "oklch(0.82 0.1 160)"
       },
       "500": {
-        "$value": "oklch(0.7 0.245 152)"
+        "$value": "oklch(0.7 0.211 160)"
       },
       "600": {
-        "$value": "oklch(0.5 0.173 152)"
+        "$value": "oklch(0.5 0.151 160)"
       },
       "700": {
-        "$value": "oklch(0.42 0.141 152)"
+        "$value": "oklch(0.42 0.127 160)"
       },
       "900": {
-        "$value": "oklch(0.28 0.061 152)"
+        "$value": "oklch(0.28 0.08 160)"
       },
       "$description": "Green (hue 152). Success."
     },
     "amber": {
       "50": {
-        "$value": "oklch(0.975 0.02 80)"
+        "$value": "oklch(0.975 0.026 78)"
       },
       "100": {
-        "$value": "oklch(0.94 0.045 80)"
+        "$value": "oklch(0.94 0.045 78)"
       },
       "300": {
-        "$value": "oklch(0.82 0.135 84)"
+        "$value": "oklch(0.82 0.1 80)"
       },
       "500": {
-        "$value": "oklch(0.8 0.183 80)"
+        "$value": "oklch(0.8 0.186 78)"
       },
       "600": {
-        "$value": "oklch(0.5 0.125 62)"
+        "$value": "oklch(0.5 0.123 66)"
       },
       "700": {
-        "$value": "oklch(0.42 0.113 52)"
+        "$value": "oklch(0.42 0.109 60)"
       },
       "900": {
-        "$value": "oklch(0.28 0.047 55)"
+        "$value": "oklch(0.28 0.073 60)"
       },
       "$description": "Amber (hue 80 to 52, warming as it darkens). Warning."
     },
     "magenta": {
       "50": {
-        "$value": "oklch(0.975 0.015 338)"
+        "$value": "oklch(0.975 0.019 345)"
       },
       "100": {
-        "$value": "oklch(0.94 0.037 338)"
+        "$value": "oklch(0.94 0.045 345)"
       },
       "300": {
-        "$value": "oklch(0.82 0.132 338)"
+        "$value": "oklch(0.82 0.1 345)"
       },
       "500": {
-        "$value": "oklch(0.7 0.326 338)"
+        "$value": "oklch(0.7 0.24 345)"
       },
       "600": {
-        "$value": "oklch(0.5 0.23 338)"
+        "$value": "oklch(0.5 0.23 345)"
       },
       "700": {
-        "$value": "oklch(0.42 0.187 338)"
+        "$value": "oklch(0.42 0.193 345)"
       },
       "900": {
-        "$value": "oklch(0.28 0.081 338)"
+        "$value": "oklch(0.28 0.08 345)"
       },
       "$description": "Magenta (hue 338). Spectrum only; no role uses it yet."
     },
@@ -645,17 +645,17 @@
       }
     },
     "accent-text": {
-      "$value": "oklch(0.42 0.236 288)",
+      "$value": "oklch(0.42 0.224 300)",
       "$description": "Accent-coloured text and icons on the page. AA on bg, surface and accent-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "oklch(0.83 0.09 288)"
+        "prism.dark": "oklch(0.83 0.1 300)"
       }
     },
     "accent-surface": {
-      "$value": "oklch(0.915 0.039 288)",
+      "$value": "oklch(0.915 0.043 300)",
       "$description": "Airy accent tint fill. Text on it: accent-text. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "oklch(0.3 0.144 288)"
+        "prism.dark": "oklch(0.3 0.137 300)"
       }
     },
     "surface-hover": {
@@ -734,17 +734,17 @@
       }
     },
     "info-text": {
-      "$value": "oklch(0.42 0.147 250)",
+      "$value": "oklch(0.42 0.112 235)",
       "$description": "Info text on the page or on info-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "oklch(0.83 0.088 250)"
+        "prism.dark": "oklch(0.83 0.099 235)"
       }
     },
     "info-surface": {
-      "$value": "oklch(0.915 0.038 250)",
+      "$value": "oklch(0.915 0.043 235)",
       "$description": "Info tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "oklch(0.3 0.09 250)"
+        "prism.dark": "oklch(0.3 0.068 235)"
       }
     },
     "success": {
@@ -755,17 +755,17 @@
       }
     },
     "success-text": {
-      "$value": "oklch(0.42 0.147 152)",
+      "$value": "oklch(0.42 0.125 160)",
       "$description": "Success text on the page or on success-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "oklch(0.83 0.22 152)"
+        "prism.dark": "oklch(0.83 0.22 160)"
       }
     },
     "success-surface": {
-      "$value": "oklch(0.915 0.07 152)",
+      "$value": "oklch(0.915 0.07 160)",
       "$description": "Success tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "oklch(0.3 0.09 152)"
+        "prism.dark": "oklch(0.3 0.076 160)"
       }
     },
     "warning": {
@@ -776,17 +776,17 @@
       }
     },
     "warning-text": {
-      "$value": "oklch(0.42 0.118 52)",
+      "$value": "oklch(0.42 0.108 60)",
       "$description": "Warning text on the page or on warning-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "oklch(0.83 0.15 84)"
+        "prism.dark": "oklch(0.83 0.182 80)"
       }
     },
     "warning-surface": {
-      "$value": "oklch(0.915 0.07 80)",
+      "$value": "oklch(0.915 0.07 78)",
       "$description": "Warning tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "oklch(0.3 0.058 62)"
+        "prism.dark": "oklch(0.3 0.063 66)"
       }
     },
     "danger": {
@@ -797,17 +797,17 @@
       }
     },
     "danger-text": {
-      "$value": "oklch(0.42 0.185 27)",
+      "$value": "oklch(0.42 0.182 12)",
       "$description": "Danger text on the page or on danger-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "oklch(0.83 0.112 27)"
+        "prism.dark": "oklch(0.83 0.115 12)"
       }
     },
     "danger-surface": {
-      "$value": "oklch(0.915 0.046 27)",
+      "$value": "oklch(0.915 0.047 12)",
       "$description": "Danger tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "oklch(0.3 0.113 27)"
+        "prism.dark": "oklch(0.3 0.111 12)"
       }
     },
     "error": {
@@ -905,6 +905,14 @@
       "$description": "Popup slide-down; settle time of ease.spring-bouncy."
     }
   },
+  "motion": {
+    "$description": "Component motion lengths. Zeroed under prefers-reduced-motion by the theme.",
+    "$type": "duration",
+    "switch": {
+      "$value": "400ms",
+      "$description": "Switch: total time to turn on (off takes 85%, 340ms). Thumb slide on ease.overshoot; stretch 0-160ms on ease.standard, spring back 160-400ms on ease.recoil; track wash starts at 40ms on ease.settle."
+    }
+  },
   "ease": {
     "$description": "Easing curves. NAME PENDING (provisional). Springs are generated by scripts/spring.mjs as CSS linear(); $value is the cubic-bezier fallback for engines without linear().",
     "standard": {
@@ -937,6 +945,21 @@
           "duration": "{duration.slow}"
         }
       }
+    },
+    "settle": {
+      "$type": "cubicBezier",
+      "$value": [0.4, 0, 0.2, 1],
+      "$description": "Smooth in and out, no overshoot. The switch's track wash."
+    },
+    "overshoot": {
+      "$type": "cubicBezier",
+      "$value": [0.34, 1.2, 0.64, 1],
+      "$description": "Slight overshoot (about 4%) that settles. The switch thumb's slide."
+    },
+    "recoil": {
+      "$type": "cubicBezier",
+      "$value": [0.34, 1.56, 0.64, 1],
+      "$description": "Stronger overshoot for a spring back into shape. The switch thumb's stretch recovery."
     }
   },
   "progress": {

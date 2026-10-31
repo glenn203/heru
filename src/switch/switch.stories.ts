@@ -38,9 +38,9 @@ type Story = StoryObj<Args>;
 
 /**
  * An on/off control that takes effect right away. Click it, or press Space or
- * Enter when it has focus. The thumb stretches like a drop of liquid as it
- * slides, springs back into shape, and the accent spreads across the track from
- * the thumb, all in about 240ms. It is flat: no shadow, no gradient.
+ * Enter when it has focus. The thumb slides with a slight overshoot and
+ * stretches about 30% before springing back, and the accent spreads across the
+ * track from the side the thumb leaves, all over 400ms (340ms to turn off). It is flat: no shadow, no gradient.
  */
 export const Default: Story = {};
 
@@ -161,8 +161,8 @@ export const InForm: Story = {
 };
 
 /**
- * Under `prefers-reduced-motion: reduce` the switch changes at once: no slide,
- * no stretch and no wash. Try it with your system setting turned on.
+ * Under `prefers-reduced-motion: reduce` there is no slide, stretch or spread:
+ * the thumb jumps and the colours change over 120ms. Try it with your system setting turned on.
  */
 export const ReducedMotion: Story = {
   render: () => html`<prism-switch label="Flip me"></prism-switch>`,

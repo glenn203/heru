@@ -663,6 +663,7 @@ prism-otp-input:state(disabled)::part(cell) {
     --prism-duration-fast: 0.01ms;
     --prism-duration-default: 0.01ms;
     --prism-duration-slow: 0.01ms;
+    --prism-motion-switch: 0.01ms;
     --prism-ease-spring: linear;
     --prism-ease-spring-bouncy: linear;
   }
@@ -1284,7 +1285,7 @@ prism-switch::part(base) {
   --_bg-selected: var(--prism-color-surface-pressed);
   border-color: var(--prism-color-border-strong);
   transition:
-    border-color var(--prism-duration-fast) var(--prism-ease-standard),
+    border-color var(--_wash-dur) var(--prism-ease-settle) var(--_wash-delay),
     box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* forced-colors fallback */
@@ -1340,7 +1341,7 @@ prism-switch:state(disabled)::part(label) {
 }
 @media (prefers-reduced-motion: reduce) {
   prism-switch::part(base) {
-    transition: none;
+    transition: border-color 120ms linear;
   }
 }
 @media (forced-colors: active) {

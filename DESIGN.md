@@ -369,13 +369,19 @@ and Badge `status`; status stays as words) and **prism-icon**
 - State layer: the track uses `stateLayer()` like every clickable surface, with the
   overlay drawn above the wash and below the thumb. Off: hover 6%, pressed 12%. On
   (selected): 11%, and 15% when hovered. Disabled: no change.
-- Motion (about 240ms in all). The thumb slides on the spring ease while it
-  stretches along its travel, with the trailing edge held, to about 1.55 wide by
-  0.82 tall at 36% of the way, then settles with a small overshoot. The accent
-  spreads over the track from the thumb (a growing clip circle, 200ms) and a single
-  pass of light crosses the track. `--prism-switch-duration` sets the stretch time.
-  With `prefers-reduced-motion: reduce` it changes at once: no slide, stretch, wash
-  or glint. Programmatic changes slide but do not stretch.
+- Motion (`--prism-motion-switch`, 400ms on; off takes 85%, 340ms). The thumb slides
+  the full time on `--prism-ease-overshoot` (`cubic-bezier(0.34, 1.2, 0.64, 1)`, a
+  slight overshoot). It also widens about 30% along its travel, trailing edge held:
+  0-160ms on `--prism-ease-standard`, then springs back 160-400ms on
+  `--prism-ease-recoil` (`cubic-bezier(0.34, 1.56, 0.64, 1)`). The accent spreads over
+  the track from the side the thumb leaves (a growing clip circle) starting at 40ms and
+  running 360ms on `--prism-ease-settle` (`cubic-bezier(0.4, 0, 0.2, 1)`); the track
+  edge and thumb colour follow it. A single pass of light crosses the track.
+  `--prism-switch-duration` sets the total time. With `prefers-reduced-motion: reduce`
+  there is no slide, stretch, overshoot or spread: the thumb jumps and the colours
+  change over 120ms. Programmatic changes slide but do not stretch. (`--prism-ease-spring`
+  already means the critically damped focus-ring curve, so the overshoot slide has its
+  own token.)
 - Colour and contrast: off is `color-surface` with a `color-border-strong` edge and a
   `color-text-muted` thumb; on is `color-accent` with a `color-on-accent` thumb. The
   edge against the page and the thumb against its track are both >= 3:1 at rest,

@@ -38,7 +38,7 @@ Density only changes unit counts (leading 4/5/6, block padding 1/2/3, inline pad
 
 ## Color
 
-The palette is small and built around light: one cool **slate** neutral (`color-slate-0…950`, hue 260, almost no chroma) and a refraction **spectrum** of seven hues, each with seven steps (`50 100 300 500 600 700 900`): `violet` (288), `blue` (250), `cyan` (210), `green` (152), `amber` (80 warming to 52), `red` (27, plus 800) and `magenta` (338). All values are OKLCH.
+The palette is small and built around light: one cool **slate** neutral (`color-slate-0…950`, hue 260, almost no chroma) and a refraction **spectrum** of seven hues, each with seven steps (`50 100 300 500 600 700 900`): `violet` (300, a pinker purple), `blue` (235), `cyan` (192, teal), `green` (160, mint), `amber` (78 warming to 60), `red` (12, rose; plus 800) and `magenta` (345). All values are OKLCH.
 
 | Step | Use                                                   |
 | ---- | ----------------------------------------------------- |
@@ -52,7 +52,7 @@ The palette is small and built around light: one cool **slate** neutral (`color-
 
 **Display P3.** The 500, 600 and 700 steps are written beyond sRGB. `tokens.css` declares the gamut-mapped sRGB value (same lightness and hue, less chroma), then the full value in `@media (color-gamut: p3)`, then hex for engines without `oklch()`. The resolved JSON marks these colours `"gamut": "p3"` and always carries the sRGB `hex`.
 
-**Roles.** Use these, not the ramps: `color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-border-strong`, `-border-popup`, `-accent` (vivid violet), `-on-accent`, `-accent-text`, `-accent-surface`, `-focus-ring`, and the tone families `-info`, `-success`, `-warning`, `-danger` (each with `-text` and `-surface`), `-neutral` and `-neutral-surface`, `-on-solid` (text on solid tone fills), `-lift` (white, mixed into a progress fill's left end), `-track-shadow` (the progress track's inset edge), plus the error roles (`-error`, `-error-text`, `-error-surface`, `-on-error-surface`).
+**Roles.** Use these, not the ramps: `color-bg`, `-surface`, `-text`, `-text-muted`, `-border`, `-border-strong`, `-border-popup`, `-accent` (vivid pink-violet), `-on-accent`, `-accent-text`, `-accent-surface`, `-focus-ring`, and the tone families `-info`, `-success`, `-warning`, `-danger` (each with `-text` and `-surface`), `-neutral` and `-neutral-surface`, `-on-solid` (text on solid tone fills), `-lift` (white, mixed into a progress fill's left end), `-track-shadow` (the progress track's inset edge), plus the error roles (`-error`, `-error-text`, `-error-surface`, `-on-error-surface`).
 
 **Gradients.** `--prism-gradient-spectrum` (violet to magenta), `--prism-gradient-refract` (violet through blue into cyan) and `--prism-gradient-mist` (pale tints, safe behind `color-text`). They interpolate in OKLCH where supported and fall back to a plain gradient.
 

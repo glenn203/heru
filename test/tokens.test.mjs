@@ -103,6 +103,25 @@ for (const theme of THEMES)
     });
   }
 
+test('role pairs: lowest text and non-text contrast (report)', () => {
+  for (const [what, pick] of [
+    ['text 4.5', (m) => m === 4.5],
+    ['non-text 3', (m) => m === 3],
+  ]) {
+    let low = { r: 99 };
+    for (const theme of THEMES)
+      for (const [fg, bg, min] of pairs) {
+        if (!pick(min)) continue;
+        const [a, b] = [colorIn(theme, fg), colorIn(theme, bg)];
+        const r = Math.min(contrast(a, b), contrastP3(a, b));
+        if (r < low.r) low = { r, theme, fg, bg };
+      }
+    console.log(
+      `  [lowest ${what}] ${low.theme} color-${low.fg} on color-${low.bg}: ${low.r.toFixed(2)}`,
+    );
+  }
+});
+
 test('every color is inside Display P3 and has an sRGB hex fallback; colours outside sRGB are flagged p3', () => {
   const all = [
     ...Object.entries(resolved.modes.default),
@@ -266,7 +285,7 @@ test('elevation: three shared levels, slate-based, urgent tinted from error red'
   }
   assert.match(t['elevation.default'].value, / 260 \//); // slate hue
   assert.match(t['elevation.hover'].value, / 260 \//);
-  assert.match(t['elevation.urgent'].value, / 27 \//); // error red hue
+  assert.match(t['elevation.urgent'].value, / 12 \//); // error rose hue
   const css = readFileSync(
     new URL('../src/tokens/tokens.css', import.meta.url),
     'utf8',
@@ -560,7 +579,7 @@ test('on-error-surface pairs with error-surface; error-status-text is its alias'
     tok('color.error-surface'),
     tok('color.red.500').replace(/\)$/, ' / 0.08)'),
   );
-  assert.equal(tok('color.on-error-surface'), 'oklch(0.368 0.148 25)');
+  assert.equal(tok('color.on-error-surface'), 'oklch(0.368 0.147 12)');
   const r = ratio(
     srgb(tok('color.on-error-surface')),
     veil(tok('color.red.500'), tok('color.bg'), 0.08),
@@ -990,20 +1009,20 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
   // Tags and status badges are the low emphasis: a richer tint (L 0.915, more
   // chroma) with vivid text. Pin the richness so it is not quietly flattened.
   test('tone tints are rich and the tone text is vivid, all inside P3', () => {
-    const chroma = (c) => parseFloat(c.split(/\s+/)[2]);
+    const chroma = (c) => parseFloat(c.split(/\s+/)[1]);
     const light = (c) => parseFloat(c.replace('oklch(', ''));
     const MIN_TINT = {
-      accent: 0.039,
-      info: 0.038,
+      accent: 0.043,
+      info: 0.043,
       success: 0.07,
       warning: 0.07,
-      danger: 0.046,
+      danger: 0.047,
     };
     const MIN_TEXT = {
-      accent: 0.23,
-      info: 0.14,
-      success: 0.14,
-      warning: 0.11,
+      accent: 0.22,
+      info: 0.11,
+      success: 0.12,
+      warning: 0.1,
       danger: 0.18,
     };
     for (const theme of THEMES)
@@ -1016,6 +1035,41 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
           assert.ok(chroma(tint) >= MIN_TINT[t], `${t} tint chroma ${tint}`);
           assert.ok(chroma(text) >= MIN_TEXT[t], `${t} text chroma ${text}`);
         }
+      }
+  });
+  test('palette hues: pinker violet, teal blue and cyan, mint green, rose red', () => {
+    const hue = (k) => parseFloat(tokIn('light', k).split(/\s+/)[2]);
+    const want = {
+      violet: [300],
+      blue: [235],
+      cyan: [192],
+      green: [160],
+      red: [12],
+      magenta: [345],
+    };
+    for (const [name, [h]] of Object.entries(want))
+      for (const step of ['50', '100', '300', '500', '600', '700', '900'])
+        assert.equal(hue(`color.${name}.${step}`), h, `${name}.${step}`);
+    // Amber walks from a golden 78 toward a warmer 60 as it darkens.
+    assert.deepEqual(
+      ['50', '500', '600', '700', '900'].map((s) => hue(`color.amber.${s}`)),
+      [78, 78, 66, 60, 60],
+    );
+  });
+  test('every ramp step stays inside Display P3 and has an sRGB fallback', () => {
+    for (const name of [
+      'violet',
+      'blue',
+      'cyan',
+      'green',
+      'amber',
+      'red',
+      'magenta',
+    ])
+      for (const step of ['50', '100', '300', '500', '600', '700', '900']) {
+        const k = `color.${name}.${step}`;
+        assert.ok(inP3(tokIn('light', k)), `${k} inside P3`);
+        assert.match(resolved.modes.default[k].hex, /^#[0-9a-f]{6}$/);
       }
   });
   test('low-emphasis tags: lowest text contrast (report)', () => {
