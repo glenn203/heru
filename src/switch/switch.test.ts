@@ -13,12 +13,15 @@ async function setup(page: Page, markup: string) {
   await page.evaluate(
     () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 60))),
   );
+  // Styling the page starts colour transitions (up to 40ms + 360ms). Let them
+  // finish so later reads see rest colours, not a frame of a move.
+  await page.evaluate(() => new Promise((r) => setTimeout(r, 480)));
   return errors;
 }
 
 const sw = (page: Page, name: string) =>
   page.getByRole('switch', { name, exact: true });
-const settle = (page: Page, ms = 350) =>
+const settle = (page: Page, ms = 600) =>
   page.evaluate((ms) => new Promise((r) => setTimeout(r, ms)), ms);
 
 test.describe('prism-switch: semantics', () => {
@@ -294,43 +297,129 @@ test.describe('prism-switch: shape', () => {
 });
 
 test.describe('prism-switch: motion', () => {
-  test('the thumb stretches like a liquid drop, then springs back, in under 250ms', async ({
+  const timing = (page: Page) =>
+    page.locator('#s').evaluate((el) => {
+      const q = (p: string) =>
+        el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
+      const out = (n: HTMLElement) =>
+        n.getAnimations().map((a) => {
+          const t = a.effect!.getComputedTiming();
+          return {
+            kind: a instanceof CSSTransition ? 'transition' : 'animation',
+            prop: a instanceof CSSTransition ? a.transitionProperty : '',
+            delay: Number(t.delay),
+            duration: Number(t.duration),
+            end: Number(t.endTime),
+          };
+        });
+      return { thumb: out(q('thumb')), wash: out(q('wash')) };
+    });
+
+  test('turning on takes 400ms: slide 400, wash starts at 40ms and ends at 400', async ({
     page,
   }) => {
     await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
     await sw(page, 'S').click();
-    const info = await page.locator('#s').evaluate((el) => {
+    const t = await timing(page);
+    const slide = t.thumb.find((a) => a.prop === 'translate')!;
+    expect(slide.duration).toBe(400);
+    const stretch = t.thumb.find((a) => a.kind === 'animation')!;
+    expect(stretch.duration).toBe(400);
+    const wash = t.wash.find((a) => a.prop === 'clip-path')!;
+    expect(wash.delay).toBe(40);
+    expect(wash.duration).toBeCloseTo(360, 3);
+    expect(wash.end).toBe(400);
+  });
+
+  test('turning off takes 340ms on the same curves', async ({ page }) => {
+    await setup(page, '<prism-switch id="s" label="S" checked></prism-switch>');
+    await sw(page, 'S').click();
+    const t = await timing(page);
+    expect(t.thumb.find((a) => a.prop === 'translate')!.duration).toBe(340);
+    expect(t.thumb.find((a) => a.kind === 'animation')!.duration).toBe(340);
+    const wash = t.wash.find((a) => a.prop === 'clip-path')!;
+    expect(wash.delay).toBe(40);
+    expect(wash.end).toBe(340);
+  });
+
+  test('the curves are the designed ones', async ({ page }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await sw(page, 'S').click();
+    const c = await page.locator('#s').evaluate((el) => {
+      const q = (p: string) =>
+        el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
+      const thumb = q('thumb');
+      const slide = thumb
+        .getAnimations()
+        .find(
+          (a) =>
+            a instanceof CSSTransition && a.transitionProperty === 'translate',
+        )!;
+      const wash = q('wash').getAnimations()[0]!;
+      const stretch = thumb
+        .getAnimations()
+        .find((a) => !(a instanceof CSSTransition))!;
+      const frames = (stretch.effect as KeyframeEffect).getKeyframes();
+      return {
+        slide: slide.effect!.getComputedTiming().easing,
+        wash: wash.effect!.getComputedTiming().easing,
+        frames: frames.map((f) => ({
+          offset: f.offset,
+          scale: f.scale,
+          easing: f.easing,
+        })),
+      };
+    });
+    expect(c.slide).toBe('cubic-bezier(0.34, 1.2, 0.64, 1)');
+    expect(c.wash).toBe('cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(c.frames.map((f) => f.offset)).toEqual([0, 0.4, 1]);
+    expect(c.frames[0]!.easing).toBe('cubic-bezier(0.2, 0, 0, 1)');
+    expect(c.frames[1]!.easing).toBe('cubic-bezier(0.34, 1.56, 0.64, 1)');
+    expect(c.frames[1]!.scale).toBe('1.3 1'); // widens about 30%, 0-160ms
+  });
+
+  test('the stretch peaks at 160ms, about 30% wider, and ends back in shape', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await sw(page, 'S').click();
+    const r = await page.locator('#s').evaluate((el) => {
       const thumb = el.shadowRoot!.querySelector(
         '[part="thumb"]',
       ) as HTMLElement;
-      const anims = thumb.getAnimations();
-      const stretch = anims.find((a) => !(a instanceof CSSTransition))!;
-      const timing = stretch.effect!.getComputedTiming();
-      const frames = (stretch.effect as KeyframeEffect).getKeyframes();
-      // Sample the stretch at 36% of the way through: widest and flattest.
-      stretch.pause();
-      stretch.currentTime = (timing.duration as number) * 0.36;
+      const a = thumb
+        .getAnimations()
+        .find((x) => !(x instanceof CSSTransition))!;
+      a.pause();
+      a.currentTime = 160;
       const peak = getComputedStyle(thumb).scale;
-      stretch.currentTime = (timing.duration as number) * 0.99;
+      a.currentTime = 399;
       const end = getComputedStyle(thumb).scale;
-      const total = Math.max(
-        ...[el.shadowRoot!.querySelector('[part="wash"]')!, thumb].flatMap(
-          (n) =>
-            n
-              .getAnimations()
-              .map((a) => Number(a.effect!.getComputedTiming().endTime)),
-        ),
-      );
-      return { dur: timing.duration, peak, end, total, n: frames.length };
+      return { peak, end };
     });
-    expect(info.dur).toBeGreaterThan(150);
-    expect(info.dur).toBeLessThanOrEqual(250);
-    expect(info.total).toBeLessThanOrEqual(250);
-    const [px, py] = info.peak.split(' ').map(Number) as [number, number];
-    expect(px).toBeGreaterThan(1.4); // stretched along its travel
-    expect(py).toBeLessThan(0.9); // and flattened
-    const [ex] = info.end.split(' ').map(Number) as [number];
-    expect(Math.abs(ex - 1)).toBeLessThan(0.05); // back in shape
+    expect(Number(r.peak.split(' ')[0])).toBeCloseTo(1.3, 1);
+    expect(Math.abs(Number(r.end.split(' ')[0]) - 1)).toBeLessThan(0.05);
+  });
+
+  test('the token set: motion-switch 400ms, settle, overshoot and recoil curves', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    const v = await page.evaluate(() => {
+      const cs = getComputedStyle(document.documentElement);
+      return [
+        'motion-switch',
+        'ease-settle',
+        'ease-overshoot',
+        'ease-recoil',
+      ].map((k) => cs.getPropertyValue(`--prism-${k}`).trim());
+    });
+    expect(v).toEqual([
+      '400ms',
+      'cubic-bezier(0.4, 0, 0.2, 1)',
+      'cubic-bezier(0.34, 1.2, 0.64, 1)',
+      'cubic-bezier(0.34, 1.56, 0.64, 1)',
+    ]);
   });
 
   test('the track wash spreads from the thumb: clip circle grows on, shrinks off', async ({
@@ -349,17 +438,9 @@ test.describe('prism-switch: motion', () => {
     await sw(page, 'S').click();
     await settle(page);
     expect(await clip()).toMatch(/^circle\(150% at/);
-    const dur = await page
-      .locator('#s')
-      .evaluate(
-        (el) =>
-          getComputedStyle(el.shadowRoot!.querySelector('[part="wash"]')!)
-            .transitionDuration,
-      );
-    expect(parseFloat(dur) * 1000).toBeLessThanOrEqual(250);
   });
 
-  test('reduced motion: no stretch, no slide, no wash transition, no glint', async ({
+  test('reduced motion: no stretch, slide or overshoot; 120ms colour change; thumb jumps', async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -370,38 +451,47 @@ test.describe('prism-switch: motion', () => {
         el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
       const cs = (n: Element, pe?: string) => getComputedStyle(n, pe);
       return {
-        thumbAnims: q('thumb').getAnimations().length,
-        baseAnims: q('base').getAnimations({ subtree: true }).length,
+        stretch: q('thumb')
+          .getAnimations()
+          .filter((a) => !(a instanceof CSSTransition)).length,
+        slide: q('thumb')
+          .getAnimations()
+          .filter(
+            (a) =>
+              a instanceof CSSTransition &&
+              a.transitionProperty === 'translate',
+          ).length,
+        thumbProps: cs(q('thumb')).transitionProperty,
         thumbT: cs(q('thumb')).transitionDuration,
+        washProps: cs(q('wash')).transitionProperty,
         washT: cs(q('wash')).transitionDuration,
+        clip: cs(q('wash')).clipPath,
         glint: cs(q('base'), '::before').display,
         scale: cs(q('thumb')).scale,
       };
     });
-    expect(r.thumbAnims).toBe(0);
-    expect(r.baseAnims).toBe(0);
-    expect(parseFloat(r.thumbT)).toBe(0);
-    expect(parseFloat(r.washT)).toBe(0);
+    expect(r.stretch).toBe(0);
+    expect(r.slide).toBe(0);
+    expect(r.thumbProps).toBe('background-color');
+    expect(parseFloat(r.thumbT) * 1000).toBe(120);
+    expect(r.washProps).toBe('opacity');
+    expect(parseFloat(r.washT) * 1000).toBe(120);
+    expect(r.clip).toBe('none');
     expect(r.glint).toBe('none');
     expect(r.scale).toBe('none');
   });
 
-  test('the duration can be set with --prism-switch-duration', async ({
+  test('the duration can be set with --prism-switch-duration (off is 85% of it)', async ({
     page,
   }) => {
     await setup(
       page,
-      '<prism-switch id="s" label="S" style="--prism-switch-duration:180ms"></prism-switch>',
+      '<prism-switch id="s" label="S" style="--prism-switch-duration:200ms"></prism-switch>',
     );
     await sw(page, 'S').click();
-    const d = await page.locator('#s').evaluate((el) => {
-      const a = el
-        .shadowRoot!.querySelector('[part="thumb"]')!
-        .getAnimations()
-        .find((x) => !(x instanceof CSSTransition))!;
-      return a.effect!.getComputedTiming().duration;
-    });
-    expect(d).toBe(180);
+    const t = await timing(page);
+    expect(t.thumb.find((a) => a.kind === 'animation')!.duration).toBe(200);
+    expect(t.thumb.find((a) => a.prop === 'translate')!.duration).toBe(200);
   });
 });
 

@@ -1181,6 +1181,11 @@
         "type": "duration",
         "value": "320ms"
       },
+      "motion.switch": {
+        "cssVar": "--prism-motion-switch",
+        "type": "duration",
+        "value": "400ms"
+      },
       "ease.standard": {
         "cssVar": "--prism-ease-standard",
         "type": "cubicBezier",
@@ -1220,6 +1225,36 @@
           "overshoot": 0.0386,
           "settleMs": 319.5
         }
+      },
+      "ease.settle": {
+        "cssVar": "--prism-ease-settle",
+        "type": "cubicBezier",
+        "value": [
+          0.4,
+          0,
+          0.2,
+          1
+        ]
+      },
+      "ease.overshoot": {
+        "cssVar": "--prism-ease-overshoot",
+        "type": "cubicBezier",
+        "value": [
+          0.34,
+          1.2,
+          0.64,
+          1
+        ]
+      },
+      "ease.recoil": {
+        "cssVar": "--prism-ease-recoil",
+        "type": "cubicBezier",
+        "value": [
+          0.34,
+          1.56,
+          0.64,
+          1
+        ]
       },
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
@@ -2441,6 +2476,11 @@
         "type": "duration",
         "value": "320ms"
       },
+      "motion.switch": {
+        "cssVar": "--prism-motion-switch",
+        "type": "duration",
+        "value": "400ms"
+      },
       "ease.standard": {
         "cssVar": "--prism-ease-standard",
         "type": "cubicBezier",
@@ -2480,6 +2520,36 @@
           "overshoot": 0.0386,
           "settleMs": 319.5
         }
+      },
+      "ease.settle": {
+        "cssVar": "--prism-ease-settle",
+        "type": "cubicBezier",
+        "value": [
+          0.4,
+          0,
+          0.2,
+          1
+        ]
+      },
+      "ease.overshoot": {
+        "cssVar": "--prism-ease-overshoot",
+        "type": "cubicBezier",
+        "value": [
+          0.34,
+          1.2,
+          0.64,
+          1
+        ]
+      },
+      "ease.recoil": {
+        "cssVar": "--prism-ease-recoil",
+        "type": "cubicBezier",
+        "value": [
+          0.34,
+          1.56,
+          0.64,
+          1
+        ]
       },
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
@@ -3701,6 +3771,11 @@
         "type": "duration",
         "value": "320ms"
       },
+      "motion.switch": {
+        "cssVar": "--prism-motion-switch",
+        "type": "duration",
+        "value": "400ms"
+      },
       "ease.standard": {
         "cssVar": "--prism-ease-standard",
         "type": "cubicBezier",
@@ -3740,6 +3815,36 @@
           "overshoot": 0.0386,
           "settleMs": 319.5
         }
+      },
+      "ease.settle": {
+        "cssVar": "--prism-ease-settle",
+        "type": "cubicBezier",
+        "value": [
+          0.4,
+          0,
+          0.2,
+          1
+        ]
+      },
+      "ease.overshoot": {
+        "cssVar": "--prism-ease-overshoot",
+        "type": "cubicBezier",
+        "value": [
+          0.34,
+          1.2,
+          0.64,
+          1
+        ]
+      },
+      "ease.recoil": {
+        "cssVar": "--prism-ease-recoil",
+        "type": "cubicBezier",
+        "value": [
+          0.34,
+          1.56,
+          0.64,
+          1
+        ]
       },
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
