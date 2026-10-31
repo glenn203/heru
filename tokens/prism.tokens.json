@@ -645,17 +645,17 @@
       }
     },
     "accent-text": {
-      "$value": "{color.violet.700}",
-      "$description": "Accent-coloured text and icons on the page. AA on bg, surface and accent-surface.",
+      "$value": "oklch(0.42 0.236 288)",
+      "$description": "Accent-coloured text and icons on the page. AA on bg, surface and accent-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "{color.violet.300}"
+        "prism.dark": "oklch(0.83 0.09 288)"
       }
     },
     "accent-surface": {
-      "$value": "{color.violet.50}",
-      "$description": "Airy accent tint fill. Text on it: accent-text.",
+      "$value": "oklch(0.915 0.039 288)",
+      "$description": "Airy accent tint fill. Text on it: accent-text. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "{color.violet.900}"
+        "prism.dark": "oklch(0.3 0.144 288)"
       }
     },
     "surface-hover": {
@@ -720,10 +720,10 @@
       }
     },
     "neutral-surface": {
-      "$value": "{color.slate.100}",
+      "$value": "oklch(0.945 0.014 260)",
       "$description": "Neutral tone tint fill. Text on it: color-text.",
       "$extensions": {
-        "prism.dark": "{color.slate.800}"
+        "prism.dark": "oklch(0.3 0.04 260)"
       }
     },
     "info": {
@@ -734,17 +734,17 @@
       }
     },
     "info-text": {
-      "$value": "{color.blue.700}",
-      "$description": "Info text on the page or on info-surface.",
+      "$value": "oklch(0.42 0.147 250)",
+      "$description": "Info text on the page or on info-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "{color.blue.300}"
+        "prism.dark": "oklch(0.83 0.088 250)"
       }
     },
     "info-surface": {
-      "$value": "{color.blue.50}",
-      "$description": "Info tone tint fill.",
+      "$value": "oklch(0.915 0.038 250)",
+      "$description": "Info tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "{color.blue.900}"
+        "prism.dark": "oklch(0.3 0.09 250)"
       }
     },
     "success": {
@@ -755,17 +755,17 @@
       }
     },
     "success-text": {
-      "$value": "{color.green.700}",
-      "$description": "Success text on the page or on success-surface.",
+      "$value": "oklch(0.42 0.147 152)",
+      "$description": "Success text on the page or on success-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "{color.green.300}"
+        "prism.dark": "oklch(0.83 0.22 152)"
       }
     },
     "success-surface": {
-      "$value": "{color.green.50}",
-      "$description": "Success tone tint fill.",
+      "$value": "oklch(0.915 0.07 152)",
+      "$description": "Success tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "{color.green.900}"
+        "prism.dark": "oklch(0.3 0.09 152)"
       }
     },
     "warning": {
@@ -776,17 +776,17 @@
       }
     },
     "warning-text": {
-      "$value": "{color.amber.700}",
-      "$description": "Warning text on the page or on warning-surface.",
+      "$value": "oklch(0.42 0.118 52)",
+      "$description": "Warning text on the page or on warning-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "{color.amber.300}"
+        "prism.dark": "oklch(0.83 0.15 84)"
       }
     },
     "warning-surface": {
-      "$value": "{color.amber.50}",
-      "$description": "Warning tone tint fill.",
+      "$value": "oklch(0.915 0.07 80)",
+      "$description": "Warning tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "{color.amber.900}"
+        "prism.dark": "oklch(0.3 0.058 62)"
       }
     },
     "danger": {
@@ -797,17 +797,17 @@
       }
     },
     "danger-text": {
-      "$value": "{color.red.700}",
-      "$description": "Danger text on the page or on danger-surface.",
+      "$value": "oklch(0.42 0.185 27)",
+      "$description": "Danger text on the page or on danger-surface. Vivid: chroma near the Display P3 edge at this lightness, still 4.5:1 or more on its tint.",
       "$extensions": {
-        "prism.dark": "{color.red.300}"
+        "prism.dark": "oklch(0.83 0.112 27)"
       }
     },
     "danger-surface": {
-      "$value": "{color.red.50}",
-      "$description": "Danger tone tint fill.",
+      "$value": "oklch(0.915 0.046 27)",
+      "$description": "Danger tone tint fill. Richer tint: L 0.915 with more chroma, inside Display P3.",
       "$extensions": {
-        "prism.dark": "{color.red.900}"
+        "prism.dark": "oklch(0.3 0.113 27)"
       }
     },
     "error": {
