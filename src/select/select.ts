@@ -8,12 +8,12 @@ import {
   textRole,
 } from '../internal/control-styles.js';
 import {
-  fieldChromeStyles,
+  fieldPartsStyles,
   renderDescription,
   renderError,
   renderLabel,
   syncFieldA11y,
-} from '../internal/field-chrome.js';
+} from '../internal/field-parts.js';
 import { FieldValidityController } from '../internal/field-validity.js';
 import type { PrismOption } from '../option/option.js';
 
@@ -53,7 +53,7 @@ export class PrismSelect extends FormAssociated(LitElement) {
 
   static override styles = [
     controlSize,
-    fieldChromeStyles,
+    fieldPartsStyles,
     css`
       [part='field'] {
         position: relative;

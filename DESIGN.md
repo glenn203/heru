@@ -458,6 +458,77 @@ three are built. (2) Tag `size` and Badge `tone` are not in the specs.
   `prism-card-reorder` and returns focus to the card's menu button. While a
   pointer drag runs, the dimmed original is `inert` (a placeholder).
 
+### Checkbox, Radio and Radio group (names provisional)
+
+| Element             | Role and props                                                                                                                                                                                                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prism-checkbox`    | Yes or no choice saved with a form, or a pick from a list. Native `button role="checkbox"` with `aria-checked` (`mixed` while indeterminate). `label` (required), `checked`, `indeterminate`, `required`, `disabled`, `name`, `value` (default "on"), `size` (sm, md, lg), `hide-label`; `description` and `error` slots. |
+| `prism-radio-group` | Exactly one of several choices. `role="radiogroup"` named by `label` (required). `value`, `name`, `required`, `disabled`, `orientation` (vertical, horizontal); `description` and `error` slots. Owns the form value, the tab stop and the arrow keys.                                                                    |
+| `prism-radio`       | One choice. Native `button role="radio"`. `value`, `label` (required), `disabled`, `size`; `description` slot. `checked` is set by the group from its `value`.                                                                                                                                                            |
+
+**Shared.**
+
+- A 24px minimum hit area (`base`) around a drawn box of 16, 20 or 24px. The box is the
+  only thing that squishes; the focus ring sits on the hit area.
+- State layer: `stateLayer()` on the hit area, with the overlay drawn by the box above
+  the fill and below the mark. Off: hover 6%, pressed 12%. Selected (checked,
+  indeterminate or the picked radio): 11%, 15% when hovered. Disabled: no change.
+- Motion is a pose of a few numbers, each on its own spring (`internal/spring.ts`,
+  the switch's closed-form maths), drawn by one pure function and played by the Web
+  Animations API on every layer at once (`internal/spring-motion.ts`). One clock, so
+  the box, fill, mark and light pass cannot drift apart. A new target takes a move over
+  from the exact position and speed it has one frame ahead, so a tap, a press or a
+  release in the middle of a move never snaps. The rest style is drawn from the same
+  function (inline), so the end of a move is exactly the resting pose; the move hands
+  back to it when it finishes. Nothing animates on first paint; a change from code
+  moves like a click.
+- Press: the box squishes to 94% across and 88% down (spring 30 and 0.9). On release it
+  springs back on a bouncier spring (30 and 0.5) with an extra push when the state
+  flips, so it pops to about 105% and settles: harder for on than for off.
+- Reduced motion: no squish, fill growth, drawing or shrinking and no light pass. The
+  state changes at once and opacity fades over 120ms.
+- Forced colours: the box edge is `ButtonText`, the fill, ring and dot are `Highlight`,
+  the mark is `HighlightText`, disabled uses `GrayText`.
+- Colour and contrast: the edge (off) or fill (on) against the page is >= 3:1 at rest,
+  hover and pressed, light and dark; the mark against the fill is >= 3:1; label,
+  description and error text are >= 4.5:1. State is never colour alone: a mark or dot is
+  drawn.
+
+**Checkbox.**
+
+- Space toggles. Enter does not, as on a native checkbox. Fires `input` and `change` after
+  a user toggle, not after a property change. Submits `value` under `name` while
+  checked. `required` fails validation while unchecked; the error shows after the box
+  is touched or the form is submitted. A reset returns it to how it started.
+- Indeterminate: a click clears it and checks the box, as a native checkbox does. It
+  submits like a native one (by `checked`).
+- Four springs. `q` squish, `f` fill, `c` check, `m` dash. The fill is a circle growing
+  from the centre (spring 30 and 0.8, about 100ms to full). The check is one stroke,
+  the short arm then the long, drawn with `stroke-dashoffset` once the fill is about a
+  fifth of the way (spring 17 and 0.7, about 4.6% overshoot, so the long arm runs about
+  0.5px past its tip and settles). The whole move takes about 450ms either way.
+- The mark is two arms that meet at one corner. Drawn out they are the check (corner
+  low left of centre, arms at 225 and -50 degrees). Flattened and centred they are the
+  dash (180 and 0 degrees). Dash to check, and back, turns and slides the arms about
+  the corner, so the mark never swaps shapes or disappears. This is the only place
+  paint rather than transform or opacity moves: the stroke offset draws the check,
+  and no layout property changes.
+- A soft pass of light crosses the fill as it grows, on the same clock; none at rest.
+
+**Radio group.**
+
+- One tab stop: the picked radio, else the first enabled one. Arrow keys move focus and
+  pick together, wrap, skip disabled radios; Left and Right swap in right-to-left text.
+  Space picks the focused radio; Enter does not.
+- `value` is the picked radio's value; a radio marked `checked` in the markup sets the
+  starting value. Submits the value under `name`; `required` fails while none is picked.
+  Disabling the group disables every radio.
+- Three springs per radio. `q` squish, `r` ring (spring 30 and 1, no overshoot), `d` dot.
+  The arriving dot grows with a gentle overshoot (26 and 0.55, about 13% over, about
+  370ms in all). The leaving dot shrinks on a critical spring (30 and 1) with no bounce.
+  Both start on the same frame, so a pick, an arrow-key move and a change from code all
+  look the same.
+
 ### PROPOSED, not tokens yet
 
 These values live as component-private `--_*` custom properties built from
@@ -488,7 +559,7 @@ untouched. They wait for approval.
 An optional layer for demos and products that want a slightly more finished feel. It changes corners and adds two pointer effects. It never changes layout, type, colour roles or focus visibility, and it does nothing unless an ancestor carries `data-prism-polish`.
 
 - **Switch.** `data-prism-polish` on any ancestor (the page root for a global switch): empty or `all` turns on all three, or list `squircle`, `light`, `tilt`. `off` (or `none`) turns it off again inside a scope. Load `@glenn203/prism/polish.css` after the theme, and call `enablePolish()` once for the two pointer effects. The Storybook toolbar sets the attribute for you.
-- **Squircle corners.** `--prism-corner-shape` becomes `squircle`, and radii on buttons, icon buttons, tags, text fields, cards, menus and menu items are multiplied by `--prism-corner-scale` (1.5). Both are gated by `@supports (corner-shape: squircle)`; where it is not supported nothing changes, so the normal radius stays. The scale is there because a squircle at the same radius reads tighter than a round corner. Pills and the switch track are left alone.
+- **Squircle corners.** `--prism-corner-shape` becomes `squircle`, and radii on buttons, icon buttons, tags, text fields, checkbox boxes, cards, menus and menu items are multiplied by `--prism-corner-scale` (1.5). Both are gated by `@supports (corner-shape: squircle)`; where it is not supported nothing changes, so the normal radius stays. The scale is there because a squircle at the same radius reads tighter than a round corner. Pills and the switch track are left alone.
 - **Light-following border.** On hover and keyboard focus, buttons and clickable, selectable or raised cards draw a 1px gradient ring (the spectrum hues at their 600 level in light, 300 in dark) whose highlight follows the pointer through `--x` and `--y`. It is a mask over the border box, so it sits on top of the existing border and focus ring and never replaces them; the border keeps its 3:1 contrast. Disabled and borderless cards, touch (`hover: none`, `pointer: coarse`) and forced colours get no ring.
 - **Card tilt.** Cards only, at most `--prism-tilt-max` (2.5 degrees) under `--prism-tilt-perspective`, easing back on leave. Transform only. Never on buttons, on a dragged card, on touch, or when motion is reduced.
 - **Reduced motion.** Corners still apply. The ring has no fade, the pointer is not tracked, nothing tilts.

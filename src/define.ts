@@ -14,5 +14,7 @@ import './avatar/define.js';
 import './progress/define.js';
 import './running-indicator/define.js';
 import './switch/define.js';
+import './checkbox/define.js';
+import './radio/define.js';
 import './description-list/define.js';
 import './card/define.js';

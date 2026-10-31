@@ -507,7 +507,7 @@ test('state tokens: hover 6%, pressed 12%, selected 11%, selected+hover 15%', ()
 });
 
 // ---- Display P3 pass ----
-// The same overlay maths on wide-gamut colours. Chrome mixes in extended sRGB
+// The same overlay maths on wide-gamut colours. Browsers mix in extended sRGB
 // (channels may leave 0..1), so the fill is blended in gamma-encoded extended
 // coordinates and its luminance read back from the linear values, unclamped.
 const encX = (x) =>
@@ -625,7 +625,7 @@ test('theme + component styles: no raw palette refs, no colour literals', () => 
       'text-area/text-area',
       'internal/text-control',
       'internal/state-layer',
-      'internal/field-chrome',
+      'internal/field-parts',
       'internal/control-styles',
       'internal/icons',
     ].map((f) => `../src/${f}.ts`),
