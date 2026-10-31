@@ -297,111 +297,407 @@ test.describe('prism-switch: shape', () => {
 });
 
 test.describe('prism-switch: motion', () => {
-  const timing = (page: Page) =>
+  /** Everything animating inside the switch, with what each one animates. */
+  const anims = (page: Page) =>
+    page.locator('#s').evaluate((el) =>
+      el
+        .shadowRoot!.querySelector('[part="container"]')!
+        .getAnimations({ subtree: true })
+        .map((a) => {
+          const e = a.effect as KeyframeEffect;
+          const t = e.getComputedTiming();
+          return {
+            kind: a instanceof CSSTransition ? 'transition' : 'animation',
+            target: (e.target as HTMLElement).getAttribute('part'),
+            pseudo: e.pseudoElement,
+            duration: Number(t.duration),
+            props: [
+              ...new Set(
+                e
+                  .getKeyframes()
+                  .flatMap((k) =>
+                    Object.keys(k).filter(
+                      (n) =>
+                        ![
+                          'offset',
+                          'easing',
+                          'composite',
+                          'computedOffset',
+                        ].includes(n),
+                    ),
+                  ),
+              ),
+            ],
+          };
+        }),
+    );
+
+  /** Pauses every animation at `ms` and reads the thumb's edges in the track. */
+  const seek = (page: Page, ms: number) =>
+    page.locator('#s').evaluate((el, ms) => {
+      const q = (p: string) =>
+        el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
+      for (const a of el
+        .shadowRoot!.querySelector('[part="container"]')!
+        .getAnimations({ subtree: true })) {
+        a.pause();
+        a.currentTime = ms;
+      }
+      const b = q('base').getBoundingClientRect();
+      const t = q('thumb').getBoundingClientRect();
+      const w = q('wash').getBoundingClientRect();
+      return {
+        l: t.left - b.left,
+        r: t.right - b.left,
+        w: t.width,
+        washW: w.width,
+        washC: (w.left + w.right) / 2 - b.left,
+        track: b.width,
+      };
+    }, ms);
+
+  const geo = (page: Page) =>
     page.locator('#s').evaluate((el) => {
       const q = (p: string) =>
         el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
-      const out = (n: HTMLElement) =>
-        n.getAnimations().map((a) => {
-          const t = a.effect!.getComputedTiming();
-          return {
-            kind: a instanceof CSSTransition ? 'transition' : 'animation',
-            prop: a instanceof CSSTransition ? a.transitionProperty : '',
-            delay: Number(t.delay),
-            duration: Number(t.duration),
-            end: Number(t.endTime),
-          };
-        });
-      return { thumb: out(q('thumb')), wash: out(q('wash')) };
-    });
-
-  test('turning on takes 400ms: slide 400, wash starts at 40ms and ends at 400', async ({
-    page,
-  }) => {
-    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
-    await sw(page, 'S').click();
-    const t = await timing(page);
-    const slide = t.thumb.find((a) => a.prop === 'translate')!;
-    expect(slide.duration).toBe(400);
-    const stretch = t.thumb.find((a) => a.kind === 'animation')!;
-    expect(stretch.duration).toBe(400);
-    const wash = t.wash.find((a) => a.prop === 'clip-path')!;
-    expect(wash.delay).toBe(40);
-    expect(wash.duration).toBeCloseTo(360, 3);
-    expect(wash.end).toBe(400);
-  });
-
-  test('turning off takes 340ms on the same curves', async ({ page }) => {
-    await setup(page, '<prism-switch id="s" label="S" checked></prism-switch>');
-    await sw(page, 'S').click();
-    const t = await timing(page);
-    expect(t.thumb.find((a) => a.prop === 'translate')!.duration).toBe(340);
-    expect(t.thumb.find((a) => a.kind === 'animation')!.duration).toBe(340);
-    const wash = t.wash.find((a) => a.prop === 'clip-path')!;
-    expect(wash.delay).toBe(40);
-    expect(wash.end).toBe(340);
-  });
-
-  test('the curves are the designed ones', async ({ page }) => {
-    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
-    await sw(page, 'S').click();
-    const c = await page.locator('#s').evaluate((el) => {
-      const q = (p: string) =>
-        el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
-      const thumb = q('thumb');
-      const slide = thumb
-        .getAnimations()
-        .find(
-          (a) =>
-            a instanceof CSSTransition && a.transitionProperty === 'translate',
-        )!;
-      const wash = q('wash').getAnimations()[0]!;
-      const stretch = thumb
-        .getAnimations()
-        .find((a) => !(a instanceof CSSTransition))!;
-      const frames = (stretch.effect as KeyframeEffect).getKeyframes();
       return {
-        slide: slide.effect!.getComputedTiming().easing,
-        wash: wash.effect!.getComputedTiming().easing,
-        frames: frames.map((f) => ({
-          offset: f.offset,
-          scale: f.scale,
-          easing: f.easing,
-        })),
+        tw: parseFloat(getComputedStyle(q('thumb')).width),
+        inner: q('base').getBoundingClientRect().width,
       };
     });
-    expect(c.slide).toBe('cubic-bezier(0.34, 1.2, 0.64, 1)');
-    expect(c.wash).toBe('cubic-bezier(0.4, 0, 0.2, 1)');
-    expect(c.frames.map((f) => f.offset)).toEqual([0, 0.4, 1]);
-    expect(c.frames[0]!.easing).toBe('cubic-bezier(0.2, 0, 0, 1)');
-    expect(c.frames[1]!.easing).toBe('cubic-bezier(0.34, 1.56, 0.64, 1)');
-    expect(c.frames[1]!.scale).toBe('1.3 1'); // widens about 30%, 0-160ms
-  });
 
-  test('the stretch peaks at 160ms, about 30% wider, and ends back in shape', async ({
+  test('turning on and off take the same time, about 400ms, and every part shares one clock', async ({
     page,
   }) => {
     await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
     await sw(page, 'S').click();
-    const r = await page.locator('#s').evaluate((el) => {
-      const thumb = el.shadowRoot!.querySelector(
-        '[part="thumb"]',
-      ) as HTMLElement;
-      const a = thumb
-        .getAnimations()
-        .find((x) => !(x instanceof CSSTransition))!;
-      a.pause();
-      a.currentTime = 160;
-      const peak = getComputedStyle(thumb).scale;
-      a.currentTime = 399;
-      const end = getComputedStyle(thumb).scale;
-      return { peak, end };
-    });
-    expect(Number(r.peak.split(' ')[0])).toBeCloseTo(1.3, 1);
-    expect(Math.abs(Number(r.end.split(' ')[0]) - 1)).toBeLessThan(0.05);
+    const on = await anims(page);
+    await settle(page);
+    await sw(page, 'S').click();
+    const off = await anims(page);
+    for (const run of [on, off]) {
+      const durs = run.map((a) => a.duration);
+      expect(durs.length).toBe(5); // thumb, wash, glint, thumb colour, border
+      expect(new Set(durs).size).toBe(1);
+      expect(durs[0]).toBeGreaterThanOrEqual(370);
+      expect(durs[0]).toBeLessThanOrEqual(430);
+    }
+    expect(Math.abs(on[0]!.duration - off[0]!.duration)).toBeLessThanOrEqual(1);
   });
 
-  test('the token set: motion-switch 400ms, settle, overshoot and recoil curves', async ({
+  test('only transform, opacity and colour move: no width, left, margin or clip-path', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await sw(page, 'S').click();
+    const a = await anims(page);
+    const props = new Set(a.flatMap((x) => x.props));
+    expect([...props].sort()).toEqual(
+      ['backgroundColor', 'borderColor', 'opacity', 'transform'].sort(),
+    );
+    expect(a.every((x) => x.kind === 'animation')).toBe(true);
+    // No CSS transition is left running on the parts.
+    const tr = await page
+      .locator('#s')
+      .evaluate((el) =>
+        ['thumb', 'wash'].map(
+          (p) =>
+            getComputedStyle(el.shadowRoot!.querySelector(`[part="${p}"]`)!)
+              .transitionDuration,
+        ),
+      );
+    expect(tr.every((d) => parseFloat(d) === 0)).toBe(true);
+  });
+
+  test('nothing animates on first paint, on or off', async ({ page }) => {
+    await setup(
+      page,
+      '<prism-switch id="s" label="S" checked></prism-switch><prism-switch id="t" label="T"></prism-switch>',
+    );
+    const n = await page.evaluate(() =>
+      [...document.querySelectorAll('prism-switch')].map(
+        (el) =>
+          el
+            .shadowRoot!.querySelector('[part="container"]')!
+            .getAnimations({ subtree: true }).length,
+      ),
+    );
+    expect(n).toEqual([0, 0]);
+    const g = await geometry(page, '#s');
+    expect(g.track.x + g.track.w - (g.thumb.x + g.thumb.w)).toBeLessThan(6);
+  });
+
+  test('a change from code moves the same way as a click', async ({ page }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await page.locator('#s').evaluate((el) => {
+      (el as HTMLElement & { checked: boolean }).checked = true;
+    });
+    await settle(page, 20);
+    expect((await anims(page)).length).toBe(5);
+  });
+
+  test('the thumb stretches mid-travel (about 25-40% wider) and ends back in shape', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    const { tw, inner } = await geo(page);
+    await sw(page, 'S').click();
+    const dur = (await anims(page))[0]!.duration;
+    let peak = 0;
+    let peakAt = 0;
+    for (let t = 0; t < dur; t += 4) {
+      const f = await seek(page, t);
+      if (f.w > peak) {
+        peak = f.w;
+        peakAt = t;
+      }
+      // Never leaves the track, overshoot included.
+      expect(f.l).toBeGreaterThan(0);
+      expect(f.r).toBeLessThan(inner + 0.5);
+    }
+    expect(peak / tw).toBeGreaterThan(1.25);
+    expect(peak / tw).toBeLessThan(1.42);
+    expect(peakAt).toBeGreaterThan(50);
+    expect(peakAt).toBeLessThan(200);
+    const end = await seek(page, dur);
+    expect(Math.abs(end.w - tw)).toBeLessThan(0.05);
+  });
+
+  test('every frame is continuous: speed never jumps, and the move overshoots only slightly', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    const { tw } = await geo(page);
+    await sw(page, 'S').click();
+    const dur = (await anims(page))[0]!.duration;
+    const centres: number[] = [];
+    const widths: number[] = [];
+    for (let t = 0; t <= dur; t += 2) {
+      const f = await seek(page, t);
+      centres.push((f.l + f.r) / 2);
+      widths.push(f.w);
+    }
+    const end = centres[centres.length - 1]!;
+    const start = centres[0]!;
+    const travel = end - start;
+    // Overshoot at most 8% of the travel past the end.
+    expect(Math.max(...centres) - end).toBeLessThan(0.08 * travel);
+    // 2ms steps: no step bigger than 1px, no change of step bigger than 0.2px.
+    const step = centres.slice(1).map((c, i) => c - centres[i]!);
+    expect(Math.max(...step.map(Math.abs))).toBeLessThan(1);
+    const jerk = step.slice(1).map((v, i) => v - step[i]!);
+    expect(Math.max(...jerk.map(Math.abs))).toBeLessThan(0.2);
+    const wstep = widths.slice(1).map((w, i) => w - widths[i]!);
+    expect(Math.max(...wstep.map(Math.abs))).toBeLessThan(0.7);
+    expect(Math.min(...widths)).toBeGreaterThan(tw * 0.97);
+  });
+
+  test('turning round mid-move carries on from where the thumb is: no snap in place or width', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    for (const at of [60, 120, 200, 300]) {
+      await sw(page, 'S').click();
+      // The pose one frame on is where the new move has to start.
+      const ahead = await seek(page, at + 16.7);
+      await seek(page, at);
+      await page.locator('#s').evaluate((el) => (el as HTMLElement).click()); // turn round
+      const after = await seek(page, 0);
+      expect(Math.abs(after.l - ahead.l)).toBeLessThan(0.8);
+      expect(Math.abs(after.r - ahead.r)).toBeLessThan(0.8);
+      expect(Math.abs(after.w - ahead.w)).toBeLessThan(0.8);
+      await settle(page, 700);
+      await sw(page, 'S').click(); // back to the starting state
+      await settle(page, 700);
+      await sw(page, 'S').click();
+      await settle(page, 700);
+    }
+  });
+
+  test('rapid taps always end at rest in the right place', async ({ page }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    for (let i = 0; i < 7; i++) {
+      await page.locator('#s').evaluate((el) => (el as HTMLElement).click());
+      await settle(page, 70);
+    }
+    await settle(page, 800);
+    expect(await sw(page, 'S').getAttribute('aria-checked')).toBe('true');
+    expect((await anims(page)).length).toBe(0);
+    const g = await geometry(page, '#s');
+    expect(g.track.x + g.track.w - (g.thumb.x + g.thumb.w)).toBeLessThan(6);
+  });
+
+  test('the colours, the track fill and the glint follow the thumb', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await sw(page, 'S').click();
+    const dur = (await anims(page))[0]!.duration;
+    const wash0 = await seek(page, 0);
+    expect(wash0.washW).toBeLessThan(1);
+    const mid = await seek(page, 70);
+    // The fill is centred on the thumb all the way.
+    expect(Math.abs(mid.washC - (mid.l + mid.r) / 2)).toBeLessThan(0.6);
+    expect(mid.washW).toBeGreaterThan(5);
+    const end = await seek(page, dur);
+    expect(end.washW).toBeGreaterThan(end.track * 1.9);
+  });
+
+  test('the move hands back to the stylesheet at rest: no animation left, no stale pixels', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await sw(page, 'S').click();
+    await settle(page, 700);
+    expect((await anims(page)).length).toBe(0);
+    const tr = await page
+      .locator('#s')
+      .evaluate(
+        (el) =>
+          getComputedStyle(el.shadowRoot!.querySelector('[part="thumb"]')!)
+            .transform,
+      );
+    expect(tr).not.toBe('none');
+    // A size change after a move still lands the thumb on the track's end.
+    await page.locator('#s').evaluate((el) => el.setAttribute('size', 'lg'));
+    await settle(page, 60);
+    const g = await geometry(page, '#s');
+    expect(g.track.x + g.track.w - (g.thumb.x + g.thumb.w)).toBeLessThan(6);
+  });
+
+  test('press and hold widens the thumb from the side it sits on; letting go outside does nothing', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await page.evaluate(() => {
+      const w = window as unknown as { log: string[] };
+      w.log = [];
+      const el = document.querySelector('#s')!;
+      for (const t of ['input', 'change'])
+        el.addEventListener(t, () => w.log.push(t));
+    });
+    const { tw } = await geo(page);
+    const box = (await sw(page, 'S').boundingBox())!;
+    const rest = await seek(page, 0);
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await settle(page, 400);
+    const held = await seek(page, 9999);
+    expect(held.w / tw).toBeGreaterThan(1.15);
+    expect(held.w / tw).toBeLessThan(1.3);
+    expect(Math.abs(held.l - rest.l)).toBeLessThan(0.3); // stays anchored
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height + 60);
+    await page.mouse.up();
+    await settle(page, 700);
+    const after = await geometry(page, '#s');
+    expect(after.thumb.w).toBeCloseTo(tw, 0);
+    expect(await sw(page, 'S').getAttribute('aria-checked')).toBe('false');
+    expect(
+      await page.evaluate(() => (window as never as { log: string[] }).log),
+    ).toEqual([]);
+  });
+
+  test('a tap with the mouse toggles once (one input, one change) and stretches', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await page.evaluate(() => {
+      const w = window as unknown as { log: string[] };
+      w.log = [];
+      const el = document.querySelector('#s')!;
+      for (const t of ['input', 'change', 'click'])
+        el.addEventListener(t, () => w.log.push(t));
+    });
+    await sw(page, 'S').click();
+    await settle(page, 700);
+    expect(await sw(page, 'S').getAttribute('aria-checked')).toBe('true');
+    const log = await page.evaluate(
+      () => (window as never as { log: string[] }).log,
+    );
+    expect(log.filter((l) => l === 'input')).toHaveLength(1);
+    expect(log.filter((l) => l === 'change')).toHaveLength(1);
+  });
+
+  test('drag past the middle turns it on, once; a short drag does not', async ({
+    page,
+  }) => {
+    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
+    await page.evaluate(() => {
+      const w = window as unknown as { log: string[] };
+      w.log = [];
+      const el = document.querySelector('#s')!;
+      for (const t of ['input', 'change'])
+        el.addEventListener(t, () => w.log.push(t));
+    });
+    const box = (await sw(page, 'S').boundingBox())!;
+    const y = box.y + box.height / 2;
+    // Short drag, stays off.
+    await page.mouse.move(box.x + 14, y);
+    await page.mouse.down();
+    for (let i = 1; i <= 4; i++) await page.mouse.move(box.x + 14 + i * 1.5, y);
+    await settle(page, 200);
+    await page.mouse.up();
+    await settle(page, 700);
+    expect(await sw(page, 'S').getAttribute('aria-checked')).toBe('false');
+    // Long drag, turns on, and the click after the drop is not a second toggle.
+    await page.mouse.move(box.x + 14, y);
+    await page.mouse.down();
+    for (let i = 1; i <= 12; i++)
+      await page.mouse.move(box.x + 14 + (i * (box.width - 26)) / 12, y);
+    await settle(page, 200);
+    await page.mouse.up();
+    await settle(page, 700);
+    expect(await sw(page, 'S').getAttribute('aria-checked')).toBe('true');
+    expect(
+      await page.evaluate(() => (window as never as { log: string[] }).log),
+    ).toEqual(['input', 'change']);
+    const g = await geometry(page, '#s');
+    expect(g.track.x + g.track.w - (g.thumb.x + g.thumb.w)).toBeLessThan(6);
+    // And the next plain tap still works.
+    await sw(page, 'S').click();
+    await expect(sw(page, 'S')).toHaveAttribute('aria-checked', 'false');
+  });
+
+  test('dragging back from on turns it off; rtl drags the other way', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<div dir="rtl"><prism-switch id="s" label="S" checked></prism-switch></div>',
+    );
+    const box = (await sw(page, 'S').boundingBox())!;
+    const y = box.y + box.height / 2;
+    // In rtl "on" is at the left; drag to the right to turn it off.
+    await page.mouse.move(box.x + 14, y);
+    await page.mouse.down();
+    for (let i = 1; i <= 12; i++)
+      await page.mouse.move(box.x + 14 + (i * (box.width - 26)) / 12, y);
+    await settle(page, 150);
+    await page.mouse.up();
+    await settle(page, 700);
+    expect(await sw(page, 'S').getAttribute('aria-checked')).toBe('false');
+  });
+
+  test('a disabled switch does not press or drag', async ({ page }) => {
+    await setup(
+      page,
+      '<prism-switch id="s" label="S" disabled></prism-switch>',
+    );
+    const box = await page.locator('#s').evaluate((el) => {
+      const r = el
+        .shadowRoot!.querySelector('[part=base]')!
+        .getBoundingClientRect();
+      return { x: r.x, y: r.y, width: r.width, height: r.height };
+    });
+    await page.mouse.move(box.x + 14, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 40, box.y + box.height / 2);
+    await settle(page, 100);
+    expect((await anims(page)).length).toBe(0);
+    await page.mouse.up();
+  });
+
+  test('the token set: motion-switch 400ms and the shared curves are still there', async ({
     page,
   }) => {
     await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
@@ -422,25 +718,7 @@ test.describe('prism-switch: motion', () => {
     ]);
   });
 
-  test('the track wash spreads from the thumb: clip circle grows on, shrinks off', async ({
-    page,
-  }) => {
-    await setup(page, '<prism-switch id="s" label="S"></prism-switch>');
-    const clip = () =>
-      page
-        .locator('#s')
-        .evaluate(
-          (el) =>
-            getComputedStyle(el.shadowRoot!.querySelector('[part="wash"]')!)
-              .clipPath,
-        );
-    expect(await clip()).toMatch(/^circle\(0px at/);
-    await sw(page, 'S').click();
-    await settle(page);
-    expect(await clip()).toMatch(/^circle\(150% at/);
-  });
-
-  test('reduced motion: no stretch, slide or overshoot; 120ms colour change; thumb jumps', async ({
+  test('reduced motion: no travel, stretch, press or drag; 120ms colour change; thumb jumps', async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -451,37 +729,46 @@ test.describe('prism-switch: motion', () => {
         el.shadowRoot!.querySelector(`[part="${p}"]`) as HTMLElement;
       const cs = (n: Element, pe?: string) => getComputedStyle(n, pe);
       return {
-        stretch: q('thumb')
-          .getAnimations()
+        running: el
+          .shadowRoot!.querySelector('[part="container"]')!
+          .getAnimations({ subtree: true })
           .filter((a) => !(a instanceof CSSTransition)).length,
-        slide: q('thumb')
-          .getAnimations()
-          .filter(
-            (a) =>
-              a instanceof CSSTransition &&
-              a.transitionProperty === 'translate',
-          ).length,
         thumbProps: cs(q('thumb')).transitionProperty,
         thumbT: cs(q('thumb')).transitionDuration,
         washProps: cs(q('wash')).transitionProperty,
         washT: cs(q('wash')).transitionDuration,
-        clip: cs(q('wash')).clipPath,
+        washTransform: cs(q('wash')).transform,
         glint: cs(q('base'), '::before').display,
         scale: cs(q('thumb')).scale,
       };
     });
-    expect(r.stretch).toBe(0);
-    expect(r.slide).toBe(0);
+    expect(r.running).toBe(0);
     expect(r.thumbProps).toBe('background-color');
     expect(parseFloat(r.thumbT) * 1000).toBe(120);
     expect(r.washProps).toBe('opacity');
     expect(parseFloat(r.washT) * 1000).toBe(120);
-    expect(r.clip).toBe('none');
+    expect(r.washTransform).toBe('none');
     expect(r.glint).toBe('none');
     expect(r.scale).toBe('none');
+    // Press and drag do nothing either.
+    const box = (await sw(page, 'S').boundingBox())!;
+    await page.mouse.move(box.x + 14, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 30, box.y + box.height / 2);
+    await settle(page, 100);
+    expect(
+      await page.locator('#s').evaluate(
+        (el) =>
+          el
+            .shadowRoot!.querySelector('[part="container"]')!
+            .getAnimations({ subtree: true })
+            .filter((a) => !(a instanceof CSSTransition)).length,
+      ),
+    ).toBe(0);
+    await page.mouse.up();
   });
 
-  test('the duration can be set with --prism-switch-duration (off is 85% of it)', async ({
+  test('the duration can be set with --prism-switch-duration', async ({
     page,
   }) => {
     await setup(
@@ -489,9 +776,9 @@ test.describe('prism-switch: motion', () => {
       '<prism-switch id="s" label="S" style="--prism-switch-duration:200ms"></prism-switch>',
     );
     await sw(page, 'S').click();
-    const t = await timing(page);
-    expect(t.thumb.find((a) => a.kind === 'animation')!.duration).toBe(200);
-    expect(t.thumb.find((a) => a.prop === 'translate')!.duration).toBe(200);
+    const d = (await anims(page))[0]!.duration;
+    expect(d).toBeGreaterThan(170);
+    expect(d).toBeLessThan(230);
   });
 });
 

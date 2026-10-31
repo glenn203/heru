@@ -381,19 +381,32 @@ and Badge `status`; status stays as words) and **prism-icon**
 - State layer: the track uses `stateLayer()` like every clickable surface, with the
   overlay drawn above the wash and below the thumb. Off: hover 6%, pressed 12%. On
   (selected): 11%, and 15% when hovered. Disabled: no change.
-- Motion (`--prism-motion-switch`, 400ms on; off takes 85%, 340ms). The thumb slides
-  the full time on `--prism-ease-overshoot` (`cubic-bezier(0.34, 1.2, 0.64, 1)`, a
-  slight overshoot). It also widens about 30% along its travel, trailing edge held:
-  0-160ms on `--prism-ease-standard`, then springs back 160-400ms on
-  `--prism-ease-recoil` (`cubic-bezier(0.34, 1.56, 0.64, 1)`). The accent spreads over
-  the track from the side the thumb leaves (a growing clip circle) starting at 40ms and
-  running 360ms on `--prism-ease-settle` (`cubic-bezier(0.4, 0, 0.2, 1)`); the track
-  edge and thumb colour follow it. A single pass of light crosses the track.
-  `--prism-switch-duration` sets the total time. With `prefers-reduced-motion: reduce`
-  there is no slide, stretch, overshoot or spread: the thumb jumps and the colours
-  change over 120ms. Programmatic changes slide but do not stretch. (`--prism-ease-spring`
-  already means the critically damped focus-ring curve, so the overshoot slide has its
-  own token.)
+- Motion (`--prism-motion-switch`, about 400ms, the same on and off). Two springs,
+  one per thumb edge, move the thumb: the edge heading for the destination leads
+  (natural frequency 25, damping 0.7, about 4% overshoot) and the other follows
+  (16, 0.78), so the thumb stretches to about 28% wider around 100ms and is back in
+  shape by about 400ms. A spring has no fixed start, so a move can be taken over at
+  any moment from the exact position and speed it has: a second tap mid-move, a
+  press, or the release of a drag all carry on without a jump. The track fill (a
+  circle as wide as the track, centred on the thumb), the thumb and border colours
+  and the single pass of light are all a function of the thumb's position, sampled
+  from the same clock, so they cannot drift apart. Only transform and opacity move
+  (colour is a plain crossfade driven by the same progress); no width, margin or
+  clip-path is animated, and the Web Animations API runs it off the main thread.
+  Nothing animates on first paint; a change from code moves the same way as a click.
+  `--prism-switch-duration` scales the whole move.
+- Press and drag. Pressing and holding widens the thumb about 22% from the side it
+  sits on (a short, nearly critical spring, 28 and 0.9). Dragging more than 4px
+  makes the thumb follow the pointer, with a little give past either end; on release
+  it turns on the side it is nearest, or where a flick over 260px/s sends it, and
+  carries on with the speed it had. The click that follows a drag, or a press that
+  ends outside the track, does not toggle. `touch-action: pan-y` keeps vertical
+  scrolling. Pointer-driven only: Space and Enter toggle with no press stretch.
+- Reduced motion (`prefers-reduced-motion: reduce`): no travel, stretch, press or
+  drag motion and no glint. The thumb jumps and the colours change over 120ms.
+  (`--prism-ease-spring` already means the critically damped focus-ring curve; the
+  switch uses neither it nor the overshoot and recoil curves any more, and those
+  tokens stay for other components.)
 - Colour and contrast: off is `color-surface` with a `color-border-strong` edge and a
   `color-text-muted` thumb; on is `color-accent` with a `color-on-accent` thumb. The
   edge against the page and the thumb against its track are both >= 3:1 at rest,
