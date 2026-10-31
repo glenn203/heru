@@ -1222,20 +1222,78 @@ prism-progress::part(track)::after {
 prism-progress::part(fill) {
   background-color: var(--_tone-high-bg);
 }
-/* The fill's gradient spans only the filled width: the full tone at the
-   leading (right) edge, lifted toward white at the left, so it lightens as it
-   fills. Plain tone colour where color-mix() is missing. */
+/* The fill is a comet. Three background layers, top to bottom:
+   1. head: a small bright ellipse on the leading (right) edge;
+   2. tail: the tone colour, strongest at the edge, fading toward the left;
+   3. base: linear, lifted toward white at the left, the full tone at the right.
+   A soft glow follows the leading edge. Plain tone colour where color-mix() is
+   missing. Light mixes little white in the head so the last 14px hold 3:1 on
+   the track; dark mixes a lot (see the progress tokens). */
 @supports (color: color-mix(in oklch, red, blue)) {
   prism-progress::part(fill) {
-    background-image: linear-gradient(
-      90deg,
+    --_tail-layer: radial-gradient(
+      ellipse 100% 55% at 100% 50%,
+      var(--_tone-high-bg) 0%,
+      color-mix(
+          in oklch,
+          var(--_tone-high-bg) var(--prism-progress-tail-alpha, 70%),
+          transparent
+        )
+        60%,
+      transparent 100%
+    );
+    --_tail-w: min(100%, var(--prism-progress-tail-max, 280px));
+    background-image:
+      radial-gradient(
+        ellipse var(--prism-progress-head-size, 14px) 120% at 100% 50%,
+        color-mix(
+            in oklch,
+            var(--prism-color-lift) var(--prism-progress-head-mix, 16%),
+            var(--_tone-high-bg)
+          )
+          0%,
+        color-mix(
+            in oklch,
+            var(--prism-color-lift) var(--prism-progress-head-alpha, 12%),
+            transparent
+          )
+          45%,
+        transparent 100%
+      ),
+      var(--_tail-layer),
+      linear-gradient(
+        90deg,
+        color-mix(
+          in oklch,
+          var(--prism-color-lift) var(--prism-progress-fill-lift, 30%),
+          var(--_tone-high-bg)
+        ),
+        var(--_tone-high-bg)
+      );
+    /* Head and base fill the box; the tail is as long as the fill, up to 280px,
+       pinned to the leading edge. */
+    background-repeat: no-repeat;
+    background-size:
+      100% 100%,
+      var(--_tail-w) 100%,
+      100% 100%;
+    background-position:
+      0 0,
+      100% 0,
+      0 0;
+    box-shadow: 4px 0 10px -2px
       color-mix(
         in oklch,
-        var(--prism-color-lift) var(--prism-progress-fill-lift, 18%),
-        var(--_tone-high-bg)
-      ),
-      var(--_tone-high-bg)
-    );
+        var(--_tone-high-bg) var(--prism-progress-glow-alpha, 45%),
+        transparent
+      );
+  }
+  /* A fill under 24px hides the tail; a full bar has nowhere to glow. */
+  prism-progress:state(tiny)::part(fill) {
+    --_tail-layer: linear-gradient(transparent, transparent);
+  }
+  prism-progress:state(full)::part(fill) {
+    box-shadow: none;
   }
 }
 
@@ -1262,6 +1320,7 @@ prism-description-list-item::part(value) {
   prism-progress::part(fill) {
     background-color: Highlight;
     background-image: none;
+    box-shadow: none;
   }
   prism-tag::part(base):focus-visible,
   prism-tag::part(remove):focus-visible {

@@ -16,6 +16,7 @@ const OFF_GRID = new Set([
   'focus.ring-offset',
   'focus.ring-blur',
   'focus.halo-width',
+  'progress.head-size', // a highlight radius, not layout
 ]);
 
 for (const [mode, tokens] of Object.entries(resolved.modes)) {
@@ -322,7 +323,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--prism-elevation-(default|hover|track)|var\(--_(elev|sh-sel|sh-focus)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
+      /var\(--prism-elevation-(default|hover|track)|var\(--_(elev|sh-sel|sh-focus)|--prism-focus-ring|--prism-color-focus-ring|^4px 0 10px -2px\s+color-mix\(\s*in oklch,\s*var\(--_tone-high-bg\)\s+var\(--prism-progress-glow-alpha|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -1103,18 +1104,27 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
   // The fill is a gradient over its filled width: the tone colour at the
   // leading edge, lifted toward color-lift (white) by progress.fill-lift at the
   // left. Both ends, and so everything between, must hold 3:1 on the track.
+  // The fill is a comet: a head and a tail at the leading edge over a base
+  // that is lifted toward white at the left. The last ~14px (the head and the
+  // full tone) carry the value and must hold 3:1 on the track. The left end is
+  // the start of the bar, so it is only reported.
   const PROGRESS_LOWEST = [];
+  const LEFT_LOWEST = [];
   for (const theme of THEMES) {
     const track = colorIn(theme, 'surface-pressed');
     const lift = colorIn(theme, 'lift');
-    const share = parseFloat(tokIn(theme, 'progress.fill-lift')) / 100;
+    const p = (k) => parseFloat(tokIn(theme, `progress.${k}`)) / 100;
     for (const [tone, r] of Object.entries(refs)) {
-      const end = colorIn(theme, r['high-bg']);
-      const start = mixOklch(end, lift, share);
-      test(`tone ${tone} [${theme}]: progress fill gradient, both ends >= 3:1 on the track`, () => {
+      const tonec = colorIn(theme, r['high-bg']);
+      // The head's brightest point, its 45% stop, and the full tone.
+      const head = mixOklch(tonec, lift, p('head-mix'));
+      const shoulder = mixOklch(tonec, lift, p('head-alpha'));
+      const left = mixOklch(tonec, lift, p('fill-lift'));
+      test(`tone ${tone} [${theme}]: comet, the last 14px (head, shoulder, full tone) >= 3:1 on the track`, () => {
         for (const [what, c] of [
-          ['leading edge', end],
-          ['lightest (left) end', start],
+          ['full tone', tonec],
+          ['head (brightest)', head],
+          ['head shoulder (45%)', shoulder],
         ]) {
           const a = contrast(c, track);
           const b = contrastP3(c, track);
@@ -1122,10 +1132,12 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
           assert.ok(a >= 3, `${what} sRGB ${a.toFixed(2)}`);
           assert.ok(b >= 3, `${what} P3 ${b.toFixed(2)}`);
         }
-        assert.ok(
-          contrast(start, track) <= contrast(end, track) || theme === 'dark',
-          'the left end is the lighter one',
-        );
+        LEFT_LOWEST.push({
+          theme,
+          tone,
+          a: contrast(left, track),
+          b: contrastP3(left, track),
+        });
       });
     }
   }
@@ -1138,15 +1150,30 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
       resolved.themes.dark['elevation.track'].value,
       /^inset 0 0 2px 0 oklch\([^)]* \/ 0\.3\)$/,
     );
-    assert.equal(tokIn('light', 'progress.fill-lift'), '18%');
-    assert.equal(tokIn('dark', 'progress.fill-lift'), '40%');
   });
-  test('progress fill-lift: lowest contrast on the track (report)', () => {
+  test('progress comet tokens: lift 30/45, head 16/80 + 12/25, tail 70% to 280px, glow 45/60', () => {
+    const v = (k) => [tokIn('light', k), tokIn('dark', k)];
+    assert.deepEqual(v('progress.fill-lift'), ['30%', '45%']);
+    assert.deepEqual(v('progress.head-mix'), ['16%', '80%']);
+    assert.deepEqual(v('progress.head-alpha'), ['12%', '25%']);
+    assert.deepEqual(v('progress.glow-alpha'), ['45%', '60%']);
+    assert.equal(tokIn('light', 'progress.tail-alpha'), '70%');
+    assert.equal(tokIn('light', 'progress.head-size'), 14);
+    assert.equal(tokIn('light', 'progress.tail-max'), 280);
+    assert.equal(tokIn('light', 'progress.tail-min-fill'), 24);
+  });
+  test('progress comet: lowest contrast on the track (report)', () => {
     const m = PROGRESS_LOWEST.reduce((x, y) =>
       Math.min(y.a, y.b) < Math.min(x.a, x.b) ? y : x,
     );
     console.log(
-      `  [lowest progress fill] ${m.theme} ${m.tone} ${m.what}: sRGB ${m.a.toFixed(2)}, P3 ${m.b.toFixed(2)}`,
+      `  [lowest progress head/tone] ${m.theme} ${m.tone} ${m.what}: sRGB ${m.a.toFixed(2)}, P3 ${m.b.toFixed(2)}`,
+    );
+    const l = LEFT_LOWEST.reduce((x, y) =>
+      Math.min(y.a, y.b) < Math.min(x.a, x.b) ? y : x,
+    );
+    console.log(
+      `  [lowest progress left end, report only] ${l.theme} ${l.tone}: sRGB ${l.a.toFixed(2)}, P3 ${l.b.toFixed(2)}`,
     );
   });
 }

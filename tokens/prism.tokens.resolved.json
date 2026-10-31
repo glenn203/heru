@@ -1271,7 +1271,42 @@
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
         "type": "percentage",
-        "value": "18%"
+        "value": "30%"
+      },
+      "progress.head-mix": {
+        "cssVar": "--prism-progress-head-mix",
+        "type": "percentage",
+        "value": "16%"
+      },
+      "progress.head-alpha": {
+        "cssVar": "--prism-progress-head-alpha",
+        "type": "percentage",
+        "value": "12%"
+      },
+      "progress.head-size": {
+        "cssVar": "--prism-progress-head-size",
+        "type": "dimension",
+        "value": 14
+      },
+      "progress.tail-alpha": {
+        "cssVar": "--prism-progress-tail-alpha",
+        "type": "percentage",
+        "value": "70%"
+      },
+      "progress.tail-max": {
+        "cssVar": "--prism-progress-tail-max",
+        "type": "dimension",
+        "value": 280
+      },
+      "progress.tail-min-fill": {
+        "cssVar": "--prism-progress-tail-min-fill",
+        "type": "dimension",
+        "value": 24
+      },
+      "progress.glow-alpha": {
+        "cssVar": "--prism-progress-glow-alpha",
+        "type": "percentage",
+        "value": "45%"
       },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
@@ -2578,7 +2613,42 @@
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
         "type": "percentage",
-        "value": "18%"
+        "value": "30%"
+      },
+      "progress.head-mix": {
+        "cssVar": "--prism-progress-head-mix",
+        "type": "percentage",
+        "value": "16%"
+      },
+      "progress.head-alpha": {
+        "cssVar": "--prism-progress-head-alpha",
+        "type": "percentage",
+        "value": "12%"
+      },
+      "progress.head-size": {
+        "cssVar": "--prism-progress-head-size",
+        "type": "dimension",
+        "value": 14
+      },
+      "progress.tail-alpha": {
+        "cssVar": "--prism-progress-tail-alpha",
+        "type": "percentage",
+        "value": "70%"
+      },
+      "progress.tail-max": {
+        "cssVar": "--prism-progress-tail-max",
+        "type": "dimension",
+        "value": 280
+      },
+      "progress.tail-min-fill": {
+        "cssVar": "--prism-progress-tail-min-fill",
+        "type": "dimension",
+        "value": 24
+      },
+      "progress.glow-alpha": {
+        "cssVar": "--prism-progress-glow-alpha",
+        "type": "percentage",
+        "value": "45%"
       },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
@@ -3885,7 +3955,42 @@
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
         "type": "percentage",
-        "value": "18%"
+        "value": "30%"
+      },
+      "progress.head-mix": {
+        "cssVar": "--prism-progress-head-mix",
+        "type": "percentage",
+        "value": "16%"
+      },
+      "progress.head-alpha": {
+        "cssVar": "--prism-progress-head-alpha",
+        "type": "percentage",
+        "value": "12%"
+      },
+      "progress.head-size": {
+        "cssVar": "--prism-progress-head-size",
+        "type": "dimension",
+        "value": 14
+      },
+      "progress.tail-alpha": {
+        "cssVar": "--prism-progress-tail-alpha",
+        "type": "percentage",
+        "value": "70%"
+      },
+      "progress.tail-max": {
+        "cssVar": "--prism-progress-tail-max",
+        "type": "dimension",
+        "value": 280
+      },
+      "progress.tail-min-fill": {
+        "cssVar": "--prism-progress-tail-min-fill",
+        "type": "dimension",
+        "value": 24
+      },
+      "progress.glow-alpha": {
+        "cssVar": "--prism-progress-glow-alpha",
+        "type": "percentage",
+        "value": "45%"
       },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
@@ -4177,7 +4282,22 @@
       "progress.fill-lift": {
         "cssVar": "--prism-progress-fill-lift",
         "type": "percentage",
-        "value": "40%"
+        "value": "45%"
+      },
+      "progress.head-mix": {
+        "cssVar": "--prism-progress-head-mix",
+        "type": "percentage",
+        "value": "80%"
+      },
+      "progress.head-alpha": {
+        "cssVar": "--prism-progress-head-alpha",
+        "type": "percentage",
+        "value": "25%"
+      },
+      "progress.glow-alpha": {
+        "cssVar": "--prism-progress-glow-alpha",
+        "type": "percentage",
+        "value": "60%"
       },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",

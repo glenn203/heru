@@ -340,12 +340,24 @@ a 24px minimum target. The card's "Overridden" flag is a real `prism-tag`.
 
 Progress look: the track has no border. A faint inset edge (`--prism-elevation-track`,
 `inset 0 0 2px 0` in `--prism-color-track-shadow`: the shadow neutral at 6% in light,
-30% in dark) runs round it and over the fill. The fill is a gradient across its own
-filled width: the full tone colour at the leading (right) edge, lifted toward white
-(`--prism-color-lift`) at the left by `--prism-progress-fill-lift` (18% light, 40% dark).
-Both ends hold 3:1 on the track for every tone, in both themes, on sRGB and P3 (light is
-capped at 18% for that reason). Nothing new moves, so reduced motion is unchanged; forced
-colours get a real 1px border and a flat Highlight fill.
+30% in dark) runs round it and over the fill. The fill is a comet, three background
+layers top to bottom: a head (`ellipse 14px 120%` at the leading edge: the lift colour
+mixed into the tone at `--prism-progress-head-mix`, fading through
+`--prism-progress-head-alpha` at 45% to clear), a tail (`ellipse` as long as the fill up
+to `--prism-progress-tail-max` 280px: the tone at the edge, 70% at 60% of its length, then
+clear) and a base (`linear-gradient`, the tone lifted toward white by
+`--prism-progress-fill-lift` at the left, the full tone at the right). A glow
+`4px 0 10px -2px` in the tone at `--prism-progress-glow-alpha` follows the leading edge.
+Light and dark differ: lift 30% / 45%, head 16% / 80% (shoulder 12% / 25%), glow 45% /
+60% on the lighter dark tone. Light is capped by contrast: the head, its shoulder and the
+full tone (the last ~14px, which carry the value) hold 3:1 on the track for every tone in
+both themes on sRGB and P3 (lowest 3.27; the weakest tone, success, allows about 19% white
+in light). The left end of the base is the start of the bar, not its value, so it may sit
+lower in light (lowest 2.50); the test reports it. A fill under 24px (`:state(tiny)`)
+hides its tail, and a full bar (`:state(full)`) drops the glow. Indeterminate: the comet
+travels the track in 1.6s on `--prism-ease-settle`. Reduced motion: no travel, a value
+change is instant, and the unknown bar pulses its opacity 0.6 to 1 over 2s. Forced
+colours get a real 1px border and a flat Highlight fill, no shadow.
 
 Not built: a **status dot** (it would duplicate Tag `health` and `presence`,
 and Badge `status`; status stays as words) and **prism-icon**

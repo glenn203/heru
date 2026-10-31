@@ -80,7 +80,7 @@ test.describe('prism-progress', () => {
     ).toHaveAttribute('aria-valuetext', '3 of 5 steps');
   });
 
-  test('indeterminate: no valuenow, a state, and the stripe stops under reduced motion', async ({
+  test('indeterminate: no valuenow, a state, the comet travels, and under reduced motion it pulses instead', async ({
     page,
   }) => {
     await setup(
@@ -99,7 +99,7 @@ test.describe('prism-progress', () => {
         );
     expect(await anim()).toBe('prism-progress-slide');
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    expect(await anim()).toBe('none');
+    expect(await anim()).toBe('prism-progress-pulse');
   });
 
   test('the label is visible; hide-label keeps the name but hides it from sight', async ({
@@ -195,7 +195,7 @@ test.describe('prism-progress', () => {
     expect(await alpha('dark')).toBeCloseTo(0.3, 2);
   });
 
-  test('the fill is a left-to-right gradient: lighter at the left, the full tone at the right', async ({
+  test('the fill is a comet: head, tail and base layers over the filled width', async ({
     page,
   }) => {
     await setup(
@@ -206,80 +206,182 @@ test.describe('prism-progress', () => {
     const g = await page.locator('#p').evaluate((el) => {
       const fill = el.shadowRoot!.querySelector('[part="fill"]') as HTMLElement;
       const cs = getComputedStyle(fill);
-      const w = fill.getBoundingClientRect().width;
-      return { img: cs.backgroundImage, solid: cs.backgroundColor, w };
+      return {
+        img: cs.backgroundImage,
+        size: cs.backgroundSize,
+        pos: cs.backgroundPosition,
+        shadow: cs.boxShadow,
+        w: fill.getBoundingClientRect().width,
+      };
     });
-    expect(g.img).toContain('linear-gradient');
+    // Top to bottom: head, tail, base.
+    const layers = g.img.match(/(radial|linear)-gradient\(/g);
+    expect(layers).toEqual([
+      'radial-gradient(',
+      'radial-gradient(',
+      'linear-gradient(',
+    ]);
+    expect(g.img).toMatch(/radial-gradient\(14px 120% at 100% 50%/);
+    expect(g.img).toMatch(/radial-gradient\(100% 55% at 100% 50%/);
     expect(g.img).toContain('90deg');
+    // The tail is as long as the fill (here 180px), the others fill the box.
+    expect(g.size.replace(/\s/g, '')).toBe(
+      '100%100%,min(100%,280px)100%,100%100%',
+    );
+    expect(g.pos).toBe('0px 0px, 100% 0px, 0px 0px');
     // Spans the filled width only: the fill box is 60% of the 300px track.
     expect(g.w).toBeGreaterThan(170);
     expect(g.w).toBeLessThan(190);
-    // Last stop is the plain tone colour.
-    expect(g.img.trimEnd().endsWith(`${g.solid})`)).toBe(true);
+    // The glow: 4px 0 10px -2px.
+    expect(g.shadow).toMatch(/4px 0px 10px -2px/);
   });
 
-  test('every tone has the gradient; the left end is lighter than the right', async ({
+  test('the tail is as long as the fill, capped at 280px', async ({ page }) => {
+    await setup(
+      page,
+      '<div style="width:600px"><prism-progress id="p" label="X" value="90"></prism-progress></div>',
+    );
+    const r = await page.locator('#p').evaluate((el) => {
+      const fill = el.shadowRoot!.querySelector('[part="fill"]') as HTMLElement;
+      // The tail layer is the middle one: its size is --_tail-w.
+      const size = getComputedStyle(fill).backgroundSize;
+      return { w: fill.getBoundingClientRect().width, size };
+    });
+    expect(r.w).toBeGreaterThan(500); // 90% of 600px
+    expect(r.size.replace(/\s/g, '')).toBe(
+      '100%100%,min(100%,280px)100%,100%100%',
+    );
+  });
+
+  test('a tiny fill (< 24px) hides the tail; a normal one keeps it', async ({
     page,
   }) => {
     await setup(
       page,
-      ['neutral', 'info', 'success', 'warning', 'danger', 'accent']
-        .map(
-          (t) =>
-            `<prism-progress id="${t}" label="${t}" value="50" tone="${t}"></prism-progress>`,
-        )
-        .join(''),
+      '<div style="width:300px"><prism-progress id="a" label="A" value="5"></prism-progress><prism-progress id="b" label="B" value="50"></prism-progress></div>',
     );
-    for (const t of [
-      'neutral',
-      'info',
-      'success',
-      'warning',
-      'danger',
-      'accent',
-    ]) {
-      const [l0, l1] = await page.locator(`#${t}`).evaluate((el) => {
+    const info = (id: string) =>
+      page.locator(`#${id}`).evaluate((el) => {
         const fill = el.shadowRoot!.querySelector(
           '[part="fill"]',
         ) as HTMLElement;
-        // Paint each end of the gradient onto a 1px canvas and read its lightness.
-        const cv = document.createElement('canvas');
-        cv.width = 100;
-        cv.height = 1;
-        const c = cv.getContext('2d')!;
-        const w = fill.getBoundingClientRect().width;
-        const grad = c.createLinearGradient(0, 0, 100, 0);
-        void w;
-        const bg = getComputedStyle(fill).backgroundColor;
-        const lift = getComputedStyle(
-          document.documentElement,
-        ).getPropertyValue('--prism-color-lift');
-        const share = getComputedStyle(
-          document.documentElement,
-        ).getPropertyValue('--prism-progress-fill-lift');
-        const lum = (css: string) => {
-          c.clearRect(0, 0, 100, 1);
-          c.fillStyle = css;
-          c.fillRect(0, 0, 1, 1);
-          const d = c.getImageData(0, 0, 1, 1).data;
-          return d[0]! * 0.2126 + d[1]! * 0.7152 + d[2]! * 0.0722;
+        const cs = getComputedStyle(fill);
+        return {
+          w: fill.getBoundingClientRect().width,
+          tail: cs.getPropertyValue('--_tail-layer').replace(/\s+/g, ' '),
+          tiny: el.matches(':state(tiny)'),
         };
-        void grad;
-        return [lum(`color-mix(in oklch, ${lift} ${share}, ${bg})`), lum(bg)];
       });
-      expect(l0, t).toBeGreaterThan(l1);
-      const img = await page
-        .locator(`#${t}`)
+    const a = await info('a');
+    const b = await info('b');
+    expect(a.w).toBeLessThan(24);
+    expect(a.tiny).toBe(true);
+    expect(a.tail).toContain('linear-gradient(transparent');
+    expect(b.tiny).toBe(false);
+    expect(b.tail).toContain('radial-gradient');
+  });
+
+  test('tiny follows the width: it clears when the bar grows', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<div id="w" style="width:100px"><prism-progress id="p" label="A" value="20"></prism-progress></div>',
+    );
+    const tiny = () =>
+      page.locator('#p').evaluate((el) => el.matches(':state(tiny)'));
+    expect(await tiny()).toBe(true); // 20% of 100px is 20px
+    await page.locator('#w').evaluate((el) => (el.style.width = '300px'));
+    await expect.poll(tiny).toBe(false); // now 60px
+  });
+
+  test('a full bar drops the glow; a partial one keeps it; value 0 shows none', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-progress id="a" label="A" value="100"></prism-progress><prism-progress id="b" label="B" value="99"></prism-progress>',
+    );
+    const shadow = (id: string) =>
+      page
+        .locator(`#${id}`)
         .evaluate(
           (el) =>
             getComputedStyle(el.shadowRoot!.querySelector('[part="fill"]')!)
-              .backgroundImage,
+              .boxShadow,
         );
-      expect(img, t).toContain('linear-gradient');
-    }
+    expect(await shadow('a')).toBe('none');
+    expect(await shadow('b')).toMatch(/4px 0px 10px -2px/);
+    expect(
+      await page.locator('#a').evaluate((el) => el.matches(':state(full)')),
+    ).toBe(true);
   });
 
-  test('reduced motion: no animation and no transition on the fill', async ({
+  test('indeterminate: the comet travels 1.6s on the settle curve', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-progress id="p" label="Loading"></prism-progress>',
+    );
+    const t = await page.locator('#p').evaluate((el) => {
+      const a = el
+        .shadowRoot!.querySelector('[part="fill"]')!
+        .getAnimations()[0]!;
+      const timing = a.effect!.getComputedTiming();
+      const frames = (a.effect as KeyframeEffect).getKeyframes();
+      return {
+        d: timing.duration,
+        e: frames[0]!.easing,
+        i: timing.iterations,
+      };
+    });
+    expect(t.d).toBe(1600);
+    expect(t.e).toBe('cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(t.i).toBe(Infinity);
+  });
+
+  test('reduced motion: indeterminate pulses opacity 0.6 to 1 over 2s, no travel', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await setup(
+      page,
+      '<prism-progress id="p" label="Loading"></prism-progress><prism-progress id="q" label="Q" value="40"></prism-progress>',
+    );
+    const r = await page.locator('#p').evaluate((el) => {
+      const f = el.shadowRoot!.querySelector('[part="fill"]') as HTMLElement;
+      const a = f.getAnimations()[0]!;
+      const frames = (a.effect as KeyframeEffect).getKeyframes();
+      return {
+        name: (a as CSSAnimation).animationName,
+        d: a.effect!.getComputedTiming().duration,
+        opacities: frames.map((k) => k.opacity),
+        margin: parseFloat(getComputedStyle(f).marginInlineStart),
+        trackW: el
+          .shadowRoot!.querySelector('[part="track"]')!
+          .getBoundingClientRect().width,
+        props: frames
+          .flatMap((k) => Object.keys(k))
+          .filter((k) => k === 'marginInlineStart'),
+      };
+    });
+    expect(r.name).toBe('prism-progress-pulse');
+    expect(r.d).toBe(2000);
+    expect(r.opacities).toEqual(['0.6', '1', '0.6']);
+    expect(r.margin).toBeCloseTo(r.trackW * 0.3, 0); // parked, not travelling
+    expect(r.props).toEqual([]);
+    // A value change is instant: no transition on the fill.
+    const q = await page.locator('#q').evaluate((el) => {
+      const cs = getComputedStyle(
+        el.shadowRoot!.querySelector('[part="fill"]')!,
+      );
+      return cs.transitionDuration;
+    });
+    expect(parseFloat(q)).toBe(0);
+  });
+
+  test('reduced motion: a value change is instant; only the unknown bar animates, by opacity', async ({
     page,
   }) => {
     await setup(
@@ -287,14 +389,17 @@ test.describe('prism-progress', () => {
       '<prism-progress id="a" label="A" value="40"></prism-progress><prism-progress id="b" label="B"></prism-progress>',
     );
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    for (const id of ['a', 'b']) {
+    for (const [id, anim] of [
+      ['a', 'none'],
+      ['b', 'prism-progress-pulse'],
+    ] as const) {
       const r = await page.locator(`#${id}`).evaluate((el) => {
         const cs = getComputedStyle(
           el.shadowRoot!.querySelector('[part="fill"]')!,
         );
         return { a: cs.animationName, t: cs.transitionDuration };
       });
-      expect(r.a).toBe('none');
+      expect(r.a).toBe(anim);
       expect(r.t).toBe('0s');
     }
   });

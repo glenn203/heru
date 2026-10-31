@@ -16,9 +16,11 @@ import type { TagTone } from '../tag/tag.js';
  *   "3 of 5 steps", which is also the `aria-valuetext`). Colour is never the
  *   only signal: the fill length and the written value both say it.
  * - Look: no track border; a faint inset edge shadow on the track. The fill is
- *   a gradient over its filled width, lighter at the left and the full tone at
- *   the leading edge (tokens `--prism-progress-fill-lift`,
- *   `--prism-elevation-track`). Both ends stay 3:1 on the track.
+ *   a comet: a bright head and a fading tail at the leading edge over a base
+ *   gradient that is lighter at the left, plus a soft glow ahead of it
+ *   (`--prism-progress-*` tokens). The last 14px hold 3:1 on the track. A fill
+ *   under 24px hides its tail (`:state(tiny)`), a full bar drops the glow
+ *   (`:state(full)`).
  * - Use it for a task with a known end. For "loading, no idea how long" use
  *   a skeleton or an indeterminate bar.
  *
@@ -29,6 +31,8 @@ import type { TagTone } from '../tag/tag.js';
  * @csspart track - The bar's track.
  * @csspart fill - The filled part.
  * @cssstate indeterminate - No value.
+ * @cssstate tiny - The fill is too short for a tail.
+ * @cssstate full - The value has reached max.
  */
 export class PrismProgress extends LitElement {
   static override styles = [
@@ -85,9 +89,11 @@ export class PrismProgress extends LitElement {
         inline-size: var(--_fill, 0%);
         border-radius: inherit;
       }
+      /* The fill is a comet; it travels the track in 1.6s. */
       :host(:state(indeterminate)) [part='fill'] {
         inline-size: 40%;
-        animation: prism-progress-slide 1400ms ease-in-out infinite;
+        animation: prism-progress-slide 1600ms
+          var(--prism-ease-settle, cubic-bezier(0.4, 0, 0.2, 1)) infinite;
       }
       @keyframes prism-progress-slide {
         from {
@@ -97,9 +103,23 @@ export class PrismProgress extends LitElement {
           margin-inline-start: 100%;
         }
       }
+      @keyframes prism-progress-pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      /* Reduced motion: no travel. A value change is instant, and an unknown
+         value pulses its opacity (0.6 to 1) over 2s. */
       @media (prefers-reduced-motion: reduce) {
+        [part='fill'] {
+          transition: none;
+        }
         :host(:state(indeterminate)) [part='fill'] {
-          animation: none;
+          animation: prism-progress-pulse 2s ease-in-out infinite;
           margin-inline-start: 30%;
         }
       }
@@ -120,6 +140,7 @@ export class PrismProgress extends LitElement {
   @property({ reflect: true }) tone: TagTone = 'accent';
 
   readonly #internals = this.attachInternals();
+  #resize?: ResizeObserver;
 
   get #determinate(): boolean {
     return typeof this.value === 'number' && !Number.isNaN(this.value);
@@ -136,16 +157,64 @@ export class PrismProgress extends LitElement {
     );
   }
 
-  override willUpdate(): void {
+  #setState(name: string, on: boolean): void {
     try {
-      if (!this.#determinate) this.#internals.states.add('indeterminate');
-      else this.#internals.states.delete('indeterminate');
+      if (on) this.#internals.states.add(name);
+      else this.#internals.states.delete(name);
     } catch {
       /* :state() unsupported */
     }
   }
 
+  /** A fill under the token's width (24px) is too short for a comet tail. */
+  #measure = (): void => {
+    const track = this.shadowRoot?.querySelector('[part="track"]');
+    if (!track) return;
+    const min =
+      parseFloat(
+        getComputedStyle(this).getPropertyValue(
+          '--prism-progress-tail-min-fill',
+        ),
+      ) || 24;
+    const pct = this.#determinate ? (this.#now / (this.max || 1)) * 100 : 40; // the indeterminate stripe is 40% wide
+    this.#setState(
+      'tiny',
+      (track.getBoundingClientRect().width * pct) / 100 < min,
+    );
+  };
+
+  #observe(): void {
+    const track = this.shadowRoot?.querySelector('[part="track"]');
+    if (!track || this.#resize || typeof ResizeObserver !== 'function') return;
+    this.#resize = new ResizeObserver(this.#measure);
+    this.#resize.observe(track);
+  }
+
+  override firstUpdated(): void {
+    this.#observe();
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (this.hasUpdated) this.#observe();
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#resize?.disconnect();
+    this.#resize = undefined;
+  }
+
+  override willUpdate(): void {
+    this.#setState('indeterminate', !this.#determinate);
+    this.#setState(
+      'full',
+      this.#determinate && this.#now >= this.max && this.max > 0,
+    );
+  }
+
   override updated(): void {
+    this.#measure();
     if (!this.label)
       console.error(
         '[prism-progress] `label` is required: a progress bar needs an accessible name.',

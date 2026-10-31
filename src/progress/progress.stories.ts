@@ -57,7 +57,7 @@ export const Steps: Story = {
     </div>`,
 };
 
-/** No `value`: indeterminate. It stops moving under reduced motion. */
+/** No `value`: indeterminate. The comet travels the track in 1.6s. Under reduced motion it stays put and pulses its opacity (0.6 to 1) over 2s. */
 export const Indeterminate: Story = {
   render: () =>
     html`<div style="max-inline-size:320px">
@@ -80,13 +80,25 @@ export const Tones: Story = {
     </div>`,
 };
 
-/** The fill stretches its colour: the full tone at the leading edge, lighter toward the left, across whatever width is filled. Every tone, and short, middle and full bars. */
+/**
+ * The fill is a comet: a small bright head and a tail of the tone colour at
+ * the leading edge, over a base that is lighter at the left, with a soft glow
+ * ahead of it. Every tone, at short, middle and full. A fill under 24px hides
+ * its tail; a full bar drops the glow. Light keeps the head close to the tone
+ * so the last 14px hold 3:1 on the track; dark lets it shine.
+ */
 export const Gradient: Story = {
   render: () =>
     html`<div style="display:grid;gap:14px;max-inline-size:360px">
       ${['accent', 'info', 'success', 'warning', 'danger', 'neutral'].map(
         (t) =>
           html`<div style="display:grid;gap:6px">
+            <prism-progress
+              label="${t} 4%"
+              value="4"
+              tone=${t}
+              show-value
+            ></prism-progress>
             <prism-progress
               label="${t} 20%"
               value="20"
