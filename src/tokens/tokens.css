@@ -198,9 +198,10 @@
   --prism-color-error-surface: color-mix(in oklch, var(--prism-color-error-surface-base) 8%, transparent);
   --prism-color-on-error-surface: var(--prism-color-red-800);
   --prism-color-error-status-text: var(--prism-color-on-error-surface);
-  --prism-state-hover: 8%;
+  --prism-state-hover: 6%;
   --prism-state-pressed: 12%;
-  --prism-state-selected: 14%;
+  --prism-state-selected: 11%;
+  --prism-state-selected-hover: 15%;
   --prism-focus-ring-width: 2px;
   --prism-focus-ring-offset: 1px;
   --prism-focus-ring-blur: 0.5px;

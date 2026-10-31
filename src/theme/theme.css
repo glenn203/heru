@@ -10,7 +10,7 @@
  * shadow root). The theme only names each surface's colours:
  *   --_bg / --_on                 resting fill and its text/icon colour
  *   --_bg-hover/-pressed/-selected  fixed fills used only without color-mix()
- * States paint an alpha overlay of --_on (8/12/14/18%) over --_bg.
+ * States paint an alpha overlay of --_on (6/12/11/15%: hover, pressed, selected, selected+hover) over --_bg.
  * Hover/pressed/selected/disabled behaviour comes from the utility, so new
  * surfaces (tabs, tree rows, cards…) only set these variables.
  */
@@ -40,6 +40,12 @@ prism-button::part(base) {
     0 0 0 0 var(--prism-color-bg),
     0 0 0 0 var(--prism-color-focus-ring),
     0 0 0 0 var(--prism-focus-halo);
+}
+/* A pressed toggle: the selected overlay is a light 11% tint, so it also gets
+ * a non-colour cue (WCAG 1.4.1): an underlined label. */
+prism-button:state(pressed)::part(base) {
+  text-decoration: underline 2px;
+  text-underline-offset: 3px;
 }
 /* Variants (NAMES PROVISIONAL). Each only names its
  * colours; hover/pressed/selected/disabled come from the shared state layer. */
@@ -774,7 +780,7 @@ prism-menu-item:state(active)::part(base) {
  * A card is either bordered or raised, never both; borderless has neither. */
 prism-card::part(base) {
   /* Fill and text come through the shared state layer: a clickable or choice
-     card tints on hover and press, every selected card shows 14% / 18%. */
+     card tints on hover and press, every selected card shows 11% / 15%. */
   --_bg: var(--prism-color-bg);
   --_on: var(--prism-color-text);
   --_bg-hover: var(--prism-color-surface-hover);
@@ -816,7 +822,7 @@ prism-card[type='borderless']::part(base) {
   border: 0;
   box-shadow: none;
 }
-/* Selected: the state layer (14%, 18% on hover) + a 2px ring + the control's
+/* Selected: the state layer (11%, 15% on hover) + a 2px ring + the control's
    check or dot. A raised card keeps its shadow under the ring. */
 prism-card:state(selected)::part(base) {
   box-shadow: var(--_sh-sel), var(--_elev, 0 0 0 0 transparent);

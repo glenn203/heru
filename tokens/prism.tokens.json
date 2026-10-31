@@ -834,17 +834,21 @@
     }
   },
   "state": {
-    "$description": "Shared state layer (NAME PENDING). Percent of a surface's on-colour mixed into its fill: color-mix(in oklch, var(--_bg), var(--_on) <state>). Implemented once in src/internal/state-layer.ts. Selected+hover = selected + hover / 2 (18%); selected+pressed = pressed.",
+    "$description": "Shared state layer (NAME PENDING). Percent of a surface's on-colour mixed into its fill: color-mix(in oklch, var(--_bg), var(--_on) <state>). Implemented once in src/internal/state-layer.ts. Light overlays: hover 6%, selected 11%, selected+hover 15%, pressed 12%. Selected+pressed uses pressed.",
     "$type": "percentage",
     "hover": {
-      "$value": "8%"
+      "$value": "6%"
     },
     "pressed": {
       "$value": "12%"
     },
     "selected": {
-      "$value": "14%",
-      "$description": "Selected/current/checked. Always paired with a non-colour indicator."
+      "$value": "11%",
+      "$description": "Selected/current/checked/toggle pressed. Always paired with a non-colour indicator."
+    },
+    "selected-hover": {
+      "$value": "15%",
+      "$description": "A selected surface under the pointer."
     }
   },
   "focus": {

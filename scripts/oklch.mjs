@@ -11,8 +11,8 @@ export function parseOklch(str) {
   return m.slice(1, 4).map(Number);
 }
 
-/** OKLCH → linear sRGB (unclamped). */
-function toLinearRgb([L, C, H]) {
+/** OKLCH → linear sRGB (unclamped; components outside 0..1 are wide-gamut). */
+export function toLinearRgb([L, C, H]) {
   const h = (H * Math.PI) / 180;
   const a = C * Math.cos(h);
   const b = C * Math.sin(h);

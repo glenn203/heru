@@ -51,7 +51,7 @@ test('control.height.sm is 24/32/40 across compact/default/comfortable', () => {
 });
 
 // ---------- Color ----------
-const { contrast, contrastP3, inSrgb, inP3 } =
+const { contrast, contrastP3, inSrgb, inP3, toLinearRgb } =
   await import('../scripts/oklch.mjs');
 const THEMES = ['light', 'dark'];
 const tokIn = (theme, k) =>
@@ -471,16 +471,46 @@ const STATES = {
   hover: pct('hover'),
   pressed: pct('pressed'),
   selected: pct('selected'),
-  'selected+hover': pct('selected') + pct('hover') / 2,
+  'selected+hover': pct('selected-hover'),
 };
 export const STATE_CONTRAST = [];
 
-test('state tokens: hover 8%, pressed 12%, selected 12–16%', () => {
-  assert.equal(tok('state.hover'), '8%');
+test('state tokens: hover 6%, pressed 12%, selected 11%, selected+hover 15%', () => {
+  assert.equal(tok('state.hover'), '6%');
   assert.equal(tok('state.pressed'), '12%');
-  const sel = pct('selected');
-  assert.ok(sel >= 0.12 && sel <= 0.16, `selected ${sel}`);
+  assert.equal(tok('state.selected'), '11%');
+  assert.equal(tok('state.selected-hover'), '15%');
+  assert.ok(
+    pct('hover') < pct('selected') && pct('selected') < pct('selected-hover'),
+    'each state is a step heavier than the last',
+  );
 });
+
+// ---- Display P3 pass ----
+// The same overlay maths on wide-gamut colours. Chrome mixes in extended sRGB
+// (channels may leave 0..1), so the fill is blended in gamma-encoded extended
+// coordinates and its luminance read back from the linear values, unclamped.
+const encX = (x) =>
+  Math.sign(x) *
+  (Math.abs(x) <= 0.0031308
+    ? 12.92 * Math.abs(x)
+    : 1.055 * Math.abs(x) ** (1 / 2.4) - 0.055);
+const decX = (v) =>
+  Math.sign(v) *
+  (Math.abs(v) <= 0.04045
+    ? Math.abs(v) / 12.92
+    : ((Math.abs(v) + 0.055) / 1.055) ** 2.4);
+const extOf = (str) => toLinearRgb(parseOklch(str)).map(encX);
+const veilX = (on, base, p) =>
+  extOf(on).map((v, i) => v * p + base[i] * (1 - p));
+const lumX = (ext) => {
+  const [r, g, b] = ext.map(decX);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const ratioX = (a, b) => {
+  const [x, y] = [lumX(a), lumX(b)].sort((m, n) => n - m);
+  return (x + 0.05) / (y + 0.05);
+};
 
 const SURFACES = [
   ['button (solid)', 'color.accent', 'color.on-accent', 'oklch'],
@@ -499,9 +529,17 @@ for (const theme of THEMES)
             ? srgb(mixOklch(tok(bgKey), on, p))
             : veil(on, tok('color.bg'), p);
         const r = ratio(srgb(on), fill);
+        const fillX =
+          mode === 'oklch'
+            ? extOf(mixOklch(tok(bgKey), on, p))
+            : veilX(on, extOf(tok('color.bg')), p);
+        const rx = ratioX(extOf(on), fillX);
         THEME = 'light';
-        console.log(`  [${theme}] ${name} ${state}: ${r.toFixed(2)}:1`);
-        assert.ok(r >= 4.5, `${r.toFixed(2)}:1`);
+        console.log(
+          `  [${theme}] ${name} ${state}: sRGB ${r.toFixed(2)}:1, P3 ${rx.toFixed(2)}:1`,
+        );
+        assert.ok(r >= 4.5, `sRGB ${r.toFixed(2)}:1`);
+        assert.ok(rx >= 4.5, `P3 ${rx.toFixed(2)}:1`);
       });
 
 for (const theme of THEMES)
@@ -625,6 +663,15 @@ const baseOf = (bgKey) =>
 // over the opaque resting fill, or over color-bg for transparent surfaces.
 const fillOf = (bgKey, onKey, p) =>
   veil(tok(onKey), bgKey ? baseOf(bgKey) : tok('color.bg'), p);
+// The same fill on a Display P3 screen (extended sRGB channels).
+const baseOfX = (bgKey) =>
+  !Array.isArray(bgKey)
+    ? extOf(tok(bgKey))
+    : bgKey[3] === 'srgb'
+      ? veilX(tok(bgKey[1]), extOf(tok(bgKey[0])), bgKey[2])
+      : extOf(mixOklch(tok(bgKey[0]), tok(bgKey[1]), bgKey[2]));
+const fillOfX = (bgKey, onKey, p) =>
+  veilX(tok(onKey), bgKey ? baseOfX(bgKey) : extOf(tok('color.bg')), p);
 // [surface, bg role (null = transparent on color-bg), on role, [fg role, kind]]
 const MATRIX = [
   ['button', 'color.accent', 'color.on-accent', [['color.on-accent', 'text']]],
@@ -775,11 +822,16 @@ for (const theme of THEMES) {
       for (const [fg, kind] of pairs) {
         const min = kind === 'text' ? 4.5 : 3;
         const r = ratio(srgb(tok(fg)), fillOf(bgKey, onKey, p));
-        MATRIX_RESULTS.push({ theme, surface, state, fg, kind, r });
-        test(`matrix [${theme}]: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [${r.toFixed(2)}]`, () => {
+        const rx = ratioX(extOf(tok(fg)), fillOfX(bgKey, onKey, p));
+        MATRIX_RESULTS.push({ theme, surface, state, fg, kind, r, rx });
+        test(`matrix [${theme}]: ${surface} ${state} — ${fg.slice(6)} (${kind}) >= ${min}:1 [sRGB ${r.toFixed(2)}, P3 ${rx.toFixed(2)}]`, () => {
           assert.ok(
             r >= min,
-            `${theme} ${surface} ${state} ${fg}: ${r.toFixed(2)}:1`,
+            `${theme} ${surface} ${state} ${fg}: sRGB ${r.toFixed(2)}:1`,
+          );
+          assert.ok(
+            rx >= min,
+            `${theme} ${surface} ${state} ${fg}: P3 ${rx.toFixed(2)}:1`,
           );
         });
       }
@@ -933,3 +985,16 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
       );
   });
 }
+
+test('state-layer contrast: lowest ratios (report)', () => {
+  for (const kind of ['text', 'icon', 'border']) {
+    const rows = MATRIX_RESULTS.filter((m) => m.kind === kind);
+    if (!rows.length) continue;
+    const m = rows.reduce((a, b) =>
+      Math.min(b.r, b.rx) < Math.min(a.r, a.rx) ? b : a,
+    );
+    console.log(
+      `  [lowest ${kind}] ${m.theme} ${m.surface} ${m.state} ${m.fg}: sRGB ${m.r.toFixed(2)}, P3 ${m.rx.toFixed(2)}`,
+    );
+  }
+});

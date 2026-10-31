@@ -1110,7 +1110,7 @@
       "state.hover": {
         "cssVar": "--prism-state-hover",
         "type": "percentage",
-        "value": "8%"
+        "value": "6%"
       },
       "state.pressed": {
         "cssVar": "--prism-state-pressed",
@@ -1120,7 +1120,12 @@
       "state.selected": {
         "cssVar": "--prism-state-selected",
         "type": "percentage",
-        "value": "14%"
+        "value": "11%"
+      },
+      "state.selected-hover": {
+        "cssVar": "--prism-state-selected-hover",
+        "type": "percentage",
+        "value": "15%"
       },
       "focus.ring-width": {
         "cssVar": "--prism-focus-ring-width",
@@ -2342,7 +2347,7 @@
       "state.hover": {
         "cssVar": "--prism-state-hover",
         "type": "percentage",
-        "value": "8%"
+        "value": "6%"
       },
       "state.pressed": {
         "cssVar": "--prism-state-pressed",
@@ -2352,7 +2357,12 @@
       "state.selected": {
         "cssVar": "--prism-state-selected",
         "type": "percentage",
-        "value": "14%"
+        "value": "11%"
+      },
+      "state.selected-hover": {
+        "cssVar": "--prism-state-selected-hover",
+        "type": "percentage",
+        "value": "15%"
       },
       "focus.ring-width": {
         "cssVar": "--prism-focus-ring-width",
@@ -3574,7 +3584,7 @@
       "state.hover": {
         "cssVar": "--prism-state-hover",
         "type": "percentage",
-        "value": "8%"
+        "value": "6%"
       },
       "state.pressed": {
         "cssVar": "--prism-state-pressed",
@@ -3584,7 +3594,12 @@
       "state.selected": {
         "cssVar": "--prism-state-selected",
         "type": "percentage",
-        "value": "14%"
+        "value": "11%"
+      },
+      "state.selected-hover": {
+        "cssVar": "--prism-state-selected-hover",
+        "type": "percentage",
+        "value": "15%"
       },
       "focus.ring-width": {
         "cssVar": "--prism-focus-ring-width",

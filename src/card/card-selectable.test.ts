@@ -164,7 +164,7 @@ test.describe('collection card (multi): toggles only through its checkbox', () =
     ]);
   });
 
-  test('selected look: 14% overlay, 18% on hover, 2px inside ring, checked control', async ({
+  test('selected look: 11% overlay, 15% on hover, 2px inside ring, checked control', async ({
     page,
   }) => {
     await setup(page, RESOURCES());

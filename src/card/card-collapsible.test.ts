@@ -241,7 +241,7 @@ test.describe('collapsible card', () => {
     await expect(page.getByRole('link')).toHaveCount(0);
   });
 
-  test('toggle tint: the shared state layer, 8% on hover and 12% pressed', async ({
+  test('toggle tint: the shared state layer, 6% on hover and 12% pressed', async ({
     page,
   }) => {
     await setup(page, COLL('open'));
@@ -255,6 +255,6 @@ test.describe('collapsible card', () => {
     await settle(page);
     const hover = await read();
     expect(hover).not.toBe(rest);
-    expect(hover).toContain('0.08');
+    expect(hover).toContain('0.06');
   });
 });

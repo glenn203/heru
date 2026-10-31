@@ -198,7 +198,7 @@ test.describe('clickable card (stretched link)', () => {
     ).toBe(false);
   });
 
-  test('hover and pressed: the state layer at 8% and 12% over the card surface', async ({
+  test('hover and pressed: the state layer at 6% and 12% over the card surface', async ({
     page,
   }) => {
     await setup(page, LINK);
