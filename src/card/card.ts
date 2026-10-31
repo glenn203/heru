@@ -1,5 +1,6 @@
 import { LitElement, css, html, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { CARD_DEPTH, pressScale } from '../internal/press-scale.js';
 import { stateLayer } from '../internal/state-layer.js';
 import type { PrismCardTitle } from './card-title.js';
 import type { PrismCardSelect } from './card-select.js';
@@ -404,6 +405,12 @@ export class PrismCard extends LitElement {
   @state() private hasHeader = false;
   @state() private hasFooter = false;
   @state() private nested = false;
+
+  /**
+   * A clickable or choice card presses by about 1% (it is a big target). It
+   * moves the `scale` property of the base, so the pointer tilt on the host
+   * (a `transform`) stacks with it. Controls inside the card keep their own.
+   */
   @state() private pageRange = '';
 
   readonly #internals = this.attachInternals();
@@ -493,6 +500,27 @@ export class PrismCard extends LitElement {
     } catch {
       /* storage blocked: stay with the attribute */
     }
+  }
+
+  constructor() {
+    super();
+    pressScale(this, {
+      target: () =>
+        this.shadowRoot?.querySelector<HTMLElement>('[part="base"]'),
+      depth: () => CARD_DEPTH,
+      enabled: () =>
+        !this.disabled &&
+        (this.type === 'clickable' ||
+          (this.type === 'selectable' && this.kind === 'choice')),
+      accept: (e) =>
+        e instanceof KeyboardEvent
+          ? [this.#title, this.#select].some(
+              (n) => n && e.composedPath().includes(n),
+            )
+          : !this.nested,
+      rim: false,
+      mark: true,
+    });
   }
 
   override connectedCallback(): void {

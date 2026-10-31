@@ -182,7 +182,8 @@ const ROW = (v: string, title: string, desc: string) =>
 
 /**
  * Clickable (link): the title is the one real link and its click area covers
- * the card. Nested controls sit above it. Hover is the tint only.
+ * the card. Nested controls sit above it. Hover is the tint only. Pressing
+ * shrinks the card by 1% at most, on the same spring, and it stacks with tilt.
  */
 export const ClickableLink: StoryObj<Args> = {
   render: () =>
@@ -233,7 +234,7 @@ export const ClickableDisabled: StoryObj<Args> = {
     ),
 };
 
-/** Choice cards in a single-select group: a radio group. Arrows move and select. */
+/** Choice cards in a single-select group: a radio group. Arrows move and select. The corner check draws itself in on a spring. */
 export const ChoiceCards: StoryObj<Args> = {
   render: () =>
     html`<prism-card-group

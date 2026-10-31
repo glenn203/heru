@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { iconChevronDown, iconX } from '../internal/icons.js';
 import { tonePalette } from '../internal/tones.js';
+import { pressDepth, pressScale } from '../internal/press-scale.js';
 import { stateLayer } from '../internal/state-layer.js';
 
 export type TagTone =
@@ -161,6 +162,23 @@ export class PrismTag extends LitElement {
 
   @state() private text = '';
   readonly #internals = this.attachInternals();
+
+  constructor() {
+    super();
+    pressScale(this, {
+      target: () =>
+        this.shadowRoot?.querySelector<HTMLElement>('button[part="base"]'),
+      depth: () => pressDepth('sm', 0),
+      enabled: () => !this.disabled,
+      mark: true,
+    });
+    pressScale(this, {
+      target: () =>
+        this.shadowRoot?.querySelector<HTMLElement>('[part="remove"]'),
+      depth: () => pressDepth('sm', 0),
+      mark: true,
+    });
+  }
 
   override willUpdate(): void {
     const interactive = this.selectable || this.trigger;

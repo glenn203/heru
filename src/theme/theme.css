@@ -925,6 +925,17 @@ prism-menu-item::part(base) {
   border-radius: var(--prism-radius-5);
   min-block-size: 24px;
 }
+/* In a menu with checkbox items every row lines up: plain items keep the
+   check's room, so labels share one edge. */
+prism-menu:has(> prism-menu-item[checkable])
+  > prism-menu-item:not([checkable])::part(base) {
+  padding-inline-start: calc(
+    var(--prism-space-3, 0.75rem) + 1em + var(--prism-space-2, 0.5rem)
+  );
+}
+prism-menu-item[checkable]::part(check) {
+  color: var(--prism-color-text);
+}
 prism-menu-item:state(disabled)::part(base) {
   color: var(--prism-color-text-muted);
 }
@@ -1726,6 +1737,101 @@ prism-radio:state(disabled)::part(dot) {
   }
 }
 
+/* ---------- Segmented control ----------
+ * A surface track with a >= 3:1 edge; one accent indicator slides under the
+ * picked segment, whose label turns to the on-accent colour. The indicator's
+ * motion is the component's (two edge springs, with fade); this only
+ * names colours. Hover and press come from the shared state layer. */
+prism-segmented-control {
+  color: var(--prism-color-text);
+}
+prism-segmented-control::part(track) {
+  background: var(--prism-color-surface);
+  border-color: var(--prism-color-border-strong);
+}
+prism-segmented-control::part(indicator) {
+  background: var(--prism-color-accent);
+}
+prism-segmented-control:state(disabled)::part(indicator) {
+  background: var(--prism-color-text-muted);
+}
+prism-segmented-control:state(invalid)::part(track) {
+  border-color: var(--prism-color-error);
+}
+prism-segmented-control::part(description) {
+  margin-block-start: var(--prism-space-1);
+  color: var(--prism-color-text-muted);
+}
+prism-segmented-control::part(error) {
+  margin-block-start: var(--prism-space-1);
+  color: var(--prism-color-error-text);
+}
+prism-segment::part(base) {
+  --_bg: transparent;
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  color: var(--_on);
+  /* Leaving: quick, so the old label is dark again as the indicator moves off. */
+  transition: color 80ms var(--prism-ease-standard);
+  /* The focus ring sits inside the segment, on the indicator when picked. */
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: -3px;
+  --_ring: var(--prism-color-focus-ring);
+}
+prism-segment:state(checked)::part(base) {
+  /* Arriving: waits for the indicator's leading edge before turning light. */
+  transition-duration: var(--prism-duration-fast);
+  transition-delay: 60ms;
+  --_on: var(--prism-color-on-accent);
+  --_ring: var(--prism-color-on-accent);
+}
+prism-segment:state(disabled)::part(base) {
+  --_on: var(--prism-color-text-muted);
+}
+prism-segment:state(checked):state(disabled)::part(base) {
+  --_on: var(--prism-color-bg);
+}
+prism-segment::part(base):focus-visible {
+  outline-color: var(--_ring);
+}
+@media (prefers-reduced-motion: reduce) {
+  prism-segment::part(base),
+  prism-segment:state(checked)::part(base) {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  prism-segmented-control::part(track) {
+    border-color: ButtonText;
+  }
+  prism-segmented-control::part(indicator) {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+  prism-segment::part(base) {
+    color: ButtonText;
+    forced-color-adjust: none;
+  }
+  prism-segment:state(checked)::part(base) {
+    color: HighlightText;
+  }
+  prism-segment:state(disabled)::part(base) {
+    color: GrayText;
+  }
+  prism-segment:state(checked):state(disabled)::part(base) {
+    color: Canvas;
+  }
+  prism-segmented-control:state(disabled)::part(indicator) {
+    background: GrayText;
+  }
+  prism-segmented-control:state(invalid)::part(track) {
+    border-color: ButtonText;
+    border-style: double;
+    border-width: 3px;
+  }
+}
+
 /* ---------- Forced colours: focus outline only while focused ----------
  * Most controls rest with a transparent 2px outline so a focus ring can grow
  * in. Forced colours paints a transparent outline in the text colour, so every
@@ -1748,7 +1854,8 @@ prism-radio:state(disabled)::part(dot) {
   prism-card-handle::part(base),
   prism-tag::part(base),
   prism-tag::part(remove),
-  prism-switch::part(base) {
+  prism-switch::part(base),
+  prism-segment::part(base) {
     outline-style: none;
   }
   prism-button::part(base):focus-visible,
@@ -1769,6 +1876,14 @@ prism-radio:state(disabled)::part(dot) {
   prism-switch::part(base):focus-visible {
     outline: 2px solid Highlight;
     outline-offset: var(--prism-focus-ring-offset);
+  }
+  /* Inside the segment: on the Highlight indicator when picked, so it is HighlightText. */
+  prism-segment::part(base):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: -3px;
+  }
+  prism-segment:state(checked)::part(base):focus-visible {
+    outline-color: HighlightText;
   }
   prism-select:state(disabled)::part(trigger) {
     border-color: GrayText;

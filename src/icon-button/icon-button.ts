@@ -2,6 +2,7 @@ import { LitElement, css, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { controlSize } from '../internal/control-styles.js';
+import { pressDepth, pressScale } from '../internal/press-scale.js';
 import { stateLayer } from '../internal/state-layer.js';
 
 /**
@@ -75,6 +76,7 @@ export class PrismIconButton extends LitElement {
   @property({ type: Boolean }) expanded?: boolean;
 
   @query('button') private readonly button!: HTMLButtonElement;
+
   readonly #internals = this.attachInternals();
 
   override focus(options?: FocusOptions): void {
@@ -83,6 +85,12 @@ export class PrismIconButton extends LitElement {
 
   constructor() {
     super();
+    pressScale(this, {
+      target: () => this.button,
+      depth: () => pressDepth('sm', 0),
+      enabled: () => !this.disabled,
+      mark: true,
+    });
     this.addEventListener(
       'click',
       (event) => {

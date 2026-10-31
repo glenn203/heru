@@ -581,6 +581,65 @@ a change from code moves like a user's, and reduced motion changes state at once
   shadows are dropped in this mode, so the outline is the focus indicator). Any new control
   that rests with a transparent outline must be added to that block; a test walks the list.
 
+### Press, check draw and Segmented control (names provisional)
+
+**Press (shared).** `pressScale()` (`src/internal/press-scale.ts`) animates the CSS
+`scale` property of the pressed element, so it stacks with any `transform` (card tilt).
+One uniform scale on both axes: nothing squishes unevenly.
+
+| Control                                    | Depth                   |
+| ------------------------------------------ | ----------------------- |
+| Small button, icon button, tag, segment    | 3%                      |
+| Medium button, card toggle                 | 2.5%                    |
+| Large button                               | 2%                      |
+| Wide (240px and over) small, medium, large | 2.5%, 2%, 1.5%          |
+| Clickable or choice card                   | 1% (coexists with tilt) |
+
+- Press in: spring `PRESS_IN` (about 100ms to the pressed size). Release: `PRESS_OUT`,
+  springing back past rest by about 1% (0.9% at medium) and settling in about 250ms. A new
+  press mid-return takes over from the current scale and speed.
+- Keyboard: Enter and Space on a button give a press that stays visible for at least 90ms
+  (`KEY_HOLD`), then the click fires as normal. Holding Space holds the press.
+- A click on the shrunken rim still counts (the host listens, then forwards the click).
+- Reduced motion: no scale, only the pressed colour. Nothing animates on first paint.
+- Dense table and data rows: put `data-prism-still` on the row (or any ancestor) and the
+  controls inside keep still. Apply it to anything that is repeated many times on a page.
+- Used by: `prism-button`, `prism-icon-button`, interactive `prism-tag` (and its remove
+  button), `prism-card-title` toggle, clickable and choice `prism-card`, `prism-segment`.
+
+**Check draw (shared).** `CheckMark` (`src/internal/check-mark.ts`) draws a tick by
+stroke offset on a spring and takes over mid-flight. Used by `prism-option`, a
+`checkable` `prism-menu-item` and the `prism-card-select` check. It snaps on first paint,
+while hidden and under reduced motion. A "done" confirmation is not provided: it would
+need its own timing and placement per component.
+
+- `prism-menu-item[checkable]` is `menuitemcheckbox` with `aria-checked` (`checked`).
+  Activating flips it and the menu stays open. `prism-menu-select` detail is
+  `{ item, value, checked }`. Plain items in a menu with checkable items get the same
+  start padding so labels line up.
+- `prism-card-select` with a checkbox control now draws its own box and tick. The radio
+  control keeps its native dot.
+
+**Segmented control.**
+
+| Element                   | Role and props                                                                                                                                                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prism-segmented-control` | One choice from a few. `role="radiogroup"` named by `label` (required, or `hide-label`). `value`, `name`, `required`, `disabled`, `size` (sm, md, lg), `full-width`; `description` and `error` slots. Form associated; owns value and keys. |
+| `prism-segment`           | One option. Native `button role="radio"` with `aria-checked`. `value`, `disabled`, `label` (needed when icon only); `icon` slot and default slot.                                                                                           |
+
+- Keys: roving tab stop (the picked segment, else the first enabled), arrows move and pick
+  (Left and Right swap in right-to-left), Home and End, disabled segments are skipped.
+  `input` and `change` fire on user picks only. Reset returns to the starting segment.
+- Indicator: one element sized by two edge springs (`LEAD` 44/0.74 for the edge in the
+  direction of travel, `TRAIL` 34/0.9 for the other), drawn with `translateX` and
+  `scaleX` of a fixed 100px box, so only transform and opacity animate. The shape stretches
+  in transit and settles on the segment in about 300ms. It is clamped to the track, so
+  overshoot never leaves it. Reversing mid-move takes over from the current edges. Resizes
+  and slot changes snap. The first pick from nothing fades in place.
+- Contrast: the picked segment is on-accent text over the accent indicator. Focus is an
+  inset ring. Forced colors: Highlight indicator, HighlightText for the picked segment,
+  GrayText when disabled, a focus outline only while focused.
+
 ### PROPOSED, not tokens yet
 
 These values live as component-private `--_*` custom properties built from

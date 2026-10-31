@@ -26,7 +26,7 @@ const isItem = (el: Element): el is PrismMenuItem =>
  * @csspart trigger-base - The trigger's inner button element (re-exported from the icon button).
  * @csspart popup - The menu surface.
  * @cssstate open - The menu is open.
- * @fires prism-menu-select - An item was activated. `detail: { item, value }`.
+ * @fires prism-menu-select - An item was activated. `detail: { item, value, checked }`.
  */
 export class PrismMenu extends LitElement {
   static override styles = css`
@@ -223,10 +223,11 @@ export class PrismMenu extends LitElement {
       new CustomEvent('prism-menu-select', {
         bubbles: true,
         composed: true,
-        detail: { item, value: item.resolvedValue },
+        detail: { item, value: item.resolvedValue, checked: item.checked },
       }),
     );
-    this.hide();
+    // A checkbox item stays open, so the tick is seen drawing.
+    if (!item.checkable) this.hide();
   };
 
   #onFocusout = (event: FocusEvent): void => {

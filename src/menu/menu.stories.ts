@@ -32,3 +32,19 @@ export const MoveMenu: StoryObj = {
       <prism-menu-item>Move to bottom</prism-menu-item>
     </prism-menu>`,
 };
+
+/**
+ * Checkbox items: `checkable` (and `checked`) turn a row into a menuitemcheckbox.
+ * Activating one flips it and the menu stays open, so the tick is seen drawing
+ * itself in on a spring (and out again). Plain items keep room for the tick so
+ * all the labels line up.
+ */
+export const CheckableItems: StoryObj = {
+  render: () =>
+    html`<prism-menu label="View options">
+      <prism-menu-item checkable checked>Show grid</prism-menu-item>
+      <prism-menu-item checkable>Show rulers</prism-menu-item>
+      <prism-menu-item checkable disabled>Show guides</prism-menu-item>
+      <prism-menu-item>Reset view</prism-menu-item>
+    </prism-menu>`,
+};

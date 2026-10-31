@@ -1,15 +1,7 @@
-import { LitElement, css, html, svg } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
-import { canAnimate } from '../internal/choice-motion.js';
-import {
-  CHECK_OFF_TUNE,
-  CHECK_ON_TUNE,
-  checkLook,
-  type CheckPose,
-} from '../internal/field-motion.js';
+import { CheckMark, checkMarkStyles } from '../internal/check-mark.js';
 import { uniqueId } from '../internal/ids.js';
-import { SpringMotion } from '../internal/spring-motion.js';
 import { stateLayer } from '../internal/state-layer.js';
 
 /**
@@ -26,6 +18,7 @@ import { stateLayer } from '../internal/state-layer.js';
  */
 export class PrismOption extends LitElement {
   static override styles = [
+    checkMarkStyles,
     css`
       :host {
         display: block;
@@ -38,25 +31,6 @@ export class PrismOption extends LitElement {
         display: flex;
         align-items: center;
         gap: var(--prism-space-2, 0.5rem);
-      }
-      [part='check'] {
-        display: grid;
-        place-items: center;
-        inline-size: 1em;
-        block-size: 1em;
-      }
-      [part='check'] svg {
-        inline-size: 100%;
-        block-size: 100%;
-        overflow: visible;
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 1.75;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-      [part='mark'] {
-        stroke-dasharray: 1 1;
       }
     `,
     stateLayer("[part='base']"),
@@ -71,15 +45,7 @@ export class PrismOption extends LitElement {
   @property() label = '';
 
   readonly #internals = this.attachInternals();
-  #selected = false;
-  readonly #check = new SpringMotion<'c', 'mark' | 'box'>(
-    ['c'],
-    {
-      mark: { el: () => this.renderRoot?.querySelector('[part="mark"]') },
-      box: { el: () => this.renderRoot?.querySelector('[part="check"] svg') },
-    },
-    (pose) => checkLook(pose),
-  );
+  readonly #check = new CheckMark(this);
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -98,7 +64,8 @@ export class PrismOption extends LitElement {
   /** @internal set by the select. */
   setChoiceState(selected: boolean, active: boolean): void {
     const s = this.#internals.states;
-    this.#moveCheck(selected);
+    this.#check.set(selected);
+    this.requestUpdate();
     if (selected) s.add('selected');
     else s.delete('selected');
     if (active) s.add('active');
@@ -106,24 +73,8 @@ export class PrismOption extends LitElement {
     this.setAttribute('aria-selected', String(selected));
   }
 
-  /** Draws the check in or out on springs; never on first paint or while hidden. */
-  #moveCheck(selected: boolean): void {
-    if (selected === this.#selected && this.#check.target) return;
-    this.#selected = selected;
-    const to: CheckPose = { c: selected ? 1 : 0 };
-    const svgEl = this.renderRoot?.querySelector('[part="check"] svg');
-    if (
-      !this.#check.target ||
-      !canAnimate(this, svgEl ?? null) ||
-      !this.checkVisibility?.()
-    )
-      this.#check.snap(to);
-    else this.#check.go(to, () => (selected ? CHECK_ON_TUNE : CHECK_OFF_TUNE));
-    this.requestUpdate();
-  }
-
   override firstUpdated(): void {
-    if (!this.#check.target) this.#check.snap({ c: this.#selected ? 1 : 0 });
+    this.#check.ready();
   }
 
   override updated(): void {
@@ -134,22 +85,6 @@ export class PrismOption extends LitElement {
   }
 
   override render() {
-    const { mark, box } = checkLook({ c: this.#selected ? 1 : 0 });
-    return html`<div part="base">
-      <span part="check" aria-hidden="true"
-        ><svg
-          viewBox="0 0 16 16"
-          style=${styleMap({ transform: box.transform })}
-        >
-          ${svg`<path
-            part="mark"
-            pathLength="1"
-            d="M3.5 8.5 6.6 11.6 12.5 4.6"
-            style=${styleMap({ 'stroke-dashoffset': mark.strokeDashoffset, opacity: mark.opacity })}
-          />`}
-        </svg></span
-      >
-      <slot></slot>
-    </div>`;
+    return html`<div part="base">${this.#check.render()}<slot></slot></div>`;
   }
 }
