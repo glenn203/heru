@@ -342,6 +342,48 @@ Not built: a **status dot** (it would duplicate Tag `health` and `presence`,
 and Badge `status`; status stays as words) and **prism-icon**
 (the icon system is undecided; stories keep a placeholder svg).
 
+### Switch and Running indicator (names provisional)
+
+| Element                   | Role and props                                                                                                                                                                                                          |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prism-switch`            | On/off setting that applies at once. Native `button role="switch"` with `aria-checked`. `label` (required), `checked`, `disabled`, `name`, `value` (default "on"), `size` (sm, md, lg), `hide-label`, `label-position`. |
+| `prism-running-indicator` | Something is running now. `role="status"`. `label` (default "Running"), `show-label`, `size` (sm 16px, md 24px, lg 40px), `tone` (default accent).                                                                      |
+
+**Switch.**
+
+- Flat and wide: track 24, 28 and 32px tall (sm, md, lg) and about twice as wide, a
+  pill thumb a quarter wider than tall, no shadow and no gradient. The smallest is
+  still a 24px target.
+- Joins the form: submits `value` under `name` while on, nothing while off. A reset
+  returns it to how it started. Fires `input` and `change` after a user toggle,
+  not after a property change.
+- State layer: the track uses `stateLayer()` like every clickable surface, with the
+  overlay drawn above the wash and below the thumb. Off: hover 6%, pressed 12%. On
+  (selected): 11%, and 15% when hovered. Disabled: no change.
+- Motion (about 240ms in all). The thumb slides on the spring ease while it
+  stretches along its travel, with the trailing edge held, to about 1.55 wide by
+  0.82 tall at 36% of the way, then settles with a small overshoot. The accent
+  spreads over the track from the thumb (a growing clip circle, 200ms) and a single
+  pass of light crosses the track. `--prism-switch-duration` sets the stretch time.
+  With `prefers-reduced-motion: reduce` it changes at once: no slide, stretch, wash
+  or glint. Programmatic changes slide but do not stretch.
+- Colour and contrast: off is `color-surface` with a `color-border-strong` edge and a
+  `color-text-muted` thumb; on is `color-accent` with a `color-on-accent` thumb. The
+  edge against the page and the thumb against its track are both >= 3:1 at rest,
+  hover and pressed, in light and dark (`switch.test.ts` and the `MATRIX`). On or
+  off is never colour alone: the thumb sits at the start or the end.
+
+**Running indicator.**
+
+- A dot with three rings that spread to 2.6x and fade, one third of the 1.6s cycle
+  apart, with the dot breathing as each leaves. Accent rings drift from violet
+  through blue to cyan; other tones keep one hue.
+- The dot is the tone's solid colour, >= 3:1 on the page in every tone and both
+  themes. The label is always in the page for screen readers.
+- With `prefers-reduced-motion: reduce` nothing moves; two soft rings stay as a halo.
+- In a card header use `size="sm"` with `data-prism-card-icon`, which seats it ahead
+  of the title (see the Running job recipe). Swap it for a Tag when the job ends.
+
 #### Tone palette
 
 Six tones: neutral, info, success, warning, danger, accent. They live in

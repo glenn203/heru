@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { html, svg, type TemplateResult } from 'lit';
+import { html, render, svg, type TemplateResult } from 'lit';
 import './define.js';
 import '../button/define.js';
 import '../select/define.js';
@@ -9,6 +9,8 @@ import '../tag/define.js';
 import '../badge/define.js';
 import '../avatar/define.js';
 import '../progress/define.js';
+import '../running-indicator/define.js';
+import '../switch/define.js';
 import '../description-list/define.js';
 import { iconRefresh } from '../internal/icons.js';
 import { createDashboardRows } from './dashboard-rows.recipe.js';
@@ -114,14 +116,22 @@ export const ResourceOverview: Story = {
     group(
       'Resources',
       html`<prism-card type="clickable" raised>
-        ${dot('square')}
+        <prism-running-indicator
+          slot="header"
+          data-prism-card-icon
+          size="sm"
+          tone="success"
+          label="lumen-board-01 is online"
+        ></prism-running-indicator>
         <prism-card-title
           slot="header"
           level="3"
           href="#resource-lumen-board-01"
           >lumen-board-01</prism-card-title
         >
-        <prism-tag slot="header" job="health" tone="success">Online</prism-tag>
+        <prism-tag slot="header" job="health" tone="success" emphasis="ghost"
+          >Online</prism-tag
+        >
         <prism-card-description slot="header"
           >Lumen Board 9, Aurora Bay</prism-card-description
         >
@@ -943,4 +953,91 @@ export const ProjectTask: Story = {
  */
 export const DashboardRows: Story = {
   render: () => createDashboardRows(),
+};
+
+// ---------------------------------------------------------------------------
+// 15. Running job
+// ---------------------------------------------------------------------------
+
+/**
+ * A card for a job that is running now. While it runs, a small Running
+ * indicator sits in the header ahead of the title (it is a status region, so
+ * screen readers hear "Running"), the Tag says "In progress" and a Progress bar
+ * shows the amount done. A Switch inside the card sets whether to notify you
+ * when it finishes; it takes effect at once, so the card has no Save button.
+ * **Stop** ends the job: the indicator goes, the Tag says "Stopped" and the
+ * action becomes **Run again**. Under reduced motion the indicator's rings
+ * hold still. The words, not the motion, carry the status.
+ */
+export const RunningJob: Story = {
+  render: () => {
+    const host = document.createElement('div');
+    let running = true;
+    let notify = true;
+    const draw = () =>
+      render(
+        group(
+          'Exports',
+          html`<prism-card standalone raised>
+            ${
+              running
+                ? html`<prism-running-indicator
+                    slot="header"
+                    data-prism-card-icon
+                    size="sm"
+                    label="Export running"
+                  ></prism-running-indicator>`
+                : dot('circle')
+            }
+            <prism-card-title slot="header" level="3"
+              >Lumen Bloom export</prism-card-title
+            >
+            <prism-tag
+              slot="header"
+              job="status"
+              tone=${running ? 'accent' : 'neutral'}
+              >${running ? 'In progress' : 'Stopped'}</prism-tag
+            >
+            <prism-card-description slot="header"
+              >Preview render for 12 panels</prism-card-description
+            >
+            <prism-progress
+              label="Panels rendered"
+              value="7"
+              max="12"
+              value-text="7 of 12 panels"
+              show-value
+              tone=${running ? 'accent' : 'neutral'}
+            ></prism-progress>
+            <prism-switch
+              label="Notify me when it finishes"
+              size="sm"
+              style="margin-block-start:16px"
+              ?checked=${notify}
+              @change=${(e: Event) => {
+                notify = (e.target as HTMLInputElement & { checked: boolean })
+                  .checked;
+              }}
+            ></prism-switch>
+            <prism-card-meta slot="footer"
+              >${running ? 'Started 2 min ago' : 'Stopped 1 min ago'}</prism-card-meta
+            >
+            <prism-card-actions slot="footer">
+              <prism-button
+                variant="secondary"
+                @click=${() => {
+                  running = !running;
+                  draw();
+                }}
+                >${running ? 'Stop' : 'Run again'}</prism-button
+              >
+            </prism-card-actions>
+          </prism-card>`,
+          '460px',
+        ),
+        host,
+      );
+    draw();
+    return host;
+  },
 };

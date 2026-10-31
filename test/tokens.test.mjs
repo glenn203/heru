@@ -716,6 +716,24 @@ const MATRIX = [
       ['color.text', 'icon'], // check mark
     ],
   ],
+  // Switch. Off: surface track, a border-strong edge and a muted thumb. On: the
+  // accent wash with an on-accent thumb. The overlay is the on-colour at the
+  // state's alpha over the fill, under the thumb.
+  [
+    'switch (off)',
+    'color.surface',
+    'color.text',
+    [
+      ['color.border-strong', 'border'], // track edge
+      ['color.text-muted', 'icon'], // thumb on the track
+    ],
+  ],
+  [
+    'switch (on)',
+    'color.accent',
+    'color.on-accent',
+    [['color.on-accent', 'icon']], // thumb on the wash
+  ],
   [
     'icon button',
     null,

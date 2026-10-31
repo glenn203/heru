@@ -176,185 +176,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/badge/badge.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Updates 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
-          "name": "PrismBadge",
-          "cssParts": [
-            {
-              "description": "The badge box.",
-              "name": "base"
-            },
-            {
-              "description": "The default status dot.",
-              "name": "dot"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Status only. Replaces the default dot. Decorative.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "attribute": "job",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "attribute": "count"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showZero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "attribute": "show-zero"
-            },
-            {
-              "kind": "field",
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "attribute": "status",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "effectiveTone",
-              "type": {
-                "text": "TagTone"
-              },
-              "description": "The tone in effect.",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "fieldName": "job"
-            },
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "fieldName": "count"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-zero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "fieldName": "showZero"
-            },
-            {
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "fieldName": "status"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "A zero count that is hidden.",
-              "name": "empty"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-badge",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismBadge",
-          "declaration": {
-            "name": "PrismBadge",
-            "module": "src/badge/badge.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/button/button.ts",
       "declarations": [
         {
@@ -4520,6 +4341,185 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/badge/badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Updates 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
+          "name": "PrismBadge",
+          "cssParts": [
+            {
+              "description": "The badge box.",
+              "name": "base"
+            },
+            {
+              "description": "The default status dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Status only. Replaces the default dot. Decorative.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showZero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "attribute": "show-zero"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveTone",
+              "type": {
+                "text": "TagTone"
+              },
+              "description": "The tone in effect.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "fieldName": "job"
+            },
+            {
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "fieldName": "count"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-zero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "fieldName": "showZero"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "fieldName": "status"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A zero count that is hidden.",
+              "name": "empty"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismBadge",
+          "declaration": {
+            "name": "PrismBadge",
+            "module": "src/badge/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/description-list/description-list-item.ts",
       "declarations": [
         {
@@ -5988,7 +5988,7 @@
               }
             }
           ],
-          "description": "Private shared state layer for ANY interactive surface: buttons, options,\ntree rows, list items, tabs, clickable cards, icon buttons.\n\nContract (theme-facing, set from outside via ::part()):\n  --_bg   resting fill (may be `transparent`); never changes with state\n  --_on   text/icon colour on that fill\n  --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used\n          ONLY when color-mix() is unsupported (Safari < 16.2 etc.)\n\nAlpha overlay: background-color stays var(--_bg); each state\npaints background-image: linear-gradient(X, X) with\n  X = color-mix(in srgb, var(--_on) N%, transparent)\ni.e. the element's own text colour at N% alpha composited over its fill.\nThe resolved overlay colour is exposed as --_prism-state-overlay.\nThe overlay paints under a transparent border too (background-clip:\nborder-box), so a border that should follow the fill uses `transparent`.\n\nStates (in the shadow root, so ::part() themes don't need per-state rules):\n  hover     8%  :hover inside"
+          "description": "Private shared state layer for ANY interactive surface: buttons, options,\ntree rows, list items, tabs, clickable cards, icon buttons.\n\nContract (theme-facing, set from outside via ::part()):\n  --_bg   resting fill (may be `transparent`); never changes with state\n  --_on   text/icon colour on that fill\n  --_bg-hover / --_bg-pressed / --_bg-selected   optional fixed fills, used\n          ONLY when color-mix() is unsupported (Safari < 16.2 etc.)\n\nAlpha overlay: background-color stays var(--_bg); each state\npaints background-image: linear-gradient(X, X) with\n  X = color-mix(in srgb, var(--_on) N%, transparent)\ni.e. the element's own text colour at N% alpha composited over its fill.\nThe resolved overlay colour is exposed as --_prism-state-overlay.\nThe overlay paints under a transparent border too (background-clip:\nborder-box), so a border that should follow the fill uses `transparent`.\n\nStates (in the shadow root, so ::part() themes don't need per-state rules):\n  hover     6%  :hover inside"
         }
       ],
       "exports": [
@@ -6630,7 +6630,7 @@
               }
             }
           ],
-          "description": "PROPOSED tone palette for Tag, Badge and Progress. Component-private\n`--_tone-*` properties; NOT tokens and nothing is added to tokens/*.json.\n\nThe Tag page names six tones: neutral, info, success, warning, danger and\naccent. The tokens have no success, warning or info colour yet, so those\nthree are stand-in OKLCH values here. Neutral, accent and danger reuse the\nexisting slate, accent and red values. Every pair is contrast-tested by\ntest/tokens.test.mjs (\"tone palette\"), which reads this file:\nlow text >= 4.5:1 on its tint and on the page, high text >= 4.5:1 on its\nfill, fills >= 3:1 on the page and on the progress track.\n\n  low  = light tint fill with coloured text (the default emphasis)\n  high = solid fill with white text\n\n`attr` is the host attribute that carries the tone. The theme reads the four\nproperties (`--_tone-low-bg`, `--_tone-low-fg`, `--_tone-high-bg`,\n`--_tone-high-fg`) from the host."
+          "description": "Tone palette for Tag, Badge and Progress. Component-private `--_tone-*`\nproperties that read the colour roles in tokens (neutral, accent, info,\nsuccess, warning, danger), so every tone follows the active theme, light or\ndark. The hex after each role is its light sRGB value, used when the token\nstylesheet is not loaded. test/tokens.test.mjs reads this file and checks\nthe fallbacks and every pair, in both themes, on sRGB and Display P3:\nlow text >= 4.5:1 on its tint and on the page, high text >= 4.5:1 on its\nfill, fills >= 3:1 on the page and on the progress track.\n\n  low  = tint fill with coloured text (the default emphasis)\n  high = solid fill with its on-colour text\n\n`attr` is the host attribute that carries the tone. The theme reads the four\nproperties (`--_tone-low-bg`, `--_tone-low-fg`, `--_tone-high-bg`,\n`--_tone-high-fg`) from the host."
         }
       ],
       "exports": [
@@ -8216,6 +8216,226 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/progress/progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL.\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
+          "name": "PrismProgress",
+          "cssParts": [
+            {
+              "description": "The row (label, value).",
+              "name": "base"
+            },
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The written value.",
+              "name": "value"
+            },
+            {
+              "description": "The bar's track.",
+              "name": "track"
+            },
+            {
+              "description": "The filled part.",
+              "name": "fill"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showValue",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "attribute": "show-value"
+            },
+            {
+              "kind": "field",
+              "name": "valueText",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "attribute": "value-text"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "attribute": "hide-label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#determinate",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#now",
+              "privacy": "private",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#text",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-value",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "fieldName": "showValue"
+            },
+            {
+              "name": "value-text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "fieldName": "valueText"
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "fieldName": "hideLabel"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "No value.",
+              "name": "indeterminate"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-progress",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismProgress",
+          "declaration": {
+            "name": "PrismProgress",
+            "module": "src/progress/progress.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/password-input/password-input.ts",
       "declarations": [
         {
@@ -9102,32 +9322,31 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/progress/progress.ts",
+      "path": "src/running-indicator/running-indicator.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL.\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
-          "name": "PrismProgress",
+          "description": "Shows that something is running right now: a soft dot with rings that spread\noutward and fade, like light fanning out of a prism. Use it beside a task or\ncard title while a job is in progress, and remove it (or swap it for a Tag\nthat says \"Done\") when the job ends.\n\n- `role=\"status\"` with a written label (\"Running\" by default). The label is\n  always in the page for screen readers; `show-label` also shows it.\n  Change `label` to say what is running: \"Export running\".\n- Sizes: `sm` 16px, `md` 24px (default), `lg` 40px.\n- The default tone is `accent`, whose rings drift from violet through blue to\n  cyan. Other tones keep one colour.\n- Motion: the rings repeat every 1.6s. Under `prefers-reduced-motion:\n  reduce` they hold still as a soft halo. The dot is always there, so motion\n  is never the only signal.\n- It does not show progress. For a known amount of work use Progress.",
+          "name": "PrismRunningIndicator",
+          "cssProperties": [
+            {
+              "description": "Time for one ring to spread and fade.",
+              "name": "--prism-running-duration",
+              "default": "1600ms"
+            }
+          ],
           "cssParts": [
             {
-              "description": "The row (label, value).",
+              "description": "The status wrapper.",
               "name": "base"
             },
             {
-              "description": "The visible label.",
+              "description": "The SVG with the dot and rings.",
+              "name": "graphic"
+            },
+            {
+              "description": "The label text (visually hidden unless `show-label`).",
               "name": "label"
-            },
-            {
-              "description": "The written value.",
-              "name": "value"
-            },
-            {
-              "description": "The bar's track.",
-              "name": "track"
-            },
-            {
-              "description": "The filled part.",
-              "name": "fill"
             }
           ],
           "members": [
@@ -9137,57 +9356,30 @@
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "default": "'Running'",
+              "description": "What is running, for screen readers. Default \"Running\".",
               "attribute": "label"
             },
             {
               "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "number | undefined"
-              },
-              "description": "Current value from 0 to `max`. Leave off when unknown.",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "100",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showValue",
+              "name": "showLabel",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Writes the value beside the label.",
-              "attribute": "show-value"
+              "description": "Also shows the label as text beside the dot.",
+              "attribute": "show-label"
             },
             {
               "kind": "field",
-              "name": "valueText",
+              "name": "size",
               "type": {
-                "text": "string"
+                "text": "'sm' | 'md' | 'lg'"
               },
-              "default": "''",
-              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
-              "attribute": "value-text"
-            },
-            {
-              "kind": "field",
-              "name": "hideLabel",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Hides the label from sight (it still names the bar).",
-              "attribute": "hide-label"
+              "default": "'md'",
+              "description": "Size: sm (16px), md (24px) or lg (40px).",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -9196,41 +9388,9 @@
                 "text": "TagTone"
               },
               "default": "'accent'",
+              "description": "Colour: accent (default), neutral, info, success, warning or danger.",
               "attribute": "tone",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#determinate",
-              "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#now",
-              "privacy": "private",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#text",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
             }
           ],
           "attributes": [
@@ -9239,52 +9399,27 @@
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "default": "'Running'",
+              "description": "What is running, for screen readers. Default \"Running\".",
               "fieldName": "label"
             },
             {
-              "name": "value",
-              "type": {
-                "text": "number | undefined"
-              },
-              "description": "Current value from 0 to `max`. Leave off when unknown.",
-              "fieldName": "value"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "100",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-value",
+              "name": "show-label",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Writes the value beside the label.",
-              "fieldName": "showValue"
+              "description": "Also shows the label as text beside the dot.",
+              "fieldName": "showLabel"
             },
             {
-              "name": "value-text",
+              "name": "size",
               "type": {
-                "text": "string"
+                "text": "'sm' | 'md' | 'lg'"
               },
-              "default": "''",
-              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
-              "fieldName": "valueText"
-            },
-            {
-              "name": "hide-label",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Hides the label from sight (it still names the bar).",
-              "fieldName": "hideLabel"
+              "default": "'md'",
+              "description": "Size: sm (16px), md (24px) or lg (40px).",
+              "fieldName": "size"
             },
             {
               "name": "tone",
@@ -9292,30 +9427,747 @@
                 "text": "TagTone"
               },
               "default": "'accent'",
+              "description": "Colour: accent (default), neutral, info, success, warning or danger.",
               "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "No value.",
-              "name": "indeterminate"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "prism-progress",
+          "tagName": "prism-running-indicator",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PrismProgress",
+          "name": "PrismRunningIndicator",
           "declaration": {
-            "name": "PrismProgress",
-            "module": "src/progress/progress.ts"
+            "name": "PrismRunningIndicator",
+            "module": "src/running-indicator/running-indicator.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/select/select.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A headless single-value select (APG select-only combobox). Focus stays on\nthe trigger; the active option is exposed with aria-activedescendant via\nelement reflection to the light-DOM `prism-option` children.",
+          "name": "PrismSelect",
+          "cssParts": [
+            {
+              "description": "The label.",
+              "name": "label"
+            },
+            {
+              "description": "Wrapper around trigger, listbox and attached error.",
+              "name": "field"
+            },
+            {
+              "description": "The combobox (focus target).",
+              "name": "trigger"
+            },
+            {
+              "description": "Selected label or placeholder.",
+              "name": "value"
+            },
+            {
+              "description": "Chevron.",
+              "name": "indicator"
+            },
+            {
+              "description": "The popup list.",
+              "name": "listbox"
+            },
+            {
+              "description": "Helper text wrapper.",
+              "name": "description"
+            },
+            {
+              "description": "Attached error status box.",
+              "name": "error"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`prism-option` elements.",
+              "name": ""
+            },
+            {
+              "description": "Helper text. Replaced by the error while invalid.",
+              "name": "description"
+            },
+            {
+              "description": "Error text, shown in the attached status box when invalid.",
+              "name": "error"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "#validity",
+              "privacy": "private",
+              "readonly": true,
+              "default": "new FieldValidityController(this)"
+            },
+            {
+              "kind": "field",
+              "name": "#id",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#defaultValue",
+              "privacy": "private",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "#typeahead",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "#typeaheadTimer",
+              "privacy": "private",
+              "type": {
+                "text": "ReturnType<typeof setTimeout> | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "PrismOption[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedOption",
+              "type": {
+                "text": "PrismOption | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showPicker",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Mirrors native `showPicker()`. NAME PENDING."
+            },
+            {
+              "kind": "method",
+              "name": "hidePicker",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#initialValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formStateRestoreCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "s",
+                  "type": {
+                    "text": "string | File | FormData | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#enabledIndexes",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#setOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "active",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#select",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#move",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "delta",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#typeaheadTo",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "char",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "#onDocPointer",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#onListPointer",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "commit",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "toggle",
+              "type": {
+                "text": "ToggleEvent"
+              },
+              "description": "Listbox opened or closed (NAME PENDING)."
+            },
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "User picked a different option."
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "User picked a different option."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "The listbox is shown.",
+              "name": "open"
+            },
+            {
+              "description": "Fails validation (after interaction or submit).",
+              "name": "invalid"
+            },
+            {
+              "description": "Disabled.",
+              "name": "disabled"
+            },
+            {
+              "description": "No value selected.",
+              "name": "placeholder"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "FormAssociated",
+              "module": "/src/internal/form-associated.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-select",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismSelect",
+          "declaration": {
+            "name": "PrismSelect",
+            "module": "src/select/select.ts"
           }
         }
       ]
@@ -10204,58 +11056,45 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/select/select.ts",
+      "path": "src/switch/switch.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "A headless single-value select (APG select-only combobox). Focus stays on\nthe trigger; the active option is exposed with aria-activedescendant via\nelement reflection to the light-DOM `prism-option` children.",
-          "name": "PrismSelect",
+          "description": "A switch: an on/off control that takes effect right away, like a light\nswitch. Use it for a setting (\"Auto-refresh\"), not for a choice that is only\nsaved when a form is submitted (use a checkbox there).\n\n- A native `<button role=\"switch\" aria-checked>` in shadow DOM, so Space and\n  Enter toggle it and it takes part in the tab order.\n- Named by `label` (and any default-slot content). The label is visible by\n  default; `hide-label` hides it from sight only.\n- Joins the surrounding form: submits `value` (default \"on\") under `name`\n  while on, and nothing while off. Resets to its starting state with the form.\n- Fires `input` and `change` after each user toggle.\n- Motion: the thumb slides and stretches like a drop of liquid, then springs\n  back into shape (about 240ms), while the track fills with the accent from\n  the thumb outward. Under `prefers-reduced-motion: reduce` it just changes.\n- State is never colour alone: the thumb sits at the start when off and at\n  the end when on.\n- The hover, selected and pressed fills come from the shared state layer.",
+          "name": "PrismSwitch",
+          "cssProperties": [
+            {
+              "description": "Length of the stretch and spring.",
+              "name": "--prism-switch-duration",
+              "default": "240ms"
+            }
+          ],
           "cssParts": [
             {
-              "description": "The label.",
+              "description": "Wraps the control and its label.",
+              "name": "container"
+            },
+            {
+              "description": "The native button, drawn as the track.",
+              "name": "base"
+            },
+            {
+              "description": "The accent fill that spreads across the track when on.",
+              "name": "wash"
+            },
+            {
+              "description": "The sliding pill.",
+              "name": "thumb"
+            },
+            {
+              "description": "The visible label.",
               "name": "label"
-            },
-            {
-              "description": "Wrapper around trigger, listbox and attached error.",
-              "name": "field"
-            },
-            {
-              "description": "The combobox (focus target).",
-              "name": "trigger"
-            },
-            {
-              "description": "Selected label or placeholder.",
-              "name": "value"
-            },
-            {
-              "description": "Chevron.",
-              "name": "indicator"
-            },
-            {
-              "description": "The popup list.",
-              "name": "listbox"
-            },
-            {
-              "description": "Helper text wrapper.",
-              "name": "description"
-            },
-            {
-              "description": "Attached error status box.",
-              "name": "error"
             }
           ],
           "slots": [
             {
-              "description": "`prism-option` elements.",
+              "description": "Extra label content, shown after `label`.",
               "name": ""
-            },
-            {
-              "description": "Helper text. Replaced by the error while invalid.",
-              "name": "description"
-            },
-            {
-              "description": "Error text, shown in the attached status box when invalid.",
-              "name": "error"
             }
           ],
           "members": [
@@ -10270,13 +11109,24 @@
             },
             {
               "kind": "field",
-              "name": "size",
+              "name": "checked",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "boolean"
               },
-              "default": "'md'",
-              "attribute": "size",
+              "default": "false",
+              "description": "On when set. Reflected.",
+              "attribute": "checked",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "description": "Value submitted with the form while on.",
+              "attribute": "value"
             },
             {
               "kind": "field",
@@ -10285,49 +11135,53 @@
                 "text": "string"
               },
               "default": "''",
+              "description": "Required. What the switch controls: \"Auto-refresh\".",
               "attribute": "label"
             },
             {
               "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "placeholder"
-            },
-            {
-              "kind": "field",
-              "name": "required",
+              "name": "hideLabel",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "required",
-              "reflects": true
+              "description": "Hides the label from sight (it still names the switch).",
+              "attribute": "hide-label"
             },
             {
               "kind": "field",
-              "name": "open",
+              "name": "labelPosition",
               "type": {
-                "text": "boolean"
+                "text": "'start' | 'end'"
               },
-              "default": "false",
-              "attribute": "open",
+              "default": "'end'",
+              "description": "Where the label sits: after the switch (`end`, default) or before it.",
+              "attribute": "label-position",
               "reflects": true
             },
             {
               "kind": "field",
-              "name": "trigger",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Size: sm, md or lg.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "button",
+              "type": {
+                "text": "HTMLButtonElement"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "thumb",
               "type": {
                 "text": "HTMLElement"
               },
@@ -10336,100 +11190,10 @@
             },
             {
               "kind": "field",
-              "name": "activeIndex",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private",
-              "default": "-1"
-            },
-            {
-              "kind": "field",
-              "name": "#validity",
-              "privacy": "private",
-              "readonly": true,
-              "default": "new FieldValidityController(this)"
-            },
-            {
-              "kind": "field",
-              "name": "#id",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#defaultValue",
+              "name": "#defaultChecked",
               "privacy": "private",
               "type": {
-                "text": "string | null"
-              },
-              "default": "null"
-            },
-            {
-              "kind": "field",
-              "name": "#typeahead",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "default": "''"
-            },
-            {
-              "kind": "field",
-              "name": "#typeaheadTimer",
-              "privacy": "private",
-              "type": {
-                "text": "ReturnType<typeof setTimeout> | undefined"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "options",
-              "type": {
-                "text": "PrismOption[]"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "selectedOption",
-              "type": {
-                "text": "PrismOption | null"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "validity",
-              "type": {
-                "text": "ValidityState"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "validationMessage",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "checkValidity",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "reportValidity",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
+                "text": "boolean | undefined"
               }
             },
             {
@@ -10452,32 +11216,13 @@
             },
             {
               "kind": "method",
-              "name": "showPicker",
+              "name": "click",
               "return": {
                 "type": {
                   "text": "void"
                 }
               },
-              "description": "Mirrors native `showPicker()`. NAME PENDING."
-            },
-            {
-              "kind": "method",
-              "name": "hidePicker",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "#initialValue",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
+              "description": "Toggles the switch as if the user had pressed it."
             },
             {
               "kind": "method",
@@ -10498,7 +11243,7 @@
               },
               "parameters": [
                 {
-                  "name": "s",
+                  "name": "state",
                   "type": {
                     "text": "string | File | FormData | null"
                   }
@@ -10507,139 +11252,34 @@
             },
             {
               "kind": "method",
-              "name": "#enabledIndexes",
+              "name": "#toggle",
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "number[]"
+                  "text": "void"
                 }
               }
             },
             {
               "kind": "method",
-              "name": "#setOpen",
+              "name": "#stretch",
               "privacy": "private",
               "return": {
                 "type": {
                   "text": "void"
                 }
               },
-              "parameters": [
-                {
-                  "name": "open",
-                  "type": {
-                    "text": "boolean"
-                  }
-                },
-                {
-                  "name": "active",
-                  "optional": true,
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
+              "description": "The liquid stretch: the thumb's trailing edge stays put while its leading\nedge runs ahead, then it settles with a small overshoot. Skipped when the\nuser asks for reduced motion."
             },
             {
               "kind": "method",
-              "name": "#select",
+              "name": "#duration",
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "void"
+                  "text": "number"
                 }
-              },
-              "parameters": [
-                {
-                  "name": "index",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#move",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "delta",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#typeaheadTo",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "char",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#onKeydown",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "#onDocPointer",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#onListPointer",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                },
-                {
-                  "name": "commit",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ]
+              }
             },
             {
               "kind": "field",
@@ -10784,35 +11424,38 @@
           ],
           "events": [
             {
-              "name": "toggle",
-              "type": {
-                "text": "ToggleEvent"
-              },
-              "description": "Listbox opened or closed (NAME PENDING)."
-            },
-            {
               "name": "input",
               "type": {
                 "text": "Event"
               },
-              "description": "User picked a different option."
+              "description": "After the user toggles the switch."
             },
             {
               "name": "change",
               "type": {
                 "text": "Event"
               },
-              "description": "User picked a different option."
+              "description": "After the user toggles the switch."
             }
           ],
           "attributes": [
             {
-              "name": "size",
+              "name": "checked",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "boolean"
               },
-              "default": "'md'",
-              "fieldName": "size"
+              "default": "false",
+              "description": "On when set. Reflected.",
+              "fieldName": "checked"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "description": "Value submitted with the form while on.",
+              "fieldName": "value"
             },
             {
               "name": "label",
@@ -10820,39 +11463,35 @@
                 "text": "string"
               },
               "default": "''",
+              "description": "Required. What the switch controls: \"Auto-refresh\".",
               "fieldName": "label"
             },
             {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "value"
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "placeholder"
-            },
-            {
-              "name": "required",
+              "name": "hide-label",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "required"
+              "description": "Hides the label from sight (it still names the switch).",
+              "fieldName": "hideLabel"
             },
             {
-              "name": "open",
+              "name": "label-position",
               "type": {
-                "text": "boolean"
+                "text": "'start' | 'end'"
               },
-              "default": "false",
-              "fieldName": "open"
+              "default": "'end'",
+              "description": "Where the label sits: after the switch (`end`, default) or before it.",
+              "fieldName": "labelPosition"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Size: sm, md or lg.",
+              "fieldName": "size"
             },
             {
               "name": "disabled",
@@ -10883,20 +11522,12 @@
           ],
           "cssStates": [
             {
-              "description": "The listbox is shown.",
-              "name": "open"
+              "description": "The switch is on.",
+              "name": "checked"
             },
             {
-              "description": "Fails validation (after interaction or submit).",
-              "name": "invalid"
-            },
-            {
-              "description": "Disabled.",
+              "description": "The switch is disabled.",
               "name": "disabled"
-            },
-            {
-              "description": "No value selected.",
-              "name": "placeholder"
             }
           ],
           "mixins": [
@@ -10909,17 +11540,17 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "prism-select",
+          "tagName": "prism-switch",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PrismSelect",
+          "name": "PrismSwitch",
           "declaration": {
-            "name": "PrismSelect",
-            "module": "src/select/select.ts"
+            "name": "PrismSwitch",
+            "module": "src/switch/switch.ts"
           }
         }
       ]
@@ -12286,6 +12917,894 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/text-input/text-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single-line text input. Covers text, email, url and tel via `type`.\nPasswords, search and one-time codes have their own components.",
+          "name": "PrismTextInput",
+          "cssParts": [
+            {
+              "description": "The label.",
+              "name": "label"
+            },
+            {
+              "description": "Wrapper around the native input.",
+              "name": "control"
+            },
+            {
+              "description": "The native input.",
+              "name": "input"
+            },
+            {
+              "description": "Wrapper around the description slot.",
+              "name": "description"
+            },
+            {
+              "description": "Attached error status box.",
+              "name": "error"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Helper text, announced with the input.",
+              "name": "description"
+            },
+            {
+              "description": "Error text, shown in the attached status box when invalid.",
+              "name": "error"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'text' | 'email' | 'url' | 'tel'"
+              },
+              "default": "'text'",
+              "description": "Native input type. Use the dedicated components for password/search/OTP.",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "inputmode",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Virtual keyboard hint, passed through.",
+              "attribute": "inputmode"
+            },
+            {
+              "kind": "field",
+              "name": "pattern",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Regular expression the value must match (native semantics).",
+              "attribute": "pattern"
+            },
+            {
+              "kind": "method",
+              "name": "renderControl",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "description": "Render the native control. It must carry id `${fieldId}-input`.",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Control height: sm, md or lg. Follows density.",
+              "attribute": "size",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Visible label text. Required for an accessible name.",
+              "attribute": "label",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Current value. The `value` attribute sets the initial (and reset) value; it is never reflected back.",
+              "attribute": "value",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Passed through to the native control (omitted when empty).",
+              "attribute": "autocomplete",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "minlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "minlength",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "maxlength",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "validityCtl",
+              "privacy": "protected",
+              "readonly": true,
+              "default": "new FieldValidityController(this)",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "fieldId",
+              "privacy": "protected",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#defaultValue",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "requiredMessage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "protected",
+              "default": "'Please fill out this field.'",
+              "description": "Message for an empty required field.",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "[ValidityStateFlags, string] | null"
+                }
+              },
+              "description": "Component-specific constraint beyond native validity.",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "implicitSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "protected",
+              "default": "true",
+              "description": "Single-line controls submit their form on Enter.",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "control",
+              "type": {
+                "text": "NativeControl | null"
+              },
+              "privacy": "protected",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setCustomValidity",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "message",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Custom error, like the native setCustomValidity().",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#custom",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formStateRestoreCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string | File | FormData | null"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formValue",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "description": "Value submitted with the form (subclasses may normalise).",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onInput",
+              "privacy": "protected",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onChange",
+              "privacy": "protected",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onBlur",
+              "privacy": "protected",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "protected",
+              "description": "A shadow input can't reach the outer form: do implicit submission.",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "a11yAttrs",
+              "privacy": "protected",
+              "description": "Shared attributes for the native control.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderAfter",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "description": "Extra content rendered after the error box (e.g. a counter).",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Native input event (composed).",
+              "name": "input"
+            },
+            {
+              "description": "Committed value change.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "'text' | 'email' | 'url' | 'tel'"
+              },
+              "default": "'text'",
+              "description": "Native input type. Use the dedicated components for password/search/OTP.",
+              "fieldName": "type"
+            },
+            {
+              "name": "inputmode",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Virtual keyboard hint, passed through.",
+              "fieldName": "inputmode"
+            },
+            {
+              "name": "pattern",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Regular expression the value must match (native semantics).",
+              "fieldName": "pattern"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "description": "Control height: sm, md or lg. Follows density.",
+              "fieldName": "size",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Visible label text. Required for an accessible name.",
+              "fieldName": "label",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Current value. The `value` attribute sets the initial (and reset) value; it is never reflected back.",
+              "fieldName": "value",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Passed through to the native control (omitted when empty).",
+              "fieldName": "autocomplete",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "minlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "minlength",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "maxlength",
+              "inheritedFrom": {
+                "name": "TextControl",
+                "module": "src/internal/text-control.ts"
+              }
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "Fails validation (after interaction or submit).",
+              "name": "invalid"
+            },
+            {
+              "description": "Disabled (own or via fieldset).",
+              "name": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "TextControl",
+            "module": "/src/internal/text-control.js"
+          },
+          "tagName": "prism-text-input",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismTextInput",
+          "declaration": {
+            "name": "PrismTextInput",
+            "module": "src/text-input/text-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/text-field/text-field.ts",
       "declarations": [
         {
@@ -13237,894 +14756,6 @@
           "declaration": {
             "name": "PrismTextField",
             "module": "src/text-field/text-field.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/text-input/text-input.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A single-line text input. Covers text, email, url and tel via `type`.\nPasswords, search and one-time codes have their own components.",
-          "name": "PrismTextInput",
-          "cssParts": [
-            {
-              "description": "The label.",
-              "name": "label"
-            },
-            {
-              "description": "Wrapper around the native input.",
-              "name": "control"
-            },
-            {
-              "description": "The native input.",
-              "name": "input"
-            },
-            {
-              "description": "Wrapper around the description slot.",
-              "name": "description"
-            },
-            {
-              "description": "Attached error status box.",
-              "name": "error"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Helper text, announced with the input.",
-              "name": "description"
-            },
-            {
-              "description": "Error text, shown in the attached status box when invalid.",
-              "name": "error"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "type",
-              "type": {
-                "text": "'text' | 'email' | 'url' | 'tel'"
-              },
-              "default": "'text'",
-              "description": "Native input type. Use the dedicated components for password/search/OTP.",
-              "attribute": "type"
-            },
-            {
-              "kind": "field",
-              "name": "inputmode",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Virtual keyboard hint, passed through.",
-              "attribute": "inputmode"
-            },
-            {
-              "kind": "field",
-              "name": "pattern",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Regular expression the value must match (native semantics).",
-              "attribute": "pattern"
-            },
-            {
-              "kind": "method",
-              "name": "renderControl",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "TemplateResult"
-                }
-              },
-              "description": "Render the native control. It must carry id `${fieldId}-input`.",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the control. Reflected.",
-              "attribute": "disabled",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Name used when the owning form is submitted.",
-              "attribute": "name",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "#fieldsetDisabled",
-              "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "form",
-              "type": {
-                "text": "HTMLFormElement | null"
-              },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "isDisabled",
-              "type": {
-                "text": "boolean"
-              },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formDisabledCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "disabled",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "setState",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "state",
-                  "type": {
-                    "text": "string"
-                  }
-                },
-                {
-                  "name": "on",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "description": "Control height: sm, md or lg. Follows density.",
-              "attribute": "size",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Visible label text. Required for an accessible name.",
-              "attribute": "label",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Current value. The `value` attribute sets the initial (and reset) value; it is never reflected back.",
-              "attribute": "value",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "placeholder",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "readonly",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "autocomplete",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Passed through to the native control (omitted when empty).",
-              "attribute": "autocomplete",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "minlength",
-              "type": {
-                "text": "number | undefined"
-              },
-              "attribute": "minlength",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "maxlength",
-              "type": {
-                "text": "number | undefined"
-              },
-              "attribute": "maxlength",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "validityCtl",
-              "privacy": "protected",
-              "readonly": true,
-              "default": "new FieldValidityController(this)",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "fieldId",
-              "privacy": "protected",
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "#defaultValue",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "requiredMessage",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "protected",
-              "default": "'Please fill out this field.'",
-              "description": "Message for an empty required field.",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "validate",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "[ValidityStateFlags, string] | null"
-                }
-              },
-              "description": "Component-specific constraint beyond native validity.",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "implicitSubmit",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "protected",
-              "default": "true",
-              "description": "Single-line controls submit their form on Enter.",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "control",
-              "type": {
-                "text": "NativeControl | null"
-              },
-              "privacy": "protected",
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "validity",
-              "type": {
-                "text": "ValidityState"
-              },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "validationMessage",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "checkValidity",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "reportValidity",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "setCustomValidity",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "message",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "description": "Custom error, like the native setCustomValidity().",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "#custom",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "focus",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "options",
-                  "optional": true,
-                  "type": {
-                    "text": "FocusOptions"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "select",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formResetCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formStateRestoreCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "state",
-                  "type": {
-                    "text": "string | File | FormData | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formValue",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              },
-              "description": "Value submitted with the form (subclasses may normalise).",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "onInput",
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "onChange",
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "onBlur",
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "onKeydown",
-              "privacy": "protected",
-              "description": "A shadow input can't reach the outer form: do implicit submission.",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "a11yAttrs",
-              "privacy": "protected",
-              "description": "Shared attributes for the native control.",
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "renderAfter",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "TemplateResult | typeof nothing"
-                }
-              },
-              "description": "Extra content rendered after the error box (e.g. a counter).",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            }
-          ],
-          "events": [
-            {
-              "description": "Native input event (composed).",
-              "name": "input"
-            },
-            {
-              "description": "Committed value change.",
-              "name": "change"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "type",
-              "type": {
-                "text": "'text' | 'email' | 'url' | 'tel'"
-              },
-              "default": "'text'",
-              "description": "Native input type. Use the dedicated components for password/search/OTP.",
-              "fieldName": "type"
-            },
-            {
-              "name": "inputmode",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Virtual keyboard hint, passed through.",
-              "fieldName": "inputmode"
-            },
-            {
-              "name": "pattern",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Regular expression the value must match (native semantics).",
-              "fieldName": "pattern"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the control. Reflected.",
-              "fieldName": "disabled",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Name used when the owning form is submitted.",
-              "fieldName": "name",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "description": "Control height: sm, md or lg. Follows density.",
-              "fieldName": "size",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Visible label text. Required for an accessible name.",
-              "fieldName": "label",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Current value. The `value` attribute sets the initial (and reset) value; it is never reflected back.",
-              "fieldName": "value",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "placeholder",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "readonly",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "autocomplete",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Passed through to the native control (omitted when empty).",
-              "fieldName": "autocomplete",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "minlength",
-              "type": {
-                "text": "number | undefined"
-              },
-              "fieldName": "minlength",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            },
-            {
-              "name": "maxlength",
-              "type": {
-                "text": "number | undefined"
-              },
-              "fieldName": "maxlength",
-              "inheritedFrom": {
-                "name": "TextControl",
-                "module": "src/internal/text-control.ts"
-              }
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "Fails validation (after interaction or submit).",
-              "name": "invalid"
-            },
-            {
-              "description": "Disabled (own or via fieldset).",
-              "name": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "TextControl",
-            "module": "/src/internal/text-control.js"
-          },
-          "tagName": "prism-text-input",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismTextInput",
-          "declaration": {
-            "name": "PrismTextInput",
-            "module": "src/text-input/text-input.ts"
           }
         }
       ]
