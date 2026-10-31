@@ -963,13 +963,57 @@
     }
   },
   "progress": {
-    "$description": "Progress bar. The fill is a gradient over its own filled width: the tone colour at the leading (right) edge, lifted toward white at the left end. Both ends must stay at least 3:1 on the track (test/tokens.test.mjs checks every tone, both themes, sRGB and P3).",
+    "$description": "Progress bar (comet-tail fill). The fill stacks three background layers, top to bottom: a small bright head at the leading (right) edge, a tail of the tone color that fades toward the left, and a base gradient that is lighter at the left (lifted toward white) and the full tone at the right. A soft glow follows the leading edge. Light is limited by contrast: the head and the last 14px must hold 3:1 on the track, so light mixes far less white than dark (test/tokens.test.mjs checks every tone, both themes, sRGB and P3).",
     "fill-lift": {
       "$type": "percentage",
-      "$value": "18%",
-      "$description": "Share of color-lift mixed into the left end of the fill. Light is capped at 18% so the lightest end of the weakest tone (success) still holds 3:1 on the track; dark can lift further.",
+      "$value": "30%",
+      "$description": "Share of color-lift mixed into the left end of the base gradient. Light 30%, dark 45%. The left end is the start of the bar, not its value, so it may sit under 3:1; the leading edge may not.",
       "$extensions": {
-        "prism.dark": "40%"
+        "prism.dark": "45%"
+      }
+    },
+    "head-mix": {
+      "$type": "percentage",
+      "$value": "16%",
+      "$description": "Share of color-lift in the head's brightest point (the very edge). Dark 80%. Light is capped by 3:1 on the track: the weakest tone (success) allows about 19%.",
+      "$extensions": {
+        "prism.dark": "80%"
+      }
+    },
+    "head-alpha": {
+      "$type": "percentage",
+      "$value": "12%",
+      "$description": "Opacity of the lift color at the head's 45% stop. Dark 25%. Light stays low for the same 3:1 reason.",
+      "$extensions": {
+        "prism.dark": "25%"
+      }
+    },
+    "head-size": {
+      "$type": "dimension",
+      "$value": "14px",
+      "$description": "Horizontal radius of the head."
+    },
+    "tail-alpha": {
+      "$type": "percentage",
+      "$value": "70%",
+      "$description": "Opacity of the tail's tone color at 60% of its length."
+    },
+    "tail-max": {
+      "$type": "dimension",
+      "$value": "280px",
+      "$description": "Longest the tail grows. A shorter fill uses its own width."
+    },
+    "tail-min-fill": {
+      "$type": "dimension",
+      "$value": "24px",
+      "$description": "A fill narrower than this hides its tail."
+    },
+    "glow-alpha": {
+      "$type": "percentage",
+      "$value": "45%",
+      "$description": "Opacity of the tone color in the leading-edge glow (4px 0 10px -2px). Dark 60%, on the lighter dark tone.",
+      "$extensions": {
+        "prism.dark": "60%"
       }
     }
   },

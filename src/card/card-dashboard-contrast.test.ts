@@ -283,13 +283,14 @@ const edges = (page: Page) =>
       const end = getComputedStyle(f).backgroundColor;
       const root = getComputedStyle(document.documentElement);
       const lift = root.getPropertyValue('--prism-color-lift').trim();
-      const share = root.getPropertyValue('--prism-progress-fill-lift').trim();
+      const mix = (token: string) =>
+        `color-mix(in oklch, ${lift} ${root.getPropertyValue(token).trim()}, ${end})`;
+      // The last ~14px carry the value: the full tone, the head's brightest
+      // point and its shoulder must all hold 3:1 on the track.
       for (const [what, color] of [
-        ['progress fill (leading edge)', end],
-        [
-          'progress fill (lightest, left end)',
-          `color-mix(in oklch, ${lift} ${share}, ${end})`,
-        ],
+        ['progress fill (full tone)', end],
+        ['progress head (brightest)', mix('--prism-progress-head-mix')],
+        ['progress head (shoulder)', mix('--prism-progress-head-alpha')],
       ] as const)
         out.push({
           what,
