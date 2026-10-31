@@ -33,6 +33,7 @@
     "./dist/*/define.js",
     "./dist/tokens/tokens.css",
     "./dist/theme/theme.css",
+    "./dist/theme/polish.css",
     "./src/define.ts",
     "./src/*/define.ts",
     "./src/**/*.css"
@@ -120,6 +121,11 @@
     },
     "./tokens.css": "./dist/tokens/tokens.css",
     "./theme.css": "./dist/theme/theme.css",
+    "./polish.css": "./dist/theme/polish.css",
+    "./polish": {
+      "types": "./dist/polish/polish.d.ts",
+      "import": "./dist/polish/polish.js"
+    },
     "./tokens.json": "./tokens/prism.tokens.resolved.json",
     "./custom-elements.json": "./custom-elements.json",
     "./package.json": "./package.json",
@@ -167,7 +173,7 @@
   },
   "customElements": "./custom-elements.json",
   "scripts": {
-    "build": "pnpm tokens && rimraf dist && tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/tokens/tokens.css','dist/tokens/tokens.css');require('fs').cpSync('src/theme/theme.css','dist/theme/theme.css')\"",
+    "build": "pnpm tokens && rimraf dist && tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/tokens/tokens.css','dist/tokens/tokens.css');require('fs').cpSync('src/theme/theme.css','dist/theme/theme.css');require('fs').cpSync('src/theme/polish.css','dist/theme/polish.css')\"",
     "analyze": "cem analyze --config custom-elements-manifest.config.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . && tsc --noEmit",
