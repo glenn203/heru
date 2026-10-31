@@ -131,7 +131,7 @@ function resolveValue(path, mode, seen = new Set(), theme = 'light') {
 // color-mix(in oklch, {ref} N%, transparent) → the ref's oklch() at alpha N.
 // (Mixing an opaque colour with transparent in oklch keeps L/C/H exactly.)
 function resolveMix(v, mode, seen, theme) {
-  const out = v.replace(
+  let out = v.replace(
     /color-mix\(in oklch, \{([^}]+)\} ([\d.]+)%, transparent\)/g,
     (_, ref, pct) => {
       const base = resolveValue(ref, mode, new Set(seen), theme);
@@ -139,6 +139,10 @@ function resolveMix(v, mode, seen, theme) {
       if (!m) throw new Error(`color-mix base must be opaque oklch(): ${ref}`);
       return `oklch(${m[1].trim()} / ${Number(pct) / 100})`;
     },
+  );
+  // A shadow may also hold a bare colour token: {color.x} → its resolved value.
+  out = out.replace(/\{([^}]+)\}/g, (_, ref) =>
+    resolveValue(ref, mode, new Set(seen), theme),
   );
   if (out.includes('{') || out.includes('color-mix'))
     throw new Error(`Unsupported colour expression: ${v}`);

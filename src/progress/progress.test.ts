@@ -39,8 +39,7 @@ test.describe('prism-progress', () => {
       const track = el.shadowRoot!.querySelector('[part="track"]')!;
       const fill = el.shadowRoot!.querySelector('[part="fill"]')!;
       return (
-        fill.getBoundingClientRect().width /
-        (track.getBoundingClientRect().width - 2)
+        fill.getBoundingClientRect().width / track.getBoundingClientRect().width
       );
     });
     expect(w).toBeCloseTo(0.6, 1);
@@ -149,5 +148,175 @@ test.describe('prism-progress', () => {
     });
     expect(c.f).not.toBe(c.t);
     expect(c.f).not.toBe('rgba(0, 0, 0, 0)');
+  });
+
+  test('the track has no border and a faint inset edge shadow over the fill', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-progress id="p" label="X" value="50"></prism-progress>',
+    );
+    const r = await page.locator('#p').evaluate((el) => {
+      const track = el.shadowRoot!.querySelector('[part="track"]')!;
+      const cs = getComputedStyle(track);
+      const after = getComputedStyle(track, '::after');
+      return {
+        border: cs.borderTopWidth,
+        shadow: after.boxShadow,
+        pos: after.position,
+        events: after.pointerEvents,
+      };
+    });
+    expect(r.border).toBe('0px');
+    expect(r.shadow).toContain('inset');
+    expect(r.shadow).toMatch(/2px 0px/);
+    expect(r.pos).toBe('absolute');
+    expect(r.events).toBe('none');
+  });
+
+  test('the shadow is stronger in dark (a dark edge needs more weight)', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-progress id="p" label="X" value="50"></prism-progress>',
+    );
+    const alpha = (theme: string) =>
+      page.locator('#p').evaluate((el, t) => {
+        document.documentElement.setAttribute('data-prism-theme', t);
+        const track = el.shadowRoot!.querySelector('[part="track"]')!;
+        const m = /\/ ([\d.]+)\)/.exec(
+          getComputedStyle(track, '::after').boxShadow,
+        );
+        return Number(m?.[1] ?? 1);
+      }, theme);
+    expect(await alpha('light')).toBeCloseTo(0.06, 2);
+    expect(await alpha('dark')).toBeCloseTo(0.3, 2);
+  });
+
+  test('the fill is a left-to-right gradient: lighter at the left, the full tone at the right', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<div style="width:300px"><prism-progress id="p" label="X" value="60" tone="success"></prism-progress></div>',
+    );
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const g = await page.locator('#p').evaluate((el) => {
+      const fill = el.shadowRoot!.querySelector('[part="fill"]') as HTMLElement;
+      const cs = getComputedStyle(fill);
+      const w = fill.getBoundingClientRect().width;
+      return { img: cs.backgroundImage, solid: cs.backgroundColor, w };
+    });
+    expect(g.img).toContain('linear-gradient');
+    expect(g.img).toContain('90deg');
+    // Spans the filled width only: the fill box is 60% of the 300px track.
+    expect(g.w).toBeGreaterThan(170);
+    expect(g.w).toBeLessThan(190);
+    // Last stop is the plain tone colour.
+    expect(g.img.trimEnd().endsWith(`${g.solid})`)).toBe(true);
+  });
+
+  test('every tone has the gradient; the left end is lighter than the right', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      ['neutral', 'info', 'success', 'warning', 'danger', 'accent']
+        .map(
+          (t) =>
+            `<prism-progress id="${t}" label="${t}" value="50" tone="${t}"></prism-progress>`,
+        )
+        .join(''),
+    );
+    for (const t of [
+      'neutral',
+      'info',
+      'success',
+      'warning',
+      'danger',
+      'accent',
+    ]) {
+      const [l0, l1] = await page.locator(`#${t}`).evaluate((el) => {
+        const fill = el.shadowRoot!.querySelector(
+          '[part="fill"]',
+        ) as HTMLElement;
+        // Paint each end of the gradient onto a 1px canvas and read its lightness.
+        const cv = document.createElement('canvas');
+        cv.width = 100;
+        cv.height = 1;
+        const c = cv.getContext('2d')!;
+        const w = fill.getBoundingClientRect().width;
+        const grad = c.createLinearGradient(0, 0, 100, 0);
+        void w;
+        const bg = getComputedStyle(fill).backgroundColor;
+        const lift = getComputedStyle(
+          document.documentElement,
+        ).getPropertyValue('--prism-color-lift');
+        const share = getComputedStyle(
+          document.documentElement,
+        ).getPropertyValue('--prism-progress-fill-lift');
+        const lum = (css: string) => {
+          c.clearRect(0, 0, 100, 1);
+          c.fillStyle = css;
+          c.fillRect(0, 0, 1, 1);
+          const d = c.getImageData(0, 0, 1, 1).data;
+          return d[0]! * 0.2126 + d[1]! * 0.7152 + d[2]! * 0.0722;
+        };
+        void grad;
+        return [lum(`color-mix(in oklch, ${lift} ${share}, ${bg})`), lum(bg)];
+      });
+      expect(l0, t).toBeGreaterThan(l1);
+      const img = await page
+        .locator(`#${t}`)
+        .evaluate(
+          (el) =>
+            getComputedStyle(el.shadowRoot!.querySelector('[part="fill"]')!)
+              .backgroundImage,
+        );
+      expect(img, t).toContain('linear-gradient');
+    }
+  });
+
+  test('reduced motion: no animation and no transition on the fill', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-progress id="a" label="A" value="40"></prism-progress><prism-progress id="b" label="B"></prism-progress>',
+    );
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const id of ['a', 'b']) {
+      const r = await page.locator(`#${id}`).evaluate((el) => {
+        const cs = getComputedStyle(
+          el.shadowRoot!.querySelector('[part="fill"]')!,
+        );
+        return { a: cs.animationName, t: cs.transitionDuration };
+      });
+      expect(r.a).toBe('none');
+      expect(r.t).toBe('0s');
+    }
+  });
+
+  test('forced colors: the track keeps a visible border and the fill is Highlight', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-progress id="p" label="X" value="50"></prism-progress>',
+    );
+    await page.emulateMedia({ forcedColors: 'active' });
+    const r = await page.locator('#p').evaluate((el) => {
+      const cs = getComputedStyle(
+        el.shadowRoot!.querySelector('[part="track"]')!,
+      );
+      const f = getComputedStyle(
+        el.shadowRoot!.querySelector('[part="fill"]')!,
+      );
+      return { w: cs.borderTopWidth, img: f.backgroundImage };
+    });
+    expect(r.w).toBe('1px');
+    expect(r.img).toBe('none');
   });
 });

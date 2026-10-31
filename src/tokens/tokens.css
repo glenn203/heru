@@ -176,6 +176,8 @@
   --prism-color-focus-ring: var(--prism-color-violet-600);
   --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
   --prism-color-shadow: var(--prism-color-slate-950);
+  --prism-color-track-shadow: color-mix(in oklch, var(--prism-color-shadow) 6%, transparent);
+  --prism-color-lift: var(--prism-color-slate-0);
   --prism-color-shadow-urgent: var(--prism-color-red-600);
   --prism-color-on-solid: var(--prism-color-slate-0);
   --prism-color-neutral: var(--prism-color-slate-700);
@@ -213,9 +215,11 @@
   --prism-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --prism-ease-spring: linear(0, 0.023, 0.079, 0.1535, 0.2364, 0.3211, 0.4034, 0.4806, 0.5513, 0.615, 0.6714, 0.721, 0.7641, 0.8012, 0.8331, 0.8603, 0.8834, 0.9028, 0.9193, 0.933, 0.9446, 0.9542, 0.9622, 0.9688, 0.9744, 0.9789, 0.9827, 0.9858, 0.9884, 0.9905, 0.9922, 0.9936, 0.9948, 0.9958, 0.9965, 0.9972, 0.9977, 0.9981, 0.9985, 0.9988, 1);
   --prism-ease-spring-bouncy: linear(0, 0.0283, 0.0999, 0.1976, 0.3084, 0.4222, 0.5322, 0.6336, 0.7235, 0.8008, 0.8652, 0.9171, 0.9575, 0.9879, 1.0097, 1.0243, 1.0332, 1.0375, 1.0386, 1.0372, 1.0343, 1.0305, 1.0262, 1.0218, 1.0176, 1.0137, 1.0103, 1.0074, 1.0049, 1.003, 1.0015, 1.0003, 0.9995, 0.999, 0.9987, 0.9985, 0.9985, 0.9986, 0.9987, 0.9988, 1);
+  --prism-progress-fill-lift: 18%;
   --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
   --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
   --prism-elevation-urgent: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow-urgent) 12%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow-urgent) 24%, transparent);
+  --prism-elevation-track: inset 0 0 2px 0 var(--prism-color-track-shadow);
   --prism-gradient-spectrum: linear-gradient(90deg, var(--prism-color-violet-500), var(--prism-color-blue-500), var(--prism-color-cyan-500), var(--prism-color-green-500), var(--prism-color-amber-500), var(--prism-color-red-500), var(--prism-color-magenta-500));
   --prism-gradient-refract: linear-gradient(135deg, var(--prism-color-violet-600), var(--prism-color-blue-500) 55%, var(--prism-color-cyan-500));
   --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-100), var(--prism-color-blue-50) 40%, var(--prism-color-cyan-100) 70%, var(--prism-color-magenta-50));
@@ -259,6 +263,7 @@
 @supports not (color: color-mix(in oklch, red, blue)) {
   :root {
     --prism-color-focus-halo: oklch(0.5 0.278 288 / 0.12);
+    --prism-color-track-shadow: oklch(0.129 0.03 260 / 0.06);
     --prism-color-error-surface: oklch(0.7 0.233 27 / 0.08);
     --prism-elevation-default: 0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12);
     --prism-elevation-hover: 0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16);
@@ -305,6 +310,7 @@
   --prism-color-focus-ring: var(--prism-color-violet-300);
   --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
   --prism-color-shadow: oklch(0 0 260);
+  --prism-color-track-shadow: color-mix(in oklch, var(--prism-color-shadow) 30%, transparent);
   --prism-color-on-solid: var(--prism-color-slate-950);
   --prism-color-neutral: var(--prism-color-slate-300);
   --prism-color-neutral-surface: var(--prism-color-slate-800);
@@ -325,8 +331,10 @@
   --prism-color-on-error-surface: var(--prism-color-red-100);
   --prism-color-error-status-text: var(--prism-color-on-error-surface);
   --prism-focus-halo: var(--prism-color-focus-halo);
+  --prism-progress-fill-lift: 40%;
   --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
   --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
+  --prism-elevation-track: inset 0 0 2px 0 var(--prism-color-track-shadow);
   --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-900), var(--prism-color-blue-900) 40%, var(--prism-color-cyan-900) 70%, var(--prism-color-magenta-900));
 }
 @media (prefers-color-scheme: dark) {
@@ -350,6 +358,7 @@
     --prism-color-focus-ring: var(--prism-color-violet-300);
     --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
     --prism-color-shadow: oklch(0 0 260);
+    --prism-color-track-shadow: color-mix(in oklch, var(--prism-color-shadow) 30%, transparent);
     --prism-color-on-solid: var(--prism-color-slate-950);
     --prism-color-neutral: var(--prism-color-slate-300);
     --prism-color-neutral-surface: var(--prism-color-slate-800);
@@ -370,8 +379,10 @@
     --prism-color-on-error-surface: var(--prism-color-red-100);
     --prism-color-error-status-text: var(--prism-color-on-error-surface);
     --prism-focus-halo: var(--prism-color-focus-halo);
+    --prism-progress-fill-lift: 40%;
     --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
     --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
+    --prism-elevation-track: inset 0 0 2px 0 var(--prism-color-track-shadow);
     --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-900), var(--prism-color-blue-900) 40%, var(--prism-color-cyan-900) 70%, var(--prism-color-magenta-900));
   }
 }
@@ -395,6 +406,7 @@
   --prism-color-focus-ring: var(--prism-color-violet-600);
   --prism-color-focus-halo: color-mix(in oklch, var(--prism-color-focus-ring) 12%, transparent);
   --prism-color-shadow: var(--prism-color-slate-950);
+  --prism-color-track-shadow: color-mix(in oklch, var(--prism-color-shadow) 6%, transparent);
   --prism-color-on-solid: var(--prism-color-slate-0);
   --prism-color-neutral: var(--prism-color-slate-700);
   --prism-color-neutral-surface: var(--prism-color-slate-100);
@@ -415,8 +427,10 @@
   --prism-color-on-error-surface: var(--prism-color-red-800);
   --prism-color-error-status-text: var(--prism-color-on-error-surface);
   --prism-focus-halo: var(--prism-color-focus-halo);
+  --prism-progress-fill-lift: 18%;
   --prism-elevation-default: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 6%, transparent), 0 4px 12px -2px color-mix(in oklch, var(--prism-color-shadow) 12%, transparent);
   --prism-elevation-hover: 0 1px 2px color-mix(in oklch, var(--prism-color-shadow) 8%, transparent), 0 2px 6px -1px color-mix(in oklch, var(--prism-color-shadow) 16%, transparent);
+  --prism-elevation-track: inset 0 0 2px 0 var(--prism-color-track-shadow);
   --prism-gradient-mist: linear-gradient(120deg, var(--prism-color-violet-100), var(--prism-color-blue-50) 40%, var(--prism-color-cyan-100) 70%, var(--prism-color-magenta-50));
 }
 
@@ -437,18 +451,21 @@
 @supports not (color: color-mix(in oklch, red, blue)) {
   [data-prism-theme='dark'] {
     --prism-color-focus-halo: oklch(0.82 0.073 288 / 0.12);
+    --prism-color-track-shadow: oklch(0 0 260 / 0.3);
     --prism-elevation-default: 0 1px 2px oklch(0 0 260 / 0.06), 0 4px 12px -2px oklch(0 0 260 / 0.12);
     --prism-elevation-hover: 0 1px 2px oklch(0 0 260 / 0.08), 0 2px 6px -1px oklch(0 0 260 / 0.16);
   }
   @media (prefers-color-scheme: dark) {
     [data-prism-theme='auto'] {
       --prism-color-focus-halo: oklch(0.82 0.073 288 / 0.12);
+      --prism-color-track-shadow: oklch(0 0 260 / 0.3);
       --prism-elevation-default: 0 1px 2px oklch(0 0 260 / 0.06), 0 4px 12px -2px oklch(0 0 260 / 0.12);
       --prism-elevation-hover: 0 1px 2px oklch(0 0 260 / 0.08), 0 2px 6px -1px oklch(0 0 260 / 0.16);
     }
   }
   [data-prism-theme='light'] {
     --prism-color-focus-halo: oklch(0.5 0.278 288 / 0.12);
+    --prism-color-track-shadow: oklch(0.129 0.03 260 / 0.06);
     --prism-elevation-default: 0 1px 2px oklch(0.129 0.03 260 / 0.06), 0 4px 12px -2px oklch(0.129 0.03 260 / 0.12);
     --prism-elevation-hover: 0 1px 2px oklch(0.129 0.03 260 / 0.08), 0 2px 6px -1px oklch(0.129 0.03 260 / 0.16);
   }
@@ -520,6 +537,7 @@
     --prism-color-magenta-700: #86006f;
     --prism-color-magenta-900: #411636;
     --prism-color-focus-halo: #6a12f31f;
+    --prism-color-track-shadow: #0207130f;
     --prism-color-error-surface: #ff645a14;
     --prism-elevation-default: 0 1px 2px #0207130f, 0 4px 12px -2px #0207131f;
     --prism-elevation-hover: 0 1px 2px #02071314, 0 2px 6px -1px #02071329;
@@ -528,6 +546,7 @@
   [data-prism-theme='dark'] {
     --prism-color-focus-halo: #c1bdf21f;
     --prism-color-shadow: #000000;
+    --prism-color-track-shadow: #0000004d;
     --prism-elevation-default: 0 1px 2px #0000000f, 0 4px 12px -2px #0000001f;
     --prism-elevation-hover: 0 1px 2px #00000014, 0 2px 6px -1px #00000029;
   }
@@ -535,12 +554,14 @@
     [data-prism-theme='auto'] {
       --prism-color-focus-halo: #c1bdf21f;
       --prism-color-shadow: #000000;
+      --prism-color-track-shadow: #0000004d;
       --prism-elevation-default: 0 1px 2px #0000000f, 0 4px 12px -2px #0000001f;
       --prism-elevation-hover: 0 1px 2px #00000014, 0 2px 6px -1px #00000029;
     }
   }
   [data-prism-theme='light'] {
     --prism-color-focus-halo: #6a12f31f;
+    --prism-color-track-shadow: #0207130f;
     --prism-elevation-default: 0 1px 2px #0207130f, 0 4px 12px -2px #0207131f;
     --prism-elevation-hover: 0 1px 2px #02071314, 0 2px 6px -1px #02071329;
   }

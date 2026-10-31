@@ -253,7 +253,7 @@ async function audit(
 const fmt = (fails: Check[]) =>
   fails.map((f) => `${f.what}: ${f.ratio.toFixed(2)} < ${String(f.need)}`);
 
-/** Non-text parts: the dashed drop zone, progress track edge, card edge. */
+/** Non-text parts: the dashed drop zone, progress fill ends, card edge. */
 const edges = (page: Page) =>
   page.evaluate(() => {
     const out: {
@@ -278,22 +278,26 @@ const edges = (page: Page) =>
     for (const p of document.querySelectorAll('prism-progress')) {
       const t = p.shadowRoot!.querySelector('[part="track"]')!;
       const r = t.getBoundingClientRect();
-      out.push({
-        what: 'progress track edge',
-        color: getComputedStyle(t).borderTopColor,
-        x: r.left + r.width / 2 + scrollX,
-        y: r.top - 4 + scrollY,
-        need: 3,
-      });
       const f = p.shadowRoot!.querySelector('[part="fill"]')!;
       const fr = f.getBoundingClientRect();
-      out.push({
-        what: 'progress fill',
-        color: getComputedStyle(f).backgroundColor,
-        x: r.right - 6 + scrollX,
-        y: fr.top + fr.height / 2 + scrollY,
-        need: 3,
-      });
+      const end = getComputedStyle(f).backgroundColor;
+      const root = getComputedStyle(document.documentElement);
+      const lift = root.getPropertyValue('--prism-color-lift').trim();
+      const share = root.getPropertyValue('--prism-progress-fill-lift').trim();
+      for (const [what, color] of [
+        ['progress fill (leading edge)', end],
+        [
+          'progress fill (lightest, left end)',
+          `color-mix(in oklch, ${lift} ${share}, ${end})`,
+        ],
+      ] as const)
+        out.push({
+          what,
+          color,
+          x: r.right - 6 + scrollX,
+          y: fr.top + fr.height / 2 + scrollY,
+          need: 3,
+        });
     }
     return out;
   });

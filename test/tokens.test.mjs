@@ -303,7 +303,7 @@ test('components consume elevation tokens, no hard-coded shadows', () => {
   );
   for (const m of block.matchAll(/box-shadow:\s*([^;]+);/g))
     assert.ok(
-      /var\(--prism-elevation-(default|hover)|var\(--_(elev|sh-sel|sh-focus)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
+      /var\(--prism-elevation-(default|hover|track)|var\(--_(elev|sh-sel|sh-focus)|--prism-focus-ring|--prism-color-focus-ring|^none$/.test(
         m[1].trim(),
       ),
       `unexpected shadow: ${m[1]}`,
@@ -996,11 +996,54 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
             `${theme} ${fg} on ${bg}`,
           );
   });
-  test('Progress track edge >= 3:1 on the page', () => {
-    for (const theme of THEMES)
-      assert.ok(
-        contrast(colorIn(theme, 'border-strong'), colorIn(theme, 'bg')) >= 3,
-      );
+  // The fill is a gradient over its filled width: the tone colour at the
+  // leading edge, lifted toward color-lift (white) by progress.fill-lift at the
+  // left. Both ends, and so everything between, must hold 3:1 on the track.
+  const PROGRESS_LOWEST = [];
+  for (const theme of THEMES) {
+    const track = colorIn(theme, 'surface-pressed');
+    const lift = colorIn(theme, 'lift');
+    const share = parseFloat(tokIn(theme, 'progress.fill-lift')) / 100;
+    for (const [tone, r] of Object.entries(refs)) {
+      const end = colorIn(theme, r['high-bg']);
+      const start = mixOklch(end, lift, share);
+      test(`tone ${tone} [${theme}]: progress fill gradient, both ends >= 3:1 on the track`, () => {
+        for (const [what, c] of [
+          ['leading edge', end],
+          ['lightest (left) end', start],
+        ]) {
+          const a = contrast(c, track);
+          const b = contrastP3(c, track);
+          PROGRESS_LOWEST.push({ theme, tone, what, a, b });
+          assert.ok(a >= 3, `${what} sRGB ${a.toFixed(2)}`);
+          assert.ok(b >= 3, `${what} P3 ${b.toFixed(2)}`);
+        }
+        assert.ok(
+          contrast(start, track) <= contrast(end, track) || theme === 'dark',
+          'the left end is the lighter one',
+        );
+      });
+    }
+  }
+  test('progress track: faint inset shadow, no border, stronger in dark', () => {
+    assert.match(
+      resolved.modes.default['elevation.track'].value,
+      /^inset 0 0 2px 0 oklch\([^)]* \/ 0\.06\)$/,
+    );
+    assert.match(
+      resolved.themes.dark['elevation.track'].value,
+      /^inset 0 0 2px 0 oklch\([^)]* \/ 0\.3\)$/,
+    );
+    assert.equal(tokIn('light', 'progress.fill-lift'), '18%');
+    assert.equal(tokIn('dark', 'progress.fill-lift'), '40%');
+  });
+  test('progress fill-lift: lowest contrast on the track (report)', () => {
+    const m = PROGRESS_LOWEST.reduce((x, y) =>
+      Math.min(y.a, y.b) < Math.min(x.a, x.b) ? y : x,
+    );
+    console.log(
+      `  [lowest progress fill] ${m.theme} ${m.tone} ${m.what}: sRGB ${m.a.toFixed(2)}, P3 ${m.b.toFixed(2)}`,
+    );
   });
 }
 

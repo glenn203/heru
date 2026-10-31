@@ -690,6 +690,17 @@
         "prism.dark": "oklch(0 0 260)"
       }
     },
+    "track-shadow": {
+      "$value": "color-mix(in oklch, {color.shadow} 6%, transparent)",
+      "$description": "The faint edge shadow inside a progress track: the shadow neutral at 6% in light, 30% in dark (a dark edge needs more weight to show on a dark track).",
+      "$extensions": {
+        "prism.dark": "color-mix(in oklch, {color.shadow} 30%, transparent)"
+      }
+    },
+    "lift": {
+      "$value": "{color.slate.0}",
+      "$description": "White. Mixed into the start of a progress fill so the fill gets lighter toward its left end, in both themes."
+    },
     "shadow-urgent": {
       "$value": "{color.red.600}",
       "$description": "Base colour of the urgent (error) elevation."
@@ -928,6 +939,17 @@
       }
     }
   },
+  "progress": {
+    "$description": "Progress bar. The fill is a gradient over its own filled width: the tone colour at the leading (right) edge, lifted toward white at the left end. Both ends must stay at least 3:1 on the track (test/tokens.test.mjs checks every tone, both themes, sRGB and P3).",
+    "fill-lift": {
+      "$type": "percentage",
+      "$value": "18%",
+      "$description": "Share of color-lift mixed into the left end of the fill. Light is capped at 18% so the lightest end of the weakest tone (success) still holds 3:1 on the track; dark can lift further.",
+      "$extensions": {
+        "prism.dark": "40%"
+      }
+    }
+  },
   "elevation": {
     "$type": "shadow",
     "$description": "Shared elevation foundation (NAME PENDING). Three semantic levels usable by any raised surface: popovers, menus, dialogs, field status. Built from color-shadow (slate-950) and color-shadow-urgent (red-600) via color-mix(); the build emits literal fallbacks for browsers without color-mix().",
@@ -942,6 +964,10 @@
     "urgent": {
       "$value": "0 1px 2px color-mix(in oklch, {color.shadow-urgent} 12%, transparent), 0 4px 12px -2px color-mix(in oklch, {color.shadow-urgent} 24%, transparent)",
       "$description": "Error-urgent: attached error/status box. Tinted from red-600."
+    },
+    "track": {
+      "$value": "inset 0 0 2px 0 {color.track-shadow}",
+      "$description": "Progress track: a faint inset edge all the way round. Painted over the fill too, so the edge stays even where the bar is full."
     }
   },
   "gradient": {

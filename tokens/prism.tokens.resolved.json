@@ -962,6 +962,18 @@
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
+      "color.track-shadow": {
+        "cssVar": "--prism-color-track-shadow",
+        "type": "color",
+        "value": "oklch(0.129 0.03 260 / 0.06)",
+        "hex": "#0207130f"
+      },
+      "color.lift": {
+        "cssVar": "--prism-color-lift",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
       "color.shadow-urgent": {
         "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
@@ -1208,6 +1220,11 @@
           "settleMs": 319.5
         }
       },
+      "progress.fill-lift": {
+        "cssVar": "--prism-progress-fill-lift",
+        "type": "percentage",
+        "value": "18%"
+      },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
         "type": "shadow",
@@ -1222,6 +1239,11 @@
         "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24)"
+      },
+      "elevation.track": {
+        "cssVar": "--prism-elevation-track",
+        "type": "shadow",
+        "value": "inset 0 0 2px 0 oklch(0.129 0.03 260 / 0.06)"
       },
       "gradient.spectrum": {
         "cssVar": "--prism-gradient-spectrum",
@@ -2199,6 +2221,18 @@
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
+      "color.track-shadow": {
+        "cssVar": "--prism-color-track-shadow",
+        "type": "color",
+        "value": "oklch(0.129 0.03 260 / 0.06)",
+        "hex": "#0207130f"
+      },
+      "color.lift": {
+        "cssVar": "--prism-color-lift",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
       "color.shadow-urgent": {
         "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
@@ -2445,6 +2479,11 @@
           "settleMs": 319.5
         }
       },
+      "progress.fill-lift": {
+        "cssVar": "--prism-progress-fill-lift",
+        "type": "percentage",
+        "value": "18%"
+      },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
         "type": "shadow",
@@ -2459,6 +2498,11 @@
         "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24)"
+      },
+      "elevation.track": {
+        "cssVar": "--prism-elevation-track",
+        "type": "shadow",
+        "value": "inset 0 0 2px 0 oklch(0.129 0.03 260 / 0.06)"
       },
       "gradient.spectrum": {
         "cssVar": "--prism-gradient-spectrum",
@@ -3436,6 +3480,18 @@
         "value": "oklch(0.129 0.03 260)",
         "hex": "#020713"
       },
+      "color.track-shadow": {
+        "cssVar": "--prism-color-track-shadow",
+        "type": "color",
+        "value": "oklch(0.129 0.03 260 / 0.06)",
+        "hex": "#0207130f"
+      },
+      "color.lift": {
+        "cssVar": "--prism-color-lift",
+        "type": "color",
+        "value": "oklch(1 0 260)",
+        "hex": "#ffffff"
+      },
       "color.shadow-urgent": {
         "cssVar": "--prism-color-shadow-urgent",
         "type": "color",
@@ -3682,6 +3738,11 @@
           "settleMs": 319.5
         }
       },
+      "progress.fill-lift": {
+        "cssVar": "--prism-progress-fill-lift",
+        "type": "percentage",
+        "value": "18%"
+      },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
         "type": "shadow",
@@ -3696,6 +3757,11 @@
         "cssVar": "--prism-elevation-urgent",
         "type": "shadow",
         "value": "0 1px 2px oklch(0.5 0.218 27 / 0.12), 0 4px 12px -2px oklch(0.5 0.218 27 / 0.24)"
+      },
+      "elevation.track": {
+        "cssVar": "--prism-elevation-track",
+        "type": "shadow",
+        "value": "inset 0 0 2px 0 oklch(0.129 0.03 260 / 0.06)"
       },
       "gradient.spectrum": {
         "cssVar": "--prism-gradient-spectrum",
@@ -3825,6 +3891,12 @@
         "value": "oklch(0 0 260)",
         "hex": "#000000"
       },
+      "color.track-shadow": {
+        "cssVar": "--prism-color-track-shadow",
+        "type": "color",
+        "value": "oklch(0 0 260 / 0.3)",
+        "hex": "#0000004d"
+      },
       "color.on-solid": {
         "cssVar": "--prism-color-on-solid",
         "type": "color",
@@ -3950,6 +4022,11 @@
         "value": "oklch(0.82 0.073 288 / 0.12)",
         "hex": "#c1bdf21f"
       },
+      "progress.fill-lift": {
+        "cssVar": "--prism-progress-fill-lift",
+        "type": "percentage",
+        "value": "40%"
+      },
       "elevation.default": {
         "cssVar": "--prism-elevation-default",
         "type": "shadow",
@@ -3959,6 +4036,11 @@
         "cssVar": "--prism-elevation-hover",
         "type": "shadow",
         "value": "0 1px 2px oklch(0 0 260 / 0.08), 0 2px 6px -1px oklch(0 0 260 / 0.16)"
+      },
+      "elevation.track": {
+        "cssVar": "--prism-elevation-track",
+        "type": "shadow",
+        "value": "inset 0 0 2px 0 oklch(0 0 260 / 0.3)"
       },
       "gradient.mist": {
         "cssVar": "--prism-gradient-mist",

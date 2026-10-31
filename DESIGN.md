@@ -338,6 +338,15 @@ word, Progress value text, Description list labels). Tag selected shows a solid 
 a Live badge pulses its dot, and reduced motion stops it. Interactive Tags keep
 a 24px minimum target. The card's "Overridden" flag is a real `prism-tag`.
 
+Progress look: the track has no border. A faint inset edge (`--prism-elevation-track`,
+`inset 0 0 2px 0` in `--prism-color-track-shadow`: the shadow neutral at 6% in light,
+30% in dark) runs round it and over the fill. The fill is a gradient across its own
+filled width: the full tone colour at the leading (right) edge, lifted toward white
+(`--prism-color-lift`) at the left by `--prism-progress-fill-lift` (18% light, 40% dark).
+Both ends hold 3:1 on the track for every tone, in both themes, on sRGB and P3 (light is
+capped at 18% for that reason). Nothing new moves, so reduced motion is unchanged; forced
+colours get a real 1px border and a flat Highlight fill.
+
 Not built: a **status dot** (it would duplicate Tag `health` and `presence`,
 and Badge `status`; status stays as words) and **prism-icon**
 (the icon system is undecided; stories keep a placeholder svg).
