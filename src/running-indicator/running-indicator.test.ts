@@ -16,35 +16,6 @@ async function setup(page: Page, markup: string) {
   return errors;
 }
 
-const probe = (page: Page, sel = '#r') =>
-  page.locator(sel).evaluate((el) => {
-    const root = el.shadowRoot!;
-    const cs = (s: string) => getComputedStyle(root.querySelector(s)!);
-    return {
-      anims: root.querySelector('svg')!.getAnimations({ subtree: true }),
-    }.anims.length
-      ? {
-          ringAnims: [1, 2, 3].map(
-            (i) => root.querySelector(`.ring-${i}`)!.getAnimations().length,
-          ),
-          coreAnims: root.querySelector('.core')!.getAnimations().length,
-          ring: [1, 2, 3].map((i) => ({
-            opacity: cs(`.ring-${i}`).opacity,
-            scale: cs(`.ring-${i}`).scale,
-            display: cs(`.ring-${i}`).display,
-          })),
-        }
-      : {
-          ringAnims: [0, 0, 0],
-          coreAnims: 0,
-          ring: [1, 2, 3].map((i) => ({
-            opacity: cs(`.ring-${i}`).opacity,
-            scale: cs(`.ring-${i}`).scale,
-            display: cs(`.ring-${i}`).display,
-          })),
-        };
-  });
-
 test.describe('prism-running-indicator', () => {
   test('role status with the default label "Running"', async ({ page }) => {
     const errors = await setup(
@@ -99,7 +70,33 @@ test.describe('prism-running-indicator', () => {
     expect(await size('#c')).toEqual([40, 40]);
   });
 
-  test('rings spread outward and fade, one third of a cycle apart', async ({
+  test('one ring and one dot, in the 24 unit box of the reference pulse', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-running-indicator id="r"></prism-running-indicator>',
+    );
+    const g = await page.locator('#r').evaluate((el) => {
+      const svg = el.shadowRoot!.querySelector('svg')!;
+      return {
+        viewBox: svg.getAttribute('viewBox'),
+        rings: svg.querySelectorAll('.ring').length,
+        cores: svg.querySelectorAll('.core').length,
+        circles: svg.querySelectorAll('circle').length,
+        stroke: getComputedStyle(svg.querySelector('.ring')!).strokeWidth,
+      };
+    });
+    expect(g).toEqual({
+      viewBox: '0 0 24 24',
+      rings: 1,
+      cores: 1,
+      circles: 2,
+      stroke: '2px',
+    });
+  });
+
+  test('ring grows r 4 to 9 and fades 0.6 to 0; dot breathes r 4, 4.6, 4 and opacity 1, 0.85, 1', async ({
     page,
   }) => {
     await setup(
@@ -108,60 +105,132 @@ test.describe('prism-running-indicator', () => {
     );
     const r = await page.locator('#r').evaluate((el) => {
       const root = el.shadowRoot!;
-      const out = [1, 2, 3].map((i) => {
-        const node = root.querySelector(`.ring-${i}`)!;
+      const sample = (sel: string, ps: number[]) => {
+        const node = root.querySelector(sel)!;
         const a = node.getAnimations()[0]!;
         const t = a.effect!.getComputedTiming();
         a.pause();
-        const at = (p: number) => {
-          a.currentTime = Number(t.delay) + Number(t.duration) * p;
-          const cs = getComputedStyle(node);
-          return { opacity: Number(cs.opacity), scale: Number(cs.scale) };
-        };
         return {
-          delay: Number(t.delay),
-          duration: Number(t.duration),
           iterations: t.iterations,
-          start: at(0.01),
-          end: at(0.99),
+          duration: Number(t.duration),
+          delay: Number(t.delay),
+          at: ps.map((p) => {
+            a.currentTime = Number(t.duration) * p;
+            const cs = getComputedStyle(node);
+            return { r: parseFloat(cs.r), o: Number(cs.opacity) };
+          }),
         };
-      });
-      return out;
+      };
+      // A cycle is 2720ms; the pulse is the first 1920ms (70.588%).
+      const pulse = 1920 / 2720;
+      return {
+        ring: sample('.ring', [0, pulse / 2, pulse, (pulse + 1) / 2, 0.999]),
+        core: sample('.core', [0, pulse / 2, pulse, (pulse + 1) / 2, 0.999]),
+      };
     });
-    for (const ring of r) {
-      expect(ring.iterations).toBe(Infinity);
-      expect(ring.end.scale).toBeGreaterThan(ring.start.scale * 2);
-      expect(ring.end.opacity).toBeLessThan(ring.start.opacity);
-      expect(ring.end.opacity).toBeLessThan(0.1);
-    }
-    expect(r[1]!.delay - r[0]!.delay).toBeCloseTo(r[0]!.duration / 3, 0);
-    expect(r[2]!.delay - r[1]!.delay).toBeCloseTo(r[0]!.duration / 3, 0);
+    const near = (a: number, b: number) => expect(a).toBeCloseTo(b, 1);
+    // Ring: starts at the dot's size, 60% opaque, ends at 9 and nothing, then stays gone.
+    near(r.ring.at[0]!.r, 4);
+    near(r.ring.at[0]!.o, 0.6);
+    near(r.ring.at[1]!.r, 6.5);
+    near(r.ring.at[1]!.o, 0.3);
+    near(r.ring.at[2]!.r, 9);
+    near(r.ring.at[2]!.o, 0);
+    near(r.ring.at[3]!.o, 0); // invisible in the rest
+    near(r.ring.at[4]!.o, 0);
+    // Dot: 4 to 4.6 (opacity 0.85) at the middle of the pulse, back to 4 at its end, still in the rest.
+    near(r.core.at[0]!.r, 4);
+    near(r.core.at[0]!.o, 1);
+    near(r.core.at[1]!.r, 4.6);
+    near(r.core.at[1]!.o, 0.85);
+    near(r.core.at[2]!.r, 4);
+    near(r.core.at[2]!.o, 1);
+    near(r.core.at[3]!.r, 4);
+    near(r.core.at[3]!.o, 1);
+    near(r.core.at[4]!.r, 4);
+    // Both run the same clock, forever.
+    expect(r.ring.duration).toBe(r.core.duration);
+    expect(r.ring.delay).toBe(r.core.delay);
+    expect(r.ring.iterations).toBe(Infinity);
+    expect(r.core.iterations).toBe(Infinity);
   });
 
-  test('accent rings fan out through the spectrum; other tones keep one colour', async ({
+  test('timing: a 1.92s pulse then an 800ms rest, 2.72s in all (20% slower than 1.6s)', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-running-indicator id="r"></prism-running-indicator>',
+    );
+    const t = await page.locator('#r').evaluate((el) => {
+      const a = el.shadowRoot!.querySelector('.ring')!.getAnimations()[0]!;
+      const kf = (a.effect as KeyframeEffect).getKeyframes();
+      return {
+        total: Number(a.effect!.getComputedTiming().duration),
+        // Offset at which the ring has finished its pulse.
+        pulseEnd: kf
+          .filter((k) => Number(k.opacity) === 0)
+          .map((k) => k.offset)[0],
+        easing: kf[0]!.easing,
+      };
+    });
+    expect(t.total).toBe(2720);
+    expect(Number(t.pulseEnd) * t.total).toBeCloseTo(1920, 0);
+    expect(t.total - 1920).toBe(800);
+    expect(1920).toBeCloseTo(1600 * 1.2, 5);
+    expect(t.easing).toBe('linear');
+  });
+
+  test('the ring and the dot use the tone colour; tone changes both', async ({
     page,
   }) => {
     await setup(
       page,
       '<prism-running-indicator id="r"></prism-running-indicator><prism-running-indicator id="s" tone="success"></prism-running-indicator>',
     );
-    const strokes = (id: string) =>
-      page
-        .locator(id)
-        .evaluate((el) =>
-          [1, 2, 3].map(
-            (i) =>
-              getComputedStyle(el.shadowRoot!.querySelector(`.ring-${i}`)!)
-                .stroke,
-          ),
-        );
-    const a = await strokes('#r');
-    expect(new Set(a).size).toBe(3);
-    const s = await strokes('#s');
-    expect(new Set(s).size).toBe(1);
+    const colours = (id: string) =>
+      page.locator(id).evaluate((el) => {
+        const root = el.shadowRoot!;
+        return [
+          getComputedStyle(root.querySelector('.ring')!).stroke,
+          getComputedStyle(root.querySelector('.core')!).fill,
+        ];
+      });
+    const a = await colours('#r');
+    const s = await colours('#s');
+    expect(a[0]).toBe(a[1]);
+    expect(s[0]).toBe(s[1]);
+    expect(a[0]).not.toBe(s[0]);
   });
 
-  test('reduced motion: nothing moves, a still halo remains, the label is unchanged', async ({
+  test('sizes scale the whole drawing: the ring stays inside the box', async ({
+    page,
+  }) => {
+    await setup(
+      page,
+      '<prism-running-indicator id="a" size="sm"></prism-running-indicator><prism-running-indicator id="c" size="lg"></prism-running-indicator>',
+    );
+    for (const [id, px] of [
+      ['#a', 16],
+      ['#c', 40],
+    ] as const) {
+      const r = await page.locator(id).evaluate((el) => {
+        const svg = el.shadowRoot!.querySelector('svg')!;
+        const ring = svg.querySelector('.ring')!;
+        const a = ring.getAnimations()[0]!;
+        a.pause();
+        a.currentTime = 1919;
+        const box = ring.getBoundingClientRect();
+        const outer = svg.getBoundingClientRect();
+        return { ring: box.width, outer: outer.width };
+      });
+      expect(r.outer).toBe(px);
+      // Radius 9 (a diameter of 18 units of 24); the stroke adds one more each side, still inside.
+      expect(r.ring).toBeCloseTo((18 / 24) * px, 0);
+    }
+  });
+
+  test('reduced motion: nothing moves, the dot and a faint ring stay, the label is unchanged', async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -169,30 +238,40 @@ test.describe('prism-running-indicator', () => {
       page,
       '<prism-running-indicator id="r"></prism-running-indicator>',
     );
-    const p = await probe(page);
-    expect(p.ringAnims).toEqual([0, 0, 0]);
-    expect(p.coreAnims).toBe(0);
-    expect(Number(p.ring[0]!.opacity)).toBeGreaterThan(0);
+    const p = await page.locator('#r').evaluate((el) => {
+      const root = el.shadowRoot!;
+      const ring = root.querySelector('.ring')!;
+      const core = root.querySelector('.core')!;
+      return {
+        anims: root.querySelector('svg')!.getAnimations({ subtree: true })
+          .length,
+        ringO: Number(getComputedStyle(ring).opacity),
+        coreO: Number(getComputedStyle(core).opacity),
+        coreR: parseFloat(getComputedStyle(core).r),
+      };
+    });
+    expect(p.anims).toBe(0);
+    expect(p.ringO).toBeGreaterThan(0);
+    expect(p.coreO).toBe(1);
+    expect(p.coreR).toBe(4);
     await expect(page.getByRole('status')).toHaveText('Running');
   });
 
-  test('the duration can be set with --prism-running-duration', async ({
-    page,
-  }) => {
+  test('the cycle can be set with --prism-running-cycle', async ({ page }) => {
     await setup(
       page,
-      '<prism-running-indicator id="r" style="--prism-running-duration:900ms"></prism-running-indicator>',
+      '<prism-running-indicator id="r" style="--prism-running-cycle:1800ms"></prism-running-indicator>',
     );
     const d = await page
       .locator('#r')
       .evaluate(
         (el) =>
           el
-            .shadowRoot!.querySelector('.ring-1')!
+            .shadowRoot!.querySelector('.ring')!
             .getAnimations()[0]!
             .effect!.getComputedTiming().duration,
       );
-    expect(d).toBe(900);
+    expect(d).toBe(1800);
   });
 });
 

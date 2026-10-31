@@ -31,10 +31,10 @@ export default meta;
 type Story = StoryObj<Args>;
 
 /**
- * A soft dot with rings that spread outward and fade, like light fanning out
- * of a prism. It says "this is running now". It is a status region, so screen
- * readers get the label. With the default accent tone the rings drift from
- * violet through blue to cyan.
+ * A solid dot that breathes, with one ring that spreads out of it and fades.
+ * It says "this is running now". It is a status region, so screen readers get
+ * the label. One pulse takes 1.92s and is followed by an 800ms rest, so the
+ * whole cycle is 2.72s. In the rest the ring is gone and the dot is still.
  */
 export const Default: Story = {};
 
@@ -58,7 +58,7 @@ export const Sizes: Story = {
     </div>`,
 };
 
-/** Other tones keep one hue. Pick the tone that matches the job's meaning. */
+/** The tone colours the dot and the ring together. Use success for "online", accent for a running job. */
 export const Tones: Story = {
   render: () =>
     html`<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
@@ -91,9 +91,9 @@ export const BesideAHeading: Story = {
 };
 
 /**
- * Under `prefers-reduced-motion: reduce` the rings hold still as a soft halo.
- * The dot and the written label are always there, so motion never carries the
- * meaning alone.
+ * Under `prefers-reduced-motion: reduce` it holds still: the dot with a faint
+ * ring. The dot and the written label are always there, so motion never
+ * carries the meaning alone.
  */
 export const ReducedMotion: Story = {
   render: () =>

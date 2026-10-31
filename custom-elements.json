@@ -600,7 +600,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A group of card actions. NAME PROVISIONAL.\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu († narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
+          "description": "A group of card actions. NAME PROVISIONAL.\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu (\u2020 narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
           "name": "PrismCardActions",
           "slots": [
             {
@@ -733,7 +733,7 @@
                   "text": "void"
                 }
               },
-              "description": "† Narrow header: icon buttons fold into one overflow menu."
+              "description": "\u2020 Narrow header: icon buttons fold into one overflow menu."
             },
             {
               "kind": "method",
@@ -1235,7 +1235,7 @@
         },
         {
           "kind": "class",
-          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Resources\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
+          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Resources\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">\u2026</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
           "name": "PrismCardList",
           "cssParts": [
             {
@@ -3229,7 +3229,7 @@
             "text": "number"
           },
           "default": "280",
-          "description": "PROPOSED (page: \"about 280px or less †\"): the narrow breakpoint."
+          "description": "PROPOSED (page: \"about 280px or less \u2020\"): the narrow breakpoint."
         },
         {
           "kind": "variable",
@@ -7321,7 +7321,7 @@
           ],
           "slots": [
             {
-              "description": "Helper text (e.g. \"Sent to •••• 1234\").",
+              "description": "Helper text (e.g. \"Sent to \u2022\u2022\u2022\u2022 1234\").",
               "name": "description"
             },
             {
@@ -9326,13 +9326,13 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Shows that something is running right now: a soft dot with rings that spread\noutward and fade, like light fanning out of a prism. Use it beside a task or\ncard title while a job is in progress, and remove it (or swap it for a Tag\nthat says \"Done\") when the job ends.\n\n- `role=\"status\"` with a written label (\"Running\" by default). The label is\n  always in the page for screen readers; `show-label` also shows it.\n  Change `label` to say what is running: \"Export running\".\n- Sizes: `sm` 16px, `md` 24px (default), `lg` 40px.\n- The default tone is `accent`, whose rings drift from violet through blue to\n  cyan. Other tones keep one colour.\n- Motion: the rings repeat every 1.6s. Under `prefers-reduced-motion:\n  reduce` they hold still as a soft halo. The dot is always there, so motion\n  is never the only signal.\n- It does not show progress. For a known amount of work use Progress.",
+          "description": "Shows that something is running right now: a solid dot that breathes, with\none ring that spreads out of it and fades, like light leaving a prism. Use it\nbeside a task or card title while a job is in progress, and remove it (or\nswap it for a Tag that says \"Done\") when the job ends.\n\n- `role=\"status\"` with a written label (\"Running\" by default). The label is\n  always in the page for screen readers; `show-label` also shows it.\n  Change `label` to say what is running: \"Export running\".\n- Sizes: `sm` 16px, `md` 24px (default), `lg` 40px. The drawing is a 24 unit\n  box that scales with the size.\n- `tone` colours both the dot and the ring: accent (default), neutral, info,\n  success, warning or danger. Use success for \"online\".\n- Motion: the ring grows from the dot's edge (radius 4 to 9) and fades from\n  60% to nothing while the dot swells from 4 to 4.6 and back, both in step.\n  One pulse takes 1.92s, then it rests for 800ms before the next (a 2.72s\n  cycle). In the rest the ring is gone and the dot is still. Under\n  `prefers-reduced-motion: reduce` it holds still as the dot with a faint\n  ring. The dot is always there, so motion is never the only signal.\n- It does not show progress. For a known amount of work use Progress.",
           "name": "PrismRunningIndicator",
           "cssProperties": [
             {
-              "description": "Time for one ring to spread and fade.",
-              "name": "--prism-running-duration",
-              "default": "1600ms"
+              "description": "One whole cycle: a 1.92s pulse (the first 70.6%) and an 800ms rest.",
+              "name": "--prism-running-cycle",
+              "default": "2720ms"
             }
           ],
           "cssParts": [
@@ -9341,7 +9341,7 @@
               "name": "base"
             },
             {
-              "description": "The SVG with the dot and rings.",
+              "description": "The SVG with the dot and ring.",
               "name": "graphic"
             },
             {
@@ -11978,7 +11978,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-line text input. `autosize` grows it with its content (from\n`rows`). With `maxlength` and `counter`, shows \"n / max\"; the visible\ncounter is aria-hidden and a polite live region announces only when the\nremaining count gets low (≤ 10% or ≤ 20) and at the limit, debounced, so\ntyping isn't drowned in announcements.",
+          "description": "A multi-line text input. `autosize` grows it with its content (from\n`rows`). With `maxlength` and `counter`, shows \"n / max\"; the visible\ncounter is aria-hidden and a polite live region announces only when the\nremaining count gets low (\u2264 10% or \u2264 20) and at the limit, debounced, so\ntyping isn't drowned in announcements.",
           "name": "PrismTextArea",
           "cssParts": [
             {

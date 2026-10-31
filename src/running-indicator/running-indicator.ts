@@ -5,27 +5,31 @@ import { visuallyHidden } from '../internal/visually-hidden.js';
 import type { TagTone } from '../tag/tag.js';
 
 /**
- * Shows that something is running right now: a soft dot with rings that spread
- * outward and fade, like light fanning out of a prism. Use it beside a task or
- * card title while a job is in progress, and remove it (or swap it for a Tag
- * that says "Done") when the job ends.
+ * Shows that something is running right now: a solid dot that breathes, with
+ * one ring that spreads out of it and fades, like light leaving a prism. Use it
+ * beside a task or card title while a job is in progress, and remove it (or
+ * swap it for a Tag that says "Done") when the job ends.
  *
  * - `role="status"` with a written label ("Running" by default). The label is
  *   always in the page for screen readers; `show-label` also shows it.
  *   Change `label` to say what is running: "Export running".
- * - Sizes: `sm` 16px, `md` 24px (default), `lg` 40px.
- * - The default tone is `accent`, whose rings drift from violet through blue to
- *   cyan. Other tones keep one colour.
- * - Motion: the rings repeat every 1.6s. Under `prefers-reduced-motion:
- *   reduce` they hold still as a soft halo. The dot is always there, so motion
- *   is never the only signal.
+ * - Sizes: `sm` 16px, `md` 24px (default), `lg` 40px. The drawing is a 24 unit
+ *   box that scales with the size.
+ * - `tone` colours both the dot and the ring: accent (default), neutral, info,
+ *   success, warning or danger. Use success for "online".
+ * - Motion: the ring grows from the dot's edge (radius 4 to 9) and fades from
+ *   60% to nothing while the dot swells from 4 to 4.6 and back, both in step.
+ *   One pulse takes 1.92s, then it rests for 800ms before the next (a 2.72s
+ *   cycle). In the rest the ring is gone and the dot is still. Under
+ *   `prefers-reduced-motion: reduce` it holds still as the dot with a faint
+ *   ring. The dot is always there, so motion is never the only signal.
  * - It does not show progress. For a known amount of work use Progress.
  *
  * @tag prism-running-indicator
  * @csspart base - The status wrapper.
- * @csspart graphic - The SVG with the dot and rings.
+ * @csspart graphic - The SVG with the dot and ring.
  * @csspart label - The label text (visually hidden unless `show-label`).
- * @cssprop [--prism-running-duration=1600ms] - Time for one ring to spread and fade.
+ * @cssprop [--prism-running-cycle=2720ms] - One whole cycle: a 1.92s pulse (the first 70.6%) and an 800ms rest.
  */
 export class PrismRunningIndicator extends LitElement {
   static override styles = [
@@ -47,17 +51,9 @@ export class PrismRunningIndicator extends LitElement {
       :host([hidden]) {
         display: none;
       }
-      /* The dot is the tone's solid colour. Accent rings fan out through the
-         spectrum; every other tone keeps one hue. */
+      /* Dot and ring both use the tone's solid colour. */
       :host {
         --_dot: var(--_tone-high-bg);
-        --_ring-1: var(--_tone-high-bg);
-        --_ring-2: var(--_tone-high-bg);
-        --_ring-3: var(--_tone-high-bg);
-      }
-      :host([tone='accent']) {
-        --_ring-2: var(--prism-color-blue-500, #3d8bfd);
-        --_ring-3: var(--prism-color-cyan-500, #14b8c8);
       }
       [part='base'] {
         display: inline-flex;
@@ -75,52 +71,40 @@ export class PrismRunningIndicator extends LitElement {
       }
       .core {
         fill: var(--_dot);
+        animation: prism-running-core var(--prism-running-cycle, 2720ms) linear
+          infinite;
       }
       .ring {
         fill: none;
-        stroke-width: 1.5;
-        vector-effect: non-scaling-stroke;
-        transform-box: fill-box;
-        transform-origin: center;
+        stroke: var(--_dot);
+        stroke-width: 2;
         opacity: 0;
-        animation: prism-running-ring var(--prism-running-duration, 1600ms)
-          cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
+        animation: prism-running-ring var(--prism-running-cycle, 2720ms) linear
+          infinite;
       }
-      .ring-1 {
-        stroke: var(--_ring-1);
-      }
-      .ring-2 {
-        stroke: var(--_ring-2);
-        animation-delay: calc(var(--prism-running-duration, 1600ms) / 3);
-      }
-      .ring-3 {
-        stroke: var(--_ring-3);
-        animation-delay: calc(var(--prism-running-duration, 1600ms) * 2 / 3);
-      }
-      /* The dot breathes a little as each ring leaves it. */
-      .core {
-        transform-box: fill-box;
-        transform-origin: center;
-        animation: prism-running-core var(--prism-running-duration, 1600ms)
-          ease-in-out infinite;
-      }
+      /* One cycle is 2720ms: a 1920ms pulse (70.588%), then an 800ms rest in
+         which the ring is gone and the dot is still. */
       @keyframes prism-running-ring {
         0% {
-          opacity: 0.85;
-          scale: 1;
+          r: 4px;
+          opacity: 0.6;
         }
+        70.588%,
         100% {
+          r: 9px;
           opacity: 0;
-          scale: 2.6;
         }
       }
       @keyframes prism-running-core {
         0%,
+        70.588%,
         100% {
-          scale: 1;
+          r: 4px;
+          opacity: 1;
         }
-        18% {
-          scale: 1.12;
+        35.294% {
+          r: 4.6px;
+          opacity: 0.85;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -128,17 +112,10 @@ export class PrismRunningIndicator extends LitElement {
         .core {
           animation: none;
         }
-        /* Still: a soft two-ring halo. */
-        .ring-1 {
-          opacity: 0.55;
-          scale: 1.7;
-        }
-        .ring-2 {
+        /* Still: the dot and a faint ring. */
+        .ring {
+          r: 7px;
           opacity: 0.3;
-          scale: 2.3;
-        }
-        .ring-3 {
-          display: none;
         }
       }
       @media (forced-colors: active) {
@@ -165,14 +142,12 @@ export class PrismRunningIndicator extends LitElement {
     return html`<span part="base" role="status">
       <svg
         part="graphic"
-        viewBox="0 0 48 48"
+        viewBox="0 0 24 24"
         aria-hidden="true"
         focusable="false"
       >
-        <circle class="ring ring-1" cx="24" cy="24" r="9" />
-        <circle class="ring ring-2" cx="24" cy="24" r="9" />
-        <circle class="ring ring-3" cx="24" cy="24" r="9" />
-        <circle class="core" cx="24" cy="24" r="7" />
+        <circle class="ring" cx="12" cy="12" r="4" />
+        <circle class="core" cx="12" cy="12" r="4" />
       </svg>
       <span part="label" class=${this.showLabel ? '' : 'visually-hidden'}
         >${this.label}</span

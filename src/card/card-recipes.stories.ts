@@ -966,8 +966,8 @@ export const DashboardRows: Story = {
  * shows the amount done. A Switch inside the card sets whether to notify you
  * when it finishes; it takes effect at once, so the card has no Save button.
  * **Stop** ends the job: the indicator goes, the Tag says "Stopped" and the
- * action becomes **Run again**. Under reduced motion the indicator's rings
- * hold still. The words, not the motion, carry the status.
+ * action becomes **Run again**. Under reduced motion the indicator's ring
+ * holds still. The words, not the motion, carry the status.
  */
 export const RunningJob: Story = {
   render: () => {
