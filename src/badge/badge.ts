@@ -15,7 +15,7 @@ const STATUS_TEXT: Record<BadgeStatus, string> = {
 /**
  * A small label that sits on another control, for one of two jobs (the Badge
  * page): a **count** (how many) or a process **status** (Live, Running,
- * Stopped). For words on a row (severity, keywords, workflow) use Tag.
+ * Stopped). For words on a row (priority, keywords, workflow) use Tag.
  *
  * - `job="count"` (default): `count` is the number; above `max` (default 99)
  *   it reads "99+". A zero count is hidden unless `show-zero`. The badge is

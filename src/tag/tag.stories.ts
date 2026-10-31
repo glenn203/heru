@@ -50,14 +50,18 @@ export const TonesAndEmphasis: Story = {
 export const Jobs: Story = {
   render: () =>
     html`<div style="display:flex;gap:8px;flex-wrap:wrap">
-      <prism-tag job="severity" tone="danger" emphasis="high">Urgent</prism-tag>
+      <prism-tag job="spectrum" tone="danger" emphasis="high"
+        >Spectrum</prism-tag
+      >
       <prism-tag job="status">In progress</prism-tag>
       <prism-tag job="presence" tone="success">Added</prism-tag>
-      <prism-tag job="resolution" tone="success">Resolved</prism-tag>
-      <prism-tag job="containment" tone="danger">On hold</prism-tag>
+      <prism-tag job="clarity" tone="success">Clarity</prism-tag>
+      <prism-tag job="illusionary" tone="danger">Illusionary</prism-tag>
       <prism-tag job="health" tone="warning">Needs update</prism-tag>
-      <prism-tag job="policy" tone="success">Enabled</prism-tag>
-      <prism-tag job="mitigation" tone="success">Action stopped</prism-tag>
+      <prism-tag job="refractive-rules" tone="success"
+        >Refractive Rules</prism-tag
+      >
+      <prism-tag job="diffusion" tone="success">Diffusion</prism-tag>
       <prism-tag job="keyword">Refraction-7</prism-tag>
     </div>`,
 };

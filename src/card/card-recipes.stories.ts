@@ -209,7 +209,7 @@ export const ResourceGrid: Story = {
 // 3. Open items with priority
 // ---------------------------------------------------------------------------
 
-const SEVERITY_TONE: Record<string, string> = {
+const PRIORITY_TONE: Record<string, string> = {
   Urgent: 'danger',
   High: 'danger',
   Normal: 'neutral',
@@ -253,17 +253,17 @@ export const OpenItems: Story = {
       'Open items',
       html`<div style="display:grid;gap:16px">
         ${OPEN_ITEMS.map(
-          ([sev, title, who, text]) =>
+          ([level, title, who, text]) =>
             html`<prism-card>
               <prism-card-title slot="header" level="3"
                 >${title}</prism-card-title
               >
               <prism-tag
                 slot="header"
-                job="severity"
-                tone=${SEVERITY_TONE[sev] ?? 'neutral'}
-                emphasis=${sev === 'Urgent' ? 'high' : 'low'}
-                >${sev}</prism-tag
+                job="spectrum"
+                tone=${PRIORITY_TONE[level] ?? 'neutral'}
+                emphasis=${level === 'Urgent' ? 'high' : 'low'}
+                >${level}</prism-tag
               >
               <prism-card-description slot="header"
                 >${who}</prism-card-description
@@ -916,7 +916,7 @@ export const ProjectTask: Story = {
         <prism-card-title slot="header" level="3"
           >Review the Lumen Bloom update</prism-card-title
         >
-        <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
+        <prism-tag slot="header" job="spectrum" tone="danger" emphasis="high"
           >Urgent</prism-tag
         >
         <prism-card-description slot="header"

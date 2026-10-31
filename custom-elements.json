@@ -176,6 +176,185 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/badge/badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (priority, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Updates 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
+          "name": "PrismBadge",
+          "cssParts": [
+            {
+              "description": "The badge box.",
+              "name": "base"
+            },
+            {
+              "description": "The default status dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Status only. Replaces the default dot. Decorative.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "attribute": "job",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showZero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "attribute": "show-zero"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveTone",
+              "type": {
+                "text": "TagTone"
+              },
+              "description": "The tone in effect.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "job",
+              "type": {
+                "text": "'count' | 'status'"
+              },
+              "default": "'count'",
+              "fieldName": "job"
+            },
+            {
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Count: the number.",
+              "fieldName": "count"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "99",
+              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-zero",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
+              "fieldName": "showZero"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "BadgeStatus | undefined"
+              },
+              "description": "Status: live, running or stopped.",
+              "fieldName": "status"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone | undefined"
+              },
+              "description": "Colour family. Defaults follow the job (see the class doc).",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "A zero count that is hidden.",
+              "name": "empty"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismBadge",
+          "declaration": {
+            "name": "PrismBadge",
+            "module": "src/badge/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/button/button.ts",
       "declarations": [
         {
@@ -600,7 +779,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A group of card actions. NAME PROVISIONAL.\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu (\u2020 narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
+          "description": "A group of card actions. NAME PROVISIONAL.\n\nWhere it sits decides its rules (from its `slot`):\n- `slot=\"header\"`: up to two ghost `prism-icon-button`s, or one overflow\n  `prism-menu`. No text buttons. On a narrow card the icon buttons fold into\n  one overflow menu († narrow rule: page says \"about 280px or less\").\n- `slot=\"footer\"`: up to two `prism-button`s, ghost or secondary (soft),\n  plus one primary only on a `standalone` card. A \"View all\" link counts as\n  one. Medium size (small in a widget footer), 8px apart, at the end (mirrors in right-to-left).\n- no slot (content-only card): the last row of the content, at the end,\n  medium size, 8px apart, ghost and secondary only. Soft goes on the right,\n  ghost to its left (put the ghost button first in the DOM). The row wraps\n  to the next line on the end side and sits at the bottom of the card.\n\nInvalid children are hidden with a dev error.",
           "name": "PrismCardActions",
           "slots": [
             {
@@ -733,7 +912,7 @@
                   "text": "void"
                 }
               },
-              "description": "\u2020 Narrow header: icon buttons fold into one overflow menu."
+              "description": "† Narrow header: icon buttons fold into one overflow menu."
             },
             {
               "kind": "method",
@@ -1235,7 +1414,7 @@
         },
         {
           "kind": "class",
-          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Resources\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">\u2026</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
+          "description": "A grid or single-column list of cards, with paging, selection that is kept\nacross pages, and the loading, empty and error states. NAME PROVISIONAL. Section owns these states on a real page; this element\ngives them a default look and fires events so a Section can take over.\n\n```html\n<prism-card-list label=\"Resources\" selection=\"multi\" total=\"120\" page=\"2\">\n  <prism-card type=\"selectable\" kind=\"collection\" value=\"h-13\">…</prism-card>\n</prism-card-list>\n```\n\n- **Layout.** Columns follow the list's own width (a container query), not\n  the screen: under 640px one column, 640 to 1023 two, 1024 to 1279 three,\n  1280 and up four. Cards stay at least 280px wide, the gap is space-4 (16px)\n  and cards in a row share a height. `columns=\"1\"` pins one column (Aside,\n  Drawer, Modal). No masonry.\n- **Semantics.** An inner wrapper around the cards is the labelled `list` and\n  each card a `listitem` (the card sets its own role). The host has no role,\n  so the selected count, pager and status region sit outside the list. Titles stay real headings: give every card\n  the same `level`, one below the Section heading. With `total` set, each\n  card gets `aria-posinset` and `aria-setsize` from the data, not from what\n  is on the page.\n- **Paging.** Server-side: you swap the children when `prism-card-list-page`\n  fires. `page-size` is 12, 24 or 48 (default 24). The pager shows even when\n  there is one page. A `pagination` slot replaces it with a real Pagination\n  component; `load-more` shows a \"Load more\" button instead.\n- **Selection** uses the same cards, `value` ids and controller as\n  `prism-card-group`, multi only (use a group for a single choice). Ids not\n  on screen stay selected when the page changes; a visible \"N selected\" and\n  \"Clear selection\" sit above the cards unless `hide-selection-bar` is set\n  or you fill the `toolbar` slot.\n- **States** (`state`): `loading` (skeleton cards, list busy, polite\n  \"Loading\"), `refreshing` (cards stay, quiet busy line), `empty` (fill the\n  `empty` slot), `no-matches` (\"No matches\" and Clear filters), `error`\n  (what failed and Retry). A single failed card uses `state=\"error\"` on the\n  card itself.",
           "name": "PrismCardList",
           "cssParts": [
             {
@@ -3229,7 +3408,7 @@
             "text": "number"
           },
           "default": "280",
-          "description": "PROPOSED (page: \"about 280px or less \u2020\"): the narrow breakpoint."
+          "description": "PROPOSED (page: \"about 280px or less †\"): the narrow breakpoint."
         },
         {
           "kind": "variable",
@@ -4335,185 +4514,6 @@
           "declaration": {
             "name": "SelectionController",
             "module": "src/card/selection-controller.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/badge/badge.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A small label that sits on another control, for one of two jobs (the Badge\npage): a **count** (how many) or a process **status** (Live, Running,\nStopped). For words on a row (severity, keywords, workflow) use Tag.\n\n- `job=\"count\"` (default): `count` is the number; above `max` (default 99)\n  it reads \"99+\". A zero count is hidden unless `show-zero`. The badge is\n  not a button: you click the parent. Put it inside the control it counts,\n  so the control reads \"Updates 48\".\n- `job=\"status\"`: `status` is `live`, `running` or `stopped` and the badge\n  says the word. A small prefix dot shows by default (a soft pulse for Live,\n  which stops under reduced motion); put your own icon in the `icon` slot.\n  The word is always there, so colour and pulse are never the only signal.\n\n`tone` is NAME PROVISIONAL for Badge (Design maps tone; Tag's enum is used).\nDefaults: count `accent`, live `success`, running `info`, stopped `neutral`.",
-          "name": "PrismBadge",
-          "cssParts": [
-            {
-              "description": "The badge box.",
-              "name": "base"
-            },
-            {
-              "description": "The default status dot.",
-              "name": "dot"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Status only. Replaces the default dot. Decorative.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "attribute": "job",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "attribute": "count"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showZero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "attribute": "show-zero"
-            },
-            {
-              "kind": "field",
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "attribute": "status",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "effectiveTone",
-              "type": {
-                "text": "TagTone"
-              },
-              "description": "The tone in effect.",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "job",
-              "type": {
-                "text": "'count' | 'status'"
-              },
-              "default": "'count'",
-              "fieldName": "job"
-            },
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Count: the number.",
-              "fieldName": "count"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "99",
-              "description": "Count: above this it reads \"{max}+\". Use one cap across the product.",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-zero",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Count: show a zero. Off by default (a zero badge is hidden).",
-              "fieldName": "showZero"
-            },
-            {
-              "name": "status",
-              "type": {
-                "text": "BadgeStatus | undefined"
-              },
-              "description": "Status: live, running or stopped.",
-              "fieldName": "status"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone | undefined"
-              },
-              "description": "Colour family. Defaults follow the job (see the class doc).",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "A zero count that is hidden.",
-              "name": "empty"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-badge",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismBadge",
-          "declaration": {
-            "name": "PrismBadge",
-            "module": "src/badge/badge.ts"
           }
         }
       ]
@@ -7128,165 +7128,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/option/option.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING.",
-          "name": "PrismOption",
-          "cssParts": [
-            {
-              "description": "The row.",
-              "name": "base"
-            },
-            {
-              "description": "Selected indicator.",
-              "name": "check"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The option label.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Submitted value. Falls back to the text content.",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Initial selection (like native).",
-              "attribute": "selected",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Display label override; defaults to the text content.",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "resolvedValue",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "text",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Submitted value. Falls back to the text content.",
-              "fieldName": "value"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Initial selection (like native).",
-              "fieldName": "selected"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Display label override; defaults to the text content.",
-              "fieldName": "label"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "This option is the select's value.",
-              "name": "selected"
-            },
-            {
-              "description": "Keyboard/pointer highlighted.",
-              "name": "active"
-            },
-            {
-              "description": "Not selectable; skipped by arrow keys.",
-              "name": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-option",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismOption",
-          "declaration": {
-            "name": "PrismOption",
-            "module": "src/option/option.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/otp-input/otp-input.ts",
       "declarations": [
         {
@@ -7321,7 +7162,7 @@
           ],
           "slots": [
             {
-              "description": "Helper text (e.g. \"Sent to \u2022\u2022\u2022\u2022 1234\").",
+              "description": "Helper text (e.g. \"Sent to •••• 1234\").",
               "name": "description"
             },
             {
@@ -8216,226 +8057,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/progress/progress.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL.\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
-          "name": "PrismProgress",
-          "cssParts": [
-            {
-              "description": "The row (label, value).",
-              "name": "base"
-            },
-            {
-              "description": "The visible label.",
-              "name": "label"
-            },
-            {
-              "description": "The written value.",
-              "name": "value"
-            },
-            {
-              "description": "The bar's track.",
-              "name": "track"
-            },
-            {
-              "description": "The filled part.",
-              "name": "fill"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "number | undefined"
-              },
-              "description": "Current value from 0 to `max`. Leave off when unknown.",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "100",
-              "attribute": "max"
-            },
-            {
-              "kind": "field",
-              "name": "showValue",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Writes the value beside the label.",
-              "attribute": "show-value"
-            },
-            {
-              "kind": "field",
-              "name": "valueText",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
-              "attribute": "value-text"
-            },
-            {
-              "kind": "field",
-              "name": "hideLabel",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Hides the label from sight (it still names the bar).",
-              "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "type": {
-                "text": "TagTone"
-              },
-              "default": "'accent'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "#internals",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#determinate",
-              "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#now",
-              "privacy": "private",
-              "type": {
-                "text": "number"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#text",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
-              "fieldName": "label"
-            },
-            {
-              "name": "value",
-              "type": {
-                "text": "number | undefined"
-              },
-              "description": "Current value from 0 to `max`. Leave off when unknown.",
-              "fieldName": "value"
-            },
-            {
-              "name": "max",
-              "type": {
-                "text": "number"
-              },
-              "default": "100",
-              "fieldName": "max"
-            },
-            {
-              "name": "show-value",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Writes the value beside the label.",
-              "fieldName": "showValue"
-            },
-            {
-              "name": "value-text",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
-              "fieldName": "valueText"
-            },
-            {
-              "name": "hide-label",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Hides the label from sight (it still names the bar).",
-              "fieldName": "hideLabel"
-            },
-            {
-              "name": "tone",
-              "type": {
-                "text": "TagTone"
-              },
-              "default": "'accent'",
-              "fieldName": "tone"
-            }
-          ],
-          "cssStates": [
-            {
-              "description": "No value.",
-              "name": "indeterminate"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "prism-progress",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "PrismProgress",
-          "declaration": {
-            "name": "PrismProgress",
-            "module": "src/progress/progress.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/password-input/password-input.ts",
       "declarations": [
         {
@@ -9322,6 +8943,226 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/progress/progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A bar that shows how far something has got. Common props: `value`, `max`,\n`label`, `tone`. NAMES PROVISIONAL.\n\n- Role `progressbar` with `aria-valuemin` 0, `aria-valuemax` and\n  `aria-valuenow`, named by `label`.\n- Leave `value` off for an indeterminate bar (`aria-valuenow` is omitted and\n  the stripe moves; it stops under reduced motion).\n- The label is visible by default. `hide-label` hides it from sight only.\n  `show-value` writes the number beside it (\"60%\", or `value-text` such as\n  \"3 of 5 steps\", which is also the `aria-valuetext`). Colour is never the\n  only signal: the fill length and the written value both say it.\n- Look: no track border; a faint inset edge shadow on the track. The fill is\n  a gradient over its filled width, lighter at the left and the full tone at\n  the leading edge (tokens `--prism-progress-fill-lift`,\n  `--prism-elevation-track`). Both ends stay 3:1 on the track.\n- Use it for a task with a known end. For \"loading, no idea how long\" use\n  a skeleton or an indeterminate bar.",
+          "name": "PrismProgress",
+          "cssParts": [
+            {
+              "description": "The row (label, value).",
+              "name": "base"
+            },
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The written value.",
+              "name": "value"
+            },
+            {
+              "description": "The bar's track.",
+              "name": "track"
+            },
+            {
+              "description": "The filled part.",
+              "name": "fill"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "showValue",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "attribute": "show-value"
+            },
+            {
+              "kind": "field",
+              "name": "valueText",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "attribute": "value-text"
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "attribute": "hide-label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#determinate",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#now",
+              "privacy": "private",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#text",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Required. What is progressing: \"Setup\", \"Storage used\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Current value from 0 to `max`. Leave off when unknown.",
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "fieldName": "max"
+            },
+            {
+              "name": "show-value",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Writes the value beside the label.",
+              "fieldName": "showValue"
+            },
+            {
+              "name": "value-text",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Replaces the percent with words, for example \"3 of 5 steps\".",
+              "fieldName": "valueText"
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the label from sight (it still names the bar).",
+              "fieldName": "hideLabel"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "TagTone"
+              },
+              "default": "'accent'",
+              "fieldName": "tone"
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "No value.",
+              "name": "indeterminate"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-progress",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismProgress",
+          "declaration": {
+            "name": "PrismProgress",
+            "module": "src/progress/progress.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/running-indicator/running-indicator.ts",
       "declarations": [
         {
@@ -9452,467 +9293,49 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/select/select.ts",
+      "path": "src/option/option.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "A headless single-value select (APG select-only combobox). Focus stays on\nthe trigger; the active option is exposed with aria-activedescendant via\nelement reflection to the light-DOM `prism-option` children.",
-          "name": "PrismSelect",
+          "description": "One choice inside `prism-select`. Light-DOM child, so the select's trigger\ncan point `aria-activedescendant` at it. NAME PENDING.",
+          "name": "PrismOption",
           "cssParts": [
             {
-              "description": "The label.",
-              "name": "label"
+              "description": "The row.",
+              "name": "base"
             },
             {
-              "description": "Wrapper around trigger, listbox and attached error.",
-              "name": "field"
-            },
-            {
-              "description": "The combobox (focus target).",
-              "name": "trigger"
-            },
-            {
-              "description": "Selected label or placeholder.",
-              "name": "value"
-            },
-            {
-              "description": "Chevron.",
-              "name": "indicator"
-            },
-            {
-              "description": "The popup list.",
-              "name": "listbox"
-            },
-            {
-              "description": "Helper text wrapper.",
-              "name": "description"
-            },
-            {
-              "description": "Attached error status box.",
-              "name": "error"
+              "description": "Selected indicator.",
+              "name": "check"
             }
           ],
           "slots": [
             {
-              "description": "`prism-option` elements.",
+              "description": "The option label.",
               "name": ""
-            },
-            {
-              "description": "Helper text. Replaced by the error while invalid.",
-              "name": "description"
-            },
-            {
-              "description": "Error text, shown in the attached status box when invalid.",
-              "name": "error"
             }
           ],
           "members": [
             {
               "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
               },
               "default": "''",
+              "description": "Submitted value. Falls back to the text content.",
               "attribute": "value"
             },
             {
               "kind": "field",
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "placeholder"
-            },
-            {
-              "kind": "field",
-              "name": "required",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "required",
+              "description": "Initial selection (like native).",
+              "attribute": "selected",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "open",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "trigger",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "activeIndex",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private",
-              "default": "-1"
-            },
-            {
-              "kind": "field",
-              "name": "#validity",
-              "privacy": "private",
-              "readonly": true,
-              "default": "new FieldValidityController(this)"
-            },
-            {
-              "kind": "field",
-              "name": "#id",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#defaultValue",
-              "privacy": "private",
-              "type": {
-                "text": "string | null"
-              },
-              "default": "null"
-            },
-            {
-              "kind": "field",
-              "name": "#typeahead",
-              "privacy": "private",
-              "type": {
-                "text": "string"
-              },
-              "default": "''"
-            },
-            {
-              "kind": "field",
-              "name": "#typeaheadTimer",
-              "privacy": "private",
-              "type": {
-                "text": "ReturnType<typeof setTimeout> | undefined"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "options",
-              "type": {
-                "text": "PrismOption[]"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "selectedOption",
-              "type": {
-                "text": "PrismOption | null"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "validity",
-              "type": {
-                "text": "ValidityState"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "validationMessage",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "checkValidity",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "reportValidity",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "focus",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "options",
-                  "optional": true,
-                  "type": {
-                    "text": "FocusOptions"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "showPicker",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "description": "Mirrors native `showPicker()`. NAME PENDING."
-            },
-            {
-              "kind": "method",
-              "name": "hidePicker",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "#initialValue",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formResetCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formStateRestoreCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "s",
-                  "type": {
-                    "text": "string | File | FormData | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#enabledIndexes",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "number[]"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "#setOpen",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "open",
-                  "type": {
-                    "text": "boolean"
-                  }
-                },
-                {
-                  "name": "active",
-                  "optional": true,
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#select",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "index",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#move",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "delta",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#typeaheadTo",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "char",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "#onKeydown",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "#onDocPointer",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#onListPointer",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                },
-                {
-                  "name": "commit",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
             },
             {
               "kind": "field",
@@ -9921,146 +9344,68 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Disables the control. Reflected.",
               "attribute": "disabled",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
+              "reflects": true
             },
             {
               "kind": "field",
-              "name": "name",
+              "name": "label",
               "type": {
                 "text": "string"
               },
               "default": "''",
-              "description": "Name used when the owning form is submitted.",
-              "attribute": "name",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
+              "description": "Display label override; defaults to the text content.",
+              "attribute": "label"
             },
             {
               "kind": "field",
-              "name": "#fieldsetDisabled",
+              "name": "#internals",
               "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
+              "readonly": true
             },
             {
               "kind": "field",
-              "name": "form",
+              "name": "resolvedValue",
               "type": {
-                "text": "HTMLFormElement | null"
+                "text": "string"
               },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
+              "readonly": true
             },
             {
               "kind": "field",
-              "name": "isDisabled",
+              "name": "text",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formDisabledCallback",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "disabled",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "setState",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "state",
-                  "type": {
-                    "text": "string"
-                  }
-                },
-                {
-                  "name": "on",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "toggle",
-              "type": {
-                "text": "ToggleEvent"
-              },
-              "description": "Listbox opened or closed (NAME PENDING)."
-            },
-            {
-              "name": "input",
-              "type": {
-                "text": "Event"
-              },
-              "description": "User picked a different option."
-            },
-            {
-              "name": "change",
-              "type": {
-                "text": "Event"
-              },
-              "description": "User picked a different option."
+              "readonly": true
             }
           ],
           "attributes": [
             {
-              "name": "size",
+              "name": "value",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "string"
               },
-              "default": "'md'",
-              "fieldName": "size"
+              "default": "''",
+              "description": "Submitted value. Falls back to the text content.",
+              "fieldName": "value"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Initial selection (like native).",
+              "fieldName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "label",
@@ -10068,106 +9413,39 @@
                 "text": "string"
               },
               "default": "''",
+              "description": "Display label override; defaults to the text content.",
               "fieldName": "label"
-            },
-            {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "value"
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "placeholder"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "open"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Disables the control. Reflected.",
-              "fieldName": "disabled",
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "description": "Name used when the owning form is submitted.",
-              "fieldName": "name",
-              "inheritedFrom": {
-                "name": "FormAssociated",
-                "module": "src/internal/form-associated.ts"
-              }
             }
           ],
           "cssStates": [
             {
-              "description": "The listbox is shown.",
-              "name": "open"
+              "description": "This option is the select's value.",
+              "name": "selected"
             },
             {
-              "description": "Fails validation (after interaction or submit).",
-              "name": "invalid"
+              "description": "Keyboard/pointer highlighted.",
+              "name": "active"
             },
             {
-              "description": "Disabled.",
+              "description": "Not selectable; skipped by arrow keys.",
               "name": "disabled"
-            },
-            {
-              "description": "No value selected.",
-              "name": "placeholder"
-            }
-          ],
-          "mixins": [
-            {
-              "name": "FormAssociated",
-              "module": "/src/internal/form-associated.js"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "prism-select",
+          "tagName": "prism-option",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PrismSelect",
+          "name": "PrismOption",
           "declaration": {
-            "name": "PrismSelect",
-            "module": "src/select/select.ts"
+            "name": "PrismOption",
+            "module": "src/option/option.ts"
           }
         }
       ]
@@ -11050,6 +10328,728 @@
           "declaration": {
             "name": "PrismSearchInput",
             "module": "src/search-input/search-input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/select/select.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A headless single-value select (APG select-only combobox). Focus stays on\nthe trigger; the active option is exposed with aria-activedescendant via\nelement reflection to the light-DOM `prism-option` children.",
+          "name": "PrismSelect",
+          "cssParts": [
+            {
+              "description": "The label.",
+              "name": "label"
+            },
+            {
+              "description": "Wrapper around trigger, listbox and attached error.",
+              "name": "field"
+            },
+            {
+              "description": "The combobox (focus target).",
+              "name": "trigger"
+            },
+            {
+              "description": "Selected label or placeholder.",
+              "name": "value"
+            },
+            {
+              "description": "Chevron.",
+              "name": "indicator"
+            },
+            {
+              "description": "The popup list.",
+              "name": "listbox"
+            },
+            {
+              "description": "Helper text wrapper.",
+              "name": "description"
+            },
+            {
+              "description": "Attached error status box.",
+              "name": "error"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`prism-option` elements.",
+              "name": ""
+            },
+            {
+              "description": "Helper text. Replaced by the error while invalid.",
+              "name": "description"
+            },
+            {
+              "description": "Error text, shown in the attached status box when invalid.",
+              "name": "error"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "#validity",
+              "privacy": "private",
+              "readonly": true,
+              "default": "new FieldValidityController(this)"
+            },
+            {
+              "kind": "field",
+              "name": "#id",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "#defaultValue",
+              "privacy": "private",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "#typeahead",
+              "privacy": "private",
+              "type": {
+                "text": "string"
+              },
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "#typeaheadTimer",
+              "privacy": "private",
+              "type": {
+                "text": "ReturnType<typeof setTimeout> | undefined"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "PrismOption[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedOption",
+              "type": {
+                "text": "PrismOption | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showPicker",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Mirrors native `showPicker()`. NAME PENDING."
+            },
+            {
+              "kind": "method",
+              "name": "hidePicker",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#initialValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formStateRestoreCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "s",
+                  "type": {
+                    "text": "string | File | FormData | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#enabledIndexes",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "#setOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "active",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#select",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#move",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "delta",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#typeaheadTo",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "char",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "#onDocPointer",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#onListPointer",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "commit",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "attribute": "disabled",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "attribute": "name",
+              "reflects": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "#fieldsetDisabled",
+              "privacy": "private",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "formDisabledCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setState",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "toggle",
+              "type": {
+                "text": "ToggleEvent"
+              },
+              "description": "Listbox opened or closed (NAME PENDING)."
+            },
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "User picked a different option."
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "User picked a different option."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables the control. Reflected.",
+              "fieldName": "disabled",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Name used when the owning form is submitted.",
+              "fieldName": "name",
+              "inheritedFrom": {
+                "name": "FormAssociated",
+                "module": "src/internal/form-associated.ts"
+              }
+            }
+          ],
+          "cssStates": [
+            {
+              "description": "The listbox is shown.",
+              "name": "open"
+            },
+            {
+              "description": "Fails validation (after interaction or submit).",
+              "name": "invalid"
+            },
+            {
+              "description": "Disabled.",
+              "name": "disabled"
+            },
+            {
+              "description": "No value selected.",
+              "name": "placeholder"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "FormAssociated",
+              "module": "/src/internal/form-associated.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "prism-select",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PrismSelect",
+          "declaration": {
+            "name": "PrismSelect",
+            "module": "src/select/select.ts"
           }
         }
       ]
@@ -11978,7 +11978,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-line text input. `autosize` grows it with its content (from\n`rows`). With `maxlength` and `counter`, shows \"n / max\"; the visible\ncounter is aria-hidden and a polite live region announces only when the\nremaining count gets low (\u2264 10% or \u2264 20) and at the limit, debounced, so\ntyping isn't drowned in announcements.",
+          "description": "A multi-line text input. `autosize` grows it with its content (from\n`rows`). With `maxlength` and `counter`, shows \"n / max\"; the visible\ncounter is aria-hidden and a polite live region announces only when the\nremaining count gets low (≤ 10% or ≤ 20) and at the limit, debounced, so\ntyping isn't drowned in announcements.",
           "name": "PrismTextArea",
           "cssParts": [
             {
