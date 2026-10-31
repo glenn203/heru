@@ -24,6 +24,8 @@ export { PrismSwitch } from './switch/switch.js';
 export { PrismCheckbox } from './checkbox/checkbox.js';
 export { PrismRadio } from './radio/radio.js';
 export { PrismRadioGroup } from './radio/radio-group.js';
+export { PrismSegment } from './segmented-control/segment.js';
+export { PrismSegmentedControl } from './segmented-control/segmented-control.js';
 export { PrismDescriptionList } from './description-list/description-list.js';
 export { PrismDescriptionListItem } from './description-list/description-list-item.js';
 export { PrismCard } from './card/card.js';

@@ -1,0 +1,5 @@
+---
+'@glenn203/prism': minor
+---
+
+Press and check motion, plus a new `prism-segmented-control`. Buttons, icon buttons, interactive tags, the card toggle and each segment shrink evenly when pressed (3% small and icon, 2.5% medium, 2% large, a little less when wide; clickable cards 1% and still stack with tilt), spring back with about 1% overshoot in about 250ms, and take over mid-flight. Enter and Space give a brief press of at least 90ms; reduced motion shows only the pressed colour; `data-prism-still` keeps dense rows still. The check mark now draws itself on a shared spring in menus (new `checkable` and `checked` on `prism-menu-item`; the menu stays open and `prism-menu-select` detail gains `checked`) and in `prism-card-select`, whose checkbox control is now drawn rather than native. New `prism-segmented-control` and `prism-segment`: radio group semantics, roving tab stop, arrows, Home and End, right-to-left, sizes, icons, disabled segments and form support, with one indicator that slides between segments on two edge springs.

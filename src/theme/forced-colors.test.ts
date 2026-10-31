@@ -11,6 +11,12 @@ import { mount } from '../../test/fixture.js';
  */
 const CASES: { name: string; markup: string; path: string[] }[] = [
   {
+    name: 'segmented control segment',
+    markup:
+      '<prism-segmented-control label="Range" value="a"><prism-segment value="a">Day</prism-segment><prism-segment value="b">Week</prism-segment></prism-segmented-control>',
+    path: ['prism-segment', 'base'],
+  },
+  {
     name: 'button',
     markup: '<prism-button>Go</prism-button>',
     path: ['prism-button', 'base'],

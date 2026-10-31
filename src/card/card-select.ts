@@ -1,6 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { CheckMark, checkMarkStyles } from '../internal/check-mark.js';
 import type { PrismCard } from './card.js';
 
 /**
@@ -18,12 +19,13 @@ import type { PrismCard } from './card.js';
  * `prism-card-group` moves focus and selection with the arrow keys and sets
  * `aria-posinset` and `aria-setsize` itself.
  *
- * The target is at least 24 by 24px. The selected mark is the native check or
- * dot, so selection never relies on colour alone.
+ * The target is at least 24 by 24px. The selected mark is a drawn check (checkbox)
+ * or the native dot, so selection never relies on colour alone.
  *
  * @tag prism-card-select
  * @csspart base - The 24px label that holds the input.
  * @csspart input - The native checkbox or radio.
+ * @csspart check - The tick of a checkbox (draws in and out on springs).
  * @fires prism-card-toggle - The user changed the control. `detail: { checked }`.
  */
 export class PrismCardSelect extends LitElement {
@@ -32,36 +34,95 @@ export class PrismCardSelect extends LitElement {
     delegatesFocus: true,
   };
 
-  static override styles = css`
-    :host {
-      display: inline-block;
-    }
-    :host([hidden]) {
-      display: none;
-    }
-    [part='base'] {
-      display: grid;
-      place-items: center;
-      /* 24 by 24px target (WCAG 2.5.8), room around the 16px control. */
-      min-inline-size: 1.5rem;
-      min-block-size: 1.5rem;
-      cursor: pointer;
-    }
-    :host([disabled]) [part='base'] {
-      cursor: default;
-    }
-    [part='input'] {
-      margin: 0;
-      inline-size: 1rem;
-      block-size: 1rem;
-      cursor: inherit;
-      accent-color: var(--prism-color-accent, currentColor);
-    }
-    /* A choice card shows its focus on the whole card instead. */
-    :host([choice]) [part='input']:focus-visible {
-      outline: none;
-    }
-  `;
+  static override styles = [
+    checkMarkStyles,
+    css`
+      :host {
+        display: inline-block;
+      }
+      :host([hidden]) {
+        display: none;
+      }
+      [part='base'] {
+        display: grid;
+        place-items: center;
+        /* 24 by 24px target (WCAG 2.5.8), room around the 16px control. */
+        min-inline-size: 1.5rem;
+        min-block-size: 1.5rem;
+        cursor: pointer;
+      }
+      :host([disabled]) [part='base'] {
+        cursor: default;
+      }
+      [part='input'] {
+        margin: 0;
+        inline-size: 1rem;
+        block-size: 1rem;
+        cursor: inherit;
+        accent-color: var(--prism-color-accent, currentColor);
+      }
+      /* A choice card shows its focus on the whole card instead. */
+      :host([choice]) [part='input']:focus-visible {
+        outline: none;
+      }
+      /* A checkbox draws its own box so its tick can draw itself in; the input
+       is still the real, focusable, labelled control underneath. */
+      [part='base'] > * {
+        grid-area: 1 / 1;
+      }
+      :host([control='checkbox']) [part='input'] {
+        appearance: none;
+        box-sizing: border-box;
+        border: 1.5px solid var(--prism-color-border-strong, currentColor);
+        border-radius: var(--prism-radius-3, 3px);
+        background: transparent;
+        transition:
+          background-color var(--prism-duration-default, 150ms)
+            var(--prism-ease-standard, ease),
+          border-color var(--prism-duration-default, 150ms)
+            var(--prism-ease-standard, ease);
+      }
+      :host([control='checkbox']) [part='input']:checked {
+        border-color: var(--prism-color-accent, currentColor);
+        background: var(--prism-color-accent, currentColor);
+      }
+      :host([control='checkbox']) [part='check'] {
+        inline-size: 1rem;
+        block-size: 1rem;
+        font-size: 1rem;
+        color: var(--prism-color-on-accent, Canvas);
+      }
+      :host([control='radio']) [part='check'] {
+        display: none;
+      }
+      :host([control='checkbox'][disabled]) [part='input'] {
+        border-color: var(--prism-color-border, currentColor);
+      }
+      :host([control='checkbox'][disabled]) [part='input']:checked {
+        background: var(--prism-color-text-muted, currentColor);
+        border-color: var(--prism-color-text-muted, currentColor);
+      }
+      @media (forced-colors: active) {
+        :host([control='checkbox']) [part='input'] {
+          border-color: ButtonText;
+        }
+        :host([control='checkbox']) [part='input']:checked {
+          border-color: Highlight;
+          background: Highlight;
+        }
+        :host([control='checkbox']) [part='check'] {
+          color: HighlightText;
+        }
+        :host([control='checkbox'][disabled]) [part='input'],
+        :host([control='checkbox'][disabled]) [part='input']:checked {
+          border-color: GrayText;
+        }
+        :host([control='checkbox'][disabled]) [part='input']:checked {
+          background: GrayText;
+        }
+      }
+    `,
+  ];
 
   /** Set by the group: `radio` for single selection, else `checkbox`. */
   @property({ reflect: true }) control: 'checkbox' | 'radio' = 'checkbox';
@@ -75,6 +136,7 @@ export class PrismCardSelect extends LitElement {
   @property({ type: Number }) setsize?: number;
 
   @query('input') private readonly input!: HTMLInputElement;
+  readonly #check = new CheckMark(this);
 
   override focus(options?: FocusOptions): void {
     this.input?.focus(options);
@@ -103,6 +165,14 @@ export class PrismCardSelect extends LitElement {
     );
   };
 
+  override willUpdate(): void {
+    this.#check.set(this.checked);
+  }
+
+  override firstUpdated(): void {
+    this.#check.ready();
+  }
+
   override render() {
     const card = this.#card;
     const name = card?.titleText ?? '';
@@ -120,6 +190,7 @@ export class PrismCardSelect extends LitElement {
         aria-setsize=${ifDefined(this.setsize)}
         @change=${this.#onChange}
       />
+      ${this.#check.render()}
     </label>`;
   }
 }

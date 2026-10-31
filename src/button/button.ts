@@ -7,6 +7,7 @@ import {
   controlSize,
   textRole,
 } from '../internal/control-styles.js';
+import { pressDepth, pressScale } from '../internal/press-scale.js';
 import { stateLayer } from '../internal/state-layer.js';
 
 /**
@@ -17,7 +18,7 @@ import { stateLayer } from '../internal/state-layer.js';
  * @slot - The label.
  * @slot start - Content before the label, such as an icon.
  * @slot end - Content after the label.
- * @csspart base - The native button.
+ * @csspart base - The native button (scales evenly while pressed).
  * @csspart label - Wrapper around the default slot.
  * @cssstate disabled - The button is disabled.
  * @cssstate pressed - A toggle button is pressed.
@@ -104,6 +105,12 @@ export class PrismButton extends FormAssociated(LitElement) {
 
   constructor() {
     super();
+    pressScale(this, {
+      target: () => this.button,
+      depth: () => pressDepth(this.size, this.offsetWidth),
+      enabled: () => !this.isDisabled,
+      mark: true,
+    });
     // Block clicks on the host while disabled (covers slotted content).
     this.addEventListener(
       'click',

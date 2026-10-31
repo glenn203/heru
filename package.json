@@ -189,6 +189,18 @@
     "./card/define": {
       "types": "./dist/card/define.d.ts",
       "import": "./dist/card/define.js"
+    },
+    "./segmented-control": {
+      "types": "./dist/segmented-control/segmented-control.d.ts",
+      "import": "./dist/segmented-control/segmented-control.js"
+    },
+    "./segment": {
+      "types": "./dist/segmented-control/segment.d.ts",
+      "import": "./dist/segmented-control/segment.js"
+    },
+    "./segmented-control/define": {
+      "types": "./dist/segmented-control/define.d.ts",
+      "import": "./dist/segmented-control/define.js"
     }
   },
   "customElements": "./custom-elements.json",

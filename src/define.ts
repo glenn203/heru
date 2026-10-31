@@ -16,5 +16,6 @@ import './running-indicator/define.js';
 import './switch/define.js';
 import './checkbox/define.js';
 import './radio/define.js';
+import './segmented-control/define.js';
 import './description-list/define.js';
 import './card/define.js';

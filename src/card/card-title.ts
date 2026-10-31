@@ -4,6 +4,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { devError } from './card-slots.js';
 import { stateLayer } from '../internal/state-layer.js';
 import { iconChevronDown } from '../internal/icons.js';
+import { pressDepth, pressScale } from '../internal/press-scale.js';
 
 /**
  * The card's name, and always a real heading (h2 to h6), in a list too.
@@ -163,8 +164,19 @@ export class PrismCardTitle extends LitElement {
   @property({ type: Boolean, reflect: true }) expandable = false;
   /** @internal Open or closed, from the card. */
   @property({ type: Boolean, reflect: true }) expanded = false;
+
   /** @internal The content the toggle controls (light DOM, in the page's scope). */
   controls: Element[] = [];
+
+  constructor() {
+    super();
+    pressScale(this, {
+      target: () =>
+        this.shadowRoot?.querySelector<HTMLElement>('[part="toggle"]'),
+      depth: () => pressDepth('md', this.offsetWidth),
+      mark: true,
+    });
+  }
 
   override updated(): void {
     if (![2, 3, 4, 5, 6].includes(Number(this.level)))
