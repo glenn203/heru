@@ -536,7 +536,7 @@ test('OtpInput error is red text only, 5px below the boxes, clears the focus rin
   expect(g.marginInline).toEqual(['0px', '0px']);
   expect(g.radius).toBe('0px');
   expect(g.before).toBe('none');
-  expect(g.color).toBe('oklch(0.368 0.148 25)');
+  expect(g.color).toBe('oklch(0.368 0.147 12)');
   expect(g.font).toEqual(['12px', '16px', '400']);
   expect(g.gap).toBe(5); // ring reaches 4px → clears by 1px
   expect(g.ring).toMatch(/4px/);
