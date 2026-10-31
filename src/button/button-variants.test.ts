@@ -27,6 +27,10 @@ async function setup(page: Page) {
       ) => `<prism-button id="${v}" variant="${v}" type="button">${v}</prism-button>
       <prism-button id="${v}-off" variant="${v}" type="button" disabled>off</prism-button>`,
     ).join('') +
+      V.map(
+        (v) =>
+          `<prism-button id="${v}-on" variant="${v}" type="button" pressed>on</prism-button>`,
+      ).join('') +
       `<prism-button id="unset" type="button">x</prism-button><p id="away" style="margin-top:40px">away</p>`,
   );
   await page.addStyleTag({ path: 'src/tokens/tokens.css' });
@@ -90,6 +94,30 @@ for (const v of V) {
         .toBe(true);
       expect(await css(b, 'background-color')).toBe(await probe(page, bg));
       await page.mouse.up();
+    });
+
+    test('a pressed toggle paints the selected and selected+hover layers and underlines its label', async ({
+      page,
+    }) => {
+      await setup(page);
+      const b = page.locator(`#${v}-on`);
+      const [bg, on] = BG[v];
+      await page.mouse.move(0, 0);
+      await expect(b).toHaveAttribute('pressed', '');
+      const sel = await expected(page, bg, on, PCT.selected);
+      await expect
+        .poll(async () => near(await painted(b, 'base'), sel))
+        .toBe(true);
+      expect(await css(b, 'text-decoration-line')).toBe('underline');
+      await b.hover();
+      const selHover = await expected(page, bg, on, PCT['selected+hover']);
+      await expect
+        .poll(async () => near(await painted(b, 'base'), selHover))
+        .toBe(true);
+      // The unpressed twin has neither the layer nor the underline.
+      expect(await css(page.locator(`#${v}`), 'text-decoration-line')).toBe(
+        'none',
+      );
     });
 
     test('same focus ring as every other variant', async ({ page }) => {

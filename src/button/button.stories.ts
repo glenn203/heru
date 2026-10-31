@@ -27,7 +27,11 @@ export const Default: StoryObj<Args> = {};
 
 export const Disabled: StoryObj<Args> = { args: { disabled: true } };
 
-/** A toggle: `pressed` sets aria-pressed and :state(pressed). */
+/**
+ * A toggle: `pressed` sets aria-pressed and :state(pressed). A pressed toggle
+ * shows the shared selected layer (11%, 15% under the pointer) and an
+ * underlined label, so the state never relies on colour alone.
+ */
 export const Toggle: StoryObj<Args> = {
   args: { label: 'Bold', pressed: false },
 };
@@ -70,18 +74,26 @@ const variantStory = (v: (typeof VARIANTS)[number]): StoryObj => ({
       >
     </div>`,
 });
-/** Variant names provisional, pending. */
+/** Variant names provisional, pending. Each shows rest, selected (a pressed toggle) and disabled. */
 export const Primary = variantStory('primary');
 export const Secondary = variantStory('secondary');
 export const Ghost = variantStory('ghost');
 export const Destructive = variantStory('destructive');
-/** Every variant side by side. */
+/** Every variant side by side: rest, selected (a pressed toggle) and disabled. Hover any button to see the 6% layer, or 15% on a selected one. */
 export const AllVariants: StoryObj = {
   render: () =>
-    html`<div style="display: grid; gap: 12px; justify-items: start">
+    html`<div
+      style="display: grid; grid-template-columns: repeat(3, max-content); gap: 12px; justify-items: start"
+    >
       ${VARIANTS.map(
         (v) =>
-          html`<prism-button variant=${v} type="button">${v}</prism-button>`,
+          html`<prism-button variant=${v} type="button">${v}</prism-button>
+            <prism-button variant=${v} type="button" pressed
+              >${v} selected</prism-button
+            >
+            <prism-button variant=${v} type="button" disabled
+              >${v} disabled</prism-button
+            >`,
       )}
     </div>`,
 };

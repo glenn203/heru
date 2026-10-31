@@ -19,12 +19,12 @@ import { css, unsafeCSS, type CSSResult } from 'lit';
  * border-box), so a border that should follow the fill uses `transparent`.
  *
  * States (in the shadow root, so ::part() themes don't need per-state rules):
- *   hover     8%  :hover inside @media (hover: hover), or host :state(active)
+ *   hover     6%  :hover inside @media (hover: hover), or host :state(active)
  *             (keyboard highlight, e.g. aria-activedescendant)
  *   pressed  12%  :active, or [data-pressed]
- *   selected 14%  [aria-selected=true] / [aria-pressed=true] / [aria-current] /
+ *   selected 11%  [aria-selected=true] / [aria-pressed=true] / [aria-current] /
  *             [aria-checked=true] on the surface, or host :state(selected).
- *             Selected+hover = selected + hover/2 (18%); selected+pressed uses
+ *             Selected+hover is its own token (15%); selected+pressed uses
  *             pressed (12%). Colour is never the only cue: the component MUST
  *             also show a non-colour indicator (WCAG 1.4.1).
  *   disabled  :disabled / [aria-disabled=true] / host :state(disabled):
@@ -38,7 +38,7 @@ export function stateLayer(selector: string): CSSResult {
     ${s} {
       --_prism-ov-hover: color-mix(
         in srgb,
-        var(--_on, transparent) var(--prism-state-hover, 8%),
+        var(--_on, transparent) var(--prism-state-hover, 6%),
         transparent
       );
       --_prism-ov-pressed: color-mix(
@@ -48,15 +48,12 @@ export function stateLayer(selector: string): CSSResult {
       );
       --_prism-ov-selected: color-mix(
         in srgb,
-        var(--_on, transparent) var(--prism-state-selected, 14%),
+        var(--_on, transparent) var(--prism-state-selected, 11%),
         transparent
       );
       --_prism-ov-selected-hover: color-mix(
         in srgb,
-        var(--_on, transparent)
-          calc(
-            var(--prism-state-selected, 14%) + var(--prism-state-hover, 8%) / 2
-          ),
+        var(--_on, transparent) var(--prism-state-selected-hover, 15%),
         transparent
       );
       --_prism-state-overlay: transparent;

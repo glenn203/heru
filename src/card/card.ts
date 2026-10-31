@@ -309,7 +309,7 @@ export class PrismCard extends LitElement {
       }
       /* Only a clickable or choice card tints on hover or press. Every other
        card keeps the shared state layer for its selected look only (a selected
-       card still goes 14% to 18% on hover, as the card spec says). */
+       card still goes 11% to 15% on hover, as the card spec says). */
       :host(:not([type='clickable'], [type='selectable'][kind='choice']))
         [part='base'] {
         --_prism-ov-hover: transparent;

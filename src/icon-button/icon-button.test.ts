@@ -89,7 +89,7 @@ test('toggle: aria-pressed flips', async ({ page }) => {
   await expect(b).toHaveAttribute('aria-pressed', 'false');
 });
 
-test('ghost state layer: transparent at rest, 8% on hover, 12% pressed', async ({
+test('ghost state layer: transparent at rest, 6% on hover, 12% pressed', async ({
   page,
 }) => {
   await setup(page, MARKUP);

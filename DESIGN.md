@@ -44,13 +44,13 @@ buttons. Do not write your own hover rules.
 **Rule.** The surface keeps its resting fill `--_bg`. Each state paints the
 element's own text colour `--_on` on top as an alpha overlay:
 
-| State          | Overlay of `--_on`             | Trigger                                                                   |
-| -------------- | ------------------------------ | ------------------------------------------------------------------------- |
-| hover          | 8% (`--prism-state-hover`)     | `:hover` **only under `@media (hover: hover)`**, or host `:state(active)` |
-| pressed        | 12% (`--prism-state-pressed`)  | `:active` or `[data-pressed]`                                             |
-| selected       | 14% (`--prism-state-selected`) | `aria-selected/pressed/checked=true`, `aria-current`, `:state(selected)`  |
-| selected+hover | 18% (selected + hover/2)       | both                                                                      |
-| disabled       | no change (inert)              | `:disabled`, `aria-disabled=true`, `:state(disabled)`                     |
+| State          | Overlay of `--_on`                   | Trigger                                                                   |
+| -------------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| hover          | 6% (`--prism-state-hover`)           | `:hover` **only under `@media (hover: hover)`**, or host `:state(active)` |
+| pressed        | 12% (`--prism-state-pressed`)        | `:active` or `[data-pressed]`                                             |
+| selected       | 11% (`--prism-state-selected`)       | `aria-selected/pressed/checked=true`, `aria-current`, `:state(selected)`  |
+| selected+hover | 15% (`--prism-state-selected-hover`) | both                                                                      |
+| disabled       | no change (inert)                    | `:disabled`, `aria-disabled=true`, `:state(disabled)`                     |
 
 The overlay is implemented as
 `background-image: linear-gradient(X, X)` with
@@ -190,15 +190,15 @@ the bottom of cards in the same row. Never position it with absolute placement.
   it is not enforced.
 - **Edge.** Interactive cards use `color-border-strong` (about 4.8:1), never
   flat. Raised keeps a transparent border and its shadow.
-- **State layer.** Clickable and choice cards tint 8% hover, 12% pressed. Other
-  cards only use the layer for selected (14%, 18% on hover). While the pointer
+- **State layer.** Clickable and choice cards tint 6% hover, 12% pressed. Other
+  cards only use the layer for selected (11%, 15% on hover). While the pointer
   is over a nested control the card shows no tint (`data-nested` on the base).
   Hover never lifts.
 - **Focus.** Focus on the title (or a choice card's control) draws the ring
   around the whole card (`:state(focus-ring)`); the title and the choice radio
   draw none of their own. A nested control shows only its own ring. In
   forced-colors mode these become outlines.
-- **Selected look.** 14% overlay, 2px accent ring drawn inside the edge
+- **Selected look.** 11% overlay, 2px accent ring drawn inside the edge
   (`inset` shadow, so nothing shifts, under a raised card's shadow), and the
   control's check or dot. Colour is never the only cue.
 - **`prism-card-group`** owns selection by item id (`value` on each card):
@@ -399,7 +399,7 @@ untouched. They wait for approval.
 ## Figma mapping
 
 - States: add a **fill layer** above the resting fill using the element's
-  **text colour variable** at **8%** (hover), **12%** (pressed), **14%**
-  (selected) or **18%** (selected+hover) opacity. Disabled has no layer.
+  **text colour variable** at **6%** (hover), **12%** (pressed), **11%**
+  (selected) or **15%** (selected+hover) opacity. Disabled has no layer.
 - Token names map 1:1. `--prism-color-text` is Figma `color/text`. Resolved
   px values come from `prism.tokens.resolved.json`.

@@ -64,8 +64,7 @@ export const PCT = {
   hover: 'var(--prism-state-hover)',
   pressed: 'var(--prism-state-pressed)',
   selected: 'var(--prism-state-selected)',
-  'selected+hover':
-    'calc(var(--prism-state-selected) + var(--prism-state-hover) / 2)',
+  'selected+hover': 'var(--prism-state-selected-hover)',
 } as const;
 
 /** Assert two RGB byte triples match within ±1. */
