@@ -987,6 +987,56 @@ test('resting focus ring has no blur (no sub-pixel fringe)', () => {
       'warning',
     ]);
   });
+  // Tags and status badges are the low emphasis: a richer tint (L 0.915, more
+  // chroma) with vivid text. Pin the richness so it is not quietly flattened.
+  test('tone tints are rich and the tone text is vivid, all inside P3', () => {
+    const chroma = (c) => parseFloat(c.split(/\s+/)[2]);
+    const light = (c) => parseFloat(c.replace('oklch(', ''));
+    const MIN_TINT = {
+      accent: 0.039,
+      info: 0.038,
+      success: 0.07,
+      warning: 0.07,
+      danger: 0.046,
+    };
+    const MIN_TEXT = {
+      accent: 0.23,
+      info: 0.14,
+      success: 0.14,
+      warning: 0.11,
+      danger: 0.18,
+    };
+    for (const theme of THEMES)
+      for (const t of Object.keys(MIN_TINT)) {
+        const tint = colorIn(theme, `${t}-surface`);
+        const text = colorIn(theme, `${t}-text`);
+        assert.ok(inP3(tint) && inP3(text), `${theme} ${t} inside P3`);
+        if (theme === 'light') {
+          assert.ok(light(tint) <= 0.92, `${t} tint is no paler than L 0.92`);
+          assert.ok(chroma(tint) >= MIN_TINT[t], `${t} tint chroma ${tint}`);
+          assert.ok(chroma(text) >= MIN_TEXT[t], `${t} text chroma ${text}`);
+        }
+      }
+  });
+  test('low-emphasis tags: lowest text contrast (report)', () => {
+    let low = { r: 99 };
+    for (const theme of THEMES)
+      for (const [tone, r] of Object.entries(refs)) {
+        const tint = colorIn(theme, r['low-bg']);
+        const fg = colorIn(theme, r['low-fg']);
+        for (const [what, bg] of [
+          ['tint', tint],
+          ['page', colorIn(theme, 'bg')],
+          ['surface', colorIn(theme, 'surface')],
+        ]) {
+          const v = Math.min(contrast(fg, bg), contrastP3(fg, bg));
+          if (v < low.r) low = { r: v, theme, tone, what };
+        }
+      }
+    console.log(
+      `  [lowest tag text] ${low.theme} ${low.tone} on ${low.what}: ${low.r.toFixed(2)}`,
+    );
+  });
   test('Description list label (text-muted) and value (text) pass on bg and surface', () => {
     for (const theme of THEMES)
       for (const fg of ['text-muted', 'text'])

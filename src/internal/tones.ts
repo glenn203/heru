@@ -22,34 +22,34 @@ export function tonePalette(attr: string): CSSResult {
   return css`
     /* TONES-START */
     :host {
-      --_tone-low-bg: var(--prism-color-neutral-surface, #f2f5f9);
+      --_tone-low-bg: var(--prism-color-neutral-surface, #e7edf7);
       --_tone-low-fg: var(--prism-color-text, #101826);
       --_tone-high-bg: var(--prism-color-neutral, #354153);
       --_tone-high-fg: var(--prism-color-on-solid, #ffffff);
     }
     :host([${a}='accent']) {
-      --_tone-low-bg: var(--prism-color-accent-surface, #f6f6fe);
-      --_tone-low-fg: var(--prism-color-accent-text, #5215bd);
+      --_tone-low-bg: var(--prism-color-accent-surface, #e1dffc);
+      --_tone-low-fg: var(--prism-color-accent-text, #5208c2);
       --_tone-high-bg: var(--prism-color-accent, #6a12f3);
       --_tone-high-fg: var(--prism-color-on-accent, #ffffff);
     }
     :host([${a}='danger']) {
-      --_tone-low-bg: var(--prism-color-danger-surface, #fef4f3);
+      --_tone-low-bg: var(--prism-color-danger-surface, #ffd9d3);
       --_tone-low-fg: var(--prism-color-danger-text, #94000c);
       --_tone-high-bg: var(--prism-color-danger, #bc0012);
     }
     :host([${a}='info']) {
-      --_tone-low-bg: var(--prism-color-info-surface, #f1f8fe);
+      --_tone-low-bg: var(--prism-color-info-surface, #d1e6fc);
       --_tone-low-fg: var(--prism-color-info-text, #004f8b);
       --_tone-high-bg: var(--prism-color-info, #0065b0);
     }
     :host([${a}='success']) {
-      --_tone-low-bg: var(--prism-color-success-surface, #edfbf0);
+      --_tone-low-bg: var(--prism-color-success-surface, #c1f1cc);
       --_tone-low-fg: var(--prism-color-success-text, #005d2d);
       --_tone-high-bg: var(--prism-color-success, #00773b);
     }
     :host([${a}='warning']) {
-      --_tone-low-bg: var(--prism-color-warning-surface, #fef6e8);
+      --_tone-low-bg: var(--prism-color-warning-surface, #fcdfaf);
       --_tone-low-fg: var(--prism-color-warning-text, #793800);
       --_tone-high-bg: var(--prism-color-warning, #915100);
     }

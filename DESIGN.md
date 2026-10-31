@@ -400,7 +400,7 @@ Six tones: neutral, info, success, warning, danger, accent. They live in
 and read colour roles (`color-info`, `color-info-text`, `color-info-surface`
 and the same for success, warning and danger; `color-accent`,
 `color-accent-text`, `color-accent-surface`; `color-neutral`,
-`color-neutral-surface`), so every tone follows the theme. Solid fills use
+`color-neutral-surface`), so every tone follows the theme. The tints sit at L 0.915 (dark L 0.30) with real chroma, and the text roles run near the Display P3 edge, so tags read as colour rather than grey-white; every pair is still 4.5:1 or more. Solid fills use
 `color-on-solid` for their text (white in light, ink in dark). A hex fallback
 sits in each `var()`. `test/tokens.test.mjs` checks every tone in both themes,
 on sRGB and on Display P3: low text 4.5:1 on its tint, page and surface, high
