@@ -4,7 +4,7 @@ import { FormAssociated } from '../internal/form-associated.js';
 import { textRole } from '../internal/control-styles.js';
 import { stateLayer } from '../internal/state-layer.js';
 import { visuallyHidden } from '../internal/visually-hidden.js';
-import { settleTime, springAt, type Spring } from './spring.js';
+import { settleTime, springAt, type Spring } from '../internal/spring.js';
 
 /*
  * Motion model. The thumb is two edges, each on its own spring: the edge

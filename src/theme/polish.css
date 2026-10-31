@@ -59,7 +59,9 @@
     corner-shape: var(--prism-corner-shape);
     border-radius: calc(var(--prism-radius-5) * var(--prism-corner-scale));
   }
-  prism-tag::part(base) {
+  prism-tag::part(base),
+  prism-checkbox::part(box),
+  prism-checkbox::part(edge) {
     corner-shape: var(--prism-corner-shape);
     border-radius: calc(var(--prism-radius-3) * var(--prism-corner-scale));
   }

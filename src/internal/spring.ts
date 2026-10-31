@@ -1,15 +1,15 @@
 /**
- * Private spring maths for the switch's motion. A spring pulls a value to its
- * target; it is solved in closed form, so any start position and speed gives
- * the same smooth curve and a move can be taken over mid-flight without a
- * jump. Not exported from the package.
+ * Private spring maths shared by the switch, checkbox and radio. A spring
+ * pulls a value to its target; it is solved in closed form, so any start
+ * position and speed gives the same smooth curve and a move can be taken over
+ * mid-flight without a jump. Not exported from the package.
  */
 
-/** One edge of the thumb moving to `to`. Units: px and seconds. */
+/** One value moving to its target. Units: the value's own, and seconds. */
 export interface Spring {
-  /** Start minus target (px). */
+  /** Start minus target. */
   x0: number;
-  /** Start speed (px/s). */
+  /** Start speed (per second). */
   v0: number;
   /** Natural frequency (rad/s). */
   w: number;
@@ -40,8 +40,8 @@ export function springAt(
 }
 
 /**
- * Seconds until both springs are within `eps` px of their target and slower
- * than `vEps` px/s. Capped so a bad input can never loop on.
+ * Seconds until every spring is within `eps` of its target and slower than
+ * `vEps` per second. Capped so a bad input can never loop on.
  */
 export function settleTime(
   springs: readonly Spring[],

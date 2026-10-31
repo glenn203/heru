@@ -96,7 +96,7 @@ test.describe('polish: squircle corners', () => {
       page,
       scoped(
         'data-prism-polish="squircle"',
-        `${BUTTON}${CARD}<prism-tag id="t">Tag</prism-tag><prism-text-input id="i" label="Name"></prism-text-input>`,
+        `${BUTTON}${CARD}<prism-tag id="t">Tag</prism-tag><prism-checkbox id="k" label="Tick"></prism-checkbox><prism-text-input id="i" label="Name"></prism-text-input>`,
       ),
     );
     const supported = await supportsShape(page);
@@ -107,6 +107,7 @@ test.describe('polish: squircle corners', () => {
         ['#b', 'base'],
         ['#c', 'base'],
         ['#t', 'base'],
+        ['#k', 'box'],
         ['#i', 'input'],
       ]) {
         expect(await shapeOf(page, sel!, part!)).toContain('squircle');
@@ -114,6 +115,7 @@ test.describe('polish: squircle corners', () => {
       expect(await r('#b', 'base')).toBeCloseTo(5 * 1.5, 1);
       expect(await r('#c', 'base')).toBeCloseTo(7 * 1.5, 1);
       expect(await r('#t', 'base')).toBeCloseTo(3 * 1.5, 1);
+      expect(await r('#k', 'box')).toBeCloseTo(3 * 1.5, 1);
       expect(await r('#i', 'input')).toBeCloseTo(5 * 1.5, 1);
     } else {
       // Fallback: ordinary rounded corners at the ordinary radius.

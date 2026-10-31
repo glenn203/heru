@@ -154,6 +154,26 @@
       "types": "./dist/switch/define.d.ts",
       "import": "./dist/switch/define.js"
     },
+    "./checkbox": {
+      "types": "./dist/checkbox/checkbox.d.ts",
+      "import": "./dist/checkbox/checkbox.js"
+    },
+    "./checkbox/define": {
+      "types": "./dist/checkbox/define.d.ts",
+      "import": "./dist/checkbox/define.js"
+    },
+    "./radio": {
+      "types": "./dist/radio/radio.d.ts",
+      "import": "./dist/radio/radio.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio/radio-group.d.ts",
+      "import": "./dist/radio/radio-group.js"
+    },
+    "./radio/define": {
+      "types": "./dist/radio/define.d.ts",
+      "import": "./dist/radio/define.js"
+    },
     "./running-indicator": {
       "types": "./dist/running-indicator/running-indicator.d.ts",
       "import": "./dist/running-indicator/running-indicator.js"

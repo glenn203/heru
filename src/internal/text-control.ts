@@ -12,12 +12,12 @@ import { stateLayer } from './state-layer.js';
 import { uniqueId } from './ids.js';
 import { controlBox, controlSize, textRole } from './control-styles.js';
 import {
-  fieldChromeStyles,
+  fieldPartsStyles,
   renderDescription,
   renderError,
   renderLabel,
   syncFieldA11y,
-} from './field-chrome.js';
+} from './field-parts.js';
 import { FieldValidityController } from './field-validity.js';
 
 type NativeControl = HTMLInputElement | HTMLTextAreaElement;
@@ -25,7 +25,7 @@ type NativeControl = HTMLInputElement | HTMLTextAreaElement;
 /**
  * Private base for the text input family (TextInput, PasswordInput,
  * SearchInput, OtpInput, TextArea). Owns form association, value/reset/
- * restore, validity mirroring and the label/description/error chrome. Each
+ * restore, validity mirroring and the label, description and error parts. Each
  * public component only renders its own control via `renderControl()`; there
  * is no type switch here. Not exported from the package.
  */
@@ -37,7 +37,7 @@ export abstract class TextControl extends FormAssociated(LitElement) {
 
   static override styles: CSSResultGroup = [
     controlSize,
-    fieldChromeStyles,
+    fieldPartsStyles,
     css`
       [part='control'] {
         position: relative;

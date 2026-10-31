@@ -2,10 +2,10 @@ import { css, html, type TemplateResult } from 'lit';
 import { textRole } from './control-styles.js';
 
 /**
- * Private shared field chrome: label, description and error, with stable ids
+ * Private shared field parts: label, description and error, with stable ids
  * `${id}-label|-description|-error`. Used by every Prism field. Not exported.
  */
-export const fieldChromeStyles = css`
+export const fieldPartsStyles = css`
   :host {
     display: block;
   }
