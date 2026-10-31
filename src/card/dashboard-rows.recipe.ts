@@ -55,7 +55,7 @@ const ROWS: Widget[][] = [
       label: 'Urgent',
       value: '23',
       extra:
-        '<prism-tag job="severity" tone="danger" emphasis="high" size="sm">Urgent</prism-tag>',
+        '<prism-tag job="spectrum" tone="danger" emphasis="high" size="sm">Urgent</prism-tag>',
     },
     {
       id: 'resolve',

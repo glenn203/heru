@@ -7,14 +7,14 @@ import { stateLayer } from '../internal/state-layer.js';
 export type TagTone =
   'neutral' | 'info' | 'success' | 'warning' | 'danger' | 'accent';
 export type TagJob =
-  | 'severity'
+  | 'spectrum'
   | 'status'
   | 'presence'
-  | 'resolution'
-  | 'containment'
+  | 'clarity'
+  | 'illusionary'
   | 'health'
-  | 'policy'
-  | 'mitigation'
+  | 'refractive-rules'
+  | 'diffusion'
   | 'keyword';
 
 /**

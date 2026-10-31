@@ -34,7 +34,7 @@ test.describe('prism-tag', () => {
   }) => {
     const errors = await setup(
       page,
-      '<prism-tag id="t" job="severity" tone="danger">Urgent</prism-tag>',
+      '<prism-tag id="t" job="spectrum" tone="danger">Urgent</prism-tag>',
     );
     expect(errors).toEqual([]);
     const r = await page.locator('#t').evaluate((el) => ({
@@ -42,8 +42,37 @@ test.describe('prism-tag', () => {
       buttons: el.shadowRoot!.querySelectorAll('button').length,
     }));
     expect(r).toEqual({ tag: 'span', buttons: 0 });
-    await expect(page.locator('#t')).toHaveAttribute('job', 'severity');
+    await expect(page.locator('#t')).toHaveAttribute('job', 'spectrum');
     await expect(page.getByText('Urgent')).toBeVisible();
+  });
+
+  test('every job value reflects as an attribute', async ({ page }) => {
+    const jobs = [
+      'spectrum',
+      'status',
+      'presence',
+      'clarity',
+      'illusionary',
+      'health',
+      'refractive-rules',
+      'diffusion',
+      'keyword',
+    ];
+    const errors = await setup(
+      page,
+      jobs
+        .map((j) => `<prism-tag id="${j}" job="${j}">Label</prism-tag>`)
+        .join(''),
+    );
+    expect(errors).toEqual([]);
+    for (const j of jobs) {
+      await expect(page.locator(`#${j}`)).toHaveAttribute('job', j);
+      expect(
+        await page
+          .locator(`#${j}`)
+          .evaluate((el) => (el as HTMLElement & { job?: string }).job),
+      ).toBe(j);
+    }
   });
 
   test('defaults: low emphasis, neutral tone, 24px; sm is 20px', async ({

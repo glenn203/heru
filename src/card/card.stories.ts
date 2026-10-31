@@ -74,7 +74,7 @@ export const HeaderParts: StoryObj<Args> = {
         <prism-card-title slot="header" level="3"
           >resource-eu-0042</prism-card-title
         >
-        <prism-tag slot="header" job="severity" tone="danger" emphasis="high"
+        <prism-tag slot="header" job="spectrum" tone="danger" emphasis="high"
           >Urgent</prism-tag
         >
         <prism-card-description slot="header"
