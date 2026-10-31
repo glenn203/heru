@@ -384,12 +384,17 @@ and Badge `status`; status stays as words) and **prism-icon**
 
 **Running indicator.**
 
-- A dot with three rings that spread to 2.6x and fade, one third of the 1.6s cycle
-  apart, with the dot breathing as each leaves. Accent rings drift from violet
-  through blue to cyan; other tones keep one hue.
+- One solid dot and one ring, both in the tone's solid colour, drawn in a 24 unit
+  box that scales to 16, 24 or 40px. The ring grows from radius 4 to 9 and fades
+  from 60% opacity to nothing (stroke 2) while the dot swells from 4 to 4.6 and
+  from 100% to 85% opacity and back, both on the same clock.
+- Timing: a 1.92s pulse (the reference 1.6s, 20% slower) then an 800ms rest, 2.72s
+  in all, repeating. In the rest the ring is invisible and the dot is at rest.
+  Written as CSS keyframes with linear easing; `--prism-running-cycle` sets the
+  whole cycle (the pulse is the first 70.6% of it).
 - The dot is the tone's solid colour, >= 3:1 on the page in every tone and both
   themes. The label is always in the page for screen readers.
-- With `prefers-reduced-motion: reduce` nothing moves; two soft rings stay as a halo.
+- With `prefers-reduced-motion: reduce` nothing moves; the dot stays with a faint ring.
 - In a card header use `size="sm"` with `data-prism-card-icon`, which seats it ahead
   of the title (see the Running job recipe). Swap it for a Tag when the job ends.
 
