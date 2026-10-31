@@ -1,0 +1,5 @@
+---
+'@glenn203/prism': minor
+---
+
+Text input and select get spring micro-interactions. `prism-text-input` (and its `prism-text-field` alias) and `prism-password-input` take `floating`: the label rests inside the field and floats onto its top edge on focus or with a value. `prism-text-input` also gets `prefix` and `suffix` slots and a `clearable` button, and every text field gets a soft focus glow, a read-only look, and one small sideways nudge when it becomes invalid. `prism-select`: the list grows out of the trigger on springs with the chevron turning over, closes the same way, one marker slides between options for keys, type-ahead and pointer, and the selected check is drawn in and out. All of it can be taken over mid-move, does not move on first paint, and reduced motion changes state at once. The polish layer adds the light-following ring to fields. Forced colours: controls that rested with a transparent outline no longer show a stray second border; they outline themselves only while focused.

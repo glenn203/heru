@@ -1,4 +1,6 @@
-import { css, html, type TemplateResult } from 'lit';
+import { css, html, nothing, type TemplateResult } from 'lit';
+import type { DirectiveResult } from 'lit/directive.js';
+import type { StyleMapDirective } from 'lit/directives/style-map.js';
 import { textRole } from './control-styles.js';
 
 /**
@@ -30,9 +32,16 @@ export const renderLabel = (
   id: string,
   label: string,
   forId?: string,
+  style?: DirectiveResult<typeof StyleMapDirective>,
 ): TemplateResult =>
   forId
-    ? html`<label part="label" id="${id}-label" for="${forId}">${label}</label>`
+    ? html`<label
+        part="label"
+        id="${id}-label"
+        for="${forId}"
+        style=${style ?? nothing}
+        >${label}</label
+      >`
     : html`<span part="label" id="${id}-label">${label}</span>`;
 
 export const renderDescription = (id: string): TemplateResult =>

@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import { readdirSync } from 'node:fs';
 import { anims, drawn, wait } from '../../test/choice.js';
+import { axe } from '../../test/axe.js';
 import { captureSubmit, mount, submitted } from '../../test/fixture.js';
 
 async function setup(page: Page, markup: string) {
@@ -663,34 +663,6 @@ test('focus ring shows on keyboard focus', async ({ page }) => {
 });
 
 // ---- axe ----
-
-const AXE = (() => {
-  const dir = readdirSync('node_modules/.pnpm').find((d) =>
-    d.startsWith('axe-core@'),
-  );
-  return `node_modules/.pnpm/${dir}/node_modules/axe-core/axe.min.js`;
-})();
-async function axe(page: Page) {
-  await page.addScriptTag({ path: AXE });
-  return page.evaluate(async () => {
-    const r = await (
-      window as unknown as {
-        axe: {
-          run(
-            c: Element,
-            o: object,
-          ): Promise<{ violations: { id: string; nodes: unknown[] }[] }>;
-        };
-      }
-    ).axe.run(document.querySelector('#root')!, {
-      runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'],
-    });
-    return r.violations.map(
-      (v) =>
-        `${v.id} (${v.nodes.length}) ${JSON.stringify(v.nodes).slice(0, 600)}`,
-    );
-  });
-}
 
 const ALL = `
   <prism-radio-group id="g1" label="Delivery speed" value="b">

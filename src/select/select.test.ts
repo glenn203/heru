@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { captureSubmit, mount, submitted } from '../../test/fixture.js';
 
 const OPTIONS = `
-  <prism-option value="apple">Apple</prism-option>
+  <prism-option value="apricot">Apricot</prism-option>
   <prism-option value="banana">Banana</prism-option>
   <prism-option value="cherry" disabled>Cherry</prism-option>
   <prism-option value="date">Date</prism-option>`;
@@ -31,12 +31,12 @@ test('combobox is labelled, keyboard opens, navigates (skips disabled) and selec
   await expect(box).toHaveAttribute('aria-expanded', 'false');
   await box.press('ArrowDown');
   await expect(box).toHaveAttribute('aria-expanded', 'true');
-  expect(await activeText(page)).toBe('Apple');
+  expect(await activeText(page)).toBe('Apricot');
   await box.press('ArrowDown');
   await box.press('ArrowDown');
   expect(await activeText(page)).toBe('Date'); // Cherry is disabled
   await box.press('Home');
-  expect(await activeText(page)).toBe('Apple');
+  expect(await activeText(page)).toBe('Apricot');
   await box.press('End');
   await box.press('Enter');
   await expect(box).toHaveAttribute('aria-expanded', 'false');
@@ -92,7 +92,7 @@ test('form: submits value, required blocks submit, reset restores', async ({
   await box.press('ArrowDown');
   await box.press('Enter');
   await page.getByRole('button', { name: 'Go' }).click();
-  expect(await submitted(page)).toEqual({ fruit: 'apple' });
+  expect(await submitted(page)).toEqual({ fruit: 'apricot' });
   await page.getByRole('button', { name: 'Reset' }).click();
   expect(
     await page
@@ -105,7 +105,7 @@ test('form: submits value, required blocks submit, reset restores', async ({
 test('disabled: excluded from submit and does not open', async ({ page }) => {
   await mount(
     page,
-    `<form><prism-select label="Fruit" name="fruit" value="apple" disabled>${OPTIONS}</prism-select><button>Go</button></form>`,
+    `<form><prism-select label="Fruit" name="fruit" value="apricot" disabled>${OPTIONS}</prism-select><button>Go</button></form>`,
   );
   await captureSubmit(page);
   await page.getByRole('button', { name: 'Go' }).click();
@@ -216,7 +216,7 @@ test('reduced motion: error has no animation; menu is an opacity-only ~0ms fade'
   }
 });
 
-test('menu slides down with motion allowed and uses elevation tokens', async ({
+test('menu uses elevation tokens and plays no CSS animation with motion allowed', async ({
   page,
 }) => {
   await mount(page, `<prism-select label="Fruit">${OPTIONS}</prism-select>`);
@@ -225,11 +225,11 @@ test('menu slides down with motion allowed and uses elevation tokens', async ({
   const r = await page.locator('prism-select').evaluate((el) => {
     const lb = el.shadowRoot!.querySelector('[part="listbox"]')!;
     return {
-      anims: lb.getAnimations().map((a) => (a as CSSAnimation).animationName),
+      css: lb.getAnimations().filter((a) => a instanceof CSSAnimation).length,
       shadow: getComputedStyle(lb).boxShadow,
     };
   });
-  expect(r.anims).toContain('prism-slide-down');
+  expect(r.css).toBe(0);
   expect(r.shadow).not.toBe('none');
 });
 
@@ -489,37 +489,52 @@ for (const tag of ['prism-select', 'prism-text-field']) {
   });
 }
 
-test('option hover and keyboard-active use the shared state-layer hover fill, no shadow', async ({
+test('hover and keyboard-active are one sliding marker in the shared hover tint, no shadow; the option paints nothing of its own', async ({
   page,
 }) => {
   await mount(page, `<prism-select label="Fruit">${OPTIONS}</prism-select>`);
   await withTheme(page);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   const read = (v: string) =>
-    page.locator(`prism-option[value="${v}"]`).evaluate((o) => {
-      const b = getComputedStyle(o.shadowRoot!.querySelector('[part="base"]')!);
+    page.locator('prism-select').evaluate((el, v) => {
+      const o = el.querySelector(`prism-option[value="${v}"]`)!;
+      const base = getComputedStyle(
+        o.shadowRoot!.querySelector('[part="base"]')!,
+      );
+      const marker = el.shadowRoot!.querySelector('[part="highlight"]')!;
+      const m = getComputedStyle(marker);
       const probe = document.createElement('div');
       probe.style.color =
         'color-mix(in srgb, var(--prism-color-text) var(--prism-state-hover), transparent)';
       document.body.append(probe);
-      const ov = getComputedStyle(probe).color;
+      const want = getComputedStyle(probe).color;
       probe.remove();
+      const mr = marker.getBoundingClientRect();
+      const or = o.getBoundingClientRect();
       return {
-        shadow: b.boxShadow,
-        bg: b.backgroundImage,
-        want: `linear-gradient(${ov}, ${ov})`,
+        shadow: m.boxShadow,
+        marker: m.backgroundColor,
+        want,
+        own: base.backgroundImage,
+        dy: Math.abs(mr.top - or.top),
+        dh: Math.abs(mr.height - or.height),
+        opacity: m.opacity,
       };
-    });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+    }, v);
   await page.getByRole('combobox', { name: 'Fruit' }).click();
   await page.locator('prism-option[value="banana"]').hover();
   const hover = await read('banana');
   expect(hover.shadow).toBe('none');
-  expect(hover.bg).toBe(hover.want);
+  expect(hover.marker).toBe(hover.want);
+  expect(hover.own).toBe('linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))');
+  expect(hover.dy).toBeLessThan(1);
+  expect(hover.dh).toBeLessThan(1);
+  expect(hover.opacity).toBe('1');
   await page.mouse.move(0, 0);
   await page.getByRole('combobox', { name: 'Fruit' }).press('End');
   const active = await read('date');
-  expect(active.shadow).toBe('none');
-  expect(active.bg).toBe(active.want);
+  expect(active.marker).toBe(active.want);
+  expect(active.dy).toBeLessThan(1);
 });
 
 test('select error box matches the text field error box exactly', async ({

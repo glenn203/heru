@@ -45,6 +45,7 @@ export class PrismPasswordInput extends TextControl {
   /** Accessible name of the toggle. Constant; state is via aria-pressed. */
   @property({ attribute: 'toggle-label' }) toggleLabel = 'Show password';
 
+  protected override supportsFloating = true;
   @state() private revealed = false;
 
   override connectedCallback(): void {

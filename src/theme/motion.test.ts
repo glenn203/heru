@@ -54,18 +54,52 @@ test('focus ring grows in on the spring; colour/border stay on standard ease', a
   }
 });
 
-test('menu slides down on the bouncy spring over 320ms', async ({ page }) => {
+test('menu grows out of the trigger on springs: transform and opacity, one clock with the chevron', async ({
+  page,
+}) => {
   await setup(page);
   await page.getByRole('combobox', { name: 'Fruit' }).click();
-  expect(await part(page, 'prism-select', 'listbox', 'animation-name')).toBe(
-    'prism-slide-down',
-  );
-  expect(
-    await part(page, 'prism-select', 'listbox', 'animation-duration'),
-  ).toBe('0.32s');
-  expect(
-    await part(page, 'prism-select', 'listbox', 'animation-timing-function'),
-  ).toMatch(/^linear\(/);
+  const r = await page.locator('prism-select').evaluate((el) => {
+    const root = el.shadowRoot!;
+    const info = (part: string) =>
+      root
+        .querySelector(`[part="${part}"]`)!
+        .getAnimations()
+        .map((a) => {
+          const fx = a.effect as KeyframeEffect;
+          return {
+            css: a instanceof CSSAnimation,
+            easing: fx.getTiming().easing,
+            ms: Number(fx.getTiming().duration),
+            props: [
+              ...new Set(
+                fx
+                  .getKeyframes()
+                  .flatMap((k) => Object.keys(k))
+                  .filter(
+                    (p) =>
+                      ![
+                        'offset',
+                        'easing',
+                        'composite',
+                        'computedOffset',
+                      ].includes(p),
+                  ),
+              ),
+            ].sort(),
+          };
+        });
+    return { listbox: info('listbox'), indicator: info('indicator') };
+  });
+  expect(r.listbox).toHaveLength(1);
+  expect(r.listbox[0]!.css).toBe(false);
+  expect(r.listbox[0]!.props).toEqual(['opacity', 'transform']);
+  expect(r.listbox[0]!.easing).toBe('linear');
+  expect(r.listbox[0]!.ms).toBeGreaterThan(150);
+  expect(r.listbox[0]!.ms).toBeLessThan(600);
+  expect(r.indicator).toHaveLength(1);
+  expect(r.indicator[0]!.props).toEqual(['transform']);
+  expect(r.indicator[0]!.ms).toBe(r.listbox[0]!.ms);
 });
 
 test('error box keeps the standard ease (no spring)', async ({ page }) => {
