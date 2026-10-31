@@ -1343,9 +1343,8 @@ prism-switch::part(base) {
   --_bg-pressed: var(--prism-color-surface-pressed);
   --_bg-selected: var(--prism-color-surface-pressed);
   border-color: var(--prism-color-border-strong);
-  transition:
-    border-color var(--_wash-dur) var(--prism-ease-settle) var(--_wash-delay),
-    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
+  /* The border colour is moved by the switch itself, on the thumb's clock. */
+  transition: box-shadow var(--prism-duration-default) var(--prism-ease-spring);
   /* Focus ring rests at zero spread so it can grow in. */
   outline: 2px solid transparent; /* forced-colors fallback */
   outline-offset: var(--prism-focus-ring-offset);

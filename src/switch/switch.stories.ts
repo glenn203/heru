@@ -38,9 +38,13 @@ type Story = StoryObj<Args>;
 
 /**
  * An on/off control that takes effect right away. Click it, or press Space or
- * Enter when it has focus. The thumb slides with a slight overshoot and
- * stretches about 30% before springing back, and the accent spreads across the
- * track from the side the thumb leaves, all over 400ms (340ms to turn off). It is flat: no shadow, no gradient.
+ * Enter when it has focus. Press and hold widens the thumb; drag it past the
+ * middle (or flick it) to turn the switch. The thumb's leading edge runs ahead
+ * and the trailing edge follows, so it stretches about 28% mid-travel and
+ * settles with a slight overshoot, in about 400ms either way. The accent
+ * spreads from the thumb and the colours follow it on the same clock, and a
+ * second tap mid-move turns it round from where it is. It is flat: no shadow,
+ * no gradient.
  */
 export const Default: Story = {};
 
