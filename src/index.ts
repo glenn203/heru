@@ -36,3 +36,4 @@ export { PrismCardList } from './card/card-list.js';
 export { PrismCardMetric } from './card/card-metric.js';
 export { PrismCardSkeleton } from './card/card-skeleton.js';
 export { SelectionController } from './card/selection-controller.js';
+export { enablePolish } from './polish/polish.js';

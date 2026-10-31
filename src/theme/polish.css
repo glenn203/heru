@@ -1,0 +1,187 @@
+/*
+ * Prism polish. Opt-in: import 'prism/polish.css' AFTER 'prism/theme.css',
+ * and call enablePolish() from 'prism/polish' for the pointer effects.
+ * Turn it on for a whole page or any section with an attribute:
+ *
+ *   <html data-prism-polish>                  everything below
+ *   <section data-prism-polish="squircle">    one effect (or several, space separated)
+ *
+ * Values: (empty) or `all`, `squircle`, `light`, `tilt`. `off` (or `none`) turns
+ * the layer off again inside a section of a page that has it on.
+ *
+ * Everything here reads tokens that default to "off", so with the layer loaded
+ * but no attribute set, nothing changes.
+ *
+ *   --prism-corner-shape      round (default) or squircle
+ *   --prism-corner-scale      1 (default); 1.5 under squircle, so the curve reads
+ *                             as round as it did before
+ *   --prism-polish-light      0 (default) or 1: the light-following border
+ *   --prism-tilt-max          2.5deg: the most a card leans
+ *   --prism-tilt-perspective  900px
+ */
+
+:root {
+  --prism-corner-shape: round;
+  --prism-corner-scale: 1;
+  --prism-polish-light: 0;
+  --prism-polish-position: static;
+  --prism-tilt-max: 2.5deg;
+  --prism-tilt-perspective: 900px;
+}
+
+/* Off inside an "on" page. Matches the same properties the layer sets. */
+:is([data-prism-polish='off'], [data-prism-polish='none']) {
+  --prism-corner-shape: round;
+  --prism-corner-scale: 1;
+  --prism-polish-light: 0;
+  --prism-polish-position: static;
+}
+
+/* ---------- 1. Squircle corners ---------- */
+:is(
+  [data-prism-polish=''],
+  [data-prism-polish~='all'],
+  [data-prism-polish~='squircle']
+) {
+  --prism-corner-shape: squircle;
+}
+/* A squircle bulges toward its corner, so it needs a larger radius than a
+   circular corner to look as round. Only where the shape is supported. */
+@supports (corner-shape: squircle) {
+  :is(
+    [data-prism-polish=''],
+    [data-prism-polish~='all'],
+    [data-prism-polish~='squircle']
+  ) {
+    --prism-corner-scale: 1.5;
+  }
+  :is(prism-button, prism-icon-button)::part(base) {
+    corner-shape: var(--prism-corner-shape);
+    border-radius: calc(var(--prism-radius-5) * var(--prism-corner-scale));
+  }
+  prism-tag::part(base) {
+    corner-shape: var(--prism-corner-shape);
+    border-radius: calc(var(--prism-radius-3) * var(--prism-corner-scale));
+  }
+  :is(
+    prism-text-input,
+    prism-password-input,
+    prism-search-input,
+    prism-text-area,
+    prism-text-field
+  )::part(input) {
+    corner-shape: var(--prism-corner-shape);
+    border-radius: calc(var(--prism-radius-5) * var(--prism-corner-scale));
+  }
+  prism-card::part(base) {
+    corner-shape: var(--prism-corner-shape);
+    border-radius: calc(var(--prism-radius-7) * var(--prism-corner-scale));
+  }
+  prism-menu::part(popup) {
+    corner-shape: var(--prism-corner-shape);
+    border-radius: calc(var(--prism-radius-7) * var(--prism-corner-scale));
+  }
+  prism-menu-item::part(base) {
+    corner-shape: var(--prism-corner-shape);
+    border-radius: calc(var(--prism-radius-5) * var(--prism-corner-scale));
+  }
+  /* The switch and the progress bar are pills (radius-full) and are left alone. */
+}
+
+/* ---------- 2. Light-following border ----------
+ * A thin gradient ring drawn over the control's own border on hover and on
+ * keyboard focus. The highlight sits under the pointer (--x, --y, set by
+ * enablePolish()) and runs violet, blue, cyan. The control's own border, focus
+ * ring and state overlay are not touched, so contrast and focus visibility are
+ * unchanged. A ring made only of the 600 (light) or 300 (dark) steps, which are
+ * at least 3:1 on the page.
+ * Off on touch screens. Under reduced motion it is a still ring: it appears
+ * without a fade and the highlight stays where --x and --y rest (top centre).
+ */
+:is(
+  [data-prism-polish=''],
+  [data-prism-polish~='all'],
+  [data-prism-polish~='light']
+) {
+  --prism-polish-light: 1;
+  --prism-polish-position: relative;
+}
+:is(prism-button, prism-card)::part(base) {
+  position: var(--prism-polish-position);
+}
+:is(prism-button, prism-card)::part(base)::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--prism-border-width, 1px));
+  box-sizing: border-box;
+  border: var(--prism-border-width, 1px) solid transparent;
+  border-radius: inherit;
+  corner-shape: inherit;
+  background: radial-gradient(
+    var(--prism-polish-radius, 9rem) circle at var(--x, 50%) var(--y, 0%),
+    light-dark(var(--prism-color-violet-600), var(--prism-color-violet-300)),
+    light-dark(var(--prism-color-blue-600), var(--prism-color-blue-300)) 38%,
+    light-dark(var(--prism-color-cyan-600), var(--prism-color-cyan-300)) 66%,
+    transparent 100%
+  );
+  background-origin: border-box;
+  /* A ring: the border box minus the padding box. */
+  mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0) border-box;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--prism-duration-fast, 120ms)
+    var(--prism-ease-standard, ease);
+}
+prism-button::part(base):hover::after,
+prism-button::part(base):focus-visible::after,
+prism-card:is([type='clickable'], [type='selectable']):hover::part(base)::after,
+prism-card:is([type='clickable'], [type='selectable']):state(focus-ring)::part(
+    base
+  )::after,
+prism-card[raised]:hover::part(base)::after {
+  opacity: var(--prism-polish-light);
+}
+/* Not on disabled controls or borderless cards. */
+prism-button:state(disabled)::part(base)::after,
+prism-card:state(disabled)::part(base)::after,
+prism-card[type='borderless']::part(base)::after {
+  display: none;
+}
+@media (hover: none), (pointer: coarse) {
+  :is(prism-button, prism-card)::part(base)::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(prism-button, prism-card)::part(base)::after {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  :is(prism-button, prism-card)::part(base)::after {
+    display: none;
+  }
+}
+
+/* ---------- 3. Card tilt ----------
+ * Cards only, never buttons. enablePolish() sets data-prism-tilting on the card
+ * under the pointer and writes --prism-polish-nx and --prism-polish-ny (-1 to 1,
+ * the pointer's place in the card). The card leans toward the pointer by at most
+ * --prism-tilt-max. Transform only: no layout, and when the pointer leaves the
+ * card the transform is "none" again, so a card at rest creates no containing
+ * block. Off on touch and under reduced motion.
+ */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  prism-card {
+    transition: transform 240ms var(--prism-ease-standard, ease-out);
+  }
+  prism-card[data-prism-tilting]:not([data-prism-dragging]) {
+    transform: perspective(var(--prism-tilt-perspective))
+      rotateX(calc(var(--prism-polish-ny, 0) * -1 * var(--prism-tilt-max)))
+      rotateY(calc(var(--prism-polish-nx, 0) * var(--prism-tilt-max)));
+    will-change: transform;
+  }
+}

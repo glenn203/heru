@@ -458,6 +458,17 @@ untouched. They wait for approval.
   the footer stacks and header icon buttons fold into one overflow menu.
 - Layout properties are logical, so cards mirror in right-to-left.
 
+## Polish layer (opt-in)
+
+An optional layer for demos and products that want a slightly more finished feel. It changes corners and adds two pointer effects. It never changes layout, type, colour roles or focus visibility, and it does nothing unless an ancestor carries `data-prism-polish`.
+
+- **Switch.** `data-prism-polish` on any ancestor (the page root for a global switch): empty or `all` turns on all three, or list `squircle`, `light`, `tilt`. `off` (or `none`) turns it off again inside a scope. Load `@glenn203/prism/polish.css` after the theme, and call `enablePolish()` once for the two pointer effects. The Storybook toolbar sets the attribute for you.
+- **Squircle corners.** `--prism-corner-shape` becomes `squircle`, and radii on buttons, icon buttons, tags, text fields, cards, menus and menu items are multiplied by `--prism-corner-scale` (1.5). Both are gated by `@supports (corner-shape: squircle)`; where it is not supported nothing changes, so the normal radius stays. The scale is there because a squircle at the same radius reads tighter than a round corner. Pills and the switch track are left alone.
+- **Light-following border.** On hover and keyboard focus, buttons and clickable, selectable or raised cards draw a 1px gradient ring (the spectrum hues at their 600 level in light, 300 in dark) whose highlight follows the pointer through `--x` and `--y`. It is a mask over the border box, so it sits on top of the existing border and focus ring and never replaces them; the border keeps its 3:1 contrast. Disabled and borderless cards, touch (`hover: none`, `pointer: coarse`) and forced colours get no ring.
+- **Card tilt.** Cards only, at most `--prism-tilt-max` (2.5 degrees) under `--prism-tilt-perspective`, easing back on leave. Transform only. Never on buttons, on a dragged card, on touch, or when motion is reduced.
+- **Reduced motion.** Corners still apply. The ring has no fade, the pointer is not tracked, nothing tilts.
+- **Support.** `corner-shape` is new and not in every browser yet; where it is missing the corners stay round. The ring needs `mask-composite` and `light-dark()`.
+
 ## Figma mapping
 
 - States: add a **fill layer** above the resting fill using the element's

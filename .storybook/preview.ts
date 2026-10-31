@@ -1,9 +1,15 @@
 import type { Preview } from '@storybook/web-components';
 import '../src/tokens/tokens.css';
 import '../src/theme/theme.css';
+import '../src/theme/polish.css';
 import './preview.css';
 import '../src/define.js';
 import { DEFAULT_FONT, FONTS, applyFont } from './fonts.js';
+import { enablePolish } from '../src/polish/polish.js';
+
+// Pointer effects for the opt-in polish layer. They only act where the
+// `data-prism-polish` attribute is set (see the Polish page).
+enablePolish();
 
 const preview: Preview = {
   // Toolbar: preview-only font. Sets the font-family variable on the preview
@@ -22,6 +28,22 @@ const preview: Preview = {
         ],
       },
     },
+    polish: {
+      description:
+        'Polish (opt-in layer): squircle corners, light-following border, card tilt. Sets data-prism-polish on the preview root.',
+      toolbar: {
+        title: 'Polish',
+        icon: 'sparkles',
+        dynamicTitle: true,
+        items: [
+          { value: 'off', title: 'Polish: off' },
+          { value: 'all', title: 'Polish: all' },
+          { value: 'squircle', title: 'Squircle corners only' },
+          { value: 'light', title: 'Light border only' },
+          { value: 'tilt', title: 'Card tilt only' },
+        ],
+      },
+    },
     font: {
       description: 'Preview font (docs only; the package ships no fonts)',
       toolbar: {
@@ -32,12 +54,16 @@ const preview: Preview = {
       },
     },
   },
-  initialGlobals: { font: DEFAULT_FONT, theme: 'light' },
+  initialGlobals: { font: DEFAULT_FONT, theme: 'light', polish: 'off' },
   decorators: [
     (story, context) => {
       document.documentElement.dataset['prismTheme'] = String(
         context.globals['theme'] ?? 'light',
       );
+      const polish = String(context.globals['polish'] ?? 'off');
+      if (polish === 'off')
+        delete document.documentElement.dataset['prismPolish'];
+      else document.documentElement.dataset['prismPolish'] = polish;
       applyFont(
         String(context.globals['font'] ?? DEFAULT_FONT),
         document.documentElement,
