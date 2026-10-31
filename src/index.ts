@@ -19,6 +19,8 @@ export type { BadgeStatus } from './badge/badge.js';
 export { PrismAvatar, initialsOf } from './avatar/avatar.js';
 export type { AvatarSize } from './avatar/avatar.js';
 export { PrismProgress } from './progress/progress.js';
+export { PrismRunningIndicator } from './running-indicator/running-indicator.js';
+export { PrismSwitch } from './switch/switch.js';
 export { PrismDescriptionList } from './description-list/description-list.js';
 export { PrismDescriptionListItem } from './description-list/description-list-item.js';
 export { PrismCard } from './card/card.js';

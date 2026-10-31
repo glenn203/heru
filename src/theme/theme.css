@@ -1236,3 +1236,99 @@ prism-description-list-item::part(value) {
     outline-color: Highlight;
   }
 }
+
+/* ---------- Switch ----------
+ * Flat track, pill thumb, no shadow. Off: surface fill, a >= 3:1 border and a
+ * muted thumb. On: the accent spreads over the track from the thumb and the
+ * thumb turns to the on-accent colour. Hover, selected and pressed come from
+ * the shared state layer (on-colour overlay on the track). */
+prism-switch {
+  color: var(--prism-color-text);
+}
+prism-switch::part(base) {
+  --_bg: var(--prism-color-surface);
+  --_on: var(--prism-color-text);
+  --_bg-hover: var(--prism-color-surface-hover);
+  --_bg-pressed: var(--prism-color-surface-pressed);
+  --_bg-selected: var(--prism-color-surface-pressed);
+  border-color: var(--prism-color-border-strong);
+  transition:
+    border-color var(--prism-duration-fast) var(--prism-ease-standard),
+    box-shadow var(--prism-duration-default) var(--prism-ease-spring);
+  /* Focus ring rests at zero spread so it can grow in. */
+  outline: 2px solid transparent; /* forced-colors fallback */
+  outline-offset: var(--prism-focus-ring-offset);
+  box-shadow:
+    0 0 0 0 var(--prism-color-bg),
+    0 0 0 0 var(--prism-color-focus-ring),
+    0 0 0 0 var(--prism-focus-halo);
+}
+prism-switch::part(thumb) {
+  background: var(--prism-color-text-muted);
+}
+prism-switch::part(wash) {
+  background: var(--prism-color-accent);
+}
+prism-switch:state(checked)::part(base) {
+  --_on: var(--prism-color-on-accent);
+  --_bg-hover: var(--prism-color-accent-hover);
+  --_bg-pressed: var(--prism-color-accent-active);
+  --_bg-selected: var(--prism-color-accent-active);
+  border-color: var(--prism-color-accent);
+}
+prism-switch:state(checked)::part(thumb) {
+  background: var(--prism-color-on-accent);
+}
+prism-switch::part(base):focus-visible {
+  box-shadow:
+    0 0 0 var(--prism-focus-ring-offset) var(--prism-color-bg),
+    0 0 var(--prism-focus-ring-blur)
+      calc(var(--prism-focus-ring-offset) + var(--prism-focus-ring-width))
+      var(--prism-color-focus-ring),
+    0 0 0
+      calc(
+        var(--prism-focus-ring-offset) + var(--prism-focus-ring-width) +
+          var(--prism-focus-halo-width)
+      )
+      var(--prism-focus-halo);
+}
+/* Disabled: shared inert look. The thumb position still says on or off. */
+prism-switch:state(disabled)::part(base) {
+  --_bg: var(--prism-color-surface);
+  --_on: var(--prism-color-text-muted);
+  border-color: var(--prism-color-border);
+}
+prism-switch:state(disabled)::part(thumb) {
+  background: var(--prism-color-border-strong);
+}
+prism-switch:state(disabled):state(checked)::part(wash) {
+  background: var(--prism-color-border);
+}
+prism-switch:state(disabled)::part(label) {
+  color: var(--prism-color-text-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  prism-switch::part(base) {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  prism-switch::part(base) {
+    border-color: ButtonText;
+  }
+  prism-switch::part(thumb) {
+    background: ButtonText;
+  }
+  prism-switch::part(wash) {
+    background: Highlight;
+  }
+  prism-switch:state(checked)::part(thumb) {
+    background: HighlightText;
+  }
+  prism-switch:state(disabled)::part(base) {
+    border-color: GrayText;
+  }
+  prism-switch:state(disabled)::part(thumb) {
+    background: GrayText;
+  }
+}
